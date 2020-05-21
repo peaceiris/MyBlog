@@ -1,4 +1,4 @@
-baseurl: 'http://peaceiris.com/MyBlog'
+baseurl: 'https://peaceiris.com/MyBlog'
 languageCode: en-us
 title: Lucabol blog
 theme: minimal-code
