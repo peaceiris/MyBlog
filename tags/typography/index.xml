@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>typography on Lucabol blog</title>
-    <link>http://peaceiris.com/MyBlog/tags/typography/</link>
+    <link>https://peaceiris.com/MyBlog/tags/typography/</link>
     <description>Recent content in typography on Lucabol blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 19 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://peaceiris.com/MyBlog/tags/typography/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://peaceiris.com/MyBlog/tags/typography/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Confusing characters in text</title>
-      <link>http://peaceiris.com/MyBlog/posts/2020-03-19-confusing-characters-in-text/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2020-03-19-confusing-characters-in-text/</link>
       <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2020-03-19-confusing-characters-in-text/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2020-03-19-confusing-characters-in-text/</guid>
       <description>In the process of chosing fonts for my blog, I looked for lists of words containing characters that can be easily confused.
 I took this one from here.
  Henry III - Henry lII - Henry 111 - Henry tll - Henry t7I

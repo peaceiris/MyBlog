@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Functional Programming on Lucabol blog</title>
-    <link>http://peaceiris.com/MyBlog/tags/functional-programming/</link>
+    <link>https://peaceiris.com/MyBlog/tags/functional-programming/</link>
     <description>Recent content in Functional Programming on Lucabol blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 11 May 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://peaceiris.com/MyBlog/tags/functional-programming/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://peaceiris.com/MyBlog/tags/functional-programming/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Recursively extracting nested links from a webpage using Racket</title>
-      <link>http://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</link>
       <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</guid>
       <description>This is my first attempt at writing Racket or LISP code. It might be ugly &amp;hellip; For now, let&amp;rsquo;s build a web crawler, next, I shall write myself a language. That&amp;rsquo;s where Racket really shine.
 The code is here. Thanks to Mike for reviewing it.
 Why I want to translate a website, including recursively reached pages, to a pdf to read on my e-reader. This program does the first step: going from a URL to a list of URLs by recursively navigating the links on the page.</description>
@@ -24,40 +24,40 @@ Why I want to translate a website, including recursively reached pages, to a pdf
     
     <item>
       <title>Status of C# 8.0 functional features with a comparison to Haskell</title>
-      <link>http://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</link>
       <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</guid>
       <description>Abstract Writing C# functional code has become easier with each new release of the language (i.e. nullable ref types, tuples, switch expr, &amp;hellip;). This document presents a review of the current status of basic functional features for C# 8.0. It focuses mostly on syntax and aims to achieve its goal using code examples. It doesn&amp;rsquo;t touches on more advanced topics as Monad, Functors, etc &amp;hellip;
 Haskell has been chosen as the &amp;lsquo;comparison&amp;rsquo; language (using few examples from here and elsewhere).</description>
     </item>
     
     <item>
       <title>Funky C for literate programming</title>
-      <link>http://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</link>
       <pubDate>Wed, 20 Mar 2013 15:29:05 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</guid>
       <description>Main ideas This is a port of LLIte in C. The reason for it is to experiment with writing functional code in standard C and compare the experience with using a functional language like F#. It is in a way a continuation of my previous posts on the topic.
 I will be using glib and an header of convenient macros/functions to help me (lutils.h). I don’t think that is cheating. Any modern C praticoner has its bag of tricks …</description>
     </item>
     
     <item>
       <title>Functional programming in C: Implementation</title>
-      <link>http://peaceiris.com/MyBlog/posts/2013-01-11-functional-programming-in-c-implementation/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2013-01-11-functional-programming-in-c-implementation/</link>
       <pubDate>Fri, 11 Jan 2013 16:37:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2013-01-11-functional-programming-in-c-implementation/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2013-01-11-functional-programming-in-c-implementation/</guid>
       <description>Cleanup Let&amp;rsquo;s start simple with the cleanup function. First we need the usual barrage of includes. G_BEGIN_DECLS allows the header to be linked in C++.
 #ifndef L_UTILS_INCLUDED#define L_UTILS_INCLUDED #include &amp;#34;glib.h&amp;#34; G_BEGIN_DECLS #include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;stdio.h&amp;gt;This feature is GCC specific. It uses __attribute((cleanup(f))) where f is the cleanup function. In this case the cleanup function just frees the memory. #ifdef __GNUC__ static inline void __autofree(void *p) { void **_p = (void**)p; free(*_p); } auto_clean is a building block that you can use to plug in your own cleanup function.</description>
     </item>
     
     <item>
       <title>Functional programming in C</title>
-      <link>http://peaceiris.com/MyBlog/posts/2013-01-04-functional-programming-in-c/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2013-01-04-functional-programming-in-c/</link>
       <pubDate>Fri, 04 Jan 2013 14:45:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2013-01-04-functional-programming-in-c/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2013-01-04-functional-programming-in-c/</guid>
       <description>This post/program (as I’m writing it in literate style) is a continuation of my previous posts about functional programming in C++. I promise I’m not going to post about doing it in assembly language (I think) ….
 I came to like the simplicity of C very much and got interested in how you could write functional code in it.
 There is one irritating thing about C as a viable programming language.</description>
@@ -65,10 +65,10 @@ There is one irritating thing about C as a viable programming language.</descrip
     
     <item>
       <title>Writing functional code in C&#43;&#43; V – Miscellaneous and conclusions</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-06-01-writing-functional-code-in-c-v-miscellaneous-and-conclusions/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-06-01-writing-functional-code-in-c-v-miscellaneous-and-conclusions/</link>
       <pubDate>Fri, 01 Jun 2012 06:45:26 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-06-01-writing-functional-code-in-c-v-miscellaneous-and-conclusions/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-06-01-writing-functional-code-in-c-v-miscellaneous-and-conclusions/</guid>
       <description>Just a couple of trivialities and my parting thoughts.
 Nested functions If your language has lambdas, you don’t need nested functions support because you can implement them using it.
 I am a heavy user of nested functions, but I’m of two minds about it. On one side, I like that they sit close to where they are used, avoiding going outside the main function body to understand them. I also like that you don’t need to pass a lot of parameters to them, as they capture the function locals.</description>
@@ -76,10 +76,10 @@ I am a heavy user of nested functions, but I’m of two minds about it. On one s
     
     <item>
       <title>Writing functional code in C&#43;&#43; IV – Algebraic datatypes</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-04-27-writing-functional-code-in-c-iv-algebraic-datatypes/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-04-27-writing-functional-code-in-c-iv-algebraic-datatypes/</link>
       <pubDate>Fri, 27 Apr 2012 09:29:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-04-27-writing-functional-code-in-c-iv-algebraic-datatypes/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-04-27-writing-functional-code-in-c-iv-algebraic-datatypes/</guid>
       <description>And here comes the guilt bit. I have the strong suspicion (but not certainty) that what I am doing here can be done with templates, but didn’t take the time to do it. With that out of the way, let’s go.
 Code for this post is here. Thanks to Steve Bower and Andy Sawyer for reviewing it.
 Algebraic datatypes (discriminated unions in F#) are a powerful concept in functional programming. They are the main way to represent type variation in your program.</description>
@@ -87,10 +87,10 @@ Algebraic datatypes (discriminated unions in F#) are a powerful concept in funct
     
     <item>
       <title>Writing functional code in C&#43;&#43; III – Performance of different allocation schemes</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-04-16-writing-functional-code-in-c-iii-performance-of-different-allocation-schemes/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-04-16-writing-functional-code-in-c-iii-performance-of-different-allocation-schemes/</link>
       <pubDate>Mon, 16 Apr 2012 13:32:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-04-16-writing-functional-code-in-c-iii-performance-of-different-allocation-schemes/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-04-16-writing-functional-code-in-c-iii-performance-of-different-allocation-schemes/</guid>
       <description>Now we know how to represent records and we know how to operate on them using a nice F# like syntax. But how do we store our record in a data structure in the first place?
 Code for this post is here. Thanks to Andy Sawyer and Steve Bower for reviewing this.
 As it is often the case, C++ gives you many options that are not available in standard functional languages.</description>
@@ -98,29 +98,29 @@ As it is often the case, C++ gives you many options that are not available in st
     
     <item>
       <title>Writing functional code in C&#43;&#43; II – Function composition</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-03-30-writing-functional-code-in-c-ii-function-composition/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-03-30-writing-functional-code-in-c-ii-function-composition/</link>
       <pubDate>Fri, 30 Mar 2012 10:11:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-03-30-writing-functional-code-in-c-ii-function-composition/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-03-30-writing-functional-code-in-c-ii-function-composition/</guid>
       <description>Function composition is at the core of functional programming. You start by being very confident that certain very small functions are correct, you compose them in well known ways and you end up being very confident that your final program is correct.
 You are very confident that the initial functions are correct because they are very small and side effect free. You are very confident that your program is correct because the means of composition are well known and generate functions that are themselves side effect free.</description>
     </item>
     
     <item>
       <title>Writing functional code in C&#43;&#43; – Records</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-03-23-writing-functional-code-in-c-records/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-03-23-writing-functional-code-in-c-records/</link>
       <pubDate>Fri, 23 Mar 2012 08:11:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-03-23-writing-functional-code-in-c-records/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-03-23-writing-functional-code-in-c-records/</guid>
       <description>This is the first of a series of posts about writing functional code in C++. My goal is different from FC++, which is a full fledged ‘environment’ to write functional code. Instead, I want to experiment with some of the new C++ 11 language features and see if one can build reasonably looking functional code and stay pretty close to the language. The idea is to judiciously use macros and external libraries to build a thin layer on top of the language that doesn’t change the performance characteristics of it (aka it doesn’t slow it down) and integrates fine with existing C++ code.</description>
     </item>
     
     <item>
       <title>A simple scheme to implement Design by Contract in C&#43;&#43;</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-03-06-a-simple-scheme-to-implement-design-by-contract-in-c/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-03-06-a-simple-scheme-to-implement-design-by-contract-in-c/</link>
       <pubDate>Tue, 06 Mar 2012 16:42:58 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-03-06-a-simple-scheme-to-implement-design-by-contract-in-c/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-03-06-a-simple-scheme-to-implement-design-by-contract-in-c/</guid>
       <description>Recently I got interested in C++ again. The new lambda functions in C++ 11 open up a world of opportunities for C++ programmers. I’ll talk more about how you can write functional code in C++ 11 in upcoming posts. For now let’s look at design by contract.
 Design by contract is a development style promoted by Bertrand Meyer and it is implemented in his own Eiffel programming language. At core, it advocates using preconditions, postconditions and invariants.</description>
     </item>

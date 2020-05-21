@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home on Lucabol blog</title>
-    <link>http://peaceiris.com/MyBlog/</link>
+    <link>https://peaceiris.com/MyBlog/</link>
     <description>Recent content in Home on Lucabol blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 11 May 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://peaceiris.com/MyBlog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://peaceiris.com/MyBlog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Recursively extracting nested links from a webpage using Racket</title>
-      <link>http://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</link>
       <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</guid>
       <description>This is my first attempt at writing Racket or LISP code. It might be ugly &amp;hellip; For now, let&amp;rsquo;s build a web crawler, next, I shall write myself a language. That&amp;rsquo;s where Racket really shine.
 The code is here. Thanks to Mike for reviewing it.
 Why I want to translate a website, including recursively reached pages, to a pdf to read on my e-reader. This program does the first step: going from a URL to a list of URLs by recursively navigating the links on the page.</description>
@@ -24,10 +24,10 @@ Why I want to translate a website, including recursively reached pages, to a pdf
     
     <item>
       <title>Confusing characters in text</title>
-      <link>http://peaceiris.com/MyBlog/posts/2020-03-19-confusing-characters-in-text/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2020-03-19-confusing-characters-in-text/</link>
       <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2020-03-19-confusing-characters-in-text/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2020-03-19-confusing-characters-in-text/</guid>
       <description>In the process of chosing fonts for my blog, I looked for lists of words containing characters that can be easily confused.
 I took this one from here.
  Henry III - Henry lII - Henry 111 - Henry tll - Henry t7I
@@ -37,10 +37,10 @@ i j, B 8, D 0, O 0, o 0, k R, a o, f F , r v Y, B 8, g q, a g, J I, J L, l !</de
     
     <item>
       <title>Introducing PS1 Libraries for Azure Lab Services and DevTest Labs</title>
-      <link>http://peaceiris.com/MyBlog/posts/2020-01-06-introducing-ps1-libraries-for-azure-lab-services-and-devtest-lab/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2020-01-06-introducing-ps1-libraries-for-azure-lab-services-and-devtest-lab/</link>
       <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2020-01-06-introducing-ps1-libraries-for-azure-lab-services-and-devtest-lab/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2020-01-06-introducing-ps1-libraries-for-azure-lab-services-and-devtest-lab/</guid>
       <description>I am not sure why I have not blogged about this. We have released some very nice PS1 libraries to automate the usage of Azure Lab Services and Azure DevTest Labs.
 The nicest thing about them is how they make use of the PS1 Pipeline to give a nice user experience.
 Get-AzLabAccount | Get-AzLab | Get-AzLabVm -Status Running | Stop-AzLabVm I intend to shoot some brief videos to describe how to use them.</description>
@@ -48,20 +48,20 @@ Get-AzLabAccount | Get-AzLab | Get-AzLabVm -Status Running | Stop-AzLabVm I inte
     
     <item>
       <title>Status of C# 8.0 functional features with a comparison to Haskell</title>
-      <link>http://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</link>
       <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</guid>
       <description>Abstract Writing C# functional code has become easier with each new release of the language (i.e. nullable ref types, tuples, switch expr, &amp;hellip;). This document presents a review of the current status of basic functional features for C# 8.0. It focuses mostly on syntax and aims to achieve its goal using code examples. It doesn&amp;rsquo;t touches on more advanced topics as Monad, Functors, etc &amp;hellip;
 Haskell has been chosen as the &amp;lsquo;comparison&amp;rsquo; language (using few examples from here and elsewhere).</description>
     </item>
     
     <item>
       <title>A single .NET Core project to rule them all</title>
-      <link>http://peaceiris.com/MyBlog/posts/2019-02-04-singleproject/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2019-02-04-singleproject/</link>
       <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2019-02-04-singleproject/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2019-02-04-singleproject/</guid>
       <description>Abstract The code is here.
 Thanks to Mike for reviewing this.
 I have always been mildly irritated by how many .net projects I need to create in my standard workflow.
@@ -70,10 +70,10 @@ Usually I start with an idea for a library; I then want to test it with a simple
     
     <item>
       <title>Meta-programming in C# with JIT dead code removal and inlining</title>
-      <link>http://peaceiris.com/MyBlog/posts/2019-01-29-meta-programming-and-policy-based-design/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2019-01-29-meta-programming-and-policy-based-design/</link>
       <pubDate>Tue, 29 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2019-01-29-meta-programming-and-policy-based-design/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2019-01-29-meta-programming-and-policy-based-design/</guid>
       <description>Abstract Thanks to Mike for reviewing this.
 This is a way to enable compile time customization of classes/functions in the style of C++ template meta-programming as in Modern C++ Design. In particular, we are going to implement the policy pattern, which is compile time version of the strategy pattern.
 What do we gain by constraining ourselves to compile time customization, instead of run time one? High performance. Blazingly high performance. You gain an abstraction, without paying for it.</description>
@@ -81,10 +81,10 @@ What do we gain by constraining ourselves to compile time customization, instead
     
     <item>
       <title>Stopping Garbage Collection in .NET Core 3.0 (part II)</title>
-      <link>http://peaceiris.com/MyBlog/posts/2019-01-21-stopping-garbage-collection-in-net-core-3-0-part-ii/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2019-01-21-stopping-garbage-collection-in-net-core-3-0-part-ii/</link>
       <pubDate>Mon, 21 Jan 2019 10:05:45 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2019-01-21-stopping-garbage-collection-in-net-core-3-0-part-ii/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2019-01-21-stopping-garbage-collection-in-net-core-3-0-part-ii/</guid>
       <description>Let&amp;rsquo;s see how it&amp;rsquo;s implemented. For why it is implemented, see part I.
 Thanks to Mike for reviewing this.
 using System; using System.Diagnostics.Tracing; using System.Runtime; The FxCop code analyzers get upset if I don&amp;rsquo;t declare this, which also impede me from using unsigned numeral types in interfaces.
@@ -93,10 +93,10 @@ using System; using System.Diagnostics.Tracing; using System.Runtime; The FxCop 
     
     <item>
       <title>Stopping Garbage Collection in .NET Core 3.0 (part I)</title>
-      <link>http://peaceiris.com/MyBlog/posts/2019-01-14-stopping-garbage-collection-in-net-core-3-0-part-i/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2019-01-14-stopping-garbage-collection-in-net-core-3-0-part-i/</link>
       <pubDate>Mon, 14 Jan 2019 12:34:16 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2019-01-14-stopping-garbage-collection-in-net-core-3-0-part-i/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2019-01-14-stopping-garbage-collection-in-net-core-3-0-part-i/</guid>
       <description>Scenario Thanks to Mike for reviewing this.
 You have an application or a particular code path of your application that cannot take the pauses that GC creates. Typical examples are real time systems, tick by tick financial apps, embedded systems, etc &amp;hellip;
 Disclaimer For any normal kind of applications, YOU DON&amp;rsquo;T NEED TO DO THIS. You are likely to make your application run slower or blow up memory. If you have an hot path in your application (i.</description>
@@ -104,29 +104,29 @@ Disclaimer For any normal kind of applications, YOU DON&amp;rsquo;T NEED TO DO T
     
     <item>
       <title>A Stack data structure implementation using Span</title>
-      <link>http://peaceiris.com/MyBlog/posts/2018-06-04-a-stack-data-structure-implementation-using-span/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2018-06-04-a-stack-data-structure-implementation-using-span/</link>
       <pubDate>Mon, 04 Jun 2018 11:56:54 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2018-06-04-a-stack-data-structure-implementation-using-span/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2018-06-04-a-stack-data-structure-implementation-using-span/</guid>
       <description>I am back in Microsoft and today we talk about the code below, which is on github here:
 public ref struct SpanStack&amp;lt;T&amp;gt; { private Span memory; private int index; private int size; public SpanStack(Span mem) { memory = mem; index = 0; size = mem.Length; } public bool IsEmpty() =&amp;gt; index &amp;lt; 0; public bool IsFull() =&amp;gt; index &amp;gt; size - 1; public void Push(T item) =&amp;gt; memory[index++] = item; public T Pop() =&amp;gt; memory[--index]; } public static class SpanExtensions { public static SpanStack AsStack&amp;lt;T&amp;gt;(this Span span) =&amp;gt; new SpanStack(span); } This Stack data structure can be used over memory that resides on the stack, heap or unmanaged heap.</description>
     </item>
     
     <item>
       <title>Oops, you are offline.</title>
-      <link>http://peaceiris.com/MyBlog/offline/</link>
+      <link>https://peaceiris.com/MyBlog/offline/</link>
       <pubDate>Sun, 16 Oct 2016 19:28:41 +0200</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/offline/</guid>
+      <guid>https://peaceiris.com/MyBlog/offline/</guid>
       <description>You are able to access just the pages that you have visited previously. Please go back to the home page to see which pages are available (perhaps with the back button on the browser). </description>
     </item>
     
     <item>
       <title>Building a stock alert system with Google Script</title>
-      <link>http://peaceiris.com/MyBlog/posts/2014-10-31-building-a-stock-alert-system-with-google-script/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2014-10-31-building-a-stock-alert-system-with-google-script/</link>
       <pubDate>Fri, 31 Oct 2014 08:11:13 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2014-10-31-building-a-stock-alert-system-with-google-script/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2014-10-31-building-a-stock-alert-system-with-google-script/</guid>
       <description>This is obsolete as Yahoo stopped their quote service. I have a new spreadsheet here.
 When I thought about it, I realized that my ideal system would be a spreadsheet where to add tickers and alert levels. Under the covers, the system would need to check the current price of a ticker, compare it with the alert level and send me email when triggered.
 Also the whole thing shouldn&amp;rsquo;t be running from my machine at home, but from somewhere on the internet.</description>
@@ -134,30 +134,30 @@ Also the whole thing shouldn&amp;rsquo;t be running from my machine at home, but
     
     <item>
       <title>Funky C for literate programming</title>
-      <link>http://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</link>
       <pubDate>Wed, 20 Mar 2013 15:29:05 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</guid>
       <description>Main ideas This is a port of LLIte in C. The reason for it is to experiment with writing functional code in standard C and compare the experience with using a functional language like F#. It is in a way a continuation of my previous posts on the topic.
 I will be using glib and an header of convenient macros/functions to help me (lutils.h). I don’t think that is cheating. Any modern C praticoner has its bag of tricks …</description>
     </item>
     
     <item>
       <title>Functional programming in C: Implementation</title>
-      <link>http://peaceiris.com/MyBlog/posts/2013-01-11-functional-programming-in-c-implementation/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2013-01-11-functional-programming-in-c-implementation/</link>
       <pubDate>Fri, 11 Jan 2013 16:37:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2013-01-11-functional-programming-in-c-implementation/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2013-01-11-functional-programming-in-c-implementation/</guid>
       <description>Cleanup Let&amp;rsquo;s start simple with the cleanup function. First we need the usual barrage of includes. G_BEGIN_DECLS allows the header to be linked in C++.
 #ifndef L_UTILS_INCLUDED#define L_UTILS_INCLUDED #include &amp;#34;glib.h&amp;#34; G_BEGIN_DECLS #include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;stdio.h&amp;gt;This feature is GCC specific. It uses __attribute((cleanup(f))) where f is the cleanup function. In this case the cleanup function just frees the memory. #ifdef __GNUC__ static inline void __autofree(void *p) { void **_p = (void**)p; free(*_p); } auto_clean is a building block that you can use to plug in your own cleanup function.</description>
     </item>
     
     <item>
       <title>Functional programming in C</title>
-      <link>http://peaceiris.com/MyBlog/posts/2013-01-04-functional-programming-in-c/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2013-01-04-functional-programming-in-c/</link>
       <pubDate>Fri, 04 Jan 2013 14:45:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2013-01-04-functional-programming-in-c/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2013-01-04-functional-programming-in-c/</guid>
       <description>This post/program (as I’m writing it in literate style) is a continuation of my previous posts about functional programming in C++. I promise I’m not going to post about doing it in assembly language (I think) ….
 I came to like the simplicity of C very much and got interested in how you could write functional code in it.
 There is one irritating thing about C as a viable programming language.</description>
@@ -165,20 +165,20 @@ There is one irritating thing about C as a viable programming language.</descrip
     
     <item>
       <title>LLite : language friendly literate programming</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/</link>
       <pubDate>Fri, 14 Dec 2012 12:29:26 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/</guid>
       <description>Main ideas My interest in literate programming comes from some realizations on my part:
  When I go back to code that I have written some time ago, I don&amp;rsquo;t remember my reasoning When I write a blog post, my code seems to be better. Perhaps explaining things to people encourages me to be more precise I like to think top down, but the compiler forces me to write code bottom up, starting from details and going to higher level concepts  Unhappiness with existing tools Many of the existing literate programming tools work similarly to the original CWeb.</description>
     </item>
     
     <item>
       <title>Exceptions vs. Return Values to represent errors (in F#) – IV – Implementation</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-12-07-exceptions-vs-return-values-to-represent-errors-in-f-iii-implementation/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-12-07-exceptions-vs-return-values-to-represent-errors-in-f-iii-implementation/</link>
       <pubDate>Fri, 07 Dec 2012 09:44:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-12-07-exceptions-vs-return-values-to-represent-errors-in-f-iii-implementation/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-12-07-exceptions-vs-return-values-to-represent-errors-in-f-iii-implementation/</guid>
       <description>The Critical monad is defined as follows. First there is the type that propagates through the monad:
 type Result&amp;lt;&#39;a, &#39;b&amp;gt; = | Success of &#39;a | Failure of &#39;b Then we define the usual computation expression methods.
 type Critical() = // a -&amp;gt; m a member o.Return x = Success x // m a -&amp;gt; (a -&amp;gt; m b) -&amp;gt; m b member o.Bind (m, f) = match m with | Failure e -&amp;gt; Failure e | Success x -&amp;gt; f x // m a -&amp;gt; m a member o.</description>
@@ -186,10 +186,10 @@ type Critical() = // a -&amp;gt; m a member o.Return x = Success x // m a -&amp;
     
     <item>
       <title>Exceptions vs. Return Values to represent errors (in F#) – III–The Critical monad</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-11-30-exceptions-vs-return-values-to-represent-errors-in-f-iiithe-critical-monad/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-11-30-exceptions-vs-return-values-to-represent-errors-in-f-iiithe-critical-monad/</link>
       <pubDate>Fri, 30 Nov 2012 16:41:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-11-30-exceptions-vs-return-values-to-represent-errors-in-f-iiithe-critical-monad/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-11-30-exceptions-vs-return-values-to-represent-errors-in-f-iiithe-critical-monad/</guid>
       <description>Code for this post is here.
 In the last post we looked at some Critical code and decided that, albeit correct, it is convoluted. The error management path obfuscates the underlying logic. Also we have no way of knowing if a developer had thought about the error path or not when invoking a function.
 Let’s tackle the latter concern first as it is easier. We want the developer to declaratively tag each method call with something that represents his intent about managing the Contingencies or Faults of the function.</description>
@@ -197,20 +197,20 @@ Let’s tackle the latter concern first as it is easier. We want the developer t
     
     <item>
       <title>Exceptions vs. Return Values to represent errors (in F#) – II– An example problem</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-11-23-exceptions-vs-return-values-to-represent-errors-in-f-iithe-critical-monad/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-11-23-exceptions-vs-return-values-to-represent-errors-in-f-iithe-critical-monad/</link>
       <pubDate>Fri, 23 Nov 2012 10:45:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-11-23-exceptions-vs-return-values-to-represent-errors-in-f-iithe-critical-monad/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-11-23-exceptions-vs-return-values-to-represent-errors-in-f-iithe-critical-monad/</guid>
       <description>In the previous post, we talked about the difference between Critical and Normal code. In this post we are going to talk about the Critical code part. Ideally, we want:
  A way to indicate that a particular piece of code (potentially the whole program) is Critical A way to force/encourage the programmer to make an explicit decision on the call site of a function on how he wants to manage the error conditions (both contingencies and faults) A way to force/encourage the programmer to expose contingencies/faults that are appropriate for the conceptual level of the function the code is in (aka don’t expose implementation details for the function, i.</description>
     </item>
     
     <item>
       <title>Exceptions vs. Return Values to represent errors (in F#) – Conceptual view</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-11-19-exceptions-vs-return-values-to-represent-errors-in-f-i-conceptual-view/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-11-19-exceptions-vs-return-values-to-represent-errors-in-f-i-conceptual-view/</link>
       <pubDate>Mon, 19 Nov 2012 13:02:10 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-11-19-exceptions-vs-return-values-to-represent-errors-in-f-i-conceptual-view/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-11-19-exceptions-vs-return-values-to-represent-errors-in-f-i-conceptual-view/</guid>
       <description>Recently I’ve been reading numerous articles on the age old question of exceptions vs. return values. There is a vast literature on the topic with very passionate opinions on one side or the other. Below is my view on it.
 First of all, I’ll define my terms.
  Success code path: chunk of code that is responsible to perform the main task of a function, without any regard for error conditions Contingency: an event that happens during the success code path execution that is of interest for the caller of the function.</description>
@@ -218,29 +218,29 @@ First of all, I’ll define my terms.
     
     <item>
       <title>Retrieving SQL Server data with type providers and exposing it with ASP.NET Web APIs in F#</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-09-04-retrieving-sql-server-data-with-type-providers-and-exposing-it-with-asp-net-web-apis-in-f/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-09-04-retrieving-sql-server-data-with-type-providers-and-exposing-it-with-asp-net-web-apis-in-f/</link>
       <pubDate>Tue, 04 Sep 2012 10:16:17 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-09-04-retrieving-sql-server-data-with-type-providers-and-exposing-it-with-asp-net-web-apis-in-f/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-09-04-retrieving-sql-server-data-with-type-providers-and-exposing-it-with-asp-net-web-apis-in-f/</guid>
       <description>For a good introduction on how to use Web APIs in F#, read here. The starting point for type providers is here. This post is about how I solved a practical problem using these technologies.
 First, let’s discuss the scenario. In my company, we needed to log usage information for our various applications to a central repository and build a web site to access such information. I went through three different architectures for such a requirement, ending with the set of technologies described in the title.</description>
     </item>
     
     <item>
       <title>And now Andy has a blog …</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-06-18-and-now-andy-has-a-blog/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-06-18-and-now-andy-has-a-blog/</link>
       <pubDate>Mon, 18 Jun 2012 07:26:49 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-06-18-and-now-andy-has-a-blog/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-06-18-and-now-andy-has-a-blog/</guid>
       <description>For those of you interested in C++, Andy Sawyer now has a blog here. Here is an extended discussion on how to choose an STL container. Enjoy !!</description>
     </item>
     
     <item>
       <title>Writing functional code in C&#43;&#43; V – Miscellaneous and conclusions</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-06-01-writing-functional-code-in-c-v-miscellaneous-and-conclusions/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-06-01-writing-functional-code-in-c-v-miscellaneous-and-conclusions/</link>
       <pubDate>Fri, 01 Jun 2012 06:45:26 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-06-01-writing-functional-code-in-c-v-miscellaneous-and-conclusions/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-06-01-writing-functional-code-in-c-v-miscellaneous-and-conclusions/</guid>
       <description>Just a couple of trivialities and my parting thoughts.
 Nested functions If your language has lambdas, you don’t need nested functions support because you can implement them using it.
 I am a heavy user of nested functions, but I’m of two minds about it. On one side, I like that they sit close to where they are used, avoiding going outside the main function body to understand them. I also like that you don’t need to pass a lot of parameters to them, as they capture the function locals.</description>
@@ -248,10 +248,10 @@ I am a heavy user of nested functions, but I’m of two minds about it. On one s
     
     <item>
       <title>Writing functional code in C&#43;&#43; IV – Algebraic datatypes</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-04-27-writing-functional-code-in-c-iv-algebraic-datatypes/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-04-27-writing-functional-code-in-c-iv-algebraic-datatypes/</link>
       <pubDate>Fri, 27 Apr 2012 09:29:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-04-27-writing-functional-code-in-c-iv-algebraic-datatypes/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-04-27-writing-functional-code-in-c-iv-algebraic-datatypes/</guid>
       <description>And here comes the guilt bit. I have the strong suspicion (but not certainty) that what I am doing here can be done with templates, but didn’t take the time to do it. With that out of the way, let’s go.
 Code for this post is here. Thanks to Steve Bower and Andy Sawyer for reviewing it.
 Algebraic datatypes (discriminated unions in F#) are a powerful concept in functional programming. They are the main way to represent type variation in your program.</description>
@@ -259,10 +259,10 @@ Algebraic datatypes (discriminated unions in F#) are a powerful concept in funct
     
     <item>
       <title>Writing functional code in C&#43;&#43; III – Performance of different allocation schemes</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-04-16-writing-functional-code-in-c-iii-performance-of-different-allocation-schemes/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-04-16-writing-functional-code-in-c-iii-performance-of-different-allocation-schemes/</link>
       <pubDate>Mon, 16 Apr 2012 13:32:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-04-16-writing-functional-code-in-c-iii-performance-of-different-allocation-schemes/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-04-16-writing-functional-code-in-c-iii-performance-of-different-allocation-schemes/</guid>
       <description>Now we know how to represent records and we know how to operate on them using a nice F# like syntax. But how do we store our record in a data structure in the first place?
 Code for this post is here. Thanks to Andy Sawyer and Steve Bower for reviewing this.
 As it is often the case, C++ gives you many options that are not available in standard functional languages.</description>
@@ -270,10 +270,10 @@ As it is often the case, C++ gives you many options that are not available in st
     
     <item>
       <title>Letter on investing</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-04-05-letter-on-investing/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-04-05-letter-on-investing/</link>
       <pubDate>Thu, 05 Apr 2012 07:57:59 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-04-05-letter-on-investing/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-04-05-letter-on-investing/</guid>
       <description>In 2007 I wrote a blog post on investing. During the last five years, my view evolved a bit. People often ask me how to get a financial education. This is the latest email I sent on the topic.
 From: Bolognese, Luca
 Sent: 04 April 2012 16:52
@@ -284,49 +284,49 @@ Disclaimer: this are just my personal opinions drawn from my 10+ years of invest
     
     <item>
       <title>Writing functional code in C&#43;&#43; II – Function composition</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-03-30-writing-functional-code-in-c-ii-function-composition/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-03-30-writing-functional-code-in-c-ii-function-composition/</link>
       <pubDate>Fri, 30 Mar 2012 10:11:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-03-30-writing-functional-code-in-c-ii-function-composition/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-03-30-writing-functional-code-in-c-ii-function-composition/</guid>
       <description>Function composition is at the core of functional programming. You start by being very confident that certain very small functions are correct, you compose them in well known ways and you end up being very confident that your final program is correct.
 You are very confident that the initial functions are correct because they are very small and side effect free. You are very confident that your program is correct because the means of composition are well known and generate functions that are themselves side effect free.</description>
     </item>
     
     <item>
       <title>Writing functional code in C&#43;&#43; – Records</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-03-23-writing-functional-code-in-c-records/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-03-23-writing-functional-code-in-c-records/</link>
       <pubDate>Fri, 23 Mar 2012 08:11:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-03-23-writing-functional-code-in-c-records/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-03-23-writing-functional-code-in-c-records/</guid>
       <description>This is the first of a series of posts about writing functional code in C++. My goal is different from FC++, which is a full fledged ‘environment’ to write functional code. Instead, I want to experiment with some of the new C++ 11 language features and see if one can build reasonably looking functional code and stay pretty close to the language. The idea is to judiciously use macros and external libraries to build a thin layer on top of the language that doesn’t change the performance characteristics of it (aka it doesn’t slow it down) and integrates fine with existing C++ code.</description>
     </item>
     
     <item>
       <title>A simple scheme to implement Design by Contract in C&#43;&#43;</title>
-      <link>http://peaceiris.com/MyBlog/posts/2012-03-06-a-simple-scheme-to-implement-design-by-contract-in-c/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2012-03-06-a-simple-scheme-to-implement-design-by-contract-in-c/</link>
       <pubDate>Tue, 06 Mar 2012 16:42:58 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2012-03-06-a-simple-scheme-to-implement-design-by-contract-in-c/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2012-03-06-a-simple-scheme-to-implement-design-by-contract-in-c/</guid>
       <description>Recently I got interested in C++ again. The new lambda functions in C++ 11 open up a world of opportunities for C++ programmers. I’ll talk more about how you can write functional code in C++ 11 in upcoming posts. For now let’s look at design by contract.
 Design by contract is a development style promoted by Bertrand Meyer and it is implemented in his own Eiffel programming language. At core, it advocates using preconditions, postconditions and invariants.</description>
     </item>
     
     <item>
       <title>Adventure in parserland – parsing lambda expressions in F# – Part V</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/</link>
       <pubDate>Fri, 16 Sep 2011 06:57:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/</guid>
       <description>We are now going to look at a solution which is concise, efficient and gives sophisticated error messages. It is also less than 20 lines of code. We’ll be using FParsec.
 FParsec is a port of an Haskell library. It is a parser combinator library or, as I like to think of it, an internal DSL to build parsers in F#. My usual disclaimer: I’m not an expert in FParsec. It is likely that, if you are an expert, you can come up with more maintainable/efficient/elegant version of this parser.</description>
     </item>
     
     <item>
       <title>Adventure in parserland – parsing lambda expressions in F# – Part IV</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/</link>
       <pubDate>Fri, 09 Sep 2011 06:09:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/</guid>
       <description>Let’ now look at the parser. First let’s review the grammar:
 (* &amp;lt;expression&amp;gt; ::= &amp;lt;name&amp;gt; | &amp;lt;function&amp;gt; | &amp;lt;application&amp;gt; &amp;lt;name&amp;gt; ::= non­blank character sequence &amp;lt;function&amp;gt; ::= \ &amp;lt;name&amp;gt; . &amp;lt;body&amp;gt; &amp;lt;body&amp;gt; ::= &amp;lt;expression&amp;gt; &amp;lt;application&amp;gt; ::= ( &amp;lt;function expression&amp;gt; &amp;lt;argument expression&amp;gt; ) &amp;lt;function expression&amp;gt; ::= &amp;lt;expression&amp;gt; &amp;lt;argument expression&amp;gt; ::= &amp;lt;expression&amp;gt; *)  And the data type to represent it:
 type Name = string and Body = Expression and Function = Name * Expression and FunctionExpression = Expression and ArgumentExpression = Expression and Expression = | EName of string | Function of Expression * Body | Application of FunctionExpression * ArgumentExpression | EOT In essence, the data type need to store all the information needed for subsequent stages of computation (i.</description>
@@ -334,20 +334,20 @@ type Name = string and Body = Expression and Function = Name * Expression and Fu
     
     <item>
       <title>Adventure in parserland – parsing lambda expressions in F# – Part III</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/</link>
       <pubDate>Fri, 02 Sep 2011 15:25:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/</guid>
       <description>Let’s start from the lexer. Remember, I wrote this code based on my memory of how a lexer ought to look like. I didn’t read again the relevant chapters in the Dragon book. But I think it came out all right after all.
 The tokenStream function we looked at last time takes a LazyList and returns a LazyList. It uses the unfold method on LazyList to call matchToken on each char until the stream is empty.</description>
     </item>
     
     <item>
       <title>Adventure in parserland – parsing lambda expressions in F# – Part II</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/</link>
       <pubDate>Fri, 26 Aug 2011 14:25:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/</guid>
       <description>The parser starts simple with the following two functions to parse either a string or a file. I use the XXX_Readers_ because I want to lazy read character by character.
 let parseString s = let reader = new StringReader(s) parseTextReader reader let parseFile fileName = let reader = new StreamReader(fileName: string) parseTextReader reader The whole parser is in the following two lines:
 let parseTextReader: TextReader -&amp;gt; seq&amp;lt;Expression&amp;gt; = textReaderToLazyList &amp;gt;&amp;gt; tokenStream &amp;gt;&amp;gt; parseExpressions I need to specify the signature otherwise the compiler gets confused : wait, does it take a StringReader or a StreamReader?</description>
@@ -355,10 +355,10 @@ let parseTextReader: TextReader -&amp;gt; seq&amp;lt;Expression&amp;gt; = textRe
     
     <item>
       <title>Adventure in parserland – parsing lambda expressions in F# – Part I</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/</link>
       <pubDate>Fri, 19 Aug 2011 06:53:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/</guid>
       <description>This is part of my ‘things that I do in the empty spaces between one meeting and the next one, which might end up being vaguely interesting’. It is a lambda expression parser.
 The full source code is here.
 I actually have two versions of it: one written longhand and the other one written with FParsec. Just to be clear: I’m no expert of either.
@@ -367,40 +367,40 @@ And just to be more clear: I think writing most parsers longhand in the way I am
     
     <item>
       <title>Write Yourself a Scheme in 48 Hours in F# – Part VII</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/</link>
       <pubDate>Fri, 12 Aug 2011 07:11:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/</guid>
       <description>Let’s talk about the environment now. This is the part of the interpreter that I like the least. It is a global variable and it contains a list of (string, LispVal) where the LispVal is mutable.
 type Env = (string * LispVal ref) list ref This is pretty bad. First of all, it immediately cuts off any option of running interpreters in different threads. Moreover, it makes a lot of functions in the evaluator to have side effects.</description>
     </item>
     
     <item>
       <title>Write Yourself a Scheme in 48 Hours in F# – Part VI</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/</link>
       <pubDate>Fri, 05 Aug 2011 07:08:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/</guid>
       <description>The evaluator takes as an input a LispVal. Where does it come from? There must be something that converts your textual input into it. That is the job of the parser.
 I have used FParsec to build my parser. FParsec is a fantastic library to build parsers. It is a perfect showcase of the composition potential that functional code yields. When you write an FParsec parser you compose many little parsers to create the one parser that works for your language.</description>
     </item>
     
     <item>
       <title>Write Yourself a Scheme in 48 Hours in F# – Part V</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/</link>
       <pubDate>Fri, 29 Jul 2011 07:26:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/</guid>
       <description>We have one loose end to tie in the evaluator: the primitive operators. These are things that the interpreter knows intrinsically. There is a list of them below.
 let rec primitives = [ &#34;+&#34;, numericBinop (+) &#34;-&#34;, numericBinop (-) &#34;*&#34;, numericBinop (*) &#34;/&#34;, numericBinop (/) &#34;mod&#34;, numericBinop (%) &#34;=&#34;, numBoolBinop (=) &#34;&amp;lt;&#34;, numBoolBinop (&amp;lt;) &#34;&amp;gt;&#34;, numBoolBinop (&amp;gt;) &#34;/=&#34;, numBoolBinop (&amp;lt;&amp;gt;) &#34;&amp;gt;=&#34;, numBoolBinop (&amp;gt;=) &#34;&amp;lt;=&#34;, numBoolBinop (&amp;lt;=) &#34;&amp;&amp;&#34;, boolBoolBinop (&amp;&amp;) &#34;||&#34;, boolBoolBinop (||) &#34;</description>
     </item>
     
     <item>
       <title>Write Yourself a Scheme in 48 Hours in F# – Part IV</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/</link>
       <pubDate>Fri, 22 Jul 2011 07:52:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/</guid>
       <description>It is the evaluator turn. It is a big file, let’s see if I can fit it in a single post.
 Aptly enough, the most important function is called eval.
 eval env = function | String _ as v -&amp;gt; v | Number _ as v -&amp;gt; v | Bool _ as v -&amp;gt; v | Atom var -&amp;gt; getVar var env | List [Atom &#34;quote&#34;; v] -&amp;gt; v | List [Atom &#34;</description>
@@ -408,30 +408,30 @@ eval env = function | String _ as v -&amp;gt; v | Number _ as v -&amp;gt; v | Bo
     
     <item>
       <title>Write Yourself a Scheme in 48 Hours in F# – Part III</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/</link>
       <pubDate>Fri, 15 Jul 2011 07:12:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/</guid>
       <description>Very often my code ends up having the following form: parse an input to create an intermediate data structure and evaluate the structure to produce an output. Strangely, many years ago, when my code was object oriented, that wasn’t the case. Or at least I wasn’t explicitly aware of it.
 When you write an interpreter or a compiler, things always work out like that, but I see the same pattern in almost everything I produce: from financial backtesting to chart libraries.</description>
     </item>
     
     <item>
       <title>Write Yourself a Scheme in 48 Hours in F# – Part II</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/</link>
       <pubDate>Fri, 08 Jul 2011 07:01:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/</guid>
       <description>Usually, when I do blog posts that are all about code, I write them ‘bottom up’. I start talking about the most primitive types and functions and build up from there toward higher abstractions. I think this is a pretty common way of doing it.
 For this series I’m going to try the opposite. I start with the code that creates the REPL window and move down from there toward the guts of the interpreter.</description>
     </item>
     
     <item>
       <title>Write Yourself a Scheme in 48 Hours in F# – Part I</title>
-      <link>http://peaceiris.com/MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/</link>
       <pubDate>Thu, 30 Jun 2011 15:41:12 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/</guid>
       <description>Hi, I’m back. I’ve finally sorted out the guidelines for blogging in Credit Suisse.
 Here is something I have been playing around with in the spare time between one meeting and the next one. It is a Scheme interpreter that includes a REPL window. The full code is here.
 All the smarts for it come from this Wiki Book. I just ported the code to F# (and modified it a bit).</description>
@@ -439,48 +439,48 @@ All the smarts for it come from this Wiki Book. I just ported the code to F# (an
     
     <item>
       <title>I have been DEEP FRIED!</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-03-31-i-have-been-deep-fried/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-03-31-i-have-been-deep-fried/</link>
       <pubDate>Wed, 31 Mar 2010 20:50:32 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-03-31-i-have-been-deep-fried/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-03-31-i-have-been-deep-fried/</guid>
       <description>Yep, here is my interview with the Deep Fried Bytes guys on various software topics. Enjoy.</description>
     </item>
     
     <item>
       <title>Tracking spread trades in F# (and WPF MVVM) – Part II</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/</link>
       <pubDate>Fri, 19 Mar 2010 23:33:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/</guid>
       <description>I wanted to experiment with MVVM and WPF in F#, so I decided to create a little graphical interface for the csv file that drives the spread tracking application. When I started I thought I needed some kind of a grid with Submit/Cancel buttons, but the more I thought about it, the more I realized that I wouldn’t need them.
 See, I’ve always be one to complain about our current paradigm of Open File / Close File / Save File arguing that the user shouldn’t know about an entity called ‘file’.</description>
     </item>
     
     <item>
       <title>Tracking spread trades in F# (and hooking up XUnit and FsCheck) – Part 1</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/</link>
       <pubDate>Sat, 13 Mar 2010 01:18:37 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/</guid>
       <description>I have a bunch of spread trades open. Spread trades are trades where you buy something and you sell something else generally in the same amount. You hope to profit from the widening of the spread between the price of the two instruments.
 I place stop loss orders or trailing stops for all my trades. I have various tool that automatically notify me when a stop loss or trailing stop is hit.</description>
     </item>
     
     <item>
       <title>Downloading stock prices, divs and splits in F# updated to Visual Studio 2010</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/</link>
       <pubDate>Fri, 26 Feb 2010 23:50:44 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/</guid>
       <description>I’m working on a program to keep track of paired trades with trailing stops. I need to download stock prices, so I thought I might reuse some old code of mine. Here is the updated framework.</description>
     </item>
     
     <item>
       <title>LChart: displaying charts in F# – Part III</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-02-19-lchart-displaying-charts-in-f-part-iii/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-02-19-lchart-displaying-charts-in-f-part-iii/</link>
       <pubDate>Fri, 19 Feb 2010 18:03:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-02-19-lchart-displaying-charts-in-f-part-iii/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-02-19-lchart-displaying-charts-in-f-part-iii/</guid>
       <description>The last post is here. In this post we’ll look at how things work under the cover and to why I came to believe that they shouldn’t work this way.
 First of all each one of the functions to create charts looks something like this:
 static member bar (?y,?x, ?isValueShownAsLabel, ?markerSize, ?markerStyle, ?color, ?xname, ?yname, ?seriesName, ?title, ?drawingStyle) = let c = Create (SeriesChartType.Bar, x, y, isValueShownAsLabel, markerSize, markerStyle, color, xname, yname, seriesName, title) c.</description>
@@ -488,10 +488,10 @@ static member bar (?y,?x, ?isValueShownAsLabel, ?markerSize, ?markerStyle, ?colo
     
     <item>
       <title>Luca Bolognese leaves Microsoft</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-02-19-luca-bolognese-leaves-microsoft/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-02-19-luca-bolognese-leaves-microsoft/</link>
       <pubDate>Fri, 19 Feb 2010 08:58:02 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-02-19-luca-bolognese-leaves-microsoft/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-02-19-luca-bolognese-leaves-microsoft/</guid>
       <description>FYI I imported all the posts from the old MSDN blog to this one. Hence this post doesn&amp;rsquo;t make sense anymore. I left it here for memory sake. BTW: I am also back in msft now (30/11/2018).
 This is my last post on this blog. My new blog is here: http://www.lucabol.com 
 I accepted a role as Director for Credit Suisse in London. I’m excited by the opportunity to work in the financial industry, a long-standing desire of mine.</description>
@@ -499,66 +499,66 @@ I accepted a role as Director for Credit Suisse in London. I’m excited by the 
     
     <item>
       <title>LChart: displaying charts in F# – Part II</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-ii/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-ii/</link>
       <pubDate>Wed, 17 Feb 2010 20:24:33 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-ii/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-ii/</guid>
       <description>In the previous post on my old blog I showed how to display simple charts with LChart. In this one we’ll talk about more complex charts. I wanted to define a little language for graphs for the sake of creating a more complex chart in a single line of code. Remember, the scenario here is: I got some data, I want to display it quickly in the fsi. The language has two operators: ‘+’ and ‘++’.</description>
     </item>
     
     <item>
       <title>LChart: displaying charts in F# – Part I</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-i/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-i/</link>
       <pubDate>Wed, 17 Feb 2010 11:20:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-i/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-i/</guid>
       <description>I want to use F# as a exploratory data analysis language (like R). But I don’t know how to get the same nice graphic capabilities. So I decided to create them. Here is a library to draw charts in F#. It steals ideas from this book and this R package. It is nothing more than a wrapper on top of the Microsoft Chart Controls to give it a more ‘exploratory’ one line calling syntax.</description>
     </item>
     
     <item>
       <title>Excel Financial Functions upgraded to Visual Studio 2010 RC</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-02-16-excel-financial-functions-upgraded-to-visual-studio-2010-rc/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-02-16-excel-financial-functions-upgraded-to-visual-studio-2010-rc/</link>
       <pubDate>Tue, 16 Feb 2010 14:55:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-02-16-excel-financial-functions-upgraded-to-visual-studio-2010-rc/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-02-16-excel-financial-functions-upgraded-to-visual-studio-2010-rc/</guid>
       <description>Here is a link to the home page: http://code.msdn.microsoft.com/FinancialFunctions/Wiki/View.aspx?title=Home</description>
     </item>
     
     <item>
       <title>New version of LAgent compatible with VS 2010 RC online</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-02-15-new-version-of-lagent-compatible-with-vs-2010-rc-online/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-02-15-new-version-of-lagent-compatible-with-vs-2010-rc-online/</link>
       <pubDate>Mon, 15 Feb 2010 09:36:54 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-02-15-new-version-of-lagent-compatible-with-vs-2010-rc-online/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-02-15-new-version-of-lagent-compatible-with-vs-2010-rc-online/</guid>
       <description>My crazy agent framework now works with RC: http://code.msdn.microsoft.com/LAgent</description>
     </item>
     
     <item>
       <title>A simpler F# MailboxProcessor</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-02-12-a-simpler-f-mailboxprocessor/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-02-12-a-simpler-f-mailboxprocessor/</link>
       <pubDate>Fri, 12 Feb 2010 15:29:46 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-02-12-a-simpler-f-mailboxprocessor/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-02-12-a-simpler-f-mailboxprocessor/</guid>
       <description>I always forget the pattern to use to create a functioning MailboxProcessor in F#. I mean, which piece has to be async and how to structure the recursive loop. When I find myself in that kind of a situation situation, my instincts scream at me: “Wrap it and make it work how your mind expects it to work”. So here is a simplification of the paradigm.
 Let’s see how some standard MailboxProcessor code looks like:</description>
     </item>
     
     <item>
       <title>The F#unctional Londoners Meetup Group</title>
-      <link>http://peaceiris.com/MyBlog/posts/2010-02-11-the-functional-londoners-meetup-group/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2010-02-11-the-functional-londoners-meetup-group/</link>
       <pubDate>Thu, 11 Feb 2010 09:24:05 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2010-02-11-the-functional-londoners-meetup-group/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2010-02-11-the-functional-londoners-meetup-group/</guid>
       <description>If you live in London and work with F#, you should join http://www.meetup.com/FSharpLondon/
 Also, if you don’t work with F#, but you’d like too, and you live in London you should join it. Also if you don’t live in London, but you’d like to and you’d like not to work on F# … Ok, you get the point.</description>
     </item>
     
     <item>
       <title>LAgent: an agent framework in F# – Part X – ActiveObject</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-12-10-lagent-an-agent-framework-in-f-part-x-activeobject/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-12-10-lagent-an-agent-framework-in-f-part-x-activeobject/</link>
       <pubDate>Thu, 10 Dec 2009 10:09:14 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-12-10-lagent-an-agent-framework-in-f-part-x-activeobject/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-12-10-lagent-an-agent-framework-in-f-part-x-activeobject/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  If you stare long enough at agents, you start to realize that they are just ‘glorified locks’.</description>
@@ -566,19 +566,19 @@ All posts are here:
     
     <item>
       <title>My PDC session is online - “Future directions for C# and Visual Basic”</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-11-23-my-pdc-session-is-online-future-directions-for-c-and-visual-basic/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-11-23-my-pdc-session-is-online-future-directions-for-c-and-visual-basic/</link>
       <pubDate>Mon, 23 Nov 2009 13:17:44 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-11-23-my-pdc-session-is-online-future-directions-for-c-and-visual-basic/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-11-23-my-pdc-session-is-online-future-directions-for-c-and-visual-basic/</guid>
       <description>In case you are training to play the part of a first generation Italian immigrant in a Broadway show or if you want to understand why I never short msft stock: http://microsoftpdc.com/Sessions/FT11</description>
     </item>
     
     <item>
       <title>Luca at PDC 2009 next week</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/</link>
       <pubDate>Fri, 13 Nov 2009 10:49:18 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/</guid>
       <description>I’ll be in Los Angeles next week for PDC 2009. My session is called “Future Directions for C# and Visual Basic” and it comes on Tuesday immediately after the first keynote.
 I’m planning on spending the first half of the session talking about the biggest trends influencing C# and VB. The second part will be about more future looking features we are playing with these days.
 My deck has just two slides, as always.</description>
@@ -586,20 +586,20 @@ My deck has just two slides, as always.</description>
     
     <item>
       <title>Becoming really rich with C#</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-09-22-becoming-really-rich-with-c/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-09-22-becoming-really-rich-with-c/</link>
       <pubDate>Tue, 22 Sep 2009 19:40:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-09-22-becoming-really-rich-with-c/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-09-22-becoming-really-rich-with-c/</guid>
       <description>Or maybe not, please do not hold me responsible if you lose money following this system. Having said that, it is my opinion that there are very few concepts that are important in investing. Three big ones are value, diversification and momentum. This post is about the latter two and how to use C# to create a simple trading system that uses both.
 Diversification is ‘not put all your eggs in one basket’ (contrary to ‘put all of them in one basket and watch that basket’).</description>
     </item>
     
     <item>
       <title>LAgent: an agent framework in F# – Part IX – Counting words …</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-09-18-lagent-an-agent-framework-in-f-part-ix-counting-words/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-09-18-lagent-an-agent-framework-in-f-part-ix-counting-words/</link>
       <pubDate>Fri, 18 Sep 2009 14:43:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-09-18-lagent-an-agent-framework-in-f-part-ix-counting-words/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-09-18-lagent-an-agent-framework-in-f-part-ix-counting-words/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Let’s now use our mapReduce to do something more interesting, for example finding the frequency of words in several books.</description>
@@ -607,10 +607,10 @@ All posts are here:
     
     <item>
       <title>LAgent: an agent framework in F# – Part VIII  - Implementing MapReduce (user model)</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-09-04-lagent-an-agent-framework-in-f-part-viii-implementing-mapreduce-user-model/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-09-04-lagent-an-agent-framework-in-f-part-viii-implementing-mapreduce-user-model/</link>
       <pubDate>Fri, 04 Sep 2009 13:57:48 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-09-04-lagent-an-agent-framework-in-f-part-viii-implementing-mapreduce-user-model/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-09-04-lagent-an-agent-framework-in-f-part-viii-implementing-mapreduce-user-model/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  For this post I use a newer version of the framework that I just uploaded on CodeGallery.</description>
@@ -618,10 +618,10 @@ All posts are here:
     
     <item>
       <title>LAgent: an agent framework in F# – part VII – An auction application</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-07-10-lagent-an-agent-framework-in-f-part-vii-an-auction-application/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-07-10-lagent-an-agent-framework-in-f-part-vii-an-auction-application/</link>
       <pubDate>Fri, 10 Jul 2009 16:14:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-07-10-lagent-an-agent-framework-in-f-part-vii-an-auction-application/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-07-10-lagent-an-agent-framework-in-f-part-vii-an-auction-application/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Here is an application that uses the framework we have been creating.</description>
@@ -629,10 +629,10 @@ All posts are here:
     
     <item>
       <title>LAgent: an agent framework in F# – Part VI – Hot swapping of code (and something silly)</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-07-03-lagent-an-agent-framework-in-f-part-vi-hot-swapping-of-code-and-something-silly/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-07-03-lagent-an-agent-framework-in-f-part-vi-hot-swapping-of-code-and-something-silly/</link>
       <pubDate>Fri, 03 Jul 2009 15:23:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-07-03-lagent-an-agent-framework-in-f-part-vi-hot-swapping-of-code-and-something-silly/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-07-03-lagent-an-agent-framework-in-f-part-vi-hot-swapping-of-code-and-something-silly/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …   Hot swapping of code Let’s get back a couple of steps and consider what happens when you get an error.</description>
@@ -640,10 +640,10 @@ All posts are here:
     
     <item>
       <title>LAgent: an agent framework in F# – Part V – Timeout management</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-06-26-lagent-an-agent-framework-in-f-part-v-timeout-management/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-06-26-lagent-an-agent-framework-in-f-part-v-timeout-management/</link>
       <pubDate>Fri, 26 Jun 2009 14:56:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-06-26-lagent-an-agent-framework-in-f-part-v-timeout-management/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-06-26-lagent-an-agent-framework-in-f-part-v-timeout-management/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Timeout management Timeouts are very important in message based systems.</description>
@@ -651,10 +651,10 @@ All posts are here:
     
     <item>
       <title>LAgent: an agent framework in F# – Part IV – Custom error management</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-06-19-lagent-an-agent-framework-in-f-part-iv-custom-error-management/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-06-19-lagent-an-agent-framework-in-f-part-iv-custom-error-management/</link>
       <pubDate>Fri, 19 Jun 2009 14:36:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-06-19-lagent-an-agent-framework-in-f-part-iv-custom-error-management/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-06-19-lagent-an-agent-framework-in-f-part-iv-custom-error-management/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …   Custom error management In the last part we saw what happens by default in the framework when an error occurs.</description>
@@ -662,10 +662,10 @@ All posts are here:
     
     <item>
       <title>LAgent: an agent framework in F# – Part III – Default error management</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-06-12-lagent-an-agent-framework-in-f-part-iii-default-error-management/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-06-12-lagent-an-agent-framework-in-f-part-iii-default-error-management/</link>
       <pubDate>Fri, 12 Jun 2009 14:07:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-06-12-lagent-an-agent-framework-in-f-part-iii-default-error-management/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-06-12-lagent-an-agent-framework-in-f-part-iii-default-error-management/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Default error management What happens when an error occurs?</description>
@@ -673,10 +673,10 @@ All posts are here:
     
     <item>
       <title>LAgent : an agent framework in F# – Part II – Agents and control messages</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-06-05-lagent-an-agent-framework-in-f-part-ii-agents-and-control-messages/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-06-05-lagent-an-agent-framework-in-f-part-ii-agents-and-control-messages/</link>
       <pubDate>Fri, 05 Jun 2009 14:03:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-06-05-lagent-an-agent-framework-in-f-part-ii-agents-and-control-messages/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-06-05-lagent-an-agent-framework-in-f-part-ii-agents-and-control-messages/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Agents Agents are entities that process messages and keep state between one message and the next.</description>
@@ -684,10 +684,10 @@ All posts are here:
     
     <item>
       <title>LAgent : an agent framework in F# – Part I – Workers and ParallelWorkers</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-05-29-lagent-an-agent-framework-in-f-part-i-workers-and-parallelworkers/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-05-29-lagent-an-agent-framework-in-f-part-i-workers-and-parallelworkers/</link>
       <pubDate>Fri, 29 May 2009 13:26:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-05-29-lagent-an-agent-framework-in-f-part-i-workers-and-parallelworkers/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-05-29-lagent-an-agent-framework-in-f-part-i-workers-and-parallelworkers/</guid>
       <description>Download framework here.
 All posts are here:
  Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Introduction I like to try out different programming paradigms.</description>
@@ -695,37 +695,37 @@ All posts are here:
     
     <item>
       <title>Luke talks about F# on Channel9</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-05-27-luke-talks-about-f-on-channel9/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-05-27-luke-talks-about-f-on-channel9/</link>
       <pubDate>Wed, 27 May 2009 12:47:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-05-27-luke-talks-about-f-on-channel9/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-05-27-luke-talks-about-f-on-channel9/</guid>
       <description>Here you go: https://channel9.msdn.com/posts/Charles/Luke-Hoban-Latest-version-of-F-Released-Whats-the-story-Whats-next/</description>
     </item>
     
     <item>
       <title>A version of the AsyncCache found its way into the Parallel Programming samples …</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/</link>
       <pubDate>Thu, 21 May 2009 13:28:13 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/</guid>
       <description>Go here to download them. It is in ParallelExtensionsExtrasCoordinationDataStructures. It has a slightly different design in that it returns Tasks. I’m trying to get Stephen to blog about it so that you can compare them.</description>
     </item>
     
     <item>
       <title>I talk about C# and VB Co-Evolution on Channel9 (and some F# …)</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/</link>
       <pubDate>Thu, 14 May 2009 13:26:18 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/</guid>
       <description>The title says it all. If you are interested, go here.</description>
     </item>
     
     <item>
       <title>An Async Html cache – part II – Testing the cache</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-05-08-an-async-html-cache-part-ii-testing-the-cache/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-05-08-an-async-html-cache-part-ii-testing-the-cache/</link>
       <pubDate>Fri, 08 May 2009 11:34:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-05-08-an-async-html-cache-part-ii-testing-the-cache/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-05-08-an-async-html-cache-part-ii-testing-the-cache/</guid>
       <description>Other posts:
  Part I – Writing the cache  Let’s try out our little cache. First I want to write a synchronous version of it as a baseline.
 Private Shared Sub TestSync(ByVal sites() As String, ByVal sitesToDownload As Integer, ByVal howLong As Integer) Dim syncCache As New Dictionary(Of String, String) Dim count = sites.Count() Dim url1 = &#34;http://moneycentral.msn.com/investor/invsub/results/statemnt.aspx?Symbol=&#34; For i = 0 To sitesToDownload - 1 Dim html As String = &#34;</description>
@@ -733,20 +733,20 @@ Private Shared Sub TestSync(ByVal sites() As String, ByVal sitesToDownload As In
     
     <item>
       <title>An Async Html cache – Part I - Writing the cache</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-04-27-an-async-html-cache-part-i-writing-the-cache/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-04-27-an-async-html-cache-part-i-writing-the-cache/</link>
       <pubDate>Mon, 27 Apr 2009 19:57:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-04-27-an-async-html-cache-part-i-writing-the-cache/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-04-27-an-async-html-cache-part-i-writing-the-cache/</guid>
       <description>Other posts:
  Part II - Testing the cache  In the process of converting a financial VBA Excel Addin to .NET (more on that in later posts), I found myself in dire need of a HTML cache that can be called from multiple threads without blocking them. Visualize it as a glorified dictionary where each entry is (url, cachedHtml). The only difference is that when you get the page, you pass a callback to be invoked when the html has been loaded (which could be immediately if the html had already been retrieved by someone else).</description>
     </item>
     
     <item>
       <title>Luca at NDC in Oslo 17 – 19 June 2009</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/</link>
       <pubDate>Tue, 24 Mar 2009 12:46:27 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/</guid>
       <description>I’ll be speaking about the future of C# and F#. Oslo brings back so many memories …
  
 “one of the world’s most important conferences for IT developers and leaders”</description>
@@ -754,30 +754,30 @@ Private Shared Sub TestSync(ByVal sites() As String, ByVal sitesToDownload As In
     
     <item>
       <title>Excel Financial functions 2.0 released</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/</link>
       <pubDate>Wed, 25 Feb 2009 14:55:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/</guid>
       <description>I simply fixed a bug related to the Rate function (wrong name for parameters).
 It is here: http://code.msdn.microsoft.com/FinancialFunctions</description>
     </item>
     
     <item>
       <title>Simulating INumeric with dynamic in C# 4.0</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-02-05-simulating-inumeric-with-dynamic-in-c-4-0/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-02-05-simulating-inumeric-with-dynamic-in-c-4-0/</link>
       <pubDate>Thu, 05 Feb 2009 11:47:26 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-02-05-simulating-inumeric-with-dynamic-in-c-4-0/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-02-05-simulating-inumeric-with-dynamic-in-c-4-0/</guid>
       <description>When I wrote my Excel financial library I agonized over the decision of which numeric type to use to represent money. Logic would push me toward decimal, but common usage among financial library writers would push me toward double. I ended up picking double, but I regret having to make that choice in the first place.
 Conceptually, I&amp;rsquo;d like my numeric functions to work for anything that supports the basic arithmetic operators (i.</description>
     </item>
     
     <item>
       <title>New release of Financial Functions .NET uploaded on MSDN Code Gallery</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/</link>
       <pubDate>Tue, 27 Jan 2009 14:18:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/</guid>
       <description>I fixed the bug described in this thread and cleaned up the root finding algorithm. I’m still unhappy about it, but I have no time to code a better one right now (i.e. Ridder, Brent). I also added changes.txt and todo.txt to keep track of things.
 Changes.txt
 V1
@@ -787,10 +787,10 @@ V1
     
     <item>
       <title>Bayesian inference in F# – Part IIb – Finding Maia underlying attitude</title>
-      <link>http://peaceiris.com/MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/</link>
       <pubDate>Mon, 19 Jan 2009 11:48:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/</guid>
       <description>Other parts:
  Part I – Background Part II – A simple example – modeling Maia  The previous post ended on this note.
 let MaiaJointProb attitude action = match attitude with | Happy -&amp;gt; happyActions |&amp;gt; List.assoc action | UnHappy -&amp;gt; unHappyActions |&amp;gt; List.assoc action | Quiet -&amp;gt; quietActions |&amp;gt; List.assoc action This is just a two by two matrix. It simply represents which probability is associated to an (attitude, action) tuple.</description>
@@ -798,10 +798,10 @@ let MaiaJointProb attitude action = match attitude with | Happy -&amp;gt; happyA
     
     <item>
       <title>Financial Functions for .NET released !</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</link>
       <pubDate>Thu, 04 Dec 2008 16:40:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</guid>
       <description>Today I released the following library on CodeGallery. It is the result of three months of coding during my paternity leave in Italy. You can get it from here.
 What is it?
 This is a .NET library that provides the full set of financial functions from Excel. The main goal for the library is compatibility with Excel, by providing the same functions, with the same behaviour. Note though that this is not a wrapper over the Excel library; the functions have been re-implemented in managed code so that you do not need to have Excel installed to use this library.</description>
@@ -809,20 +809,20 @@ This is a .NET library that provides the full set of financial functions from Ex
     
     <item>
       <title>Bayesian inference in F# - Part IIa - A simple example - modeling Maia</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/</link>
       <pubDate>Wed, 26 Nov 2008 15:41:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/</guid>
       <description>Other parts:
  Part I - Background Part IIb - Finding Maia underlying attitude   Let&amp;rsquo;s start with a simple example: inferring the underlying attitude of a small baby by observing her actions. Let&amp;rsquo;s call this particular small baby Maia. People always asks her father if she is a ‘good&amp;rsquo; baby or not. Her father started to wonder how he can possibly know that. Being ‘good&amp;rsquo; is not very clear, so he chooses to answer the related question if her attitude is generally happy, unhappy or simply quiet (a kind of middle ground).</description>
     </item>
     
     <item>
       <title>Expression tree serialization code posted on Code Gallery</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-11-20-expression-tree-serialization-code-posted-on-code-gallery/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-11-20-expression-tree-serialization-code-posted-on-code-gallery/</link>
       <pubDate>Thu, 20 Nov 2008 15:39:20 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-11-20-expression-tree-serialization-code-posted-on-code-gallery/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-11-20-expression-tree-serialization-code-posted-on-code-gallery/</guid>
       <description>Luke and I worked on this last year for one week doing pair programming. It is a good sample of how you can serialize LINQ expression trees to xml.
 The sample includes these components:
  An Expression Tree serialization API: A general purpose XML serialization of Expression Trees. This should work over any expression tree - though there are inevitably bugs. The serialization format is fairly crude, but has been expressive enough to support the variety of expression trees I&amp;rsquo;ve tried throwing at it.</description>
@@ -830,10 +830,10 @@ The sample includes these components:
     
     <item>
       <title>Bayesian inference in F#  - Part I - Background</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/</link>
       <pubDate>Fri, 07 Nov 2008 11:48:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/</guid>
       <description>Other posts:
    Part IIa - A simple example - modeling Maia     Part IIb - Finding Maia underlying attitude    My interest in Bayesian inference comes from my dissatisfaction with ‘classical&amp;rsquo; statistics. Whenever I want to know something, for example the probability that an unknown parameter is between two values, ‘classical&amp;rsquo; statistics seems to answer a different and more convoluted question.
 Try asking someone what the 95% confidence interval for X is (x1, x2) means.</description>
@@ -841,20 +841,20 @@ Try asking someone what the 95% confidence interval for X is (x1, x2) means.</de
     
     <item>
       <title>My F# PDC presentation is online (&#43; ppt and demo application)</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-11-03-my-f-pdc-presentation-is-online-ppt-and-demo-application/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-11-03-my-f-pdc-presentation-is-online-ppt-and-demo-application/</link>
       <pubDate>Mon, 03 Nov 2008 11:33:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-11-03-my-f-pdc-presentation-is-online-ppt-and-demo-application/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-11-03-my-f-pdc-presentation-is-online-ppt-and-demo-application/</guid>
       <description>You can watch it here. Also I attached the demo application I built on stage.
 fsharpdemoPDCPrez.zip</description>
     </item>
     
     <item>
       <title>Luca presenting F# at PDC 2008</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/</link>
       <pubDate>Fri, 24 Oct 2008 12:21:14 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/</guid>
       <description>Next Thursday at 1.45pm I will present &amp;ldquo;An introduction to Microsoft F#&amp;quot; at PDC 2008. If you are there, please stop by or drop by the lounge area to chat.
 There are a bunch of other great sessions from my team. They are all good (I swear I tried to format John&amp;rsquo;s session correctly, but failed).
   TL16: The Future of C#    Speaker: Anders Hejlsberg    Mon 10/27 | 1:45 PM-3:00 PM | Petree Hall CD    Repeated: Wed 10/29 | 3:00 PM-4:15 PM | 502A    TL10: Deep Dive: Dynamic Languages in .</description>
@@ -862,10 +862,10 @@ There are a bunch of other great sessions from my team. They are all good (I swe
     
     <item>
       <title>Downloading stock prices in F# - Part VI - Code posted</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/</link>
       <pubDate>Mon, 20 Oct 2008 18:45:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/</guid>
       <description>Other parts:
  Part I - Data modeling Part II - Html scraping Part III - Async loader for prices and divs Part IV - Async loader for splits Part V - Adjusting historical data  An unnamed friend told me that I should stop posting small snippets of code and instead post entire solutions on CodeGallery. I did it for this one and here is the link.
 Here is what&amp;rsquo;s in the zip file:</description>
@@ -873,60 +873,60 @@ Here is what&amp;rsquo;s in the zip file:</description>
     
     <item>
       <title>Downloading stock prices in F# - Part V - Adjusting historical data</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-09-26-downloading-stock-prices-in-f-part-v-adjusting-historical-data/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-09-26-downloading-stock-prices-in-f-part-v-adjusting-historical-data/</link>
       <pubDate>Fri, 26 Sep 2008 16:04:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-09-26-downloading-stock-prices-in-f-part-v-adjusting-historical-data/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-09-26-downloading-stock-prices-in-f-part-v-adjusting-historical-data/</guid>
       <description>Other parts:
  Part I - Data modeling Part II - Html scraping Part III - Async loader for prices and divs Part IV - Async loader for splits Part VI - Code posted   Here is the problem. When you download prices/divs/splits from Yahoo you get a strange mix of historical numbers and adjusted numbers. To be more precise, the dividends are historically adjusted. The prices are not adjusted, but there is one last column in the data for Adjusted close.</description>
     </item>
     
     <item>
       <title>Downloading stock prices in F# - Part IV - Async loader for splits</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/</link>
       <pubDate>Fri, 19 Sep 2008 17:59:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/</guid>
       <description>Other parts:
  Part I - Data modeling Part II - Html scraping Part III - Async loader for prices and divs Part V - Adjusting historical data Part VI - Code posted  Downloading splits is a messy affair. The problem is that Yahoo doesn&amp;rsquo;t give you a nice comma-delimitated stream to work with. You have to parse the Html yourself (and it can be on multiple pages). At the end of the post, the overall result is kind of neat, but to get there we need a lot of busywork.</description>
     </item>
     
     <item>
       <title>Downloading stock prices in F# - Part III - Async loader for prices and divs</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-09-12-downloading-stock-prices-in-f-part-iii-async-loader-for-prices-and-divs/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-09-12-downloading-stock-prices-in-f-part-iii-async-loader-for-prices-and-divs/</link>
       <pubDate>Fri, 12 Sep 2008 16:18:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-09-12-downloading-stock-prices-in-f-part-iii-async-loader-for-prices-and-divs/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-09-12-downloading-stock-prices-in-f-part-iii-async-loader-for-prices-and-divs/</guid>
       <description>Other parts:
  Part I - Data modeling Part II - Html scraping Part IV - Async loader for splits Part V - Adjusting historical data Part VI - Code posted  It is now time to load our data. There is a bit of uninteresting code to start with, but things get interesting afterward. Let&amp;rsquo;s start with functions that create the right URLs to download prices and dividends. We&amp;rsquo;ll talk about splits in the next installment.</description>
     </item>
     
     <item>
       <title>Downloading stock prices in F# - Part II - Html scraping</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-09-05-downloading-stock-prices-in-f-part-ii-html-scraping/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-09-05-downloading-stock-prices-in-f-part-ii-html-scraping/</link>
       <pubDate>Fri, 05 Sep 2008 14:41:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-09-05-downloading-stock-prices-in-f-part-ii-html-scraping/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-09-05-downloading-stock-prices-in-f-part-ii-html-scraping/</guid>
       <description>Other parts:
  Part I - Data modeling Part III - Async loader for prices and divs Part IV - Async loader for splits Part V - Adjusting historical data Part VI - Code posted  Getting stock prices and dividends is relatively easy given that, on Yahoo, you can get the info as a CVS file. Getting the splits info is harder. You would think that Yahoo would put that info in the dividends CVS as it does when it displays it on screen, but it doesn&amp;rsquo;t.</description>
     </item>
     
     <item>
       <title>Downloading stock prices in F# - Part I - Data modeling</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-08-29-downloading-stock-prices-in-f-part-i-data-modeling/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-08-29-downloading-stock-prices-in-f-part-i-data-modeling/</link>
       <pubDate>Fri, 29 Aug 2008 19:13:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-08-29-downloading-stock-prices-in-f-part-i-data-modeling/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-08-29-downloading-stock-prices-in-f-part-i-data-modeling/</guid>
       <description>Other parts:
  Part II - Html scraping Part III - Async loader for prices and divs Part IV - Async loader for splits Part V - Adjusting historical data Part VI - Code posted  Today we shipped the September CTP of F# !!!! Evviva !! Read this blog post about it. To celebrate I decided to share one of my several F# project. It might make for a good sample; sort of a crash course on F#.</description>
     </item>
     
     <item>
       <title>A C# library to write functional code - Part V - The Match operator</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-07-15-a-c-library-to-write-functional-code-part-v-the-match-operator/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-07-15-a-c-library-to-write-functional-code-part-v-the-match-operator/</link>
       <pubDate>Tue, 15 Jul 2008 05:46:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-07-15-a-c-library-to-write-functional-code-part-v-the-match-operator/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-07-15-a-c-library-to-write-functional-code-part-v-the-match-operator/</guid>
       <description>Other posts in the series:
   Part I - Background
   Part II - Tuples
@@ -935,10 +935,10 @@ Here is what&amp;rsquo;s in the zip file:</description>
     
     <item>
       <title>A C# library to write functional code - Part IV - Type Unions</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-06-06-a-c-library-to-write-functional-code-part-iv-type-unions/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-06-06-a-c-library-to-write-functional-code-part-iv-type-unions/</link>
       <pubDate>Fri, 06 Jun 2008 04:45:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-06-06-a-c-library-to-write-functional-code-part-iv-type-unions/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-06-06-a-c-library-to-write-functional-code-part-iv-type-unions/</guid>
       <description>Other posts in the series:
  Part I - Background   Part II - Tuples
  Part III - Records Part IV - Type Unions{.} Part V - The Match operator{.} I&amp;rsquo;m sorry for my prolonged absence in the middle of this series of posts. I&amp;rsquo;m on a long paternity leave in Italy (playing beach volley every day). It&amp;rsquo;s hard to have the discipline  A bunch of you wrote telling me to finish this.</description>
@@ -946,10 +946,10 @@ Here is what&amp;rsquo;s in the zip file:</description>
     
     <item>
       <title>A C# library to write functional code - Part III - Records</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-04-21-a-c-library-to-write-functional-code-part-iii-records/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-04-21-a-c-library-to-write-functional-code-part-iii-records/</link>
       <pubDate>Mon, 21 Apr 2008 13:34:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-04-21-a-c-library-to-write-functional-code-part-iii-records/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-04-21-a-c-library-to-write-functional-code-part-iii-records/</guid>
       <description>Other posts in the series:
   Part I - Background
   Part II - Tuples
@@ -958,10 +958,10 @@ Here is what&amp;rsquo;s in the zip file:</description>
     
     <item>
       <title>A C# library to write functional code - Part II - Tuples</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-04-08-a-c-library-to-write-functional-code-part-ii-tuples/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-04-08-a-c-library-to-write-functional-code-part-ii-tuples/</link>
       <pubDate>Tue, 08 Apr 2008 16:51:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-04-08-a-c-library-to-write-functional-code-part-ii-tuples/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-04-08-a-c-library-to-write-functional-code-part-ii-tuples/</guid>
       <description>Other posts in the series:
  Part I - Background   Part II - Tuples
  Part III - Records Part IV - Type Unions{.} Part V - The Match operator{.} Tuples are a way for you not to name things. In Object Oriented languages you got to name everything. If you need to represent a bunch of data, you create a class for it.  There is a strange asymmetry in mainstream OO languages in that you can pass multiple parameters to a function, but you can return just one value.</description>
@@ -969,10 +969,10 @@ Here is what&amp;rsquo;s in the zip file:</description>
     
     <item>
       <title>A C# library to write functional code - Part I - Background</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-04-01-a-c-library-to-write-functional-code-part-i-background/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-04-01-a-c-library-to-write-functional-code-part-i-background/</link>
       <pubDate>Tue, 01 Apr 2008 13:36:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-04-01-a-c-library-to-write-functional-code-part-i-background/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-04-01-a-c-library-to-write-functional-code-part-i-background/</guid>
       <description>Other posts in the series:
  Part I - Background   Part II - Tuples
  Part III - Records Part IV - Type Unions{.} Part V - The Match operator{.} In December (slow time in msft) I decided to understand what functional programming is all about. When I say ‘understanding&amp;rsquo; I don&amp;rsquo;t mean just paying lip service to the main concepts by knowingly mentioning them in casual conversations (i.</description>
@@ -980,20 +980,20 @@ Here is what&amp;rsquo;s in the zip file:</description>
     
     <item>
       <title>LINQ to SQL Overview - video</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-03-03-linq-to-sql-overview-video/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-03-03-linq-to-sql-overview-video/</link>
       <pubDate>Mon, 03 Mar 2008 16:51:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-03-03-linq-to-sql-overview-video/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-03-03-linq-to-sql-overview-video/</guid>
       <description>This is my presentation from TechEd Barcelona: The link has been fixed. It should work now. Let me know if it doesn&amp;rsquo;t. http://www.microsoft.com/emea/msdn/spotlight/sessionh.aspx?videoid=716. The European locale brings out my Italian accent
  On this page there are a bunch of interesting presentations (i.e. Anders on LINQ): http://www.microsoft.com/emea/msdn/spotlight/default.aspx</description>
     </item>
     
     <item>
       <title>Creating an immutable value object in C# - Part V - Using a library</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-01-11-creating-an-immutable-value-object-in-c-part-v-using-a-library/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-01-11-creating-an-immutable-value-object-in-c-part-v-using-a-library/</link>
       <pubDate>Fri, 11 Jan 2008 13:36:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-01-11-creating-an-immutable-value-object-in-c-part-v-using-a-library/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-01-11-creating-an-immutable-value-object-in-c-part-v-using-a-library/</guid>
       <description>Other posts:
   Part I - Using a class
   Part II - Making the class better
@@ -1002,20 +1002,20 @@ Here is what&amp;rsquo;s in the zip file:</description>
     
     <item>
       <title>Book review: The Halo Effect</title>
-      <link>http://peaceiris.com/MyBlog/posts/2008-01-07-book-review-the-halo-effect/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2008-01-07-book-review-the-halo-effect/</link>
       <pubDate>Mon, 07 Jan 2008 14:04:22 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2008-01-07-book-review-the-halo-effect/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2008-01-07-book-review-the-halo-effect/</guid>
       <description>When I read Built to Last, In search of excellent and Good to great I immediately thought: What a bunch of BS!!. But again, I think that about most business books.
 The content of these books seemed particularly ludicrous to me. I found both logical inconsistencies and methodological flaws in their process. For example, picking successful companies after the fact is analogous to picking the winners of a lottery and claim that they have exceptional skills.</description>
     </item>
     
     <item>
       <title>Creating an immutable value object in C# - Part IV - A class with a special value</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-12-28-creating-an-immutable-value-object-in-c-part-iv-a-class-with-a-special-value/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-12-28-creating-an-immutable-value-object-in-c-part-iv-a-class-with-a-special-value/</link>
       <pubDate>Fri, 28 Dec 2007 18:45:32 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-12-28-creating-an-immutable-value-object-in-c-part-iv-a-class-with-a-special-value/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-12-28-creating-an-immutable-value-object-in-c-part-iv-a-class-with-a-special-value/</guid>
       <description>Other posts:
   Part I - Using a class
  Part II - Making the class better Part III - Using a struct In the last post we looked at structs as ways to implement immutable value objects and we discovered that they have several issues.  A good thing about the struct implementation was the introduction of an explicit ‘special value&amp;rsquo; instead of ‘null&amp;rsquo;. I personally like doing that because it forces me to think about what are the special values in my domain instead of blindly rely on null and its semantics.</description>
@@ -1023,10 +1023,10 @@ The content of these books seemed particularly ludicrous to me. I found both log
     
     <item>
       <title>Creating an immutable value object in C#  - Part III  - Using a struct</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-12-24-creating-an-immutable-value-object-in-c-part-iii-using-a-struct/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-12-24-creating-an-immutable-value-object-in-c-part-iii-using-a-struct/</link>
       <pubDate>Mon, 24 Dec 2007 17:39:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-12-24-creating-an-immutable-value-object-in-c-part-iii-using-a-struct/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-12-24-creating-an-immutable-value-object-in-c-part-iii-using-a-struct/</guid>
       <description>Other posts:
   Part I - Using a class
  Part II - Making the class better Part IV - A class with a special value{.} In Part II I talked about the asymmetry created by using ‘null&amp;rsquo; as the special value for our little DateSpan domain. We also noticed the boredom of having to implement Equals, GetHashCode, ‘==&amp;rsquo; and ‘!=&amp;rsquo; for our value objects. Let&amp;rsquo;s see if structs solve our problem.</description>
@@ -1034,10 +1034,10 @@ The content of these books seemed particularly ludicrous to me. I found both log
     
     <item>
       <title>Bisection-based XIRR implementation in C#</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-12-17-bisection-based-xirr-implementation-in-c/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-12-17-bisection-based-xirr-implementation-in-c/</link>
       <pubDate>Mon, 17 Dec 2007 18:17:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-12-17-bisection-based-xirr-implementation-in-c/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-12-17-bisection-based-xirr-implementation-in-c/</guid>
       <description>Here is a quick implementation of XIRR (using Excel nomenclature) written in C#.
 Disclaimer: this is a super simple Bisection-based implementation. People tend to prefer the Newton method, but this is simpler and works for the app I&amp;rsquo;m writing. I decided to post it because I couldn&amp;rsquo;t find one on the net when I looked for it. I attached testcases to show the extent of my testing.
 It is called CalculateXIRR and it is invoked by passing a list of cash flows, a tolerance and a max number of iterations.</description>
@@ -1045,10 +1045,10 @@ It is called CalculateXIRR and it is invoked by passing a list of cash flows, a 
     
     <item>
       <title>Creating an immutable value object in C#  - Part II  - Making the class better</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-12-06-creating-an-immutable-value-object-in-c-part-ii-making-the-class-better/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-12-06-creating-an-immutable-value-object-in-c-part-ii-making-the-class-better/</link>
       <pubDate>Thu, 06 Dec 2007 12:34:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-12-06-creating-an-immutable-value-object-in-c-part-ii-making-the-class-better/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-12-06-creating-an-immutable-value-object-in-c-part-ii-making-the-class-better/</guid>
       <description>Other posts:
  Part I - Using a class Part III - Using a struct{.} Part IV - A class with a special value{.}  In the previous post I showed how to trivially implement a value object. The code works but it has several issues. Some are very simple, others are more interesting.
 Let&amp;rsquo;s take a look at them:
@@ -1057,80 +1057,80 @@ Let&amp;rsquo;s take a look at them:
     
     <item>
       <title>Creating an immutable value object in C#  - Part I  - Using a class</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-12-03-creating-an-immutable-value-object-in-c-part-i-using-a-class/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-12-03-creating-an-immutable-value-object-in-c-part-i-using-a-class/</link>
       <pubDate>Mon, 03 Dec 2007 13:22:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-12-03-creating-an-immutable-value-object-in-c-part-i-using-a-class/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-12-03-creating-an-immutable-value-object-in-c-part-i-using-a-class/</guid>
       <description>Other posts:
  Part II - Making the class better{.} Part III - Using a struct{.} Part IV - A class with a special value{.}  Value objects are objects for which the identity is based on their state instead of their pointer in memory. For example, a numeric Complex class is, most of the time, a value object because you can treat two instances as the same if their state (real and img fields in this case) is the same.</description>
     </item>
     
     <item>
       <title>Brief review of Total Workday Control</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-11-20-brief-review-of-quottotal-workday-controlquot/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-11-20-brief-review-of-quottotal-workday-controlquot/</link>
       <pubDate>Tue, 20 Nov 2007 11:56:46 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-11-20-brief-review-of-quottotal-workday-controlquot/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-11-20-brief-review-of-quottotal-workday-controlquot/</guid>
       <description>We get plenty of emails in Microsoft. Without a system to manage them you are dead. Or better, your mind plays strange tricks on you making you think that you still have work to do. You need to convince your mind that you are done for the day and to stop bugging you, please.
 Almost everyone has a system. Some are better than others. My current system is Getting things done and it does achieve its goal of freeing my mind (mostly) without imposing too much overhead.</description>
     </item>
     
     <item>
       <title>Instead of a simple switch statement</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-08-31-instead-of-a-simple-switch-statement/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-08-31-instead-of-a-simple-switch-statement/</link>
       <pubDate>Fri, 31 Aug 2007 16:54:15 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-08-31-instead-of-a-simple-switch-statement/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-08-31-instead-of-a-simple-switch-statement/</guid>
       <description>This is Luke‘s kind of code. I might be catching the virus
 abstract class QIFParserBase { public enum LoadOptions { All, Prices, Securities, Transactions } static readonly Dictionary&amp;lt;LoadOptions, Action&amp;lt;QIFParserBase, string[]&amp;gt;&amp;gt; parseFuncs = new Dictionary&amp;lt;LoadOptions, Action&amp;lt;QIFParserBase, string[]&amp;gt;&amp;gt; { {LoadOptions.All, (q,c) =&amp;gt; q.ParseAll(c)}, {LoadOptions.Prices, (q,c) =&amp;gt; q.ParsePricesBlocks(c)}, {LoadOptions.Securities, (q,c) =&amp;gt; q.ParseSecurityBlocks(c)}, {LoadOptions.Transactions, (q,c) =&amp;gt; q.ParseTransactionBlocks(c)} }; public QIFParserBase(string fileName, LoadOptions opt) { string content = File.ReadAllText(fileName); string[] blocks = content.Split(new string[] { &#34;</description>
     </item>
     
     <item>
       <title>Parsing QIF Quicken files in C#</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-08-31-parsing-qif-quicken-files-in-c/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-08-31-parsing-qif-quicken-files-in-c/</link>
       <pubDate>Fri, 31 Aug 2007 16:43:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-08-31-parsing-qif-quicken-files-in-c/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-08-31-parsing-qif-quicken-files-in-c/</guid>
       <description>I&amp;rsquo;m slightly prouder of the structure of this code than the one in the previous blog post. You can simply inherit from QIFParserBase and override a couple of abstract methods to customize the behavior. Still, I just tested it on a couple of test QIF files. It is not production quality at all.
 Notice that I don&amp;rsquo;t even have Quicken. I&amp;rsquo;m producing these test file with FundManager, which I use for my investments.</description>
     </item>
     
     <item>
       <title>Retrieve prices, dividends and splits for a stock in C#</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-08-30-retrieve-prices-dividends-and-splits-for-a-stock-in-c/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-08-30-retrieve-prices-dividends-and-splits-for-a-stock-in-c/</link>
       <pubDate>Thu, 30 Aug 2007 16:25:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-08-30-retrieve-prices-dividends-and-splits-for-a-stock-in-c/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-08-30-retrieve-prices-dividends-and-splits-for-a-stock-in-c/</guid>
       <description>I wrote this code very quickly and I&amp;rsquo;m kind of ashamed of it, but it gets the job done (I think). You need the HTML Agility Pack for the stock splits retrieving code. You can download it from here{.} or you can simply comment out the code. I wrote it against Visual Studio 2008 beta 2{.}, but it should be trivial to port it to previous versions.
 You run it from a command window like this: priceretriever msft 1/1/1990 2/3/2003.</description>
     </item>
     
     <item>
       <title>Lucabol and Kiraly</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-08-13-lucabol-and-kiraly/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-08-13-lucabol-and-kiraly/</link>
       <pubDate>Mon, 13 Aug 2007 20:42:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-08-13-lucabol-and-kiraly/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-08-13-lucabol-and-kiraly/</guid>
       <description>My wife took this in Manhattan Beach this week end. Karch is the one on the right.
 BeachVolley 123.JPG</description>
     </item>
     
     <item>
       <title>Video of Matt and I talking about the LINQ to SQL query/update pipeline</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-08-13-here-is-a-seminot-funny-video-of-matt-and-i-talking-about-the-linq-to-sql-queryupdate-pipeline/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-08-13-here-is-a-seminot-funny-video-of-matt-and-i-talking-about-the-linq-to-sql-queryupdate-pipeline/</link>
       <pubDate>Mon, 13 Aug 2007 12:56:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-08-13-here-is-a-seminot-funny-video-of-matt-and-i-talking-about-the-linq-to-sql-queryupdate-pipeline/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-08-13-here-is-a-seminot-funny-video-of-matt-and-i-talking-about-the-linq-to-sql-queryupdate-pipeline/</guid>
       <description>And a bit of history of O/R in Microsoft at the end: http://blogs.msdn.com/charlie/archive/2007/08/06/linq-to-sql-pipeline-video-with-luca-bolognese-and-matt-warren.aspx
  </description>
     </item>
     
     <item>
       <title>Interesting 10 years retrospective on The cathedral and the Bazaar</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-07-05-interesting-10-years-retrospective-on-the-cathedral-and-the-bazaar/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-07-05-interesting-10-years-retrospective-on-the-cathedral-and-the-bazaar/</link>
       <pubDate>Thu, 05 Jul 2007 12:12:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-07-05-interesting-10-years-retrospective-on-the-cathedral-and-the-bazaar/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-07-05-interesting-10-years-retrospective-on-the-cathedral-and-the-bazaar/</guid>
       <description>Interesting read on what open source has been good for, on the difference between Linux and Wikipedia and on how to best harness the power of crowds.
 Also a highly positively reviewed new book that formalizes in almost mathematical fashion what diversity is good for (I haven’t read it yet). The classical work on the matter is “The Wisdom of crowds”.
 Excerpt from the initial article: “Raymond was clear on that point when, toward the end of his paper, he examined some of the “necessary preconditions” for the bazaar model of production.</description>
@@ -1138,10 +1138,10 @@ Excerpt from the initial article: “Raymond was clear on that point when, towar
     
     <item>
       <title>My TechEd webcast is here</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-06-19-my-teched-webcast-is-here/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-06-19-my-teched-webcast-is-here/</link>
       <pubDate>Tue, 19 Jun 2007 10:32:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-06-19-my-teched-webcast-is-here/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-06-19-my-teched-webcast-is-here/</guid>
       <description>In case you want to know more about LINQ: http://www.virtualteched.com/Pages/OnlineSessions/OnlineWebcastsDevTools.aspx
 CTRL+F for ‘(LINQ)&amp;rsquo;
 An introduction to the talk is here: http://www.virtualteched.com/videos/luca%20bolognese%20sml.asx
@@ -1150,76 +1150,76 @@ An introduction to the talk is here: http://www.virtualteched.com/videos/luca%20
     
     <item>
       <title>ObjectSpaces early days</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-06-07-objectspaces-early-days/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-06-07-objectspaces-early-days/</link>
       <pubDate>Thu, 07 Jun 2007 10:40:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-06-07-objectspaces-early-days/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-06-07-objectspaces-early-days/</guid>
       <description>Matt has a very good poston the history of object relational framework inside Microsoft. He and I started the whole ObjectSpaces thing together very many years ago (about six and a half). I thought I should add my two cents.  &amp;nbsp; You might be wondering how a project starts inside Microsoft (or you might not). In this case, I was hired in the ADO.NET team to build an object relational framework.</description>
     </item>
     
     <item>
       <title>My LINQ Overview session at TechEd will be live on the Internet</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-06-04-my-linq-overview-session-at-teched-will-be-live-on-the-internet/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-06-04-my-linq-overview-session-at-teched-will-be-live-on-the-internet/</link>
       <pubDate>Mon, 04 Jun 2007 12:45:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-06-04-my-linq-overview-session-at-teched-will-be-live-on-the-internet/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-06-04-my-linq-overview-session-at-teched-will-be-live-on-the-internet/</guid>
       <description>at least they told me so. It is at 8.30am Eastern time. I don&amp;rsquo;t know the exact link, but it will be somewhere here: http://www.microsoft.com/events/teched2007/default.mspx.</description>
     </item>
     
     <item>
       <title>Y combinators anyone?</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-05-11-y-combinators-anyone/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-05-11-y-combinators-anyone/</link>
       <pubDate>Fri, 11 May 2007 19:16:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-05-11-y-combinators-anyone/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-05-11-y-combinators-anyone/</guid>
       <description>From Mads, our proud C# language PM: http://blogs.msdn.com/madst/archive/2007/05/11/recursive-lambda-expressions.aspx.</description>
     </item>
     
     <item>
       <title>Huntington Beach and Kiraly</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-05-05-huntington-beach-and-kiraly/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-05-05-huntington-beach-and-kiraly/</link>
       <pubDate>Sat, 05 May 2007 22:24:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-05-05-huntington-beach-and-kiraly/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-05-05-huntington-beach-and-kiraly/</guid>
       <description>Today I&amp;rsquo;m watching the AVP tour, especially (as always) Karch{.}. This year is his last and I&amp;rsquo;m trying to go and see him as much as I can. Karch is an idol for my generation of beach volley players. Well, it is an idol for all generations really
 He loses one, he wins one. The day is about to end but he still has to play against Lambo. The sun is going down, it is the last match of the day.</description>
     </item>
     
     <item>
       <title>Luke started to blog again</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-04-27-luke-started-to-blog-again/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-04-27-luke-started-to-blog-again/</link>
       <pubDate>Fri, 27 Apr 2007 12:39:37 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-04-27-luke-started-to-blog-again/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-04-27-luke-started-to-blog-again/</guid>
       <description>After a long hiatus, Luke goes at it again. Luke is our compiler PM and one of the most original coders I&amp;rsquo;ve seen.
 It always makes for a great read: http://blogs.msdn.com/lukeh/default.aspx</description>
     </item>
     
     <item>
       <title>A financial education (my ideas)</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-04-20-a-financial-education-my-ideas/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-04-20-a-financial-education-my-ideas/</link>
       <pubDate>Fri, 20 Apr 2007 14:55:39 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-04-20-a-financial-education-my-ideas/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-04-20-a-financial-education-my-ideas/</guid>
       <description>When I came to US, I wanted to get an introduction on personal finance. I needed to know what to insure, when, how to buy an house and all this sort of basic things. At the time I read Personal Finance for Dummies. I then discovered that very many US folks don’t know about these things either and I found myself recommending this simple book to plenty of people. You can find it for a few bucks in used book-stores.</description>
     </item>
     
     <item>
       <title>Which type should I use in C# to represent numbers?</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-02-27-which-type-should-i-use-in-c-to-represent-numbers/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-02-27-which-type-should-i-use-in-c-to-represent-numbers/</link>
       <pubDate>Tue, 27 Feb 2007 18:09:57 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-02-27-which-type-should-i-use-in-c-to-represent-numbers/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-02-27-which-type-should-i-use-in-c-to-represent-numbers/</guid>
       <description>Yesterday I found an old email in my mail box that I thought might be generally interesting.
 I was asking the technical lead on the C# compiler which algorithm/shortcut people should use to choose their ‘number types&amp;rsquo; among the many available in the language. I was asking for something that works the majority of times, even if not always. I&amp;rsquo;m sure there are other scenarios we haven&amp;rsquo;t consider. Anyhow, here is his algorithm.</description>
     </item>
     
     <item>
       <title>A good Emerging Market fund</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-02-02-a-good-emerging-market-fund/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-02-02-a-good-emerging-market-fund/</link>
       <pubDate>Fri, 02 Feb 2007 13:26:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-02-02-a-good-emerging-market-fund/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-02-02-a-good-emerging-market-fund/</guid>
       <description>If you are looking for a good fund for this corner of your portfolio, you might want to consider Eaton Vance Structured Emerging Mkt (EAEMX). There is also a much cheaper version (EITEX), but it is open just to folks with a financial advisor.
 It is a mechanical fund. Here is how their strategy works (as far as I understand it):
  They divide EM market countries in 4 categories, they assign a weight to each category (I.</description>
@@ -1227,10 +1227,10 @@ It is a mechanical fund. Here is how their strategy works (as far as I understa
     
     <item>
       <title>Apparently simple code</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-02-01-apparently-simple-code/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-02-01-apparently-simple-code/</link>
       <pubDate>Thu, 01 Feb 2007 14:54:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-02-01-apparently-simple-code/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-02-01-apparently-simple-code/</guid>
       <description>Sometimes what looks simple is complex and what looks complex is simple. See if you can understand how this one calculates all the possible ways to give change for a certain amount of money given some kinds of coins. You MIT guys out there don&amp;rsquo;t count, you probably have read the solution in the same book I have.
 BTW: the code works with the LINQ May CTP &amp;hellip;
 using System; using System.</description>
@@ -1238,10 +1238,10 @@ using System; using System.</description>
     
     <item>
       <title>Is this functional code? Dr.T. Reply.</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-01-31-is-this-functional-code-dr-t-reply/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-01-31-is-this-functional-code-dr-t-reply/</link>
       <pubDate>Wed, 31 Jan 2007 12:34:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-01-31-is-this-functional-code-dr-t-reply/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-01-31-is-this-functional-code-dr-t-reply/</guid>
       <description>This would be a functional approach:
 CountWithPrevious : [‘a] =&amp;gt; (a =&amp;gt; a =&amp;gt; bool) =&amp;gt; int // type of the function CountWithPrevious [] _ = 0 CountWithPrevious [_] _ = 0 CountWithPrevious [prev, val | tail] pred = CountWithPrevious [val | tail] + (pred val prev ? 1 : 0) Some observations:
 _” is used as wildcard argument – matches any value that you don’t need a name for. [ x,y,z | t ] are pattern matching over lists – here x,y and z get bound to the first elements and t is the rest of the list.</description>
@@ -1249,30 +1249,30 @@ _” is used as wildcard argument – matches any value that you don’t need a 
     
     <item>
       <title>Is this functional code?</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-01-26-is-this-functional-code/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-01-26-is-this-functional-code/</link>
       <pubDate>Fri, 26 Jan 2007 12:54:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-01-26-is-this-functional-code/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-01-26-is-this-functional-code/</guid>
       <description>I&amp;rsquo;m an Object Oriented (OO) kind of guy, maybe a bigot. I have read a very large number of OO books and I&amp;rsquo;ve written a fair amount of OO code in my 10+ years in this industry. I&amp;rsquo;m afraid my mind is wired for OO at this point, for good or bad.
 Recently, I&amp;rsquo;ve been getting interested in functional languages. The most functional guys around here are Wes and Luke, while Dr.</description>
     </item>
     
     <item>
       <title>A trading/portfolio management Excel Add-in based on the books by Ralph Vince</title>
-      <link>http://peaceiris.com/MyBlog/posts/2007-01-04-a-tradingportfolio-management-excel-add-in-based-on-the-books-by-ralph-vince/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2007-01-04-a-tradingportfolio-management-excel-add-in-based-on-the-books-by-ralph-vince/</link>
       <pubDate>Thu, 04 Jan 2007 17:53:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2007-01-04-a-tradingportfolio-management-excel-add-in-based-on-the-books-by-ralph-vince/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2007-01-04-a-tradingportfolio-management-excel-add-in-based-on-the-books-by-ralph-vince/</guid>
       <description>I like to write code and I still manage to do it even now that it is not my primary job. I never post the things that I write because I don&amp;rsquo;t want to maintain them. Lately Charlie convinced me that I don&amp;rsquo;t have to do that. I can just throw the code out, without much preparation or implicit contract of perpetual maintenance.
 This one is an Excel add-in that adds functions to Excel to analyze your trading and manage your portfolio.</description>
     </item>
     
     <item>
       <title>Our sessions at the PDC</title>
-      <link>http://peaceiris.com/MyBlog/posts/2005-07-14-our-sessions-at-the-pdc/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2005-07-14-our-sessions-at-the-pdc/</link>
       <pubDate>Thu, 14 Jul 2005 12:03:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2005-07-14-our-sessions-at-the-pdc/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2005-07-14-our-sessions-at-the-pdc/</guid>
       <description>Now we can finally blog about our PDC sessions. We have been working for more then a year on this data language integration stuff and it is quite exciting to be able to talk about it publicly. Here are the sessions involved. They are all tied together by a common theme. They are all part of the same big project.
 **The .NET Language Integrated Query Framework: An Overview&amp;rsquo;
 ** This is an overview of the overall project.</description>
@@ -1280,38 +1280,38 @@ This one is an Excel add-in that adds functions to Excel to analyze your trading
     
     <item>
       <title>There is a C# Language chat coming</title>
-      <link>http://peaceiris.com/MyBlog/posts/2005-04-14-there-is-a-c-language-chat-coming/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2005-04-14-there-is-a-c-language-chat-coming/</link>
       <pubDate>Thu, 14 Apr 2005 18:40:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2005-04-14-there-is-a-c-language-chat-coming/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2005-04-14-there-is-a-c-language-chat-coming/</guid>
       <description>Here it is: http://blogs.msdn.com/scottno/archive/2005/04/14/408212.aspx</description>
     </item>
     
     <item>
       <title>Here is a message board about the C# language</title>
-      <link>http://peaceiris.com/MyBlog/posts/2005-03-28-here-is-a-message-board-about-the-c-language/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2005-03-28-here-is-a-message-board-about-the-c-language/</link>
       <pubDate>Mon, 28 Mar 2005 11:06:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2005-03-28-here-is-a-message-board-about-the-c-language/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2005-03-28-here-is-a-message-board-about-the-c-language/</guid>
       <description>Here is the link: http://www.gotdotnet.com/Community/MessageBoard/MessageBoard.aspx?ID=5627. Check it out.</description>
     </item>
     
     <item>
       <title>To rent or to buy a house, some more evidence of my unpopular thesis</title>
-      <link>http://peaceiris.com/MyBlog/posts/2005-03-09-to-rent-or-to-buy-a-house-some-more-evidence-of-my-unpopular-thesis/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2005-03-09-to-rent-or-to-buy-a-house-some-more-evidence-of-my-unpopular-thesis/</link>
       <pubDate>Wed, 09 Mar 2005 12:01:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2005-03-09-to-rent-or-to-buy-a-house-some-more-evidence-of-my-unpopular-thesis/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2005-03-09-to-rent-or-to-buy-a-house-some-more-evidence-of-my-unpopular-thesis/</guid>
       <description>I discussed this topic in a previous post http://blogs.msdn.com/lucabol/archive/2004/07/30/202394.aspx and I received a number of emails telling me how crazy I was even speculating that, at the current juncture, it may be more convinient to rent than to buy a house.
 This week The Economist runs a piece where they make the same exact claim. House prices are so high and rents are so low all over the world that renting might, indeed, be better.</description>
     </item>
     
     <item>
       <title>Compiler trivia: const, operators and being nice to the compiler</title>
-      <link>http://peaceiris.com/MyBlog/posts/2005-02-10-compiler-trivia-const-operators-and-being-nice-to-the-compiler/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2005-02-10-compiler-trivia-const-operators-and-being-nice-to-the-compiler/</link>
       <pubDate>Thu, 10 Feb 2005 10:32:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2005-02-10-compiler-trivia-const-operators-and-being-nice-to-the-compiler/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2005-02-10-compiler-trivia-const-operators-and-being-nice-to-the-compiler/</guid>
       <description>This is a question that came up on our internal alias. I thought it might be generally interesting to illustrate how the compiler picks operators.
 Here is the original issue. This code compiles fine:
 UInt64 vUInt641 = UInt64.MaxValue;
@@ -1325,76 +1325,76 @@ int res = (int)(vUInt641 - vInt2);</description>
     
     <item>
       <title>Nullable trilogy part III: Nullable as type parameter in a generic class</title>
-      <link>http://peaceiris.com/MyBlog/posts/2005-02-03-nullable-trilogy-part-iii-nullablet-as-type-parameter-in-a-generic-class/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2005-02-03-nullable-trilogy-part-iii-nullablet-as-type-parameter-in-a-generic-class/</link>
       <pubDate>Thu, 03 Feb 2005 15:42:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2005-02-03-nullable-trilogy-part-iii-nullablet-as-type-parameter-in-a-generic-class/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2005-02-03-nullable-trilogy-part-iii-nullablet-as-type-parameter-in-a-generic-class/</guid>
       <description>Another commonly asked question relates to the behavior of Nullable when used as type parameter to instantiate a generic class. It might be surprising that comparing such a parameter to null gives always false as a result. As it turns out, this is not related to Nullable, but it is a result of how generics are implemented. There is a tendency to think about generics in a manner very similar to C++ templates, this view is unfortunately not correct.</description>
     </item>
     
     <item>
       <title>Nullable trilogy part II: a == b -&amp;gt; a&amp;gt;=b &amp;amp;&amp;amp; a</title>
-      <link>http://peaceiris.com/MyBlog/posts/2005-01-27-nullable-trilogy-part-ii-a-b-ab-a/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2005-01-27-nullable-trilogy-part-ii-a-b-ab-a/</link>
       <pubDate>Thu, 27 Jan 2005 07:54:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2005-01-27-nullable-trilogy-part-ii-a-b-ab-a/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2005-01-27-nullable-trilogy-part-ii-a-b-ab-a/</guid>
       <description>A question that often comes up when we discuss Nullable is about the anti-symmetric property. This property states that if a==b then a&amp;gt;=b and a&amp;lt;=b. If a and b are null then this property is not satisfied in the current design as the result of &amp;gt;= and &amp;lt;= is always false when one of the parameters is null. This may seems surprising, but it can be easily understood when considering if null can be ordered.</description>
     </item>
     
     <item>
       <title>New C# things happening</title>
-      <link>http://peaceiris.com/MyBlog/posts/2005-01-24-new-c-things-happening/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2005-01-24-new-c-things-happening/</link>
       <pubDate>Mon, 24 Jan 2005 09:49:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2005-01-24-new-c-things-happening/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2005-01-24-new-c-things-happening/</guid>
       <description>Express yourself about this DCR: http://blogs.msdn.com/scottno/archive/2005/01/19/356347.aspx Partecipate to the C# language chat: http://blogs.msdn.com/scottno/archive/2005/01/19/356358.aspx That&#39;s it. </description>
     </item>
     
     <item>
       <title>Nullable trilogy Part I: why not just SQL?</title>
-      <link>http://peaceiris.com/MyBlog/posts/2005-01-20-nullable-trilogy-part-i-why-not-just-sql/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2005-01-20-nullable-trilogy-part-i-why-not-just-sql/</link>
       <pubDate>Thu, 20 Jan 2005 09:41:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2005-01-20-nullable-trilogy-part-i-why-not-just-sql/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2005-01-20-nullable-trilogy-part-i-why-not-just-sql/</guid>
       <description>This is the first of a weekly three part serie of posts about Nullable. In these posts I want to describe the reasons behind three design choices:
  Why not just use SQL semantics for null? Why null == null doesn&amp;rsquo;t imply null &amp;gt;= null and null &amp;lt;= null? Why inside a generic class with a type parameter t the expression t == null will return false, when t is a nullable type and the value of it is null.</description>
     </item>
     
     <item>
       <title>x&#43;=x&#43;&#43;;</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-08-31-xx/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-08-31-xx/</link>
       <pubDate>Tue, 31 Aug 2004 15:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-08-31-xx/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-08-31-xx/</guid>
       <description>Today I was looking through an internal C# user group list. One of the messages was about x+=x++; and what should be the right behavior. I thought this is more generally interesting, so I decided to blog it. But first, DO NOT WRITE THAT CODE!!!  Ok, with that out of the way, we can start…  Let’s take this code as an example:  int x = 3;  x += x++;  The first thing the compiler does whenever it sees something like z += y is to convert it to z = z + y.</description>
     </item>
     
     <item>
       <title>Homeowner association transcripts</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-08-18-homeowner-association-transcripts/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-08-18-homeowner-association-transcripts/</link>
       <pubDate>Wed, 18 Aug 2004 12:19:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-08-18-homeowner-association-transcripts/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-08-18-homeowner-association-transcripts/</guid>
       <description>Does anyone know if the homeowner association president for a condominium complex is legally forced to give the transcripts of their meetings to prospective buyers?
 It is quite funny, the lady in charge just doesn&amp;rsquo;t want to talk to me. I know, I know, I shouldn&amp;rsquo;t buy that condo then love over reason</description>
     </item>
     
     <item>
       <title>Rent or buy spreadsheet</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-08-18-rent-or-buy-spreadsheet/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-08-18-rent-or-buy-spreadsheet/</link>
       <pubDate>Wed, 18 Aug 2004 12:13:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-08-18-rent-or-buy-spreadsheet/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-08-18-rent-or-buy-spreadsheet/</guid>
       <description>Someone asked me for the spreadsheet I used for the calculations in my previous posts. Here you have it. The data doesn&amp;rsquo;t reflect my current situation.
 Feel free to use it with your own numbers (and tell me of any bug).</description>
     </item>
     
     <item>
       <title>How much object relational framework do you really need?</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-08-06-how-much-object-relational-framework-do-you-really-need/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-08-06-how-much-object-relational-framework-do-you-really-need/</link>
       <pubDate>Fri, 06 Aug 2004 09:05:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-08-06-how-much-object-relational-framework-do-you-really-need/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-08-06-how-much-object-relational-framework-do-you-really-need/</guid>
       <description>It is always interesting for me to look at debates about object relational layers. I propose we define different levels of object relational support:
   No support: all the objects are persisted and queried by writing ADO.NET code by hand
   Code generation: you run a tool on your database (or on an abstract description of your schema) and the tool generates a bunch of objects for your tables and some ADO.</description>
@@ -1402,85 +1402,85 @@ Feel free to use it with your own numbers (and tell me of any bug).</description
     
     <item>
       <title>I am really an old, almost fat, beach volley player</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-08-05-im-really-an-old-almost-fat-beach-volley-player/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-08-05-im-really-an-old-almost-fat-beach-volley-player/</link>
       <pubDate>Thu, 05 Aug 2004 08:37:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-08-05-im-really-an-old-almost-fat-beach-volley-player/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-08-05-im-really-an-old-almost-fat-beach-volley-player/</guid>
       <description>I used to play a lot, back in Italy. We would come out from work, go to the beach, play two or three hours, swim a bit and then go out for the night. This would happen about every day. We took it awfully seriously. We would go to the Italian national championships and all. It was quite a big deal.
 Seattle, on the other hand, is not too conductive to beach volley.</description>
     </item>
     
     <item>
       <title>Book: Objects, Components, and Frameworks with UML, Fedmond F. D`Souza</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-08-03-book-objects-components-and-frameworks-with-uml-fedmond-f-dsouza/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-08-03-book-objects-components-and-frameworks-with-uml-fedmond-f-dsouza/</link>
       <pubDate>Tue, 03 Aug 2004 13:13:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-08-03-book-objects-components-and-frameworks-with-uml-fedmond-f-dsouza/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-08-03-book-objects-components-and-frameworks-with-uml-fedmond-f-dsouza/</guid>
       <description>This is a book about Catalysis, an OO methodology. I read this book some time ago (like years). It is a quite complex book. If you don&amp;rsquo;t like methodologists, it will easily put you to sleep. But if you stay awake, it is worth it.
 It is strange how this book crystallized one concept for me: the definition of an interface. An interface is not just the sum of the signatures of the methods.</description>
     </item>
     
     <item>
       <title>I am buying a house</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-08-02-im-buying-a-house/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-08-02-im-buying-a-house/</link>
       <pubDate>Mon, 02 Aug 2004 12:57:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-08-02-im-buying-a-house/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-08-02-im-buying-a-house/</guid>
       <description>I think I&amp;rsquo;ve been misinterpreted in my previous posts. I&amp;rsquo;m not suggesting that renting is better than owning. You have to run your numbers and make your own choice. There are many assumptions to consider (financial and not). The not financial ones often are more important. You have to run your numbers, but in general renting looks better if:
  You cannot buy ( 🙂 ) and/or You plan to stay in a place for a short time and/or You believe houses are vastly overpriced in your area and they&amp;rsquo;ll return will be negative for a while and/or You don&amp;rsquo;t want the psychological part of having a house (maintenance, tax payments,)  In my case the most worrisome scenario is 3.</description>
     </item>
     
     <item>
       <title>To rent or to buy a house??</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-07-30-to-rent-or-to-buy-a-house/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-07-30-to-rent-or-to-buy-a-house/</link>
       <pubDate>Fri, 30 Jul 2004 11:06:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-07-30-to-rent-or-to-buy-a-house/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-07-30-to-rent-or-to-buy-a-house/</guid>
       <description>Spurred by some comments to a previous post I quickly run these numbers. They analyze the case of house price not rising in the next five years. I&#39;ll take more time to check them if I really get to a point of deciding, but they should be correct. &amp;nbsp; This data (fairly typical in my area): &amp;nbsp; Home price: $200,000 Down payment: $0 Interest rate: 6% Monthly mortgage: 1210 Rent: 750 Annual gains on investments: 6% &amp;nbsp; If I run this for 5 years and house appreciation 0% I get: $33,043 on investing the rent-mortgage difference $30,609 on paying the mortgage (equity accumulation + tax savings at 28%) &amp;nbsp; If we assume to put down 20% to buy the house then the numbers are even worse: $83,542 on investing the down payment and the rent-mortgage difference $67,548 on paying the mortgage (equity accumulation + tax savings at 28%) &amp;nbsp; There are other things to consider: house repairs for houses, annual raises in rent, etc etc &amp;nbsp; Are those assumptions reasonable?</description>
     </item>
     
     <item>
       <title>My quest for a new home</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-07-29-my-quest-for-a-new-home/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-07-29-my-quest-for-a-new-home/</link>
       <pubDate>Thu, 29 Jul 2004 09:10:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-07-29-my-quest-for-a-new-home/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-07-29-my-quest-for-a-new-home/</guid>
       <description>I&#39;m refining my understanding of how to value residential properties. There is this rule of thumb: buy when you can get a rent for the property which is at least 1.2% of the property price (or in another form, when the home price is 7x the annual rent). This is an approx for a more formal spreadsheet (which I have). &amp;nbsp; This is fine and dandy, but in the area I&#39;m interested in a typical one bedroom condo sells for around 200,000-300,000 and you can get a monthly rent of $1,000-1,300.</description>
     </item>
     
     <item>
       <title>Book: The coming crash in the housing market, John R. Talbott</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-07-28-book-the-coming-crash-in-the-housing-market-john-r-talbott/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-07-28-book-the-coming-crash-in-the-housing-market-john-r-talbott/</link>
       <pubDate>Wed, 28 Jul 2004 08:56:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-07-28-book-the-coming-crash-in-the-housing-market-john-r-talbott/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-07-28-book-the-coming-crash-in-the-housing-market-john-r-talbott/</guid>
       <description>My wife and I are planning to move somewhere where you can walk to shops and restaurants. We were thinking about selling or renting our current suburbia home. So, as usual, I picked up a bunch of books from the local library. This is one of them. Amazon reviews are&amp;nbsp;here. &amp;nbsp; My opinion on the book The author did a good job of providing numeric evidence of the possibility of a real estate bubble.</description>
     </item>
     
     <item>
       <title>Please the perfect object stand up!!</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-07-27-please-the-perfect-object-stand-up/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-07-27-please-the-perfect-object-stand-up/</link>
       <pubDate>Tue, 27 Jul 2004 15:21:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-07-27-please-the-perfect-object-stand-up/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-07-27-please-the-perfect-object-stand-up/</guid>
       <description>I always thought: why people write this very long posts? Here you have it. &amp;nbsp; How do I design my objects? What is the set of constraints that dictate my design decisions? People talk about objects in very different contexts. A certain amount of confusion derives from not identifying the contexts for our objects. &amp;nbsp; First, kings of them all, there are business objects. My library is full of OO books that describe how to design these guys.</description>
     </item>
     
     <item>
       <title>My first (and last?) post</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-07-27-my-first-and-last-post/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-07-27-my-first-and-last-post/</link>
       <pubDate>Tue, 27 Jul 2004 14:18:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-07-27-my-first-and-last-post/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-07-27-my-first-and-last-post/</guid>
       <description>Hello folks, My crazy coworkers finally convinced me to get my own blog. They think I&#39;ll say something funny, but I won&#39;t - so don&#39;t link to me - it&#39;s probably not worth it. For the few perseverant ones, here is what I plan to talk about: object orientation, c#, sports, financial stuff and books (not in that order). See you later. &amp;nbsp; BTW: strange how this blog thing reduces the complexity of one&#39;s personality to a bunch of categories on the left of the screen </description>
     </item>
     
     <item>
       <title>Here I am.</title>
-      <link>http://peaceiris.com/MyBlog/posts/2004-07-27-here-i-am/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2004-07-27-here-i-am/</link>
       <pubDate>Tue, 27 Jul 2004 13:59:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2004-07-27-here-i-am/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2004-07-27-here-i-am/</guid>
       <description>I&amp;rsquo;m Luca Bolognese.
 I&amp;rsquo;m the Principal Group Program Manager for the C#, VB and F# languages, compilers and IDEs. Before that, I was the LINQ guy. Before that, I was the ObjectSpaces guy.
 In my spare time, I read a lot of books. I mean: a lot. I&amp;rsquo;m not sure how much I retain. I also try to keep some form of physical shape by playing sports and walking.
@@ -1489,10 +1489,10 @@ All in all, I try to recreate my own Italian lifestyle in the Kirkland area.</d
     
     <item>
       <title>Search</title>
-      <link>http://peaceiris.com/MyBlog/search/</link>
+      <link>https://peaceiris.com/MyBlog/search/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/search/</guid>
+      <guid>https://peaceiris.com/MyBlog/search/</guid>
       <description> Matching pages    ${title} ${snippet}
 ${ isset tags }Tags: ${tags}
 ${ end }      </description>

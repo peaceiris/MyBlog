@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>racket on Lucabol blog</title>
-    <link>http://peaceiris.com/MyBlog/tags/racket/</link>
+    <link>https://peaceiris.com/MyBlog/tags/racket/</link>
     <description>Recent content in racket on Lucabol blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 11 May 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://peaceiris.com/MyBlog/tags/racket/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://peaceiris.com/MyBlog/tags/racket/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Recursively extracting nested links from a webpage using Racket</title>
-      <link>http://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</link>
       <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</guid>
       <description>This is my first attempt at writing Racket or LISP code. It might be ugly &amp;hellip; For now, let&amp;rsquo;s build a web crawler, next, I shall write myself a language. That&amp;rsquo;s where Racket really shine.
 The code is here. Thanks to Mike for reviewing it.
 Why I want to translate a website, including recursively reached pages, to a pdf to read on my e-reader. This program does the first step: going from a URL to a list of URLs by recursively navigating the links on the page.</description>

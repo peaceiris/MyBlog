@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>lab-services on Lucabol blog</title>
-    <link>http://peaceiris.com/MyBlog/tags/lab-services/</link>
+    <link>https://peaceiris.com/MyBlog/tags/lab-services/</link>
     <description>Recent content in lab-services on Lucabol blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 06 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://peaceiris.com/MyBlog/tags/lab-services/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://peaceiris.com/MyBlog/tags/lab-services/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Introducing PS1 Libraries for Azure Lab Services and DevTest Labs</title>
-      <link>http://peaceiris.com/MyBlog/posts/2020-01-06-introducing-ps1-libraries-for-azure-lab-services-and-devtest-lab/</link>
+      <link>https://peaceiris.com/MyBlog/posts/2020-01-06-introducing-ps1-libraries-for-azure-lab-services-and-devtest-lab/</link>
       <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://peaceiris.com/MyBlog/posts/2020-01-06-introducing-ps1-libraries-for-azure-lab-services-and-devtest-lab/</guid>
+      <guid>https://peaceiris.com/MyBlog/posts/2020-01-06-introducing-ps1-libraries-for-azure-lab-services-and-devtest-lab/</guid>
       <description>I am not sure why I have not blogged about this. We have released some very nice PS1 libraries to automate the usage of Azure Lab Services and Azure DevTest Labs.
 The nicest thing about them is how they make use of the PS1 Pipeline to give a nice user experience.
 Get-AzLabAccount | Get-AzLab | Get-AzLabVm -Status Running | Stop-AzLabVm I intend to shoot some brief videos to describe how to use them.</description>
