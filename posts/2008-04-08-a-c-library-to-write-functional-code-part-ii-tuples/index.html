@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Other posts in the series:
+ Part I - Background   Part II - Tuples
+ Part III - Records Part IV - Type Unions{.} Part V - The Match operator{.} Tuples are a way for you not to name things. In Object Oriented languages you got to name everything. If you need to represent a bunch of data, you create a class for it.  There is a strange asymmetry in mainstream OO languages in that you can pass multiple parameters to a function, but you can return just one value.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>A C# library to write functional code - Part II - Tuples | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2008/04/04</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        A C# library to write functional code - Part II - Tuples
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Other posts in the series:</p>
+<ul>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/04/01/a-c-library-to-write-functional-code-part-i-background.aspx"><strong><font color="#006bad">Part I  - Background</font></strong></a>
+<ul>
+<li>
+<p><a href="http://blogs.msdn.com/lucabol/archive/2008/04/08/a-c-library-to-write-functional-code-part-ii-tuples.aspx"><strong><font color="#006bad">Part II  - Tuples</font></strong></a></p>
+<ul>
+<li><strong><a href="http://blogs.msdn.com/lucabol/archive/2008/04/21/a-c-library-to-write-functional-code-part-iii-records.aspx"><font color="#006bad">Part III  - Records</font></a></strong></li>
+<li><strong><a href="http://blogs.msdn.com/lucabol/archive/2008/06/06/a-c-library-to-write-functional-code-part-iv-type-unions.aspx">Part IV  - Type Unions</a>{.}</strong></li>
+<li><strong><a href="http://blogs.msdn.com/lucabol/archive/2008/07/15/a-c-library-to-write-functional-code-part-v-the-match-operator.aspx">Part V  - The Match operator</a>{.}</strong>
+<a href="http://en.wikipedia.org/wiki/Tuple" target="_blank"><strong><font color="#006bad">Tuples</font></strong></a> are a way for you not to name things. In Object Oriented languages you got to name everything. If you need to represent a bunch of data, you create a class for it.</li>
+</ul>
+<p>There is a strange asymmetry in mainstream OO languages in that you can pass multiple parameters to a function, but you can return just one value. Granted, there are ways around it: you can use ‘ref&rsquo; in C# or return some sort of collection where things are stored. But by and large the model is: you pass many, you get one; if you need to return more than one, create a class to represent this ‘bunch of data&rsquo;. Tuples are a way for you not to create such a class.</p>
+<p>Tuples are also much more than that. Once you have the language concept of ‘a bunch of data without a name&rsquo;, you can create arrays of them, you can pass them as parameters, use them as local variables. Wherever you&rsquo;d use a type, you can use a Tuple instead.</p>
+<p>This is particularly appealing to me as I like to use classes almost exclusively to represent things that have a counterpart in the domain I&rsquo;m modeling (i.e. Customer, Account). I don&rsquo;t like to create classes/structs just for the sake of temporarily put some data together.</p>
+<p>You can create your own Tuple class in C#, but the syntax gets ugly. Syntax matter. Syntax helps you to think differently about your program. We have syntax for anonymous types, but given that they cannot escape the scope of a method, they cannot be used as full replacement for Tuples.</p>
+<p>In any case, to my implementation. Here is how you create a Tuple:</p>
+<pre class="code"><span style="color:rgb(0,0,255);">var</span> t1 = <span style="color:rgb(43,145,175);">F</span>.Tuple(34, <span style="color:rgb(163,21,21);">"bo"</span>, 2.3);</pre>
+<p>not too bad. In F# it is better: (34, bo, 2.3). And you often don&rsquo;t need the parenthesis. But still, my C# version is ok.</p>
+<p>You then need to access its elements:</p>
+<pre class="code"><span style="color:rgb(0,0,255);">var</span> n = t1.Item1;
+    <span style="color:rgb(0,0,255);">var</span> s = t1.Item2;
+</li>
+</ul>
+</li>
+</ul>
+<p></pre></p>
+<pre><code>    In F# you usually access them by doing pattern matching, which gives a more intuitive syntax. But again, my C# syntax is not terrible.&amp;nbsp;
+    
+    Tuples need to have structural equality, which means that the following has to work:
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;ArrayList&lt;/span&gt; mad1 = &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;ArrayList&lt;/span&gt; { &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;List&lt;/span&gt;&amp;lt;&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;IEnumerable&lt;/span&gt;&amp;lt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;&amp;gt;&amp;gt; { &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;[] { &lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;bo&quot;&lt;/span&gt; }, &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;[] { &lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;bo&quot;&lt;/span&gt; } },&lt;br /&gt;                               32, &lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;bo&quot;&lt;/span&gt;, &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;int&lt;/span&gt;[] { 4, 5, 6 } };
+    &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;ArrayList&lt;/span&gt; mad2 = &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;ArrayList&lt;/span&gt; { &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;List&lt;/span&gt;&amp;lt;&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;IEnumerable&lt;/span&gt;&amp;lt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;&amp;gt;&amp;gt; { &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;[] { &lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;bo&quot;&lt;/span&gt; }, &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;[] { &lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;bo&quot;&lt;/span&gt; } },&lt;br /&gt;                               32, &lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;bo&quot;&lt;/span&gt;, &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;int&lt;/span&gt;[] { 4, 5, 6 } };
+    &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;ArrayList&lt;/span&gt; mad3 = &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;ArrayList&lt;/span&gt; { &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;List&lt;/span&gt;&amp;lt;&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;IEnumerable&lt;/span&gt;&amp;lt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;&amp;gt;&amp;gt; { &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;[] { &lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;bo&quot;&lt;/span&gt; }, &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;[] { &lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;bo&quot;&lt;/span&gt; } },&lt;br /&gt;                               32, &lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;bo&quot;&lt;/span&gt;, &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;int&lt;/span&gt;[] { 4, 5, 5 } };&lt;/pre&gt;
+    
+    
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Assert&lt;/span&gt;.AreEqual(&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;F&lt;/span&gt;.Tuple(mad1, mad2, mad1), &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;F&lt;/span&gt;.Tuple(mad2, mad1, mad2));
+    &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Assert&lt;/span&gt;.AreNotEqual(&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;F&lt;/span&gt;.Tuple(mad1, mad2, mad1), &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;F&lt;/span&gt;.Tuple(mad1, mad3, mad1));&lt;/pre&gt;
+    
+    You can use Tuples as return values, parameters, locals etc. Unfortunately, the syntax is ugly when Tuples are part of the signature of a function:
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Tuple&lt;/span&gt;&amp;lt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;, &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;IEnumerable&lt;/span&gt;&amp;lt;&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Tuple&lt;/span&gt;&amp;lt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;, &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;ObservationHistory&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; Execute() {
+}&lt;/pre&gt;
+    
+    With the above information, you can be a user of Tuples. From this point on, I'll talk about some details of the implementation (I also attach the full code to this post as a zip file).
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Tuple&lt;/span&gt;&amp;lt;T1&amp;gt; {
+    &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; Tuple(T1 t1) {
+        Item1 = t1;
+    }
+    &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;readonly&lt;/span&gt; T1 Item1;
+</code></pre>
+<p><span style="color:rgb(0,0,255);">       <font color="#80ff80"> </font><font color="#808080">#region</font></span><font color="#808080"> Equals, GetHashCode, ==, !=</font>
+}
+<span style="color:rgb(0,0,255);">public</span> <span style="color:rgb(0,0,255);">class</span> <span style="color:rgb(43,145,175);">Tuple</span>&lt;T1, T2&gt; : <span style="color:rgb(43,145,175);">Tuple</span>&lt;T1&gt; {
+<span style="color:rgb(0,0,255);">public</span> Tuple(T1 t1, T2 t2) : <span style="color:rgb(0,0,255);">base</span>(t1) { Item2 = t2; }
+<span style="color:rgb(0,0,255);">public</span> <span style="color:rgb(0,0,255);">readonly</span> T2 Item2;
+<span style="color:rgb(0,0,255);">        <font color="#808080">#region</font></span><font color="#808080"> Equals, GetHashCode, ==, !=
+</font>    }</pre></p>
+<pre><code>    &amp;nbsp;
+    
+    So, Tuples are classes, not structs. The reason for it is fully described in &lt;a href=&quot;http://blogs.msdn.com/lucabol/archive/2008/01/11/creating-an-immutable-value-object-in-c-part-v-using-a-library.aspx&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;font color=&quot;#006bad&quot;&gt;this series of posts&lt;/font&gt;&lt;/strong&gt;&lt;/a&gt;. They also inherit from one another. There are pros and cons to that. The main pros are that I had to write less code and that you can pass a Tuple&lt;int, string&gt; when a function expects a Tuple&lt;int, string, int&gt;. The main drawback is that you can pass a Tuple&lt;int, string&gt; when a function expects a Tuple&lt;int, string, int&gt;.&amp;nbsp; Also notice the use of public fields. These&amp;nbsp;is a problem with frameworks that insist on properties (i.e. Data Binding). Also, I just got to 5 as arity goes. The day I need 6 items, I'll add another one. It is boilerplate code (that I'd still like not to write).
+    
+    The Equals method is a bit convoluted:
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;internal&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Utils&lt;/span&gt; {
+    &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;void&lt;/span&gt; CheckNull&amp;lt;T&amp;gt;(T t) {
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (t == &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt;)
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;throw&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;ArgumentNullException&lt;/span&gt;();
+    }&lt;br /&gt;     }&lt;/pre&gt;
+    
+    
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;override&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;bool&lt;/span&gt; Equals(&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;object&lt;/span&gt; right) {
+        &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Utils&lt;/span&gt;.CheckNull(right);
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;object&lt;/span&gt;.ReferenceEquals(&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;this&lt;/span&gt;, right))
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;true&lt;/span&gt;;
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;this&lt;/span&gt;.GetType() != right.GetType())
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;false&lt;/span&gt;;
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;var&lt;/span&gt; rightT = right &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;as&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Tuple&lt;/span&gt;&amp;lt;T1, T2, T3&amp;gt;;
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;base&lt;/span&gt;.Equals(rightT) &amp;&amp; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;F&lt;/span&gt;.DSEquals(&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;this&lt;/span&gt;.Item3, rightT.Item3);
+    }&lt;/pre&gt;
+    
+    
+    
+    I always get complaints when I show Equals methods that throw if null is passed in, but I stand by my logic, that&amp;nbsp;the presence of null for these categories of&amp;nbsp;&amp;#8216;structurally equal' classes is symptom of an error and I want to be notified.&amp;nbsp;Returning false doesn't do that.
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;internal&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;bool&lt;/span&gt; DSEquals&amp;lt;T&amp;gt;(T left, T right) {
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (left == &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt; &amp;&amp; right == &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt;)
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;true&lt;/span&gt;;
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (left == &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt; &amp;&amp; right != &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt;)
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;false&lt;/span&gt;;
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;var&lt;/span&gt; len = left &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;as&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;IEnumerable&lt;/span&gt;;
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;var&lt;/span&gt; ren = right &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;as&lt;/span&gt; &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;IEnumerable&lt;/span&gt;;
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (len == &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt; &amp;&amp; ren == &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt;)
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; left.Equals(right);
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (len == &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt; &amp;&amp; ren != &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt;)
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;false&lt;/span&gt;;
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (len != &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt; &amp;&amp; ren == &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;null&lt;/span&gt;)
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;false&lt;/span&gt;;
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; SequenceEqual(len, ren);
+    }&lt;/pre&gt;
+    
+    DSEquals check the content of the Tuple and forward to SequenceEqual in case one slot of the Tuple contains an IEnumerable.
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;internal&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;bool&lt;/span&gt; SequenceEqual(&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;IEnumerable&lt;/span&gt; en1, &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;IEnumerable&lt;/span&gt; en2) {
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;var&lt;/span&gt; enumerator = en2.GetEnumerator();
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;foreach&lt;/span&gt; (&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;var&lt;/span&gt; o &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;in&lt;/span&gt; en1) {
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (!enumerator.MoveNext())
+                &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;false&lt;/span&gt;;
+            &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;if&lt;/span&gt; (!DSEquals(o, enumerator.Current))
+                &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;false&lt;/span&gt;;
+        }
+</code></pre>
+<p></pre></p>
+<pre><code>    SequenceEqual checks that the number of items in the enumerator is the same and recursively calls DSEqual to check structural equality for items at the same index in the two enumerators.
+    
+    GetHashCode is trivial (and maybe trivially wrong, one of these days I'll learn everything about GetHashCode() ).
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;override&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;int&lt;/span&gt; GetHashCode() {
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;base&lt;/span&gt;.GetHashCode() | Item3.GetHashCode();
+    }&lt;/pre&gt;
+    
+    
+    
+    The equality operators are equally simple.
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;bool&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;operator&lt;/span&gt; ==(&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Tuple&lt;/span&gt;&amp;lt;T1, T2, T3&amp;gt; t1, &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Tuple&lt;/span&gt;&amp;lt;T1, T2, T3&amp;gt; t2) {
+        &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Utils&lt;/span&gt;.CheckNull(t1);
+        &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Utils&lt;/span&gt;.CheckNull(t2);
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; t1.Equals(t2);
+    }
+    &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;bool&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;operator&lt;/span&gt; !=(&lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Tuple&lt;/span&gt;&amp;lt;T1, T2, T3&amp;gt; t1, &lt;span style=&quot;color:rgb(43,145,175);&quot;&gt;Tuple&lt;/span&gt;&amp;lt;T1, T2, T3&amp;gt; t2) {
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; !(t1 == t2);
+    }&lt;/pre&gt;
+    
+    And ToString() prints my favorite Tuple format.
+    
+    &lt;pre class=&quot;code&quot;&gt;&lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;override&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt; ToString() {
+        &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;string&lt;/span&gt;.Format(&lt;span style=&quot;color:rgb(163,21,21);&quot;&gt;&quot;{0},{1}&quot;&lt;/span&gt;, &lt;span style=&quot;color:rgb(0,0,255);&quot;&gt;base&lt;/span&gt;.ToString(), Item3.ToString());
+    }&lt;/pre&gt;
+    
+    I'm sure you can find plenty of issues in this code. As always, it is not &amp;#8216;production ready', it is more &amp;#8216;Luca having fun doing it'. In any case, there are some testcases in the solution to check the extent of my testing.
+    
+    In the next post we'll look at Records.
+    
+    [Functional.zip](https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Components.PostAttachments/00/08/36/99/78/Functional.zip)</code></pre>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/csharp">csharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

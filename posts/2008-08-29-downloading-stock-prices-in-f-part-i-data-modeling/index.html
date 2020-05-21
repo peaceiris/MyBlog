@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Other parts:
+ Part II - Html scraping Part III - Async loader for prices and divs Part IV - Async loader for splits Part V - Adjusting historical data Part VI - Code posted  Today we shipped the September CTP of F# !!!! Evviva !! Read this blog post about it. To celebrate I decided to share one of my several F# project. It might make for a good sample; sort of a crash course on F#.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Downloading stock prices in F# - Part I - Data modeling | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2008/08/08</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Downloading stock prices in F# - Part I - Data modeling
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Other parts:</p>
+<ul>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/09/05/downloading-stock-prices-in-f-part-ii-html-scraping.aspx">Part II  - Html scraping</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/09/12/downloading-stock-prices-in-f-part-iii-async-loader-for-prices-and-divs.aspx"><strong><font color="#006bad">Part III  - Async loader for prices and divs</font></strong></a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/09/19/downloading-stock-prices-in-f-part-iv-async-loader-for-splits.aspx">Part IV  - Async loader for splits</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/09/26/downloading-stock-prices-in-f-part-v-adjusting-historical-data.aspx">Part V  - Adjusting historical data</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/10/20/downloading-stock-prices-in-f-part-vi-code-posted.aspx">Part VI  - Code posted</a></li>
+</ul>
+<p>Today we shipped the September CTP of F# !!!! Evviva !! Read <a href="http://blogs.msdn.com/dsyme/archive/2008/08/29/the-f-september-2008-ctp-is-now-available.aspx">this</a> blog post about it. To celebrate I decided to share one of my several F# project. It might make for a good sample; sort of a crash course on F#.</p>
+<p>This application downloads stock prices, dividends and splits from <a href="http://finance.yahoo.com/q/hp?s=MSFT">Yahoo Historical Prices</a> and performs computations on them. I will describe it file by file.</p>
+<p><u><strong>common.fs</strong></u></p>
+<p>I always have such a file in my projects. It is a repository for the types that I&rsquo;m going to use in my program and the functions that are common across multiple modules. If I have a large program I also have a types.fs just for the types.</p>
+<p>This one starts like this:</p>
+<pre class="code"><span style="color:blue;">#light
+open </span>System
+[&lt;Measure&gt;] <span style="color:blue;">type </span>money
+<span style="color:blue;">let </span>money (f:float) = f * 1.&lt;money&gt;
+[&lt;Measure&gt;] <span style="color:blue;">type </span>shares
+<span style="color:blue;">let </span>shares (f:float) = f * 1.&lt;shares&gt;
+[&lt;Measure&gt;] <span style="color:blue;">type </span>volume
+<span style="color:blue;">let </span>volume (f:float) = f * 1.&lt;volume&gt;
+[&lt;Measure&gt;] <span style="color:blue;">type </span>rateOfReturn
+<span style="color:blue;">let </span>rateOfReturn (f:float) = f * 1.&lt;rateOfReturn&gt;</pre>
+<p align="left">
+  The first line instructs the compiler to use the lightweight syntax. You don't want to know what the heavyweight syntax is. Just always put such a line at the start of your files. The next line opens up the System namespace. Then the good stuff starts.
+</p>
+<p>I&rsquo;m defining some units of measures. The simplest way to think about units of measures is: they are a type system for floats. You can do much more than that, but it is a good first approximation. For example, you cannot now sum a <u>money</u> type and a <u>volume</u> type. Also for each one I define a function that converts from a normal <u>float</u> type to it (if you come from a C# background, floats are doubles).</p>
+<p>Then I define the data model for my application:</p>
+<pre class="code"><span style="color:blue;">type </span>Span = { Start: DateTime; End: DateTime }
+<span style="color:blue;">type </span>Price = { Open: float&lt;money&gt;; High: float&lt;money&gt;; Low:float&lt;money&gt;; <br />                                                Close:float&lt;money&gt;; Volume: float&lt;volume&gt;}
+<span style="color:blue;">type </span>Event =
+    | Price <span style="color:blue;">of </span>Price
+    | Split <span style="color:blue;">of </span>float
+    | Div <span style="color:blue;">of </span>float&lt;money&gt;
+<span style="color:blue;">type </span>Observation = { Date: DateTime; Event: Event}</pre>
+<p>The first record that I define, <u>Span</u>,  represents the difference between two dates. It is just a little useful thing. A more fundamental record is <u>Observation</u>. An <u>Observation</u> is defined as something that happens on a particular <u>Date</u>. That something, an <u>Event</u>, can be one of three things: a <u>Price</u>, a <u>Split</u> or a <u>Div</u>. A <u>Price</u> is another record with a bunch of <u>float<money></u> fields and on <u>float<volume></u> field. If you go to the Yahoo site, you&rsquo;ll see what it represents.</p>
+<p>A <u>Split</u> is simply a <u>float</u>. Why not a <u>float&lt;&gt;</u>? Because it is just a number, a factor to be precise. It represents the number of new shares divided by the number of old shares. <u>float<shares> / float<shares> = float</u>. A <u>Div</u> is a <u>float<money></u>.</p>
+<p>This is one way to model the problem. Infinite other ways are possible (and I tried many of them in a C# version of this code that ended up using polymorphism). Note that all of the types are records except <u>Event</u> that is a discriminated union.</p>
+<p>Records are read only containers of data. Discriminated unions are what the name says: things that can be one of multiple things (even recursively). They are rather handy to represent the structure of the data. We will see how you use them using the <u>match</u> operator in upcoming posts.</p>
+<p>Also notice the following common pattern in F# (and functional programming in general). You define your data and then you define transformations over it. F# has a third optional step, that is to expose these transformations as methods of a .NET objects.</p>
+<p>We are almost done here. A handful of other functions are in my file :</p>
+<pre class="code"><span style="color:blue;">let </span>span sy sm sd ey em ed =<br />                   {Start = <span style="color:blue;">new </span>DateTime(sy, sm, sd); End = <span style="color:blue;">new </span>DateTime(ey, em, ed)}
+<span style="color:blue;">let </span>date y m d = <span style="color:blue;">new </span>DateTime(y, m, d)
+<span style="color:blue;">let </span>now () = DateTime.Now
+<span style="color:blue;">let </span>idem x = x
+<span style="color:blue;">let </span>someIdem x = Some(x)</pre>
+<p><u>Span</u> is a function that creates a span given the relevant info. <u>date</u> creates a date given year, month and day. <u>now</u> is a value that corresponds to the current date. <u>idem</u> is a function that returns its parameter (you&rsquo;ll see how that can possibly be useful). <u>someIdem</u> is a function that unpack an Option type and gives his value. I could write all my code without these things, but it looks better (to me) with them.</p>
+<p>Notice that in the F# code you have access to all the functions and type in the .NET framework. It is just another .NET language: it can create or consume .NET types.</p>
+<p>All right, we are done for part one. In part II there will be some real code.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

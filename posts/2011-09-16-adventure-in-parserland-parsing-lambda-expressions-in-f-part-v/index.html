@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="We are now going to look at a solution which is concise, efficient and gives sophisticated error messages. It is also less than 20 lines of code. We’ll be using FParsec.
+FParsec is a port of an Haskell library. It is a parser combinator library or, as I like to think of it, an internal DSL to build parsers in F#. My usual disclaimer: I’m not an expert in FParsec. It is likely that, if you are an expert, you can come up with more maintainable/efficient/elegant version of this parser.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Adventure in parserland – parsing lambda expressions in F# – Part V | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2011/09/09</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Adventure in parserland – parsing lambda expressions in F# – Part V
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>We are now going to look at a solution which is concise, efficient and gives sophisticated error messages. It is also less than 20 lines of code. We’ll be using <a href="http://www.quanttec.com/fparsec/">FParsec</a>.</p>
+<p>FParsec is a port of an Haskell library. It is a parser combinator library or, as I like to think of it, an internal <a href="http://www.google.co.uk/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CC0QFjAA&amp;url=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FDomain-specific_language&amp;ei=2uInTsvgG4LDhAfxrIzvCQ&amp;usg=AFQjCNFeEXnlId4QmC-faKR_2dF1paxZMA&amp;sig2=aCu7doIcVL0yFVlg3uA-pA">DSL</a> to build parsers in F#. My usual disclaimer: I’m not an expert in FParsec. It is likely that, if you are an expert, you can come up with more maintainable/efficient/elegant version of this parser.</p>
+<p>The whole code is below:</p>
+<pre class="code"><span style="color:blue;">let </span>ws = <span style="color:maroon;">" \t\n"
+</span><span style="color:blue;">let </span>specialChars = <span style="color:maroon;">".)(\\\n"
+</span><span style="color:blue;">let </span>pWs = spaces
+<span style="color:blue;">let </span>pName = manyChars (noneOf (ws + specialChars)) |&gt;&gt; EName
+<span style="color:blue;">let </span>pExpr, pExprRef = createParserForwardedToRef&lt;Expression, Unit&gt;()
+<span style="color:blue;">let </span>curry2 f a b = f(a,b)
+<span style="color:blue;">let </span>pFunction = pchar <span style="color:maroon;">'\\' </span>&gt;&gt;. pipe2 pName (pchar <span style="color:maroon;">'.' </span>&gt;&gt;. pExpr) (curry2 Function)
+<span style="color:blue;">let </span>pApplication = pchar <span style="color:maroon;">'(' </span>&gt;&gt;. pipe2 pExpr (pWs &gt;&gt;. pExpr) (curry2 Application)
+                          .&gt;&gt; pWs .&gt;&gt; pchar <span style="color:maroon;">')'
+</span><span style="color:blue;">do </span>pExprRef := pFunction &lt;|&gt; pApplication &lt;|&gt; pName
+<span style="color:blue;">let </span>pExpressions = sepBy pExpr spaces1</pre>
+<p>This mirrors pretty closely the grammar we are trying to parse. A program is a bunch of expressions separated by whitespaces.</p>
+<p><span style="color:blue;">let </span>pExpressions = sepBy pExpr spaces1</p>
+<p>sepBy is a combinator that takes a parser that defines what to parse and a parser that defines what the separator should be. And the separator should be one or more spaces …</p>
+<p><em>pExpr</em> is either a function, an application or a name. the operator &lt;|&gt; is a choice combinator that tries each parser in order. It tries the right parser just if the left parser fails and it doesn’t consume input. So it doesn’t backtrack. If you need a backtracking parser, you’ll need to get acquainted with the <em>attempt</em> combinator.</p>
+<pre class="code"><span style="color:blue;">do </span>pExprRef := pFunction &lt;|&gt; pApplication &lt;|&gt; pName</pre>
+<p>A function starts with a ‘\’, then comes a name, a dot and an expression.</p>
+<pre class="code"><span style="color:blue;">let </span>pFunction = pchar <span style="color:maroon;">'\\' </span>&gt;&gt;. pipe2 pName (pchar <span style="color:maroon;">'.' </span>&gt;&gt;. pExpr)<br />                                                       (curry2 Function)</pre>
+<p>I know that might look crazy (and maybe it is), but just bear with me. Someone , who I’m not sure I can name, once told me that functional programming is great to write code, but terrible to read it and debug it. The phrase stayed with me as containing a grain of truth. In any case, in the code above:</p>
+<ul>
+<li>
+<blockquote>
+<blockquote>
+<p>. is a combinator that says “use the left parser, discard its value and then use the right one, returning its value”. Try to guess what .&raquo; does …</p>
+</blockquote>
+</blockquote>
+</li>
+<li>pipe2 is a combinator that says “apply the first parser, the second parser and then call a function passing as parameters the values returned by the two parsers</li>
+<li>curry2 is a function combinator that transform a function that takes a tuple to a function that takes the parameters as untupled</li>
+</ul>
+<pre class="code"><span style="color:blue;">let </span>curry2 f a b = f(a,b)</pre>
+<p>An application works similarly, but differently …</p>
+<pre class="code"><span style="color:blue;">let </span>pApplication = pchar <span style="color:maroon;">'(' </span>&gt;&gt;. pipe2 pExpr (pWs &gt;&gt;. pExpr) (curry2 Application)
+                              .&gt;&gt; pWs .&gt;&gt; pchar <span style="color:maroon;">')'</span></pre>
+<p>The only difference is that now we have to consume the optional whitespaces and the ‘)’ at the end. A rule of thumb that I use is to use &raquo;.  to flow the result through and pipeX when I need more than one result.</p>
+<p>The last thing is pName, which consume chars until it finds either a whitespace or a special char.</p>
+<pre class="code"><span style="color:blue;">let </span>ws = <span style="color:maroon;">" \t\n"
+</span><span style="color:blue;">let </span>specialChars = <span style="color:maroon;">".)(\\\n"
+</span><span style="color:blue;">let </span>pWs = spaces
+<span style="color:blue;">let </span>pName = manyChars (noneOf (ws + specialChars)) |&gt;&gt; EName</pre>
+<p>And there you have it, a lexer, a parser all in 20 lines of code. I don’t like the code that I wrote above much. I’m sure I could refine it plenty and it probably contains some bugs, but it gives an idea of what is possible with FParsec.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+            <li><a href="../../MyBlog/tags/lambda-expressions">Lambda expressions</a></li>
+        
+            <li><a href="../../MyBlog/tags/parsing">Parsing</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

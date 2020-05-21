@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Let&amp;rsquo;s see how it&amp;rsquo;s implemented. For why it is implemented, see part I.
+Thanks to Mike for reviewing this.
+using System; using System.Diagnostics.Tracing; using System.Runtime; The FxCop code analyzers get upset if I don&amp;rsquo;t declare this, which also impede me from using unsigned numeral types in interfaces.
+[assembly: CLSCompliant(true)] namespace LNativeMemory { The first piece of the puzzle is to implement an event listener. It is a not-obvious (for me) class.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Stopping Garbage Collection in .NET Core 3.0 (part II) | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2019/01/01</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Stopping Garbage Collection in .NET Core 3.0 (part II)
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Let&rsquo;s see how it&rsquo;s implemented. For why it is implemented, see part I.</p>
+<p>Thanks to <a href="https://github.com/mjrousos">Mike</a> for reviewing this.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">using</span> <span style="color:#555">System</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">System.Diagnostics.Tracing</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">System.Runtime</span>;
+</code></pre></div><p>The FxCop code analyzers get upset if I don&rsquo;t declare this, which also impede me from using unsigned numeral types in interfaces.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[assembly: CLSCompliant(true)]</span>
+
+<span style="font-weight:bold">namespace</span> <span style="color:#555">LNativeMemory</span>
+{
+</code></pre></div><p>The first piece of the puzzle is to implement an event listener. It is a not-obvious (for me) class. I don&rsquo;t fully
+understand the lifetime semantics, but the code below seems to do the right thing.</p>
+<p>The interesting piece is <code>_started</code> and the method <code>Start()</code>. The constructor for <code>EventListener</code> allocates plenty of stuff. I don&rsquo;t want
+to do those allocations after calling <code>TryStartNoGCRegion</code> because they would use part of the GC Heap that I want for my program.
+Instead, I create it before such call, but then I make it &lsquo;switch on&rsquo; just after the <code>Start()</code> method is called.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">internal</span> <span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">GcEventListener</span> : EventListener
+    {
+        Action _action;
+        EventSource _eventSource;
+        <span style="color:#458;font-weight:bold">bool</span> _active = <span style="font-weight:bold">false</span>;
+
+        <span style="font-weight:bold">internal</span> <span style="font-weight:bold">void</span> Start() { _active = <span style="font-weight:bold">true</span>; }
+        <span style="font-weight:bold">internal</span> <span style="font-weight:bold">void</span> Stop() { _active = <span style="font-weight:bold">false</span>; }
+</code></pre></div><p>As described in part one, you pass a delegate at creation time, which is called when garbage collection is restarted.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">        <span style="font-weight:bold">internal</span> GcEventListener(Action action) =&gt; _action = action ?? <span style="font-weight:bold">throw</span> <span style="font-weight:bold">new</span> ArgumentNullException(nameof(action));
+</code></pre></div><p>We register to all the events coming from .NET. We want to call the delegate at the exact point when garbage collection is turned on again.
+We don&rsquo;t have a clean way to do that (aka there is no runtime event we can hook up to, see <a href="https://github.com/dotnet/coreclr/issues/21750">here</a>,
+so listening to every single GC event gives us the most chances of doing it right. Also it ties us the least to any pattern of events, which
+might change in the future.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">        <span style="color:#998;font-style:italic">// from https://docs.microsoft.com/en-us/dotnet/framework/performance/garbage-collection-etw-events
+</span><span style="color:#998;font-style:italic"></span>        <span style="font-weight:bold">private</span> <span style="font-weight:bold">const</span> <span style="color:#458;font-weight:bold">int</span> GC_KEYWORD = <span style="color:#099">0</span>x0000001;
+        <span style="font-weight:bold">private</span> <span style="font-weight:bold">const</span> <span style="color:#458;font-weight:bold">int</span> TYPE_KEYWORD = <span style="color:#099">0</span>x0080000;
+        <span style="font-weight:bold">private</span> <span style="font-weight:bold">const</span> <span style="color:#458;font-weight:bold">int</span> GCHEAPANDTYPENAMES_KEYWORD = <span style="color:#099">0</span>x1000000;
+
+        <span style="font-weight:bold">protected</span> <span style="font-weight:bold">override</span> <span style="font-weight:bold">void</span> OnEventSourceCreated(EventSource eventSource)
+        {
+            <span style="font-weight:bold">if</span> (eventSource.Name.Equals(<span style="color:#b84">&#34;Microsoft-Windows-DotNETRuntime&#34;</span>, StringComparison.Ordinal))
+            {
+                _eventSource = eventSource;
+                EnableEvents(eventSource, EventLevel.Verbose, (EventKeywords)(GC_KEYWORD | GCHEAPANDTYPENAMES_KEYWORD | TYPE_KEYWORD));
+            }
+        }
+</code></pre></div><p>For each event, I check if the garbage collector has exited the NoGC region. If it has, then let&rsquo;s invoke the delegate.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">        <span style="font-weight:bold">protected</span> <span style="font-weight:bold">override</span> <span style="font-weight:bold">void</span> OnEventWritten(EventWrittenEventArgs eventData)
+        {
+            <span style="color:#458;font-weight:bold">var</span> eventName = eventData.EventName;
+            <span style="font-weight:bold">if</span>(_active &amp;&amp; GCSettings.LatencyMode != GCLatencyMode.NoGCRegion)
+            {
+                _action?.Invoke();
+            }
+        }
+    }
+</code></pre></div><p>Now that we have our event listener, we need to hook it up. The code below implements what I described earlier.</p>
+<ol>
+<li>Do your allocations for the event listener</li>
+<li>Start the NoGc region</li>
+<li>Start monitoring the runtime for the start of the NoGC region</li>
+</ol>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">GC2</span>
+    {
+        <span style="font-weight:bold">static</span> <span style="font-weight:bold">private</span> GcEventListener _evListener;
+
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> TryStartNoGCRegion(<span style="color:#458;font-weight:bold">long</span> totalSize, Action actionWhenAllocatedMore)
+        {
+
+            _evListener = <span style="font-weight:bold">new</span> GcEventListener(actionWhenAllocatedMore);
+            <span style="color:#458;font-weight:bold">var</span> succeeded = GC.TryStartNoGCRegion(totalSize, disallowFullBlockingGC: <span style="font-weight:bold">false</span>);
+            _evListener.Start();
+
+            <span style="font-weight:bold">return</span> succeeded;
+        }
+</code></pre></div><p>As puzzling as this might be, I provisionally believe it to be correct. Apparently, even if the GC is not in a NoGC region, you still need to call
+<code>EndNoGCRegion</code> if you have called <code>TryStartNoGCRegion</code> earlier, otherwise your next call to <code>TryStartNoGCRegion</code> will fail.
+<code>EndNoGCRegion</code> will throw an exception, but that&rsquo;s OK. Your next call to <code>TryStartNoGCRegion</code> will now succeed.</p>
+<p>Now read the above repeatedly until you got. Or just trust that it works somehow.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">        <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> EndNoGCRegion()
+        {
+            _evListener.Stop();
+
+            <span style="font-weight:bold">try</span>
+            {
+                GC.EndNoGCRegion();
+            } <span style="font-weight:bold">catch</span> (Exception)
+            {
+
+            }
+        }
+    }
+</code></pre></div><p>This is used as the default behavior for the delegate in the wrapper class below.
+I was made aware by the code analyzer that I shouldn&rsquo;t be throwing an OOF exception here. At first, I dismissed it, but then it hit me. It is right.</p>
+<p>We are not running out of memory here. We simply have allocated more memory than what we declared we would. There is likely plenty of memory left
+on the machine. Thinking more about it, I grew ashamed of my initial reaction. Think about a support engineer getting an OOM exception at that point
+and trying to figure out why. So, always listen to Lint &hellip;</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">public</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">OutOfGCHeapMemoryException</span> : OutOfMemoryException {
+        <span style="font-weight:bold">public</span> OutOfGCHeapMemoryException(<span style="color:#458;font-weight:bold">string</span> message) : <span style="font-weight:bold">base</span>(message) { }
+        <span style="font-weight:bold">public</span> OutOfGCHeapMemoryException(<span style="color:#458;font-weight:bold">string</span> message, Exception innerException) : <span style="font-weight:bold">base</span>(message, innerException) { }
+        <span style="font-weight:bold">public</span> OutOfGCHeapMemoryException() : <span style="font-weight:bold">base</span>() { }
+
+    }
+
+
+</code></pre></div><p>This is an utility class that implements the <code>IDisposable</code> pattern for this scenario. The size of the default ephemeral segment comes from
+<a href="https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals#generations">here</a>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">public</span> <span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">NoGCRegion</span>: IDisposable
+    {
+        <span style="font-weight:bold">static</span> <span style="font-weight:bold">readonly</span> Action defaultErrorF = () =&gt; <span style="font-weight:bold">throw</span> <span style="font-weight:bold">new</span> OutOfGCHeapMemoryException();
+        <span style="font-weight:bold">const</span> <span style="color:#458;font-weight:bold">int</span> safeEphemeralSegment = <span style="color:#099">1</span><span style="color:#099">6</span> * <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">2</span><span style="color:#099">4</span> * <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">2</span><span style="color:#099">4</span>;
+
+        <span style="font-weight:bold">public</span> NoGCRegion(<span style="color:#458;font-weight:bold">int</span> totalSize, Action actionWhenAllocatedMore)
+        {
+            <span style="color:#458;font-weight:bold">var</span> succeeded = GC2.TryStartNoGCRegion(totalSize, actionWhenAllocatedMore);
+            <span style="font-weight:bold">if</span> (!succeeded)
+                <span style="font-weight:bold">throw</span> <span style="font-weight:bold">new</span> InvalidOperationException(<span style="color:#b84">&#34;Cannot enter NoGCRegion&#34;</span>);
+        }
+
+        <span style="font-weight:bold">public</span> NoGCRegion(<span style="color:#458;font-weight:bold">int</span> totalSize) : <span style="font-weight:bold">this</span>(totalSize, defaultErrorF) { }
+        <span style="font-weight:bold">public</span> NoGCRegion() : <span style="font-weight:bold">this</span>(safeEphemeralSegment, defaultErrorF) { }
+
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Dispose() =&gt; GC2.EndNoGCRegion();
+    }
+}
+</code></pre></div>
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/csharp">csharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

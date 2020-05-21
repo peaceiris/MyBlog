@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="We have one loose end to tie in the evaluator: the primitive operators. These are things that the interpreter knows intrinsically. There is a list of them below.
+let rec primitives = [ &#34;&#43;&#34;, numericBinop (&#43;) &#34;-&#34;, numericBinop (-) &#34;*&#34;, numericBinop (*) &#34;/&#34;, numericBinop (/) &#34;mod&#34;, numericBinop (%) &#34;=&#34;, numBoolBinop (=) &#34;&amp;lt;&#34;, numBoolBinop (&amp;lt;) &#34;&amp;gt;&#34;, numBoolBinop (&amp;gt;) &#34;/=&#34;, numBoolBinop (&amp;lt;&amp;gt;) &#34;&amp;gt;=&#34;, numBoolBinop (&amp;gt;=) &#34;&amp;lt;=&#34;, numBoolBinop (&amp;lt;=) &#34;&amp;&amp;&#34;, boolBoolBinop (&amp;&amp;) &#34;||&#34;, boolBoolBinop (||) &#34;">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Write Yourself a Scheme in 48 Hours in F# – Part V | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2011/07/07</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Write Yourself a Scheme in 48 Hours in F# – Part V
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>We have one loose end to tie in the evaluator: the primitive operators. These are things that the interpreter knows intrinsically. There is a list of them below.</p>
+<pre class="code"><span style="color:blue;">let rec </span>primitives =
+     [
+        <span style="color:maroon;">"+"</span>,    numericBinop (+)
+        <span style="color:maroon;">"-"</span>,    numericBinop (-)
+        <span style="color:maroon;">"*"</span>,    numericBinop (*)
+        <span style="color:maroon;">"/"</span>,    numericBinop (/)
+        <span style="color:maroon;">"mod"</span>,  numericBinop (%)
+        <span style="color:maroon;">"="</span>,    numBoolBinop (=)
+        <span style="color:maroon;">"&lt;"</span>,    numBoolBinop (&lt;)
+        <span style="color:maroon;">"&gt;"</span>,    numBoolBinop (&gt;)
+        <span style="color:maroon;">"/="</span>,   numBoolBinop (&lt;&gt;)
+        <span style="color:maroon;">"&gt;="</span>,   numBoolBinop (&gt;=)
+        <span style="color:maroon;">"&lt;="</span>,   numBoolBinop (&lt;=)
+        <span style="color:maroon;">"&&"</span>,   boolBoolBinop (&&)
+        <span style="color:maroon;">"||"</span>,   boolBoolBinop (||)
+        <span style="color:maroon;">"string=?"</span>,     strBoolBinop (=)
+        <span style="color:maroon;">"string&gt;?"</span>,      strBoolBinop (&gt;)
+        <span style="color:maroon;">"string&lt;?"</span>,      strBoolBinop (&lt;)
+        <span style="color:maroon;">"string&lt;=?"</span>,    strBoolBinop (&lt;=)
+        <span style="color:maroon;">"string&gt;=?"</span>,    strBoolBinop (&gt;=)
+        <span style="color:maroon;">"car"</span>,  car
+        <span style="color:maroon;">"cdr"</span>,  cdr
+        <span style="color:maroon;">"cons"</span>, cons
+        <span style="color:maroon;">"eq?"</span>, eqv
+        <span style="color:maroon;">"eqv?"</span>, eqv
+        <span style="color:maroon;">"equal?"</span>, equal
+        <span style="color:green;">// IO primitives
+        </span><span style="color:maroon;">"apply"</span>, applyProc
+        <span style="color:maroon;">"open-input-file"</span>, makePort FileAccess.Read
+        <span style="color:maroon;">"open-output-file"</span>, makePort FileAccess.Write
+        <span style="color:maroon;">"close-input-port"</span>, closePort
+        <span style="color:maroon;">"close-output-port"</span>, closePort
+        <span style="color:maroon;">"read"</span>, readProc
+        <span style="color:maroon;">"write"</span>, writeProc
+        <span style="color:maroon;">"read-contents"</span>, readContents
+        <span style="color:maroon;">"read-all"</span>, readAll
+     ]</pre>
+<p>Having seen the above list, it now becomes clearer why the <em>primitiveBindings</em> function was defined as such. It just binds these pairs into the environment.</p>
+<pre class="code"><span style="color:blue;">let </span>primitiveBindings () =
+    (nullEnv ()) |&gt; bindVars [ <span style="color:blue;">for </span>v, f <span style="color:blue;">in </span>primitives <span style="color:blue;">-&gt; </span>v, PrimitiveFunc f ] </pre>
+<p><em>numericBinop</em> unpacks the numbers, applies the provided operator and packs the result back in the Number.</p>
+<pre class="code"><span style="color:blue;">let </span>numericBinop op parms =
+    <span style="color:blue;">if </span>List.length parms &lt; 2
+        <span style="color:blue;">then </span>throw &lt;| NumArgs(2, parms)
+        <span style="color:blue;">else </span>parms |&gt; List.map unpackNum |&gt; foldl1 op |&gt; Number</pre>
+<p>While we are at it, we can define _fold1 (_it tends to be  useful)</p>
+<pre class="code"><span style="color:blue;">let </span>foldl1 op = <span style="color:blue;">function
+    </span>| h::t <span style="color:blue;">-&gt; </span>List.fold op h t
+    | [] <span style="color:blue;">-&gt; </span>throw (Default(<span style="color:maroon;">"Expected a not empty list, got an empty list"</span>))</pre>
+<p>The other XBinops work similarly …</p>
+<pre class="code"><span style="color:blue;">let </span>boolBinop unpacker op args =
+    <span style="color:blue;">match </span>args <span style="color:blue;">with
+    </span>| [ left; right ] <span style="color:blue;">-&gt; </span>Bool (op (unpacker left) (unpacker right))
+    | _ <span style="color:blue;">-&gt; </span>throw (NumArgs(2,args))
+<span style="color:blue;">let </span>numBoolBinop = boolBinop unpackNum
+<span style="color:blue;">let </span>strBoolBinop = boolBinop unpackStr
+<span style="color:blue;">let </span>boolBoolBinop = boolBinop unpackBool</pre>
+<p>We now have to look at the family of unpackers. They all work rather similarly. Notice Scheme making an effort to get a number out of a string and to get anything out of a list. Strong type folks won’t like that. Oh well, just remove these lines …</p>
+<pre class="code"><span style="color:blue;">let rec </span>unpackNum = <span style="color:blue;">function
+    </span>| Number n  <span style="color:blue;">-&gt; </span>n
+    | String n  <span style="color:blue;">-&gt; let </span>success, result = System.Int32.TryParse n
+                   <span style="color:blue;">if </span>success
+                       <span style="color:blue;">then </span>result
+                       <span style="color:blue;">else </span>throw (TypeMismatch(<span style="color:maroon;">"number"</span>, String n))
+    | List [n]  <span style="color:blue;">-&gt; </span>unpackNum n
+    | notNumber <span style="color:blue;">-&gt; </span>throw (TypeMismatch(<span style="color:maroon;">"number"</span>, notNumber))
+<span style="color:blue;">let rec </span>unpackStr = <span style="color:blue;">function
+    </span>| String s <span style="color:blue;">-&gt; </span>s
+    | Number n <span style="color:blue;">-&gt; </span>n.ToString()
+    | Bool b   <span style="color:blue;">-&gt; </span>b.ToString()
+    | List [s]  <span style="color:blue;">-&gt; </span>unpackStr s
+    | noString <span style="color:blue;">-&gt; </span>throw (TypeMismatch(<span style="color:maroon;">"string"</span>, noString))
+<span style="color:blue;">let rec </span>unpackBool = <span style="color:blue;">function
+    </span>| Bool b <span style="color:blue;">-&gt; </span>b
+    | List [b]  <span style="color:blue;">-&gt; </span>unpackBool b
+    | noBool <span style="color:blue;">-&gt; </span>throw (TypeMismatch(<span style="color:maroon;">"boolean"</span>, noBool))</pre>
+<p>Now back to the list of primitive operators, there are the signature LISP operators <em>car</em>, <em>cdr</em> and <em>cons</em>. Just understanding the first line for each function should be enough to get an idea of what they do.</p>
+<pre class="code"><span style="color:blue;">let </span>car = <span style="color:blue;">function
+    </span>| [List (x :: _)] <span style="color:blue;">-&gt; </span>x
+    | [DottedList (x :: _, _)] <span style="color:blue;">-&gt; </span>x
+    | [badArg] <span style="color:blue;">-&gt; </span>throw (TypeMismatch(<span style="color:maroon;">"pair"</span>, badArg))
+    | badArgList <span style="color:blue;">-&gt; </span>throw (NumArgs(1, badArgList))
+<span style="color:blue;">let </span>cdr = <span style="color:blue;">function
+    </span>| [List (x :: xs)] <span style="color:blue;">-&gt; </span>List xs
+    | [DottedList ([xs], x)] <span style="color:blue;">-&gt; </span>x
+    | [DottedList ((_ :: xs), x)] <span style="color:blue;">-&gt; </span>DottedList (xs, x)
+    | [badArg] <span style="color:blue;">-&gt; </span>throw (TypeMismatch(<span style="color:maroon;">"pair"</span>, badArg))
+    | badArgList <span style="color:blue;">-&gt; </span>throw (NumArgs(1, badArgList))
+<span style="color:blue;">let </span>cons = <span style="color:blue;">function
+    </span>| [x; List xs] <span style="color:blue;">-&gt; </span>List (x :: xs)
+    | [x; DottedList (xs, xlast)] <span style="color:blue;">-&gt; </span>DottedList (x :: xs, xlast)
+    | [x1; x2] <span style="color:blue;">-&gt; </span>DottedList([x1], x2)
+    | badArgList <span style="color:blue;">-&gt; </span>throw (NumArgs(2, badArgList))</pre>
+<p>We then need to work our way to implement <em>eqv</em> (aka <em>eq?</em> in Scheme). We first define a function that tests that two LispVal are the same. It should be pretty self explanatory (the list piece is kind of cute).</p>
+<pre class="code"><span style="color:blue;">let rec </span>eqvPrim e1 e2 =
+        <span style="color:blue;">match </span>e1, e2 <span style="color:blue;">with
+        </span>| (Bool b1, Bool b2) <span style="color:blue;">-&gt; </span>b1 = b2
+        | (Number n1, Number n2) <span style="color:blue;">-&gt; </span>n1 = n2
+        | (String s1, String s2) <span style="color:blue;">-&gt; </span>s1 = s2
+        | (Atom a1, Atom a2) <span style="color:blue;">-&gt; </span>a1 = a2
+        | (DottedList (xs, x), DottedList(ys, y)) <span style="color:blue;">-&gt; </span>eqvPrim (List (xs @ [x])) (List (ys @ [y]))
+        | (List l1, List l2) <span style="color:blue;">-&gt; </span>l1.Length = l2.Length && List.forall2 eqvPrim l1 l2
+        | _ <span style="color:blue;">-&gt; false
+</span></pre>
+<p>Now we wrap the result in a <em>Bool</em>. Doing it this way avoid repeating the wrapping in each single line of <em>eqvPrim</em> (thanks to Tobias for spotting this refactoring).</p>
+<pre class="code"><span style="color:blue;">let </span>eqv = <span style="color:blue;">function
+          </span>| [e1; e2] <span style="color:blue;">-&gt; </span>Bool (eqvPrim e1 e2)
+          | badArgList <span style="color:blue;">-&gt; </span>throw (NumArgs (2, badArgList))</pre>
+<p><em>Equal?</em> checks if there is any unpacking scheme that can be used to test equality of the two elements of a two element list.</p>
+<pre class="code"><span style="color:blue;">let </span>equal = <span style="color:blue;">function
+    </span>| [arg1; arg2] <span style="color:blue;">-&gt;
+        let </span>unpackEqual = numUnpackEq arg1 arg2 ||
+                          strUnpackEq arg1 arg2 ||
+                          boolUnpackEq arg1 arg2
+        Bool (eqvPrim arg1 arg2 || unpackEqual)
+    | argsList <span style="color:blue;">-&gt; </span>throw (NumArgs(2, argsList))</pre>
+<p>We need to define equality of packed primitive types. We do it nicely below.</p>
+<pre class="code"><span style="color:blue;">let </span>tryUnpacker (unpack : LispVal <span style="color:blue;">-&gt; </span>'a) (op : 'a <span style="color:blue;">-&gt; </span>'a <span style="color:blue;">-&gt; </span>bool) arg1 arg2 =
+    <span style="color:blue;">try </span>op (unpack arg1) (unpack arg2) <span style="color:blue;">with </span>_ <span style="color:blue;">-&gt; false
+let </span>numUnpackEq = tryUnpacker unpackNum (=)
+<span style="color:blue;">let </span>strUnpackEq = tryUnpacker unpackStr (=)
+<span style="color:blue;">let </span>boolUnpackEq = tryUnpacker unpackBool (=)</pre>
+<p>The <em>apply</em> statement maps more or less directly to our <em>apply</em> function.</p>
+<pre class="code">applyProc = <span style="color:blue;">function
+            </span>| [func; List args] <span style="color:blue;">-&gt; </span>apply func args
+            | func :: args <span style="color:blue;">-&gt; </span>apply func args
+            | [] <span style="color:blue;">-&gt; </span>throw (Default(<span style="color:maroon;">"Expecting a function, got an empty list"</span>))</pre>
+<p>And we are left with the I/O processing functions. We are simply wrapping a FileStream in a Port.</p>
+<pre class="code"><span style="color:blue;">let </span>makePort fileAccess = fileIOFunction (<span style="color:blue;">fun </span>fileName <span style="color:blue;">-&gt;
+                                </span>File.Open(fileName,FileMode.OpenOrCreate, fileAccess) |&gt; Port)
+    <span style="color:blue;">let </span>closePort = <span style="color:blue;">function
+                    </span>| [Port(port)] <span style="color:blue;">-&gt; </span>port.Close() ; Bool <span style="color:blue;">true
+                    </span>| _ <span style="color:blue;">-&gt; </span>Bool <span style="color:blue;">false
+</span></pre>
+<p>We then can read and write from it. Notice how the lack of arguments makes us do it from the standard Console.</p>
+<pre class="code"><span style="color:blue;">let rec </span>readProc port =
+    <span style="color:blue;">let </span>parseReader (reader:TextReader) = reader.ReadLine() |&gt; readExpr
+    <span style="color:blue;">match </span>port <span style="color:blue;">with
+       </span>| [] <span style="color:blue;">-&gt; </span>parseReader(System.Console.In)
+       | [Port(port)] <span style="color:blue;">-&gt;
+            use </span>reader = <span style="color:blue;">new </span>StreamReader(port)
+            parseReader (reader)
+       | args <span style="color:blue;">-&gt; </span>throw (NumArgs(1, args))
+<span style="color:blue;">let </span>writeProc objPort =
+    <span style="color:blue;">let </span>write obj (writer: TextWriter) = writer.Write(showVal obj) ; Bool <span style="color:blue;">true
+    match </span>objPort <span style="color:blue;">with
+    </span>| [obj] <span style="color:blue;">-&gt; </span>write obj (System.Console.Out)
+    | [obj ; Port(port)] <span style="color:blue;">-&gt;
+        use </span>writer = <span style="color:blue;">new </span>StreamWriter(port)
+        write obj writer
+    | args <span style="color:blue;">-&gt; </span>throw (NumArgs(1, args))</pre>
+<p>There you go. A full evaluator in two blog posts!! Next up, the parser.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+            <li><a href="../../MyBlog/tags/lambda-expressions">Lambda expressions</a></li>
+        
+            <li><a href="../../MyBlog/tags/parsing">Parsing</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

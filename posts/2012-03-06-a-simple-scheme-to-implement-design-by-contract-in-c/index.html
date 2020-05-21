@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Recently I got interested in C&#43;&#43; again. The new lambda functions in C&#43;&#43; 11 open up a world of opportunities for C&#43;&#43; programmers. I’ll talk more about how you can write functional code in C&#43;&#43; 11 in upcoming posts. For now let’s look at design by contract.
+Design by contract is a development style promoted by Bertrand Meyer and it is implemented in his own Eiffel programming language. At core, it advocates using preconditions, postconditions and invariants.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>A simple scheme to implement Design by Contract in C&#43;&#43; | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2012/03/03</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        A simple scheme to implement Design by Contract in C&#43;&#43;
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Recently I got interested in C++ again. The new lambda functions in C++ 11 open up a world of opportunities for C++ programmers. I’ll talk more about how you can write functional code in C++ 11 in upcoming posts. For now let’s look at design by contract.</p>
+<p><a href="http://en.wikipedia.org/wiki/Design_by_contract">Design by contract</a> is a development style promoted by  <a href="http://en.wikipedia.org/wiki/Bertrand_Meyer">Bertrand Meyer</a> and it is implemented in his own <a href="http://en.wikipedia.org/wiki/Eiffel_%28programming_language%29">Eiffel programming language</a>. At core, it advocates using preconditions, postconditions and invariants.</p>
+<p>An invariant is an assertion that always holds true for a class after the class has been fully constructed and if the code is not executing inside a method. As a user of the class, you always observe the invariant to be true. As an implementer of the class, you can be assured that the invariant is true before a method is entered and you need to make the invariant true again by the time your method exits.</p>
+<p>A preconditions is an assertion that needs to hold true at the start of a function, for the postcondition to be true at the end of it. Taken together, invariant, precondition and postcondition define the contract between the implementer and the user of a class.</p>
+<p>Code for this post is <a href="https://github.com/lucabol/FunctionalCpp/blob/master/dbc.hpp">here</a> and <a href="https://github.com/lucabol/FunctionalCpp/blob/master/dbc.cpp">here</a>. Thanks to Andy Sawyer, Steve Bower and Ganesh Sittampalam for reviewing my code and suggesting improvements.</p>
+<p>Preconditions are simple and everyone uses them. They are those little <em>if</em> statements that you put at the start of your functions to make sure that the caller has given you the right parameters.</p>
+<pre class="code"><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">divide(</span><span style="background:white;color:blue;">double </span><span style="background:white;color:gray;">x</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">double </span><span style="background:white;color:gray;">y</span><span style="background:white;color:black;">) {
+    </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(</span><span style="background:white;color:gray;">y </span><span style="background:white;color:black;">== 0) </span><span style="background:white;color:blue;">throw new </span><span style="background:white;color:#2b91af;">exception</span><span style="background:white;color:black;">(“y cannot be 0”</span><span style="background:white;color:black;">);<br />    …
+</span><span style="background:white;color:black;">}</span></pre>
+<p><span style="background:white;color:black;">These little ‘if’ statements don’t really make the precondition stand out. They can be confused with other, unrelated, ‘if’ statements that do completely different semantic things. A more readable alternative is:</span></p>
+<pre class="code"><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">divide(</span><span style="background:white;color:blue;">double </span><span style="background:white;color:gray;">x</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">double </span><span style="background:white;color:gray;">y</span><span style="background:white;color:black;">) {
+</span><span style="background:white;color:black;">    </span><span style="background:white;color:#6f008a;">requires</span><span style="background:white;color:black;">(</span><span style="background:white;color:gray;">y </span><span style="background:white;color:black;">!= 0);
+    </span><span style="background:white;color:#6f008a;">…<br /></span><span style="background:white;color:black;">}</span></pre>
+<p><span style="background:white;color:black;">Not an impressive difference, for sure, but kind of nice. The evil macro looks like this:</span></p>
+<pre class="code"><span style="background:white;color:blue;">#ifndef </span><span style="background:white;color:black;">___PRECOND
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">requires</span><span style="background:white;color:black;">(F) {</span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">((!(F))) </span><span style="background:white;color:blue;">throw </span><span style="background:white;color:#2b91af;">preexception</span><span style="background:white;color:black;">(</span><span style="background:white;color:#6f008a;">__FILE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">,</span><span style="background:white;color:maroon;">"Pre-condition failure: " </span><span style="background:white;color:black;">#F);};
+</span><span style="background:white;color:blue;">#else
+#define </span><span style="background:white;color:black;">requires(F)
+</span><span style="background:white;color:blue;">#endif</span></pre>
+<p><span style="background:white;color:blue;"><font color="#000000">Note that the exception maintains information not just about the file and line number of the failure, but also a textual representation of the failed condition. Such things you can do with macro magick.</font></span></p>
+<p><span style="background:white;color:blue;"><font color="#000000">Postconditions are trickier. In the case of a side-effect free (pure) function, a postcondition asserts something of interest about the return value. In the case of a class, it asserts something of interest about the state of the class before and after the execution of the method.</font></span></p>
+<p><span style="background:white;color:blue;"><font color="#000000">Let’s start with a pure function. I like to have all my assertion at the start of the function to allow reasoning about it without looking at implementation details. But that poses the problem that the result is available just at the end of the function.  My solution is to enforce this idiom:</font></span></p>
+<pre class="code"><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">divide(</span><span style="background:white;color:blue;">double </span><span style="background:white;color:gray;">x</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">double </span><span style="background:white;color:gray;">y</span><span style="background:white;color:black;">) {
+    </span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">result;
+    </span><span style="background:white;color:#6f008a;">requires</span><span style="background:white;color:black;">(</span><span style="background:white;color:gray;">y </span><span style="background:white;color:black;">!= 0);
+ </span><span style="background:white;color:black;">   </span><span style="background:white;color:#6f008a;">ensures</span><span style="background:white;color:black;">(result &lt; </span><span style="background:white;color:gray;">x</span><span style="background:white;color:black;">); // Silly, just to falsify it in tests<br />    …
+    </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">result;
+}</span></pre>
+<p><span style="background:white;color:black;">So you need to declare your result upfront. That is the biggest limitation of the overall solution in my opinion.  If that is acceptable to you, the trick now is how to execute the postcondition test before the method exits. We can do that by storing a lambda and executing it in the destructor:</span></p>
+<pre class="code"><span style="background:white;color:blue;">typedef </span><span style="background:white;color:black;">std::</span><span style="background:white;color:#2b91af;">function</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">bool </span><span style="background:white;color:black;">()&gt; </span><span style="background:white;color:#2b91af;">___dbcLambda</span><span style="background:white;color:black;">;
+</span><span style="background:white;color:blue;">class </span><span style="background:white;color:#2b91af;">___post </span><span style="background:white;color:black;">{
+</span><span style="background:white;color:blue;">public</span><span style="background:white;color:black;">:
+    ___post(</span><span style="background:white;color:blue;">const char </span><span style="background:white;color:black;">*</span><span style="background:white;color:gray;">file</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">long </span><span style="background:white;color:gray;">line</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">const char </span><span style="background:white;color:black;">*</span><span style="background:white;color:gray;">expr</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">___dbcLambda</span><span style="background:white;color:black;">& </span><span style="background:white;color:gray;">postF</span><span style="background:white;color:black;">)
+        : _f(</span><span style="background:white;color:gray;">postF</span><span style="background:white;color:black;">),
+          _file(</span><span style="background:white;color:gray;">file</span><span style="background:white;color:black;">),
+          _line(</span><span style="background:white;color:gray;">line</span><span style="background:white;color:black;">),
+          _expr(</span><span style="background:white;color:gray;">expr</span><span style="background:white;color:black;">)
+    {}
+    ~___post()
+    {
+        </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">( !std::uncaught_exception() && !_f() )
+        {
+            </span><span style="background:white;color:blue;">throw </span><span style="background:white;color:#2b91af;">postexception</span><span style="background:white;color:black;">(_file,_line,_expr);
+        }
+    }
+</span><span style="background:white;color:blue;">private</span><span style="background:white;color:black;">:
+    </span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">___dbcLambda </span><span style="background:white;color:black;">_f;
+    </span><span style="background:white;color:blue;">const char </span><span style="background:white;color:black;">* </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">_file;
+    </span><span style="background:white;color:blue;">const long </span><span style="background:white;color:black;">_line;
+    </span><span style="background:white;color:blue;">const char </span><span style="background:white;color:black;">* </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">_expr;
+};</span></pre>
+<p><span style="background:white;color:black;">You might think that you shouldn’t throw exceptions in a destructor. That is something I never understood about the <a href="http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization">RAII</a> pattern in C++. If I choose to use exceptions as my error notification method, how am I supposed to get notified if there is a problem releasing a resource in RAII, other than by throwing an exception in the destructor?</span></p>
+<p><span style="background:white;color:black;">Maybe because of this, the standard has an uncaught_exception() function that allows you to check if an exception has been thrown, so that you don’t throw another one during stack unwinding. If you really don’t like throwing in the destructor, feel free to assert.</span></p>
+<p><span style="background:white;color:black;">You might be worried about performance, but you really shouldn’t as you can disable all these macros in Release.</span></p>
+<p><span style="background:white;color:black;">The macro then creates a ___post class on the stack.</span></p>
+<pre class="code"><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">ensures</span><span style="background:white;color:black;">(F) \
+    </span><span style="background:white;color:blue;">int </span><span style="background:white;color:#6f008a;">___UNIQUE_LINE </span><span style="background:white;color:black;">= </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">;  \
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:#6f008a;">___UNIQUE_POST </span><span style="background:white;color:black;">= ___post( </span><span style="background:white;color:#6f008a;">__FILE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:maroon;">"Post-condition failure:" </span><span style="background:white;color:black;">#F, [&](){</span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">(F);});</span></pre>
+<p>The UNIQUE stuff is messy business. Part of it is by design and it is used to make sure that each __post variable has a unique name to have multiple ‘ensures’ in a function. The other part is a workaround for <a href="http://social.msdn.microsoft.com/Forums/en/vcgeneral/thread/2c4698e1-8159-44fc-a64c-d15220acedb8">this</a> msvc bug. Let me know if you want more details. I suspect there is a better way to do it.</p>
+<p>Here is the full enchilada …</p>
+<pre class="code"><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">___MERGE</span><span style="background:white;color:black;">(a, b) a##b
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">___POST</span><span style="background:white;color:black;">(a) </span><span style="background:white;color:#6f008a;">___MERGE</span><span style="background:white;color:black;">(___postcond,a)
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">___UNIQUE_POST ___POST</span><span style="background:white;color:black;">(</span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">)
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">___LINE</span><span style="background:white;color:black;">(a) </span><span style="background:white;color:#6f008a;">___MERGE</span><span style="background:white;color:black;">(___line, a)
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">___UNIQUE_LINE ___LINE</span><span style="background:white;color:black;">(</span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">)</span></pre>
+<p><span style="background:white;color:black;">The case in which a postcondition is used inside a method of a class is even trickier because the postcondition must be able to compare the state of the class at the entrance of the method to the state of the class at its exit. Assuming a Counter object with an Add method and assuming ‘___pre’ captures the state of the counter at the start of the method, you’d like to write something like:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">void </span><span style="background:white;color:black;">Add(</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">x</span><span style="background:white;color:black;">) {
+</span><span style="background:white;color:black;">        </span><span style="background:white;color:#6f008a;">ensuresClass</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">this</span><span style="background:white;color:black;">-&gt;c_ == ___pre.c_ + x);<br />        …
+</span><span style="background:white;color:black;">    }</span></pre>
+<p><span style="background:white;color:black;">Now, this is tricky. The only way to capture the ‘old’ state in ‘___pre’ is by making a copy of it and store it there. This is what the code below does:</span></p>
+<pre class="code"><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">ensuresClass</span><span style="background:white;color:black;">(F) \
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">___pre(*</span><span style="background:white;color:blue;">this</span><span style="background:white;color:black;">); \
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:#6f008a;">___UNIQUE_POST </span><span style="background:white;color:black;">= </span><span style="background:white;color:#2b91af;">___post</span><span style="background:white;color:black;">( </span><span style="background:white;color:#6f008a;">__FILE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:maroon;">"Post-condition failure: " </span><span style="background:white;color:black;">#F, [&](){</span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">(F);});</span></pre>
+<p><span style="background:white;color:black;">More troubling is the possibility that the class doesn’t have a copy constructor. In that case you explicitly need to associate a value with ‘___pre2’ by passing it as the first parameter to the appropriate macro as in the code below:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">void </span><span style="background:white;color:black;">Add(</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">x</span><span style="background:white;color:black;">) {
+</span><span style="background:white;color:black;">        </span><span style="background:white;color:#6f008a;">ensuresClass2</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">this</span><span style="background:white;color:black;">-&gt;c_, c_ == ___pre2 + x);
+</span><span style="background:white;color:black;">    }</span></pre>
+<p><span style="background:white;color:black;">Which is implemented as follows:</span></p>
+<pre class="code"><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">ensuresClass2</span><span style="background:white;color:black;">(ASS,F) \
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">___pre2(ASS); \
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:#6f008a;">___UNIQUE_POST </span><span style="background:white;color:black;">= </span><span style="background:white;color:#2b91af;">___post</span><span style="background:white;color:black;">( </span><span style="background:white;color:#6f008a;">__FILE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:maroon;">"Post-condition failure: " </span><span style="background:white;color:black;">#ASS </span><span style="background:white;color:maroon;">" is ___pre2 in " </span><span style="background:white;color:black;">#F, [&](){</span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">(F);});</span></pre>
+<p><span style="background:white;color:black;">And I know about the giant ass …</span></p>
+<p><span style="background:white;color:black;">Now for invariants. The user should implement an isValid() method on his class as below:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">bool </span><span style="background:white;color:black;">isValid() { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">c_ &gt;= 0;}</span></pre>
+<p><span style="background:white;color:black;">Then he should add an ‘invariant()’ call at the start of each method, at the end of each constructor and at the start of each destructor:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">void </span><span style="background:white;color:black;">Add(</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">x</span><span style="background:white;color:black;">) {
+        </span><span style="background:white;color:#6f008a;">invariant</span><span style="background:white;color:black;">();
+        </span><span style="background:white;color:#6f008a;">requires</span><span style="background:white;color:black;">(x &lt; 10);
+</span><span style="background:white;color:black;">        </span><span style="background:white;color:#6f008a;">ensures</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">this</span><span style="background:white;color:black;">-&gt;c_ == ___pre.c_ + x);<br />        …
+</span><span style="background:white;color:black;">    }</span></pre>
+<p><span style="background:white;color:black;">This calls the ‘isValid’ function at the start of the method and at the end of it using the same destructor trick:</span></p>
+<pre class="code"><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">invariant</span><span style="background:white;color:black;">() \
+    </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(!(</span><span style="background:white;color:blue;">this</span><span style="background:white;color:black;">-&gt;isValid())) </span><span style="background:white;color:blue;">throw </span><span style="background:white;color:#2b91af;">preexception</span><span style="background:white;color:black;">(</span><span style="background:white;color:#6f008a;">__FILE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">,</span><span style="background:white;color:maroon;">"Invariant failure"</span><span style="background:white;color:black;">); \
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:#6f008a;">___UNIQUE_INV </span><span style="background:white;color:black;">= </span><span style="background:white;color:#2b91af;">___post</span><span style="background:white;color:black;">( </span><span style="background:white;color:#6f008a;">__FILE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">, </span><span style="background:white;color:maroon;">"Invariant failure"</span><span style="background:white;color:black;">, [&](){</span><span style="background:white;color:blue;">return this</span><span style="background:white;color:black;">-&gt;isValid();});</span></pre>
+<p><span style="background:white;color:black;">All the above machinery is not at all equivalent to having such constructs in the language, but it is simple enough and with a decent enough syntax to be interesting.</span></p>
+<p><span style="background:white;color:black;">Now a caveat: I have no idea if any of this works. It does work in my examples and its behaviour seems reasonably safe to me, but I haven’t tried it out on any big codebase and haven’t stressed it enough for me to be confident recommending its usage. So, use it at your own risk, let me know how it goes.</span></p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/c&#43;&#43;">C&#43;&#43;</a></li>
+        
+            <li><a href="../../MyBlog/tags/functional-programming">Functional Programming</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

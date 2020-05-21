@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>fsharp on Lucabol blog</title>
+    <link>http://peaceiris.com/MyBlog/tags/fsharp/</link>
+    <description>Recent content in fsharp on Lucabol blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Mar 2013 15:29:05 +0000</lastBuildDate>
+    
+	<atom:link href="http://peaceiris.com/MyBlog/tags/fsharp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Funky C for literate programming</title>
+      <link>http://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</link>
+      <pubDate>Wed, 20 Mar 2013 15:29:05 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</guid>
+      <description>Main ideas This is a port of LLIte in C. The reason for it is to experiment with writing functional code in standard C and compare the experience with using a functional language like F#. It is in a way a continuation of my previous posts on the topic.
+I will be using glib and an header of convenient macros/functions to help me (lutils.h). I don’t think that is cheating. Any modern C praticoner has its bag of tricks …</description>
+    </item>
+    
+    <item>
+      <title>LLite : language friendly literate programming</title>
+      <link>http://peaceiris.com/MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/</link>
+      <pubDate>Fri, 14 Dec 2012 12:29:26 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/</guid>
+      <description>Main ideas My interest in literate programming comes from some realizations on my part:
+ When I go back to code that I have written some time ago, I don&amp;rsquo;t remember my reasoning When I write a blog post, my code seems to be better. Perhaps explaining things to people encourages me to be more precise I like to think top down, but the compiler forces me to write code bottom up, starting from details and going to higher level concepts  Unhappiness with existing tools Many of the existing literate programming tools work similarly to the original CWeb.</description>
+    </item>
+    
+    <item>
+      <title>Exceptions vs. Return Values to represent errors (in F#) – IV – Implementation</title>
+      <link>http://peaceiris.com/MyBlog/posts/2012-12-07-exceptions-vs-return-values-to-represent-errors-in-f-iii-implementation/</link>
+      <pubDate>Fri, 07 Dec 2012 09:44:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2012-12-07-exceptions-vs-return-values-to-represent-errors-in-f-iii-implementation/</guid>
+      <description>The Critical monad is defined as follows. First there is the type that propagates through the monad:
+type Result&amp;lt;&#39;a, &#39;b&amp;gt; = | Success of &#39;a | Failure of &#39;b Then we define the usual computation expression methods.
+type Critical() = // a -&amp;gt; m a member o.Return x = Success x // m a -&amp;gt; (a -&amp;gt; m b) -&amp;gt; m b member o.Bind (m, f) = match m with | Failure e -&amp;gt; Failure e | Success x -&amp;gt; f x // m a -&amp;gt; m a member o.</description>
+    </item>
+    
+    <item>
+      <title>Exceptions vs. Return Values to represent errors (in F#) – III–The Critical monad</title>
+      <link>http://peaceiris.com/MyBlog/posts/2012-11-30-exceptions-vs-return-values-to-represent-errors-in-f-iiithe-critical-monad/</link>
+      <pubDate>Fri, 30 Nov 2012 16:41:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2012-11-30-exceptions-vs-return-values-to-represent-errors-in-f-iiithe-critical-monad/</guid>
+      <description>Code for this post is here.
+In the last post we looked at some Critical code and decided that, albeit correct, it is convoluted. The error management path obfuscates the underlying logic. Also we have no way of knowing if a developer had thought about the error path or not when invoking a function.
+Let’s tackle the latter concern first as it is easier. We want the developer to declaratively tag each method call with something that represents his intent about managing the Contingencies or Faults of the function.</description>
+    </item>
+    
+    <item>
+      <title>Exceptions vs. Return Values to represent errors (in F#) – II– An example problem</title>
+      <link>http://peaceiris.com/MyBlog/posts/2012-11-23-exceptions-vs-return-values-to-represent-errors-in-f-iithe-critical-monad/</link>
+      <pubDate>Fri, 23 Nov 2012 10:45:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2012-11-23-exceptions-vs-return-values-to-represent-errors-in-f-iithe-critical-monad/</guid>
+      <description>In the previous post, we talked about the difference between Critical and Normal code. In this post we are going to talk about the Critical code part. Ideally, we want:
+ A way to indicate that a particular piece of code (potentially the whole program) is Critical A way to force/encourage the programmer to make an explicit decision on the call site of a function on how he wants to manage the error conditions (both contingencies and faults) A way to force/encourage the programmer to expose contingencies/faults that are appropriate for the conceptual level of the function the code is in (aka don’t expose implementation details for the function, i.</description>
+    </item>
+    
+    <item>
+      <title>Exceptions vs. Return Values to represent errors (in F#) – Conceptual view</title>
+      <link>http://peaceiris.com/MyBlog/posts/2012-11-19-exceptions-vs-return-values-to-represent-errors-in-f-i-conceptual-view/</link>
+      <pubDate>Mon, 19 Nov 2012 13:02:10 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2012-11-19-exceptions-vs-return-values-to-represent-errors-in-f-i-conceptual-view/</guid>
+      <description>Recently I’ve been reading numerous articles on the age old question of exceptions vs. return values. There is a vast literature on the topic with very passionate opinions on one side or the other. Below is my view on it.
+First of all, I’ll define my terms.
+ Success code path: chunk of code that is responsible to perform the main task of a function, without any regard for error conditions Contingency: an event that happens during the success code path execution that is of interest for the caller of the function.</description>
+    </item>
+    
+    <item>
+      <title>Retrieving SQL Server data with type providers and exposing it with ASP.NET Web APIs in F#</title>
+      <link>http://peaceiris.com/MyBlog/posts/2012-09-04-retrieving-sql-server-data-with-type-providers-and-exposing-it-with-asp-net-web-apis-in-f/</link>
+      <pubDate>Tue, 04 Sep 2012 10:16:17 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2012-09-04-retrieving-sql-server-data-with-type-providers-and-exposing-it-with-asp-net-web-apis-in-f/</guid>
+      <description>For a good introduction on how to use Web APIs in F#, read here. The starting point for type providers is here. This post is about how I solved a practical problem using these technologies.
+First, let’s discuss the scenario. In my company, we needed to log usage information for our various applications to a central repository and build a web site to access such information. I went through three different architectures for such a requirement, ending with the set of technologies described in the title.</description>
+    </item>
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part V</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/</link>
+      <pubDate>Fri, 16 Sep 2011 06:57:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/</guid>
+      <description>We are now going to look at a solution which is concise, efficient and gives sophisticated error messages. It is also less than 20 lines of code. We’ll be using FParsec.
+FParsec is a port of an Haskell library. It is a parser combinator library or, as I like to think of it, an internal DSL to build parsers in F#. My usual disclaimer: I’m not an expert in FParsec. It is likely that, if you are an expert, you can come up with more maintainable/efficient/elegant version of this parser.</description>
+    </item>
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part IV</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/</link>
+      <pubDate>Fri, 09 Sep 2011 06:09:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/</guid>
+      <description>Let’ now look at the parser. First let’s review the grammar:
+(* &amp;lt;expression&amp;gt; ::= &amp;lt;name&amp;gt; | &amp;lt;function&amp;gt; | &amp;lt;application&amp;gt; &amp;lt;name&amp;gt; ::= non­blank character sequence &amp;lt;function&amp;gt; ::= \ &amp;lt;name&amp;gt; . &amp;lt;body&amp;gt; &amp;lt;body&amp;gt; ::= &amp;lt;expression&amp;gt; &amp;lt;application&amp;gt; ::= ( &amp;lt;function expression&amp;gt; &amp;lt;argument expression&amp;gt; ) &amp;lt;function expression&amp;gt; ::= &amp;lt;expression&amp;gt; &amp;lt;argument expression&amp;gt; ::= &amp;lt;expression&amp;gt; *)  And the data type to represent it:
+type Name = string and Body = Expression and Function = Name * Expression and FunctionExpression = Expression and ArgumentExpression = Expression and Expression = | EName of string | Function of Expression * Body | Application of FunctionExpression * ArgumentExpression | EOT In essence, the data type need to store all the information needed for subsequent stages of computation (i.</description>
+    </item>
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part III</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/</link>
+      <pubDate>Fri, 02 Sep 2011 15:25:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/</guid>
+      <description>Let’s start from the lexer. Remember, I wrote this code based on my memory of how a lexer ought to look like. I didn’t read again the relevant chapters in the Dragon book. But I think it came out all right after all.
+The tokenStream function we looked at last time takes a LazyList and returns a LazyList. It uses the unfold method on LazyList to call matchToken on each char until the stream is empty.</description>
+    </item>
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part II</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/</link>
+      <pubDate>Fri, 26 Aug 2011 14:25:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/</guid>
+      <description>The parser starts simple with the following two functions to parse either a string or a file. I use the XXX_Readers_ because I want to lazy read character by character.
+let parseString s = let reader = new StringReader(s) parseTextReader reader let parseFile fileName = let reader = new StreamReader(fileName: string) parseTextReader reader The whole parser is in the following two lines:
+let parseTextReader: TextReader -&amp;gt; seq&amp;lt;Expression&amp;gt; = textReaderToLazyList &amp;gt;&amp;gt; tokenStream &amp;gt;&amp;gt; parseExpressions I need to specify the signature otherwise the compiler gets confused : wait, does it take a StringReader or a StreamReader?</description>
+    </item>
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part I</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/</link>
+      <pubDate>Fri, 19 Aug 2011 06:53:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/</guid>
+      <description>This is part of my ‘things that I do in the empty spaces between one meeting and the next one, which might end up being vaguely interesting’. It is a lambda expression parser.
+The full source code is here.
+I actually have two versions of it: one written longhand and the other one written with FParsec. Just to be clear: I’m no expert of either.
+And just to be more clear: I think writing most parsers longhand in the way I am about to show is crazy.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part VII</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/</link>
+      <pubDate>Fri, 12 Aug 2011 07:11:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/</guid>
+      <description>Let’s talk about the environment now. This is the part of the interpreter that I like the least. It is a global variable and it contains a list of (string, LispVal) where the LispVal is mutable.
+type Env = (string * LispVal ref) list ref This is pretty bad. First of all, it immediately cuts off any option of running interpreters in different threads. Moreover, it makes a lot of functions in the evaluator to have side effects.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part VI</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/</link>
+      <pubDate>Fri, 05 Aug 2011 07:08:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/</guid>
+      <description>The evaluator takes as an input a LispVal. Where does it come from? There must be something that converts your textual input into it. That is the job of the parser.
+I have used FParsec to build my parser. FParsec is a fantastic library to build parsers. It is a perfect showcase of the composition potential that functional code yields. When you write an FParsec parser you compose many little parsers to create the one parser that works for your language.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part V</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/</link>
+      <pubDate>Fri, 29 Jul 2011 07:26:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/</guid>
+      <description>We have one loose end to tie in the evaluator: the primitive operators. These are things that the interpreter knows intrinsically. There is a list of them below.
+let rec primitives = [ &#34;+&#34;, numericBinop (+) &#34;-&#34;, numericBinop (-) &#34;*&#34;, numericBinop (*) &#34;/&#34;, numericBinop (/) &#34;mod&#34;, numericBinop (%) &#34;=&#34;, numBoolBinop (=) &#34;&amp;lt;&#34;, numBoolBinop (&amp;lt;) &#34;&amp;gt;&#34;, numBoolBinop (&amp;gt;) &#34;/=&#34;, numBoolBinop (&amp;lt;&amp;gt;) &#34;&amp;gt;=&#34;, numBoolBinop (&amp;gt;=) &#34;&amp;lt;=&#34;, numBoolBinop (&amp;lt;=) &#34;&amp;&amp;&#34;, boolBoolBinop (&amp;&amp;) &#34;||&#34;, boolBoolBinop (||) &#34;</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part IV</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/</link>
+      <pubDate>Fri, 22 Jul 2011 07:52:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/</guid>
+      <description>It is the evaluator turn. It is a big file, let’s see if I can fit it in a single post.
+Aptly enough, the most important function is called eval.
+eval env = function | String _ as v -&amp;gt; v | Number _ as v -&amp;gt; v | Bool _ as v -&amp;gt; v | Atom var -&amp;gt; getVar var env | List [Atom &#34;quote&#34;; v] -&amp;gt; v | List [Atom &#34;</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part III</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/</link>
+      <pubDate>Fri, 15 Jul 2011 07:12:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/</guid>
+      <description>Very often my code ends up having the following form: parse an input to create an intermediate data structure and evaluate the structure to produce an output. Strangely, many years ago, when my code was object oriented, that wasn’t the case. Or at least I wasn’t explicitly aware of it.
+When you write an interpreter or a compiler, things always work out like that, but I see the same pattern in almost everything I produce: from financial backtesting to chart libraries.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part II</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/</link>
+      <pubDate>Fri, 08 Jul 2011 07:01:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/</guid>
+      <description>Usually, when I do blog posts that are all about code, I write them ‘bottom up’. I start talking about the most primitive types and functions and build up from there toward higher abstractions. I think this is a pretty common way of doing it.
+For this series I’m going to try the opposite. I start with the code that creates the REPL window and move down from there toward the guts of the interpreter.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part I</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/</link>
+      <pubDate>Thu, 30 Jun 2011 15:41:12 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/</guid>
+      <description>Hi, I’m back. I’ve finally sorted out the guidelines for blogging in Credit Suisse.
+Here is something I have been playing around with in the spare time between one meeting and the next one. It is a Scheme interpreter that includes a REPL window. The full code is here.
+All the smarts for it come from this Wiki Book. I just ported the code to F# (and modified it a bit).</description>
+    </item>
+    
+    <item>
+      <title>Tracking spread trades in F# (and WPF MVVM) – Part II</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/</link>
+      <pubDate>Fri, 19 Mar 2010 23:33:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/</guid>
+      <description>I wanted to experiment with MVVM and WPF in F#, so I decided to create a little graphical interface for the csv file that drives the spread tracking application. When I started I thought I needed some kind of a grid with Submit/Cancel buttons, but the more I thought about it, the more I realized that I wouldn’t need them.
+See, I’ve always be one to complain about our current paradigm of Open File / Close File / Save File arguing that the user shouldn’t know about an entity called ‘file’.</description>
+    </item>
+    
+    <item>
+      <title>Tracking spread trades in F# (and hooking up XUnit and FsCheck) – Part 1</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/</link>
+      <pubDate>Sat, 13 Mar 2010 01:18:37 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/</guid>
+      <description>I have a bunch of spread trades open. Spread trades are trades where you buy something and you sell something else generally in the same amount. You hope to profit from the widening of the spread between the price of the two instruments.
+I place stop loss orders or trailing stops for all my trades. I have various tool that automatically notify me when a stop loss or trailing stop is hit.</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices, divs and splits in F# updated to Visual Studio 2010</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/</link>
+      <pubDate>Fri, 26 Feb 2010 23:50:44 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/</guid>
+      <description>I’m working on a program to keep track of paired trades with trailing stops. I need to download stock prices, so I thought I might reuse some old code of mine. Here is the updated framework.</description>
+    </item>
+    
+    <item>
+      <title>LChart: displaying charts in F# – Part III</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-19-lchart-displaying-charts-in-f-part-iii/</link>
+      <pubDate>Fri, 19 Feb 2010 18:03:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-19-lchart-displaying-charts-in-f-part-iii/</guid>
+      <description>The last post is here. In this post we’ll look at how things work under the cover and to why I came to believe that they shouldn’t work this way.
+First of all each one of the functions to create charts looks something like this:
+static member bar (?y,?x, ?isValueShownAsLabel, ?markerSize, ?markerStyle, ?color, ?xname, ?yname, ?seriesName, ?title, ?drawingStyle) = let c = Create (SeriesChartType.Bar, x, y, isValueShownAsLabel, markerSize, markerStyle, color, xname, yname, seriesName, title) c.</description>
+    </item>
+    
+    <item>
+      <title>LChart: displaying charts in F# – Part II</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-ii/</link>
+      <pubDate>Wed, 17 Feb 2010 20:24:33 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-ii/</guid>
+      <description>In the previous post on my old blog I showed how to display simple charts with LChart. In this one we’ll talk about more complex charts. I wanted to define a little language for graphs for the sake of creating a more complex chart in a single line of code. Remember, the scenario here is: I got some data, I want to display it quickly in the fsi. The language has two operators: ‘+’ and ‘++’.</description>
+    </item>
+    
+    <item>
+      <title>LChart: displaying charts in F# – Part I</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-i/</link>
+      <pubDate>Wed, 17 Feb 2010 11:20:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-i/</guid>
+      <description>I want to use F# as a exploratory data analysis language (like R). But I don’t know how to get the same nice graphic capabilities. So I decided to create them. Here is a library to draw charts in F#. It steals ideas from this book and this R package. It is nothing more than a wrapper on top of the Microsoft Chart Controls to give it a more ‘exploratory’ one line calling syntax.</description>
+    </item>
+    
+    <item>
+      <title>Excel Financial Functions upgraded to Visual Studio 2010 RC</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-16-excel-financial-functions-upgraded-to-visual-studio-2010-rc/</link>
+      <pubDate>Tue, 16 Feb 2010 14:55:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-16-excel-financial-functions-upgraded-to-visual-studio-2010-rc/</guid>
+      <description>Here is a link to the home page: http://code.msdn.microsoft.com/FinancialFunctions/Wiki/View.aspx?title=Home</description>
+    </item>
+    
+    <item>
+      <title>New version of LAgent compatible with VS 2010 RC online</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-15-new-version-of-lagent-compatible-with-vs-2010-rc-online/</link>
+      <pubDate>Mon, 15 Feb 2010 09:36:54 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-15-new-version-of-lagent-compatible-with-vs-2010-rc-online/</guid>
+      <description>My crazy agent framework now works with RC: http://code.msdn.microsoft.com/LAgent</description>
+    </item>
+    
+    <item>
+      <title>A simpler F# MailboxProcessor</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-12-a-simpler-f-mailboxprocessor/</link>
+      <pubDate>Fri, 12 Feb 2010 15:29:46 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-12-a-simpler-f-mailboxprocessor/</guid>
+      <description>I always forget the pattern to use to create a functioning MailboxProcessor in F#. I mean, which piece has to be async and how to structure the recursive loop. When I find myself in that kind of a situation situation, my instincts scream at me: “Wrap it and make it work how your mind expects it to work”. So here is a simplification of the paradigm.
+Let’s see how some standard MailboxProcessor code looks like:</description>
+    </item>
+    
+    <item>
+      <title>The F#unctional Londoners Meetup Group</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-11-the-functional-londoners-meetup-group/</link>
+      <pubDate>Thu, 11 Feb 2010 09:24:05 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-11-the-functional-londoners-meetup-group/</guid>
+      <description>If you live in London and work with F#, you should join http://www.meetup.com/FSharpLondon/
+Also, if you don’t work with F#, but you’d like too, and you live in London you should join it. Also if you don’t live in London, but you’d like to and you’d like not to work on F# … Ok, you get the point.</description>
+    </item>
+    
+    <item>
+      <title>LAgent: an agent framework in F# – Part X – ActiveObject</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-12-10-lagent-an-agent-framework-in-f-part-x-activeobject/</link>
+      <pubDate>Thu, 10 Dec 2009 10:09:14 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-12-10-lagent-an-agent-framework-in-f-part-x-activeobject/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  If you stare long enough at agents, you start to realize that they are just ‘glorified locks’.</description>
+    </item>
+    
+    <item>
+      <title>Luca at PDC 2009 next week</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/</link>
+      <pubDate>Fri, 13 Nov 2009 10:49:18 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/</guid>
+      <description>I’ll be in Los Angeles next week for PDC 2009. My session is called “Future Directions for C# and Visual Basic” and it comes on Tuesday immediately after the first keynote.
+I’m planning on spending the first half of the session talking about the biggest trends influencing C# and VB. The second part will be about more future looking features we are playing with these days.
+My deck has just two slides, as always.</description>
+    </item>
+    
+    <item>
+      <title>LAgent: an agent framework in F# – Part IX – Counting words …</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-09-18-lagent-an-agent-framework-in-f-part-ix-counting-words/</link>
+      <pubDate>Fri, 18 Sep 2009 14:43:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-09-18-lagent-an-agent-framework-in-f-part-ix-counting-words/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Let’s now use our mapReduce to do something more interesting, for example finding the frequency of words in several books.</description>
+    </item>
+    
+    <item>
+      <title>LAgent: an agent framework in F# – Part VIII  - Implementing MapReduce (user model)</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-09-04-lagent-an-agent-framework-in-f-part-viii-implementing-mapreduce-user-model/</link>
+      <pubDate>Fri, 04 Sep 2009 13:57:48 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-09-04-lagent-an-agent-framework-in-f-part-viii-implementing-mapreduce-user-model/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  For this post I use a newer version of the framework that I just uploaded on CodeGallery.</description>
+    </item>
+    
+    <item>
+      <title>LAgent: an agent framework in F# – part VII – An auction application</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-07-10-lagent-an-agent-framework-in-f-part-vii-an-auction-application/</link>
+      <pubDate>Fri, 10 Jul 2009 16:14:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-07-10-lagent-an-agent-framework-in-f-part-vii-an-auction-application/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Here is an application that uses the framework we have been creating.</description>
+    </item>
+    
+    <item>
+      <title>LAgent: an agent framework in F# – Part VI – Hot swapping of code (and something silly)</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-07-03-lagent-an-agent-framework-in-f-part-vi-hot-swapping-of-code-and-something-silly/</link>
+      <pubDate>Fri, 03 Jul 2009 15:23:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-07-03-lagent-an-agent-framework-in-f-part-vi-hot-swapping-of-code-and-something-silly/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …   Hot swapping of code Let’s get back a couple of steps and consider what happens when you get an error.</description>
+    </item>
+    
+    <item>
+      <title>LAgent: an agent framework in F# – Part V – Timeout management</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-06-26-lagent-an-agent-framework-in-f-part-v-timeout-management/</link>
+      <pubDate>Fri, 26 Jun 2009 14:56:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-06-26-lagent-an-agent-framework-in-f-part-v-timeout-management/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Timeout management Timeouts are very important in message based systems.</description>
+    </item>
+    
+    <item>
+      <title>LAgent: an agent framework in F# – Part IV – Custom error management</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-06-19-lagent-an-agent-framework-in-f-part-iv-custom-error-management/</link>
+      <pubDate>Fri, 19 Jun 2009 14:36:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-06-19-lagent-an-agent-framework-in-f-part-iv-custom-error-management/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …   Custom error management In the last part we saw what happens by default in the framework when an error occurs.</description>
+    </item>
+    
+    <item>
+      <title>LAgent: an agent framework in F# – Part III – Default error management</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-06-12-lagent-an-agent-framework-in-f-part-iii-default-error-management/</link>
+      <pubDate>Fri, 12 Jun 2009 14:07:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-06-12-lagent-an-agent-framework-in-f-part-iii-default-error-management/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Default error management What happens when an error occurs?</description>
+    </item>
+    
+    <item>
+      <title>LAgent : an agent framework in F# – Part II – Agents and control messages</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-06-05-lagent-an-agent-framework-in-f-part-ii-agents-and-control-messages/</link>
+      <pubDate>Fri, 05 Jun 2009 14:03:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-06-05-lagent-an-agent-framework-in-f-part-ii-agents-and-control-messages/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Agents Agents are entities that process messages and keep state between one message and the next.</description>
+    </item>
+    
+    <item>
+      <title>LAgent : an agent framework in F# – Part I – Workers and ParallelWorkers</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-05-29-lagent-an-agent-framework-in-f-part-i-workers-and-parallelworkers/</link>
+      <pubDate>Fri, 29 May 2009 13:26:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-05-29-lagent-an-agent-framework-in-f-part-i-workers-and-parallelworkers/</guid>
+      <description>Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Introduction I like to try out different programming paradigms.</description>
+    </item>
+    
+    <item>
+      <title>Luke talks about F# on Channel9</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-05-27-luke-talks-about-f-on-channel9/</link>
+      <pubDate>Wed, 27 May 2009 12:47:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-05-27-luke-talks-about-f-on-channel9/</guid>
+      <description>Here you go: https://channel9.msdn.com/posts/Charles/Luke-Hoban-Latest-version-of-F-Released-Whats-the-story-Whats-next/</description>
+    </item>
+    
+    <item>
+      <title>A version of the AsyncCache found its way into the Parallel Programming samples …</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/</link>
+      <pubDate>Thu, 21 May 2009 13:28:13 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/</guid>
+      <description>Go here to download them. It is in ParallelExtensionsExtrasCoordinationDataStructures. It has a slightly different design in that it returns Tasks. I’m trying to get Stephen to blog about it so that you can compare them.</description>
+    </item>
+    
+    <item>
+      <title>I talk about C# and VB Co-Evolution on Channel9 (and some F# …)</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/</link>
+      <pubDate>Thu, 14 May 2009 13:26:18 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/</guid>
+      <description>The title says it all. If you are interested, go here.</description>
+    </item>
+    
+    <item>
+      <title>Luca at NDC in Oslo 17 – 19 June 2009</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/</link>
+      <pubDate>Tue, 24 Mar 2009 12:46:27 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/</guid>
+      <description>I’ll be speaking about the future of C# and F#. Oslo brings back so many memories …
+ 
+“one of the world’s most important conferences for IT developers and leaders”</description>
+    </item>
+    
+    <item>
+      <title>Excel Financial functions 2.0 released</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/</link>
+      <pubDate>Wed, 25 Feb 2009 14:55:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/</guid>
+      <description>I simply fixed a bug related to the Rate function (wrong name for parameters).
+It is here: http://code.msdn.microsoft.com/FinancialFunctions</description>
+    </item>
+    
+    <item>
+      <title>New release of Financial Functions .NET uploaded on MSDN Code Gallery</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/</link>
+      <pubDate>Tue, 27 Jan 2009 14:18:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/</guid>
+      <description>I fixed the bug described in this thread and cleaned up the root finding algorithm. I’m still unhappy about it, but I have no time to code a better one right now (i.e. Ridder, Brent). I also added changes.txt and todo.txt to keep track of things.
+Changes.txt
+V1
+ Fixed call to throw in bisection Changed findBounds algo Added TestXirrBugs function Removed the NewValue functions everywhere  ToDo.txt
+ The interaction of Bisection and Newton algo in findRoot needs review.</description>
+    </item>
+    
+    <item>
+      <title>Bayesian inference in F# – Part IIb – Finding Maia underlying attitude</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/</link>
+      <pubDate>Mon, 19 Jan 2009 11:48:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/</guid>
+      <description>Other parts:
+ Part I – Background Part II – A simple example – modeling Maia  The previous post ended on this note.
+let MaiaJointProb attitude action = match attitude with | Happy -&amp;gt; happyActions |&amp;gt; List.assoc action | UnHappy -&amp;gt; unHappyActions |&amp;gt; List.assoc action | Quiet -&amp;gt; quietActions |&amp;gt; List.assoc action This is just a two by two matrix. It simply represents which probability is associated to an (attitude, action) tuple.</description>
+    </item>
+    
+    <item>
+      <title>Financial Functions for .NET released !</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</link>
+      <pubDate>Thu, 04 Dec 2008 16:40:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</guid>
+      <description>Today I released the following library on CodeGallery. It is the result of three months of coding during my paternity leave in Italy. You can get it from here.
+What is it?
+This is a .NET library that provides the full set of financial functions from Excel. The main goal for the library is compatibility with Excel, by providing the same functions, with the same behaviour. Note though that this is not a wrapper over the Excel library; the functions have been re-implemented in managed code so that you do not need to have Excel installed to use this library.</description>
+    </item>
+    
+    <item>
+      <title>Bayesian inference in F# - Part IIa - A simple example - modeling Maia</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/</link>
+      <pubDate>Wed, 26 Nov 2008 15:41:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/</guid>
+      <description>Other parts:
+ Part I - Background Part IIb - Finding Maia underlying attitude   Let&amp;rsquo;s start with a simple example: inferring the underlying attitude of a small baby by observing her actions. Let&amp;rsquo;s call this particular small baby Maia. People always asks her father if she is a ‘good&amp;rsquo; baby or not. Her father started to wonder how he can possibly know that. Being ‘good&amp;rsquo; is not very clear, so he chooses to answer the related question if her attitude is generally happy, unhappy or simply quiet (a kind of middle ground).</description>
+    </item>
+    
+    <item>
+      <title>Bayesian inference in F#  - Part I - Background</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/</link>
+      <pubDate>Fri, 07 Nov 2008 11:48:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/</guid>
+      <description>Other posts:
+   Part IIa - A simple example - modeling Maia     Part IIb - Finding Maia underlying attitude    My interest in Bayesian inference comes from my dissatisfaction with ‘classical&amp;rsquo; statistics. Whenever I want to know something, for example the probability that an unknown parameter is between two values, ‘classical&amp;rsquo; statistics seems to answer a different and more convoluted question.
+Try asking someone what the 95% confidence interval for X is (x1, x2) means.</description>
+    </item>
+    
+    <item>
+      <title>My F# PDC presentation is online (&#43; ppt and demo application)</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-11-03-my-f-pdc-presentation-is-online-ppt-and-demo-application/</link>
+      <pubDate>Mon, 03 Nov 2008 11:33:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-11-03-my-f-pdc-presentation-is-online-ppt-and-demo-application/</guid>
+      <description>You can watch it here. Also I attached the demo application I built on stage.
+fsharpdemoPDCPrez.zip</description>
+    </item>
+    
+    <item>
+      <title>Luca presenting F# at PDC 2008</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/</link>
+      <pubDate>Fri, 24 Oct 2008 12:21:14 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/</guid>
+      <description>Next Thursday at 1.45pm I will present &amp;ldquo;An introduction to Microsoft F#&amp;quot; at PDC 2008. If you are there, please stop by or drop by the lounge area to chat.
+There are a bunch of other great sessions from my team. They are all good (I swear I tried to format John&amp;rsquo;s session correctly, but failed).
+  TL16: The Future of C#    Speaker: Anders Hejlsberg    Mon 10/27 | 1:45 PM-3:00 PM | Petree Hall CD    Repeated: Wed 10/29 | 3:00 PM-4:15 PM | 502A    TL10: Deep Dive: Dynamic Languages in .</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices in F# - Part VI - Code posted</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/</link>
+      <pubDate>Mon, 20 Oct 2008 18:45:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/</guid>
+      <description>Other parts:
+ Part I - Data modeling Part II - Html scraping Part III - Async loader for prices and divs Part IV - Async loader for splits Part V - Adjusting historical data  An unnamed friend told me that I should stop posting small snippets of code and instead post entire solutions on CodeGallery. I did it for this one and here is the link.
+Here is what&amp;rsquo;s in the zip file:</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices in F# - Part V - Adjusting historical data</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-09-26-downloading-stock-prices-in-f-part-v-adjusting-historical-data/</link>
+      <pubDate>Fri, 26 Sep 2008 16:04:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-09-26-downloading-stock-prices-in-f-part-v-adjusting-historical-data/</guid>
+      <description>Other parts:
+ Part I - Data modeling Part II - Html scraping Part III - Async loader for prices and divs Part IV - Async loader for splits Part VI - Code posted   Here is the problem. When you download prices/divs/splits from Yahoo you get a strange mix of historical numbers and adjusted numbers. To be more precise, the dividends are historically adjusted. The prices are not adjusted, but there is one last column in the data for Adjusted close.</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices in F# - Part IV - Async loader for splits</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/</link>
+      <pubDate>Fri, 19 Sep 2008 17:59:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/</guid>
+      <description>Other parts:
+ Part I - Data modeling Part II - Html scraping Part III - Async loader for prices and divs Part V - Adjusting historical data Part VI - Code posted  Downloading splits is a messy affair. The problem is that Yahoo doesn&amp;rsquo;t give you a nice comma-delimitated stream to work with. You have to parse the Html yourself (and it can be on multiple pages). At the end of the post, the overall result is kind of neat, but to get there we need a lot of busywork.</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices in F# - Part III - Async loader for prices and divs</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-09-12-downloading-stock-prices-in-f-part-iii-async-loader-for-prices-and-divs/</link>
+      <pubDate>Fri, 12 Sep 2008 16:18:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-09-12-downloading-stock-prices-in-f-part-iii-async-loader-for-prices-and-divs/</guid>
+      <description>Other parts:
+ Part I - Data modeling Part II - Html scraping Part IV - Async loader for splits Part V - Adjusting historical data Part VI - Code posted  It is now time to load our data. There is a bit of uninteresting code to start with, but things get interesting afterward. Let&amp;rsquo;s start with functions that create the right URLs to download prices and dividends. We&amp;rsquo;ll talk about splits in the next installment.</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices in F# - Part II - Html scraping</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-09-05-downloading-stock-prices-in-f-part-ii-html-scraping/</link>
+      <pubDate>Fri, 05 Sep 2008 14:41:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-09-05-downloading-stock-prices-in-f-part-ii-html-scraping/</guid>
+      <description>Other parts:
+ Part I - Data modeling Part III - Async loader for prices and divs Part IV - Async loader for splits Part V - Adjusting historical data Part VI - Code posted  Getting stock prices and dividends is relatively easy given that, on Yahoo, you can get the info as a CVS file. Getting the splits info is harder. You would think that Yahoo would put that info in the dividends CVS as it does when it displays it on screen, but it doesn&amp;rsquo;t.</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices in F# - Part I - Data modeling</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-08-29-downloading-stock-prices-in-f-part-i-data-modeling/</link>
+      <pubDate>Fri, 29 Aug 2008 19:13:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-08-29-downloading-stock-prices-in-f-part-i-data-modeling/</guid>
+      <description>Other parts:
+ Part II - Html scraping Part III - Async loader for prices and divs Part IV - Async loader for splits Part V - Adjusting historical data Part VI - Code posted  Today we shipped the September CTP of F# !!!! Evviva !! Read this blog post about it. To celebrate I decided to share one of my several F# project. It might make for a good sample; sort of a crash course on F#.</description>
+    </item>
+    
+  </channel>
+</rss>

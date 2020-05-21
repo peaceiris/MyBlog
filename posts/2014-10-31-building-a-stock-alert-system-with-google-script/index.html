@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="This is obsolete as Yahoo stopped their quote service. I have a new spreadsheet here.
+When I thought about it, I realized that my ideal system would be a spreadsheet where to add tickers and alert levels. Under the covers, the system would need to check the current price of a ticker, compare it with the alert level and send me email when triggered.
+Also the whole thing shouldn&amp;rsquo;t be running from my machine at home, but from somewhere on the internet.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Building a stock alert system with Google Script | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2014/10/10</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Building a stock alert system with Google Script
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p> </p>
+<p><em><strong>This is obsolete as Yahoo stopped their quote service. I have a new spreadsheet <a href="https://docs.google.com/spreadsheets/d/1OimxgxAgwY3GeCSvnzlEbQTPnWDU0-AnyvZMc3RfgdA/edit?usp=sharing">here</a>.</strong></em></p>
+<p>When I thought about it, I realized that my ideal system would be a spreadsheet where to add tickers and alert levels. Under the covers, the system would need to check the current price of a ticker, compare it with the alert level and send me email when triggered.</p>
+<p>Also the whole thing shouldn&rsquo;t be running from my machine at home, but from somewhere on the internet.</p>
+<p>Google script fit the bill. Let&rsquo;s see how it works.</p>
+<p>Script is here. Sheet is here.</p>
+<p>First a utility function to send errors via email, which will be used throughout the script.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="font-weight:bold">function</span> emailError(e) {
+  MailApp.sendEmail(<span style="color:#b84">&#34;lucabolg@gmail.com&#34;</span>, <span style="color:#b84">&#34;Watchlist Error&#34;</span>,
+                    <span style="color:#b84">&#34;\r\nMessage: &#34;</span> <span style="font-weight:bold">+</span> e.message
+                    <span style="font-weight:bold">+</span> <span style="color:#b84">&#34;\r\nFile: &#34;</span> <span style="font-weight:bold">+</span> e.fileName
+                    <span style="font-weight:bold">+</span> <span style="color:#b84">&#34;\r\nLine: &#34;</span> <span style="font-weight:bold">+</span> e.lineNumber
+                    <span style="font-weight:bold">+</span> <span style="color:#b84">&#34;\r\nLOg: &#34;</span> <span style="font-weight:bold">+</span> Logger.getLog())
+}
+</code></pre></div><p>Then another one to check if the price downloaded from the internet is sensible.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="font-weight:bold">function</span> validPrice(price) {
+ <span style="font-weight:bold">return</span> price <span style="font-weight:bold">!=</span> <span style="color:#b84">&#39;undefined&#39;</span> <span style="font-weight:bold">&amp;&amp;</span> price <span style="font-weight:bold">&gt;</span> <span style="color:#099">0.1</span>
+}
+</code></pre></div><p>We then need one to retrieve the current price of a ticker from the array of data returned from the internet:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#998;font-style:italic">// Find the current price of a ticker in an array of data where the ticker is the first column
+</span><span style="color:#998;font-style:italic"></span><span style="font-weight:bold">function</span> getQuote(data, ticker) {
+  <span style="font-weight:bold">var</span> ticker <span style="font-weight:bold">=</span> ticker.trim().toLowerCase()
+
+  <span style="font-weight:bold">for</span>(<span style="font-weight:bold">var</span> i <span style="font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="font-weight:bold">=</span> <span style="color:#099">22</span> <span style="font-weight:bold">&amp;&amp;</span> hour <span style="font-weight:bold">&lt;=</span> <span style="color:#099">23</span>) <span style="font-weight:bold">||</span> value <span style="font-weight:bold">!=</span> <span style="color:#b84">&#34;close&#34;</span>
+}
+</code></pre></div><p>With all of that in place, we can now look at the main function. First we load up the spreadsheet and get the values and headers we care about. This would be more robust if we looked up the sheet by name. Also the id of the sheet is burned in the code. You&rsquo;ll need to change it if you want to make it point to your own.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#998;font-style:italic">// Check spreadsheet with tickers and stop prices, send email when a stop is hit and mark the row as &#39;Executed&#39;.
+</span><span style="color:#998;font-style:italic"></span><span style="font-weight:bold">function</span> checkQuotes() {
+ <span style="font-weight:bold">try</span> {
+
+ <span style="color:#998;font-style:italic">// Get all data from spreadsheet in one web call.
+</span><span style="color:#998;font-style:italic"></span> <span style="font-weight:bold">var</span> ss <span style="font-weight:bold">=</span> SpreadsheetApp.openById(<span style="color:#b84">&#34;1WQf2AiBPQW5HLzCyGgsFlKN0f1HTOWAteJ5bJCXVnlc&#34;</span>)
+ <span style="font-weight:bold">var</span> range <span style="font-weight:bold">=</span> ss.getSheets()[<span style="color:#099">0</span>].getDataRange()
+ <span style="font-weight:bold">var</span> values <span style="font-weight:bold">=</span> range.getValues()
+ <span style="font-weight:bold">var</span> headers <span style="font-weight:bold">=</span> values[<span style="color:#099">0</span>]
+ <span style="font-weight:bold">var</span> rows <span style="font-weight:bold">=</span> ObjApp.rangeToObjects(values)
+ <span style="font-weight:bold">var</span> body <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;&#34;</span>
+ <span style="font-weight:bold">var</span> now <span style="font-weight:bold">=</span> <span style="font-weight:bold">new</span> <span style="color:#999">Date</span>()
+</code></pre></div><p>Notice &lsquo;ObjApp&rsquo; is part of the ObjService library to make the code a bit more maintainable, instead of scattering column numbers in the code.</p>
+<p>Now we get all the tickers and download the prices from Yahoo (we try three times as it occasionally fails.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">    <span style="color:#998;font-style:italic">// Fish out all tickers from col 0 where Status (col 4) is not executed
+</span><span style="color:#998;font-style:italic"></span>    <span style="font-weight:bold">var</span> tickers <span style="font-weight:bold">=</span> []
+    <span style="font-weight:bold">for</span>(<span style="font-weight:bold">var</span> i <span style="font-weight:bold">=</span> <span style="color:#099">1</span>; i <span style="font-weight:bold">&lt;</span> rows.length; i<span style="font-weight:bold">++</span>) {<span style="color:#998;font-style:italic">// dont&#39; process the headers
+</span><span style="color:#998;font-style:italic"></span>      <span style="font-weight:bold">if</span>((rows[i]).executed.toLowerCase() <span style="font-weight:bold">==</span> <span style="color:#b84">&#39;active&#39;</span> <span style="font-weight:bold">&amp;&amp;</span> isRightTime(rows[i], now)) tickers.push((rows[i]).ticker.trim().toLowerCase())
+    }
+    Logger.log(<span style="color:#b84">&#34;Tickers:%s&#34;</span> ,tickers)
+
+    <span style="font-weight:bold">if</span>(tickers.length <span style="font-weight:bold">==</span> <span style="color:#099">0</span>) <span style="font-weight:bold">return</span> <span style="color:#998;font-style:italic">// Nothing to process
+</span><span style="color:#998;font-style:italic"></span>
+    <span style="color:#998;font-style:italic">// Get ticker, real time bid, real time ask for all tickers in one web call
+</span><span style="color:#998;font-style:italic"></span>    <span style="font-weight:bold">var</span> url <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;http://finance.yahoo.com/d/quotes.csv?s=&#34;</span> <span style="font-weight:bold">+</span> tickers.join(<span style="color:#b84">&#34;+&#34;</span>) <span style="font-weight:bold">+</span> <span style="color:#b84">&#34;&amp;f=sl1&#34;</span><span style="color:#998;font-style:italic">//&#34;&amp;f=sb2b3&#34;
+</span><span style="color:#998;font-style:italic"></span>
+    <span style="color:#998;font-style:italic">// Try 3 times before giving up
+</span><span style="color:#998;font-style:italic"></span>    <span style="font-weight:bold">for</span>(<span style="font-weight:bold">var</span> i <span style="font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="font-weight:bold">&lt;</span> <span style="color:#099">3</span>; i<span style="font-weight:bold">++</span>) {
+      <span style="font-weight:bold">try</span> {
+        <span style="font-weight:bold">var</span> response <span style="font-weight:bold">=</span> UrlFetchApp.fetch(url)
+        <span style="font-weight:bold">break</span>;
+      } <span style="font-weight:bold">catch</span>(e) {
+      }
+    }
+
+    Logger.log(<span style="color:#b84">&#34;Response:\n%s&#34;</span>, response)
+    <span style="font-weight:bold">var</span> data <span style="font-weight:bold">=</span> Utilities.parseCsv(response.getContentText())
+    Logger.log(<span style="color:#b84">&#34;Data:\n%s&#34;</span>, data)
+</code></pre></div><p>Once that is done, we enter the main loop. The concept is simple, for each row we check the price and, if the price is above/below the alert we add it to the body string and mark the row in the sheet so that we don&rsquo;t process it again next time. A the end, we email the body variable if not null.</p>
+<p>First we check that we haven&rsquo;t already executed this row:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">    <span style="font-weight:bold">for</span>(<span style="font-weight:bold">var</span> i <span style="font-weight:bold">=</span> <span style="color:#099">1</span>; i <span style="font-weight:bold">&lt;</span> rows.length; i<span style="font-weight:bold">++</span>) {<span style="color:#998;font-style:italic">// dont&#39; process the headers
+</span><span style="color:#998;font-style:italic"></span>      <span style="font-weight:bold">var</span> current <span style="font-weight:bold">=</span> rows[i]
+      <span style="font-weight:bold">if</span>(current.executed.trim().toLowerCase() <span style="font-weight:bold">==</span> <span style="color:#b84">&#39;executed&#39;</span>) <span style="font-weight:bold">continue</span> <span style="color:#998;font-style:italic">// no need to process it as it is &#39;Executed&#39;
+</span><span style="color:#998;font-style:italic"></span>
+      <span style="font-weight:bold">var</span> symbol <span style="font-weight:bold">=</span> current.operator
+      <span style="font-weight:bold">var</span> stop <span style="font-weight:bold">=</span> current.stop
+</code></pre></div><p>If it&rsquo;s still active and if it is the right time, we check if the alert is triggered. If it is we add the text to the body variable.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">      <span style="font-weight:bold">if</span>(isRightTime(current, now)) {
+        <span style="font-weight:bold">var</span> price <span style="font-weight:bold">=</span> getQuote(data, current.ticker)
+        <span style="font-weight:bold">if</span>( (symbol.trim() <span style="font-weight:bold">==</span> <span style="color:#b84">&#34;&gt;&#34;</span> <span style="font-weight:bold">&amp;&amp;</span> price <span style="font-weight:bold">&gt;</span> stop) <span style="font-weight:bold">||</span>
+           (symbol.trim() <span style="font-weight:bold">==</span> <span style="color:#b84">&#34;&lt;&#34;</span> <span style="font-weight:bold">&amp;&amp;</span> price <span style="font-weight:bold">&lt;</span> stop)) {
+
+          current.executed <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;Executed&#34;</span>
+          current.price <span style="font-weight:bold">=</span> price
+
+          body <span style="font-weight:bold">+=</span> [current.kind, current.ticker, current.price, current.operator, current.stop, <span style="color:#b84">&#34;\r\n&#34;</span>].join(<span style="color:#b84">&#34; &#34;</span>)
+          Logger.log(<span style="color:#b84">&#34;Body in loop:\n%s&#34;</span>, body)
+        }
+      }
+    }
+</code></pre></div><p>If body is not empty, that means that something was triggered, so we send the email.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">    <span style="font-weight:bold">if</span>(body <span style="font-weight:bold">!=</span> <span style="color:#b84">&#34;&#34;</span>) {
+      Logger.log(<span style="color:#b84">&#34;Body final:%s&#34;</span>, body)
+      MailApp.sendEmail(<span style="color:#b84">&#39;lucabolg@gmail.com&#39;</span>, <span style="color:#b84">&#39;Watchlist: stops triggered&#39;</span>, body)
+      <span style="font-weight:bold">var</span> data <span style="font-weight:bold">=</span> ObjApp.objectToArray(headers, rows)
+      data.unshift(headers)
+      range.setValues(data)
+    }
+</code></pre></div><p>If an error was generated, then we send the error email.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">  } <span style="font-weight:bold">catch</span> (e) {
+    Logger.log(e.lineNumber <span style="font-weight:bold">+</span> <span style="color:#b84">&#34;:&#34;</span> <span style="font-weight:bold">+</span> e.message)
+    emailError(e)
+  }
+}
+</code></pre></div><p>My experience overall was remarkable. The learning curve was very quick and the web editor works remarkably well (well, stepping through code is rather slow).</p>
+<p>Overall, if Google has all your data (in Drive) and you can write code to manipulate it (in Google script), why do I need my home computer again? I can just have a small screen that connects to the internet and I&rsquo;m done.</p>
+<p>That&rsquo;s probably true for me apart from two things that I haven&rsquo;t found in web form: editing of images in the raw format and a sophisticated portfolio application. If I find these two, I&rsquo;m ready to give up my life to Google &hellip;</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/financial">Financial</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

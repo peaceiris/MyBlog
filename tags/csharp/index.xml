@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>csharp on Lucabol blog</title>
+    <link>http://peaceiris.com/MyBlog/tags/csharp/</link>
+    <description>Recent content in csharp on Lucabol blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 06 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://peaceiris.com/MyBlog/tags/csharp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Status of C# 8.0 functional features with a comparison to Haskell</title>
+      <link>http://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</link>
+      <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</guid>
+      <description>Abstract Writing C# functional code has become easier with each new release of the language (i.e. nullable ref types, tuples, switch expr, &amp;hellip;). This document presents a review of the current status of basic functional features for C# 8.0. It focuses mostly on syntax and aims to achieve its goal using code examples. It doesn&amp;rsquo;t touches on more advanced topics as Monad, Functors, etc &amp;hellip;
+Haskell has been chosen as the &amp;lsquo;comparison&amp;rsquo; language (using few examples from here and elsewhere).</description>
+    </item>
+    
+    <item>
+      <title>A single .NET Core project to rule them all</title>
+      <link>http://peaceiris.com/MyBlog/posts/2019-02-04-singleproject/</link>
+      <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2019-02-04-singleproject/</guid>
+      <description>Abstract The code is here.
+Thanks to Mike for reviewing this.
+I have always been mildly irritated by how many .net projects I need to create in my standard workflow.
+Usually I start with an idea for a library; I then want to test it with a simple executable; write some XUnit tests for it and finally benchmark some key scenarios. So I end up with at least four projects to manage.</description>
+    </item>
+    
+    <item>
+      <title>Meta-programming in C# with JIT dead code removal and inlining</title>
+      <link>http://peaceiris.com/MyBlog/posts/2019-01-29-meta-programming-and-policy-based-design/</link>
+      <pubDate>Tue, 29 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2019-01-29-meta-programming-and-policy-based-design/</guid>
+      <description>Abstract Thanks to Mike for reviewing this.
+This is a way to enable compile time customization of classes/functions in the style of C++ template meta-programming as in Modern C++ Design. In particular, we are going to implement the policy pattern, which is compile time version of the strategy pattern.
+What do we gain by constraining ourselves to compile time customization, instead of run time one? High performance. Blazingly high performance. You gain an abstraction, without paying for it.</description>
+    </item>
+    
+    <item>
+      <title>Stopping Garbage Collection in .NET Core 3.0 (part II)</title>
+      <link>http://peaceiris.com/MyBlog/posts/2019-01-21-stopping-garbage-collection-in-net-core-3-0-part-ii/</link>
+      <pubDate>Mon, 21 Jan 2019 10:05:45 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2019-01-21-stopping-garbage-collection-in-net-core-3-0-part-ii/</guid>
+      <description>Let&amp;rsquo;s see how it&amp;rsquo;s implemented. For why it is implemented, see part I.
+Thanks to Mike for reviewing this.
+using System; using System.Diagnostics.Tracing; using System.Runtime; The FxCop code analyzers get upset if I don&amp;rsquo;t declare this, which also impede me from using unsigned numeral types in interfaces.
+[assembly: CLSCompliant(true)] namespace LNativeMemory { The first piece of the puzzle is to implement an event listener. It is a not-obvious (for me) class.</description>
+    </item>
+    
+    <item>
+      <title>Stopping Garbage Collection in .NET Core 3.0 (part I)</title>
+      <link>http://peaceiris.com/MyBlog/posts/2019-01-14-stopping-garbage-collection-in-net-core-3-0-part-i/</link>
+      <pubDate>Mon, 14 Jan 2019 12:34:16 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2019-01-14-stopping-garbage-collection-in-net-core-3-0-part-i/</guid>
+      <description>Scenario Thanks to Mike for reviewing this.
+You have an application or a particular code path of your application that cannot take the pauses that GC creates. Typical examples are real time systems, tick by tick financial apps, embedded systems, etc &amp;hellip;
+Disclaimer For any normal kind of applications, YOU DON&amp;rsquo;T NEED TO DO THIS. You are likely to make your application run slower or blow up memory. If you have an hot path in your application (i.</description>
+    </item>
+    
+    <item>
+      <title>A Stack data structure implementation using Span</title>
+      <link>http://peaceiris.com/MyBlog/posts/2018-06-04-a-stack-data-structure-implementation-using-span/</link>
+      <pubDate>Mon, 04 Jun 2018 11:56:54 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2018-06-04-a-stack-data-structure-implementation-using-span/</guid>
+      <description>I am back in Microsoft and today we talk about the code below, which is on github here:
+public ref struct SpanStack&amp;lt;T&amp;gt; { private Span memory; private int index; private int size; public SpanStack(Span mem) { memory = mem; index = 0; size = mem.Length; } public bool IsEmpty() =&amp;gt; index &amp;lt; 0; public bool IsFull() =&amp;gt; index &amp;gt; size - 1; public void Push(T item) =&amp;gt; memory[index++] = item; public T Pop() =&amp;gt; memory[--index]; } public static class SpanExtensions { public static SpanStack AsStack&amp;lt;T&amp;gt;(this Span span) =&amp;gt; new SpanStack(span); } This Stack data structure can be used over memory that resides on the stack, heap or unmanaged heap.</description>
+    </item>
+    
+    <item>
+      <title>My PDC session is online - “Future directions for C# and Visual Basic”</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-11-23-my-pdc-session-is-online-future-directions-for-c-and-visual-basic/</link>
+      <pubDate>Mon, 23 Nov 2009 13:17:44 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-11-23-my-pdc-session-is-online-future-directions-for-c-and-visual-basic/</guid>
+      <description>In case you are training to play the part of a first generation Italian immigrant in a Broadway show or if you want to understand why I never short msft stock: http://microsoftpdc.com/Sessions/FT11</description>
+    </item>
+    
+    <item>
+      <title>Luca at PDC 2009 next week</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/</link>
+      <pubDate>Fri, 13 Nov 2009 10:49:18 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/</guid>
+      <description>I’ll be in Los Angeles next week for PDC 2009. My session is called “Future Directions for C# and Visual Basic” and it comes on Tuesday immediately after the first keynote.
+I’m planning on spending the first half of the session talking about the biggest trends influencing C# and VB. The second part will be about more future looking features we are playing with these days.
+My deck has just two slides, as always.</description>
+    </item>
+    
+    <item>
+      <title>Becoming really rich with C#</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-09-22-becoming-really-rich-with-c/</link>
+      <pubDate>Tue, 22 Sep 2009 19:40:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-09-22-becoming-really-rich-with-c/</guid>
+      <description>Or maybe not, please do not hold me responsible if you lose money following this system. Having said that, it is my opinion that there are very few concepts that are important in investing. Three big ones are value, diversification and momentum. This post is about the latter two and how to use C# to create a simple trading system that uses both.
+Diversification is ‘not put all your eggs in one basket’ (contrary to ‘put all of them in one basket and watch that basket’).</description>
+    </item>
+    
+    <item>
+      <title>A version of the AsyncCache found its way into the Parallel Programming samples …</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/</link>
+      <pubDate>Thu, 21 May 2009 13:28:13 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/</guid>
+      <description>Go here to download them. It is in ParallelExtensionsExtrasCoordinationDataStructures. It has a slightly different design in that it returns Tasks. I’m trying to get Stephen to blog about it so that you can compare them.</description>
+    </item>
+    
+    <item>
+      <title>I talk about C# and VB Co-Evolution on Channel9 (and some F# …)</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/</link>
+      <pubDate>Thu, 14 May 2009 13:26:18 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/</guid>
+      <description>The title says it all. If you are interested, go here.</description>
+    </item>
+    
+    <item>
+      <title>Luca at NDC in Oslo 17 – 19 June 2009</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/</link>
+      <pubDate>Tue, 24 Mar 2009 12:46:27 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/</guid>
+      <description>I’ll be speaking about the future of C# and F#. Oslo brings back so many memories …
+ 
+“one of the world’s most important conferences for IT developers and leaders”</description>
+    </item>
+    
+    <item>
+      <title>Simulating INumeric with dynamic in C# 4.0</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-02-05-simulating-inumeric-with-dynamic-in-c-4-0/</link>
+      <pubDate>Thu, 05 Feb 2009 11:47:26 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-02-05-simulating-inumeric-with-dynamic-in-c-4-0/</guid>
+      <description>When I wrote my Excel financial library I agonized over the decision of which numeric type to use to represent money. Logic would push me toward decimal, but common usage among financial library writers would push me toward double. I ended up picking double, but I regret having to make that choice in the first place.
+Conceptually, I&amp;rsquo;d like my numeric functions to work for anything that supports the basic arithmetic operators (i.</description>
+    </item>
+    
+    <item>
+      <title>Financial Functions for .NET released !</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</link>
+      <pubDate>Thu, 04 Dec 2008 16:40:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</guid>
+      <description>Today I released the following library on CodeGallery. It is the result of three months of coding during my paternity leave in Italy. You can get it from here.
+What is it?
+This is a .NET library that provides the full set of financial functions from Excel. The main goal for the library is compatibility with Excel, by providing the same functions, with the same behaviour. Note though that this is not a wrapper over the Excel library; the functions have been re-implemented in managed code so that you do not need to have Excel installed to use this library.</description>
+    </item>
+    
+    <item>
+      <title>A C# library to write functional code - Part V - The Match operator</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-07-15-a-c-library-to-write-functional-code-part-v-the-match-operator/</link>
+      <pubDate>Tue, 15 Jul 2008 05:46:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-07-15-a-c-library-to-write-functional-code-part-v-the-match-operator/</guid>
+      <description>Other posts in the series:
+  Part I - Background
+  Part II - Tuples
+ Part III - Records Part IV - Type Unions{.} Part V - The Match operator{.} This is my last post of this series. It is about the match operator. To the untrained eyes this operator might look like a case statement. But they are different.  The match operator combines control flow and decomposition in a single construct.</description>
+    </item>
+    
+    <item>
+      <title>A C# library to write functional code - Part IV - Type Unions</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-06-06-a-c-library-to-write-functional-code-part-iv-type-unions/</link>
+      <pubDate>Fri, 06 Jun 2008 04:45:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-06-06-a-c-library-to-write-functional-code-part-iv-type-unions/</guid>
+      <description>Other posts in the series:
+ Part I - Background   Part II - Tuples
+ Part III - Records Part IV - Type Unions{.} Part V - The Match operator{.} I&amp;rsquo;m sorry for my prolonged absence in the middle of this series of posts. I&amp;rsquo;m on a long paternity leave in Italy (playing beach volley every day). It&amp;rsquo;s hard to have the discipline  A bunch of you wrote telling me to finish this.</description>
+    </item>
+    
+    <item>
+      <title>A C# library to write functional code - Part III - Records</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-04-21-a-c-library-to-write-functional-code-part-iii-records/</link>
+      <pubDate>Mon, 21 Apr 2008 13:34:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-04-21-a-c-library-to-write-functional-code-part-iii-records/</guid>
+      <description>Other posts in the series:
+  Part I - Background
+  Part II - Tuples
+ Part III - Records Part IV - Type Unions{.} Part V - The Match operator{.} Now that we know what Tuples are, we can start talking about Record, as they use a derivative of Tuples under the cover. But first, what is a record?  Well, in C# parlance a Record is a sort of immutable value object.</description>
+    </item>
+    
+    <item>
+      <title>A C# library to write functional code - Part II - Tuples</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-04-08-a-c-library-to-write-functional-code-part-ii-tuples/</link>
+      <pubDate>Tue, 08 Apr 2008 16:51:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-04-08-a-c-library-to-write-functional-code-part-ii-tuples/</guid>
+      <description>Other posts in the series:
+ Part I - Background   Part II - Tuples
+ Part III - Records Part IV - Type Unions{.} Part V - The Match operator{.} Tuples are a way for you not to name things. In Object Oriented languages you got to name everything. If you need to represent a bunch of data, you create a class for it.  There is a strange asymmetry in mainstream OO languages in that you can pass multiple parameters to a function, but you can return just one value.</description>
+    </item>
+    
+    <item>
+      <title>A C# library to write functional code - Part I - Background</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-04-01-a-c-library-to-write-functional-code-part-i-background/</link>
+      <pubDate>Tue, 01 Apr 2008 13:36:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-04-01-a-c-library-to-write-functional-code-part-i-background/</guid>
+      <description>Other posts in the series:
+ Part I - Background   Part II - Tuples
+ Part III - Records Part IV - Type Unions{.} Part V - The Match operator{.} In December (slow time in msft) I decided to understand what functional programming is all about. When I say ‘understanding&amp;rsquo; I don&amp;rsquo;t mean just paying lip service to the main concepts by knowingly mentioning them in casual conversations (i.</description>
+    </item>
+    
+    <item>
+      <title>LINQ to SQL Overview - video</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-03-03-linq-to-sql-overview-video/</link>
+      <pubDate>Mon, 03 Mar 2008 16:51:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-03-03-linq-to-sql-overview-video/</guid>
+      <description>This is my presentation from TechEd Barcelona: The link has been fixed. It should work now. Let me know if it doesn&amp;rsquo;t. http://www.microsoft.com/emea/msdn/spotlight/sessionh.aspx?videoid=716. The European locale brings out my Italian accent
+ On this page there are a bunch of interesting presentations (i.e. Anders on LINQ): http://www.microsoft.com/emea/msdn/spotlight/default.aspx</description>
+    </item>
+    
+    <item>
+      <title>Creating an immutable value object in C# - Part V - Using a library</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-01-11-creating-an-immutable-value-object-in-c-part-v-using-a-library/</link>
+      <pubDate>Fri, 11 Jan 2008 13:36:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-01-11-creating-an-immutable-value-object-in-c-part-v-using-a-library/</guid>
+      <description>Other posts:
+  Part I - Using a class
+  Part II - Making the class better
+ Part III - Using a struct Part IV - A class with a special value In the last post we presented a variation of implementing a value object using a class. Everything works (obviously), but the amount of code to write is unpleasing. In this post we examine a library based solution.</description>
+    </item>
+    
+    <item>
+      <title>Creating an immutable value object in C# - Part IV - A class with a special value</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-12-28-creating-an-immutable-value-object-in-c-part-iv-a-class-with-a-special-value/</link>
+      <pubDate>Fri, 28 Dec 2007 18:45:32 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-12-28-creating-an-immutable-value-object-in-c-part-iv-a-class-with-a-special-value/</guid>
+      <description>Other posts:
+  Part I - Using a class
+ Part II - Making the class better Part III - Using a struct In the last post we looked at structs as ways to implement immutable value objects and we discovered that they have several issues.  A good thing about the struct implementation was the introduction of an explicit ‘special value&amp;rsquo; instead of ‘null&amp;rsquo;. I personally like doing that because it forces me to think about what are the special values in my domain instead of blindly rely on null and its semantics.</description>
+    </item>
+    
+    <item>
+      <title>Creating an immutable value object in C#  - Part III  - Using a struct</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-12-24-creating-an-immutable-value-object-in-c-part-iii-using-a-struct/</link>
+      <pubDate>Mon, 24 Dec 2007 17:39:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-12-24-creating-an-immutable-value-object-in-c-part-iii-using-a-struct/</guid>
+      <description>Other posts:
+  Part I - Using a class
+ Part II - Making the class better Part IV - A class with a special value{.} In Part II I talked about the asymmetry created by using ‘null&amp;rsquo; as the special value for our little DateSpan domain. We also noticed the boredom of having to implement Equals, GetHashCode, ‘==&amp;rsquo; and ‘!=&amp;rsquo; for our value objects. Let&amp;rsquo;s see if structs solve our problem.</description>
+    </item>
+    
+    <item>
+      <title>Bisection-based XIRR implementation in C#</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-12-17-bisection-based-xirr-implementation-in-c/</link>
+      <pubDate>Mon, 17 Dec 2007 18:17:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-12-17-bisection-based-xirr-implementation-in-c/</guid>
+      <description>Here is a quick implementation of XIRR (using Excel nomenclature) written in C#.
+Disclaimer: this is a super simple Bisection-based implementation. People tend to prefer the Newton method, but this is simpler and works for the app I&amp;rsquo;m writing. I decided to post it because I couldn&amp;rsquo;t find one on the net when I looked for it. I attached testcases to show the extent of my testing.
+It is called CalculateXIRR and it is invoked by passing a list of cash flows, a tolerance and a max number of iterations.</description>
+    </item>
+    
+    <item>
+      <title>Creating an immutable value object in C#  - Part II  - Making the class better</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-12-06-creating-an-immutable-value-object-in-c-part-ii-making-the-class-better/</link>
+      <pubDate>Thu, 06 Dec 2007 12:34:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-12-06-creating-an-immutable-value-object-in-c-part-ii-making-the-class-better/</guid>
+      <description>Other posts:
+ Part I - Using a class Part III - Using a struct{.} Part IV - A class with a special value{.}  In the previous post I showed how to trivially implement a value object. The code works but it has several issues. Some are very simple, others are more interesting.
+Let&amp;rsquo;s take a look at them:
+ State not explicitly read-only Asymmetry in the usage of Union and Intersection Small perf issue in the Union method  The first problem is that my use of automatic properties doesn&amp;rsquo;t assure that the status of the object is immutable; I can still modify it from inside the class.</description>
+    </item>
+    
+    <item>
+      <title>Creating an immutable value object in C#  - Part I  - Using a class</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-12-03-creating-an-immutable-value-object-in-c-part-i-using-a-class/</link>
+      <pubDate>Mon, 03 Dec 2007 13:22:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-12-03-creating-an-immutable-value-object-in-c-part-i-using-a-class/</guid>
+      <description>Other posts:
+ Part II - Making the class better{.} Part III - Using a struct{.} Part IV - A class with a special value{.}  Value objects are objects for which the identity is based on their state instead of their pointer in memory. For example, a numeric Complex class is, most of the time, a value object because you can treat two instances as the same if their state (real and img fields in this case) is the same.</description>
+    </item>
+    
+    <item>
+      <title>Instead of a simple switch statement</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-08-31-instead-of-a-simple-switch-statement/</link>
+      <pubDate>Fri, 31 Aug 2007 16:54:15 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-08-31-instead-of-a-simple-switch-statement/</guid>
+      <description>This is Luke‘s kind of code. I might be catching the virus
+abstract class QIFParserBase { public enum LoadOptions { All, Prices, Securities, Transactions } static readonly Dictionary&amp;lt;LoadOptions, Action&amp;lt;QIFParserBase, string[]&amp;gt;&amp;gt; parseFuncs = new Dictionary&amp;lt;LoadOptions, Action&amp;lt;QIFParserBase, string[]&amp;gt;&amp;gt; { {LoadOptions.All, (q,c) =&amp;gt; q.ParseAll(c)}, {LoadOptions.Prices, (q,c) =&amp;gt; q.ParsePricesBlocks(c)}, {LoadOptions.Securities, (q,c) =&amp;gt; q.ParseSecurityBlocks(c)}, {LoadOptions.Transactions, (q,c) =&amp;gt; q.ParseTransactionBlocks(c)} }; public QIFParserBase(string fileName, LoadOptions opt) { string content = File.ReadAllText(fileName); string[] blocks = content.Split(new string[] { &#34;</description>
+    </item>
+    
+    <item>
+      <title>Parsing QIF Quicken files in C#</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-08-31-parsing-qif-quicken-files-in-c/</link>
+      <pubDate>Fri, 31 Aug 2007 16:43:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-08-31-parsing-qif-quicken-files-in-c/</guid>
+      <description>I&amp;rsquo;m slightly prouder of the structure of this code than the one in the previous blog post. You can simply inherit from QIFParserBase and override a couple of abstract methods to customize the behavior. Still, I just tested it on a couple of test QIF files. It is not production quality at all.
+Notice that I don&amp;rsquo;t even have Quicken. I&amp;rsquo;m producing these test file with FundManager, which I use for my investments.</description>
+    </item>
+    
+    <item>
+      <title>Retrieve prices, dividends and splits for a stock in C#</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-08-30-retrieve-prices-dividends-and-splits-for-a-stock-in-c/</link>
+      <pubDate>Thu, 30 Aug 2007 16:25:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-08-30-retrieve-prices-dividends-and-splits-for-a-stock-in-c/</guid>
+      <description>I wrote this code very quickly and I&amp;rsquo;m kind of ashamed of it, but it gets the job done (I think). You need the HTML Agility Pack for the stock splits retrieving code. You can download it from here{.} or you can simply comment out the code. I wrote it against Visual Studio 2008 beta 2{.}, but it should be trivial to port it to previous versions.
+You run it from a command window like this: priceretriever msft 1/1/1990 2/3/2003.</description>
+    </item>
+    
+    <item>
+      <title>Video of Matt and I talking about the LINQ to SQL query/update pipeline</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-08-13-here-is-a-seminot-funny-video-of-matt-and-i-talking-about-the-linq-to-sql-queryupdate-pipeline/</link>
+      <pubDate>Mon, 13 Aug 2007 12:56:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-08-13-here-is-a-seminot-funny-video-of-matt-and-i-talking-about-the-linq-to-sql-queryupdate-pipeline/</guid>
+      <description>And a bit of history of O/R in Microsoft at the end: http://blogs.msdn.com/charlie/archive/2007/08/06/linq-to-sql-pipeline-video-with-luca-bolognese-and-matt-warren.aspx
+ </description>
+    </item>
+    
+    <item>
+      <title>My TechEd webcast is here</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-06-19-my-teched-webcast-is-here/</link>
+      <pubDate>Tue, 19 Jun 2007 10:32:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-06-19-my-teched-webcast-is-here/</guid>
+      <description>In case you want to know more about LINQ: http://www.virtualteched.com/Pages/OnlineSessions/OnlineWebcastsDevTools.aspx
+CTRL+F for ‘(LINQ)&amp;rsquo;
+An introduction to the talk is here: http://www.virtualteched.com/videos/luca%20bolognese%20sml.asx
+ </description>
+    </item>
+    
+    <item>
+      <title>ObjectSpaces early days</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-06-07-objectspaces-early-days/</link>
+      <pubDate>Thu, 07 Jun 2007 10:40:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-06-07-objectspaces-early-days/</guid>
+      <description>Matt has a very good poston the history of object relational framework inside Microsoft. He and I started the whole ObjectSpaces thing together very many years ago (about six and a half). I thought I should add my two cents.  &amp;nbsp; You might be wondering how a project starts inside Microsoft (or you might not). In this case, I was hired in the ADO.NET team to build an object relational framework.</description>
+    </item>
+    
+    <item>
+      <title>My LINQ Overview session at TechEd will be live on the Internet</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-06-04-my-linq-overview-session-at-teched-will-be-live-on-the-internet/</link>
+      <pubDate>Mon, 04 Jun 2007 12:45:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-06-04-my-linq-overview-session-at-teched-will-be-live-on-the-internet/</guid>
+      <description>at least they told me so. It is at 8.30am Eastern time. I don&amp;rsquo;t know the exact link, but it will be somewhere here: http://www.microsoft.com/events/teched2007/default.mspx.</description>
+    </item>
+    
+    <item>
+      <title>Y combinators anyone?</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-05-11-y-combinators-anyone/</link>
+      <pubDate>Fri, 11 May 2007 19:16:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-05-11-y-combinators-anyone/</guid>
+      <description>From Mads, our proud C# language PM: http://blogs.msdn.com/madst/archive/2007/05/11/recursive-lambda-expressions.aspx.</description>
+    </item>
+    
+    <item>
+      <title>Luke started to blog again</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-04-27-luke-started-to-blog-again/</link>
+      <pubDate>Fri, 27 Apr 2007 12:39:37 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-04-27-luke-started-to-blog-again/</guid>
+      <description>After a long hiatus, Luke goes at it again. Luke is our compiler PM and one of the most original coders I&amp;rsquo;ve seen.
+It always makes for a great read: http://blogs.msdn.com/lukeh/default.aspx</description>
+    </item>
+    
+    <item>
+      <title>Which type should I use in C# to represent numbers?</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-02-27-which-type-should-i-use-in-c-to-represent-numbers/</link>
+      <pubDate>Tue, 27 Feb 2007 18:09:57 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-02-27-which-type-should-i-use-in-c-to-represent-numbers/</guid>
+      <description>Yesterday I found an old email in my mail box that I thought might be generally interesting.
+I was asking the technical lead on the C# compiler which algorithm/shortcut people should use to choose their ‘number types&amp;rsquo; among the many available in the language. I was asking for something that works the majority of times, even if not always. I&amp;rsquo;m sure there are other scenarios we haven&amp;rsquo;t consider. Anyhow, here is his algorithm.</description>
+    </item>
+    
+    <item>
+      <title>Apparently simple code</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-02-01-apparently-simple-code/</link>
+      <pubDate>Thu, 01 Feb 2007 14:54:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-02-01-apparently-simple-code/</guid>
+      <description>Sometimes what looks simple is complex and what looks complex is simple. See if you can understand how this one calculates all the possible ways to give change for a certain amount of money given some kinds of coins. You MIT guys out there don&amp;rsquo;t count, you probably have read the solution in the same book I have.
+BTW: the code works with the LINQ May CTP &amp;hellip;
+using System; using System.</description>
+    </item>
+    
+    <item>
+      <title>Is this functional code? Dr.T. Reply.</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-01-31-is-this-functional-code-dr-t-reply/</link>
+      <pubDate>Wed, 31 Jan 2007 12:34:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-01-31-is-this-functional-code-dr-t-reply/</guid>
+      <description>This would be a functional approach:
+CountWithPrevious : [‘a] =&amp;gt; (a =&amp;gt; a =&amp;gt; bool) =&amp;gt; int // type of the function CountWithPrevious [] _ = 0 CountWithPrevious [_] _ = 0 CountWithPrevious [prev, val | tail] pred = CountWithPrevious [val | tail] + (pred val prev ? 1 : 0) Some observations:
+_” is used as wildcard argument – matches any value that you don’t need a name for. [ x,y,z | t ] are pattern matching over lists – here x,y and z get bound to the first elements and t is the rest of the list.</description>
+    </item>
+    
+    <item>
+      <title>Is this functional code?</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-01-26-is-this-functional-code/</link>
+      <pubDate>Fri, 26 Jan 2007 12:54:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-01-26-is-this-functional-code/</guid>
+      <description>I&amp;rsquo;m an Object Oriented (OO) kind of guy, maybe a bigot. I have read a very large number of OO books and I&amp;rsquo;ve written a fair amount of OO code in my 10+ years in this industry. I&amp;rsquo;m afraid my mind is wired for OO at this point, for good or bad.
+Recently, I&amp;rsquo;ve been getting interested in functional languages. The most functional guys around here are Wes and Luke, while Dr.</description>
+    </item>
+    
+    <item>
+      <title>A trading/portfolio management Excel Add-in based on the books by Ralph Vince</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-01-04-a-tradingportfolio-management-excel-add-in-based-on-the-books-by-ralph-vince/</link>
+      <pubDate>Thu, 04 Jan 2007 17:53:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-01-04-a-tradingportfolio-management-excel-add-in-based-on-the-books-by-ralph-vince/</guid>
+      <description>I like to write code and I still manage to do it even now that it is not my primary job. I never post the things that I write because I don&amp;rsquo;t want to maintain them. Lately Charlie convinced me that I don&amp;rsquo;t have to do that. I can just throw the code out, without much preparation or implicit contract of perpetual maintenance.
+This one is an Excel add-in that adds functions to Excel to analyze your trading and manage your portfolio.</description>
+    </item>
+    
+    <item>
+      <title>Our sessions at the PDC</title>
+      <link>http://peaceiris.com/MyBlog/posts/2005-07-14-our-sessions-at-the-pdc/</link>
+      <pubDate>Thu, 14 Jul 2005 12:03:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2005-07-14-our-sessions-at-the-pdc/</guid>
+      <description>Now we can finally blog about our PDC sessions. We have been working for more then a year on this data language integration stuff and it is quite exciting to be able to talk about it publicly. Here are the sessions involved. They are all tied together by a common theme. They are all part of the same big project.
+**The .NET Language Integrated Query Framework: An Overview&amp;rsquo;
+** This is an overview of the overall project.</description>
+    </item>
+    
+    <item>
+      <title>There is a C# Language chat coming</title>
+      <link>http://peaceiris.com/MyBlog/posts/2005-04-14-there-is-a-c-language-chat-coming/</link>
+      <pubDate>Thu, 14 Apr 2005 18:40:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2005-04-14-there-is-a-c-language-chat-coming/</guid>
+      <description>Here it is: http://blogs.msdn.com/scottno/archive/2005/04/14/408212.aspx</description>
+    </item>
+    
+    <item>
+      <title>Here is a message board about the C# language</title>
+      <link>http://peaceiris.com/MyBlog/posts/2005-03-28-here-is-a-message-board-about-the-c-language/</link>
+      <pubDate>Mon, 28 Mar 2005 11:06:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2005-03-28-here-is-a-message-board-about-the-c-language/</guid>
+      <description>Here is the link: http://www.gotdotnet.com/Community/MessageBoard/MessageBoard.aspx?ID=5627. Check it out.</description>
+    </item>
+    
+    <item>
+      <title>Compiler trivia: const, operators and being nice to the compiler</title>
+      <link>http://peaceiris.com/MyBlog/posts/2005-02-10-compiler-trivia-const-operators-and-being-nice-to-the-compiler/</link>
+      <pubDate>Thu, 10 Feb 2005 10:32:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2005-02-10-compiler-trivia-const-operators-and-being-nice-to-the-compiler/</guid>
+      <description>This is a question that came up on our internal alias. I thought it might be generally interesting to illustrate how the compiler picks operators.
+Here is the original issue. This code compiles fine:
+UInt64 vUInt641 = UInt64.MaxValue;
+const int vInt2 = 1432765098;
+int res = (int)(vUInt641 - vInt2);
+But this code generates a compile error:
+UInt64 vUInt641 = UInt64.MaxValue;
+int vInt2 = 1432765098;
+int res = (int)(vUInt641 - vInt2);</description>
+    </item>
+    
+    <item>
+      <title>Nullable trilogy part III: Nullable as type parameter in a generic class</title>
+      <link>http://peaceiris.com/MyBlog/posts/2005-02-03-nullable-trilogy-part-iii-nullablet-as-type-parameter-in-a-generic-class/</link>
+      <pubDate>Thu, 03 Feb 2005 15:42:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2005-02-03-nullable-trilogy-part-iii-nullablet-as-type-parameter-in-a-generic-class/</guid>
+      <description>Another commonly asked question relates to the behavior of Nullable when used as type parameter to instantiate a generic class. It might be surprising that comparing such a parameter to null gives always false as a result. As it turns out, this is not related to Nullable, but it is a result of how generics are implemented. There is a tendency to think about generics in a manner very similar to C++ templates, this view is unfortunately not correct.</description>
+    </item>
+    
+    <item>
+      <title>Nullable trilogy part II: a == b -&amp;gt; a&amp;gt;=b &amp;amp;&amp;amp; a</title>
+      <link>http://peaceiris.com/MyBlog/posts/2005-01-27-nullable-trilogy-part-ii-a-b-ab-a/</link>
+      <pubDate>Thu, 27 Jan 2005 07:54:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2005-01-27-nullable-trilogy-part-ii-a-b-ab-a/</guid>
+      <description>A question that often comes up when we discuss Nullable is about the anti-symmetric property. This property states that if a==b then a&amp;gt;=b and a&amp;lt;=b. If a and b are null then this property is not satisfied in the current design as the result of &amp;gt;= and &amp;lt;= is always false when one of the parameters is null. This may seems surprising, but it can be easily understood when considering if null can be ordered.</description>
+    </item>
+    
+    <item>
+      <title>New C# things happening</title>
+      <link>http://peaceiris.com/MyBlog/posts/2005-01-24-new-c-things-happening/</link>
+      <pubDate>Mon, 24 Jan 2005 09:49:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2005-01-24-new-c-things-happening/</guid>
+      <description>Express yourself about this DCR: http://blogs.msdn.com/scottno/archive/2005/01/19/356347.aspx Partecipate to the C# language chat: http://blogs.msdn.com/scottno/archive/2005/01/19/356358.aspx That&#39;s it. </description>
+    </item>
+    
+    <item>
+      <title>Nullable trilogy Part I: why not just SQL?</title>
+      <link>http://peaceiris.com/MyBlog/posts/2005-01-20-nullable-trilogy-part-i-why-not-just-sql/</link>
+      <pubDate>Thu, 20 Jan 2005 09:41:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2005-01-20-nullable-trilogy-part-i-why-not-just-sql/</guid>
+      <description>This is the first of a weekly three part serie of posts about Nullable. In these posts I want to describe the reasons behind three design choices:
+ Why not just use SQL semantics for null? Why null == null doesn&amp;rsquo;t imply null &amp;gt;= null and null &amp;lt;= null? Why inside a generic class with a type parameter t the expression t == null will return false, when t is a nullable type and the value of it is null.</description>
+    </item>
+    
+    <item>
+      <title>x&#43;=x&#43;&#43;;</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-08-31-xx/</link>
+      <pubDate>Tue, 31 Aug 2004 15:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-08-31-xx/</guid>
+      <description>Today I was looking through an internal C# user group list. One of the messages was about x+=x++; and what should be the right behavior. I thought this is more generally interesting, so I decided to blog it. But first, DO NOT WRITE THAT CODE!!!  Ok, with that out of the way, we can start…  Let’s take this code as an example:  int x = 3;  x += x++;  The first thing the compiler does whenever it sees something like z += y is to convert it to z = z + y.</description>
+    </item>
+    
+    <item>
+      <title>How much object relational framework do you really need?</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-08-06-how-much-object-relational-framework-do-you-really-need/</link>
+      <pubDate>Fri, 06 Aug 2004 09:05:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-08-06-how-much-object-relational-framework-do-you-really-need/</guid>
+      <description>It is always interesting for me to look at debates about object relational layers. I propose we define different levels of object relational support:
+  No support: all the objects are persisted and queried by writing ADO.NET code by hand
+  Code generation: you run a tool on your database (or on an abstract description of your schema) and the tool generates a bunch of objects for your tables and some ADO.</description>
+    </item>
+    
+    <item>
+      <title>Please the perfect object stand up!!</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-07-27-please-the-perfect-object-stand-up/</link>
+      <pubDate>Tue, 27 Jul 2004 15:21:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-07-27-please-the-perfect-object-stand-up/</guid>
+      <description>I always thought: why people write this very long posts? Here you have it. &amp;nbsp; How do I design my objects? What is the set of constraints that dictate my design decisions? People talk about objects in very different contexts. A certain amount of confusion derives from not identifying the contexts for our objects. &amp;nbsp; First, kings of them all, there are business objects. My library is full of OO books that describe how to design these guys.</description>
+    </item>
+    
+  </channel>
+</rss>

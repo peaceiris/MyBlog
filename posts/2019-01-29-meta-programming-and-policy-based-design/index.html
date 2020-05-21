@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Abstract Thanks to Mike for reviewing this.
+This is a way to enable compile time customization of classes/functions in the style of C&#43;&#43; template meta-programming as in Modern C&#43;&#43; Design. In particular, we are going to implement the policy pattern, which is compile time version of the strategy pattern.
+What do we gain by constraining ourselves to compile time customization, instead of run time one? High performance. Blazingly high performance. You gain an abstraction, without paying for it.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Meta-programming in C# with JIT dead code removal and inlining | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2019/01/01</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Meta-programming in C# with JIT dead code removal and inlining
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<h2 id="abstract">Abstract</h2>
+<p>Thanks to <a href="https://github.com/mjrousos">Mike</a> for reviewing this.</p>
+<p>This is a way to enable compile time customization of classes/functions in the style of C++ template meta-programming as in <a href="https://en.wikipedia.org/wiki/Modern_C%2B%2B_Design">Modern C++ Design</a>.
+In particular, we are going to implement the <a href="https://en.wikipedia.org/wiki/Modern_C%2B%2B_Design#Policy-based_design">policy pattern</a>, which is compile time version of the <a href="https://en.wikipedia.org/wiki/Strategy_pattern">strategy pattern</a>.</p>
+<p>What do we gain by constraining ourselves to compile time customization, instead of run time one? High performance. Blazingly high performance. You gain an abstraction, without paying for it.</p>
+<p>Too good to be true? Read on!</p>
+<p>BTW1: none of this is new. It has been floating around in various forms. But I have never seen explained fully and associated to the policy pattern.
+BTW2: it is also related to the uber cool <a href="https://github.com/dotnet/csharplang/issues/164">Shape proposal for C#</a>, where it becomes an implementation detail.</p>
+<h2 id="implementation">Implementation</h2>
+<p>First, the usual plethora of namespaces &hellip; BenchmarkDotNet is really heavy into separating abstractions in different namespaces &hellip;</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">using</span> <span style="color:#555">System.Runtime.CompilerServices</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">System.Threading</span>;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">BenchmarkDotNet.Attributes</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">BenchmarkDotNet.Diagnosers</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">BenchmarkDotNet.Diagnostics.Windows.Configs</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">BenchmarkDotNet.Mathematics</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">BenchmarkDotNet.Order</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">BenchmarkDotNet.Running</span>;
+</code></pre></div><p>Let&rsquo;s take a look at the strategy pattern, as more traditionally implemented. You got an interface <code>IIncrementer</code> and two implementations, either thread safe or not.
+Let&rsquo;s also add a couple of struct implementations so that we can measure the performance difference of implementation by classes and by structs.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">public</span> <span style="font-weight:bold">interface</span> IIncrementer { <span style="font-weight:bold">void</span> Increment(<span style="font-weight:bold">ref</span> <span style="color:#458;font-weight:bold">int</span> location); }
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CStandardIncrementer</span>        : IIncrementer {[MethodImpl(MethodImplOptions.AggressiveInlining)] <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Increment(<span style="font-weight:bold">ref</span> <span style="color:#458;font-weight:bold">int</span> location) =&gt; location += <span style="color:#099">1</span>; }
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CInterlockedIncrementer</span>     : IIncrementer {[MethodImpl(MethodImplOptions.AggressiveInlining)] <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Increment(<span style="font-weight:bold">ref</span> <span style="color:#458;font-weight:bold">int</span> location) =&gt; Interlocked.Increment(<span style="font-weight:bold">ref</span> location); }
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">SStandardIncrementer</span>     : IIncrementer {[MethodImpl(MethodImplOptions.AggressiveInlining)] <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Increment(<span style="font-weight:bold">ref</span> <span style="color:#458;font-weight:bold">int</span> location) =&gt; location += <span style="color:#099">1</span>; }
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">SInterlockedIncrementer</span>  : IIncrementer {[MethodImpl(MethodImplOptions.AggressiveInlining)] <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Increment(<span style="font-weight:bold">ref</span> <span style="color:#458;font-weight:bold">int</span> location) =&gt; Interlocked.Increment(<span style="font-weight:bold">ref</span> location); }
+</code></pre></div><p>We then need a class that can be customized by an Incrementer. Think of it as: the policy of incrementing something is independent from the class in question.</p>
+<p>Let&rsquo;s take a Counter and call it Dynamic as we want to be able to customize it at runtime. We need to keep things simple so that looking at ASM is doable.
+Also we inline everything to try to squeeze the most performance out of our program.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">public</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DynamicCounter</span>&lt;T&gt; <span style="font-weight:bold">where</span> T: IIncrementer
+{
+    <span style="color:#458;font-weight:bold">int</span> _count;
+    T _incrementer;
+
+    <span style="font-weight:bold">public</span> DynamicCounter(T incrementer) =&gt; _incrementer = incrementer;
+<span style="color:#008080">
+</span><span style="color:#008080">    [MethodImpl(MethodImplOptions.AggressiveInlining)]</span>
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Increment() =&gt; _incrementer.Increment(<span style="font-weight:bold">ref</span> _count);
+}
+</code></pre></div><p>Then we look at how to implement the strategy pattern at compile time (transforming it magically into the policy pattern).</p>
+<p>(no-one every talks about the negative aspects of giving names to things, one of these days I&rsquo;ll blog about it &hellip;)</p>
+<p>There are many ways to go about it. They all rely on the fact that the JIT Compiler instantiates a different type for each struct used to customize the type (aka each <code>T</code>).</p>
+<p>For each one of these types, the JIT knows at compile type what <code>T</code> is, which brings about certain optimizations.</p>
+<p>The optimization exploited by <code>StaticCounterInterface</code> is that the call to <code>Increment</code> becomes a non-virtual call that can be inlined.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">public</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">StaticCounterInterface</span>&lt;T&gt; <span style="font-weight:bold">where</span> T : struct, IIncrementer
+{
+    <span style="color:#458;font-weight:bold">int</span> _count;
+    T _incrementer = <span style="font-weight:bold">new</span> T();
+<span style="color:#008080">
+</span><span style="color:#008080">    [MethodImpl(MethodImplOptions.AggressiveInlining)]</span>
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Increment() =&gt; _incrementer.Increment(<span style="font-weight:bold">ref</span> _count);
+}
+</code></pre></div><p>For <code>StaticCounterMatch</code> the situation is even more obvious.</p>
+<p>The Jitter doesn&rsquo;t generate code for any of the <code>if</code> statements. It just puts the right code for the type <code>T</code> directly in the body of the <code>Increment</code> method.</p>
+<p>It is as if the <code>if</code> statement were executed at compile time, as with <code>C++</code> templates. Also notice the <code>IncrementRaw</code> method used for perf comparison.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">public</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">StaticCounterMatch</span>&lt;T&gt;
+{
+    <span style="color:#458;font-weight:bold">int</span> _count;
+<span style="color:#008080">
+</span><span style="color:#008080">    [MethodImpl(MethodImplOptions.AggressiveInlining)]</span>
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Increment() {
+        <span style="font-weight:bold">if</span> (<span style="font-weight:bold">typeof</span>(T) == <span style="font-weight:bold">typeof</span>(SStandardIncrementer))      _count += <span style="color:#099">1</span>;
+        <span style="font-weight:bold">if</span> (<span style="font-weight:bold">typeof</span>(T) == <span style="font-weight:bold">typeof</span>(SInterlockedIncrementer))   Interlocked.Increment(<span style="font-weight:bold">ref</span> _count);
+    }
+<span style="color:#008080">
+</span><span style="color:#008080">    [MethodImpl(MethodImplOptions.AggressiveInlining)]</span>
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> IncrementRaw() =&gt; _count += <span style="color:#099">1</span>;
+}
+</code></pre></div><p>We are now ready for the performance testing. We create one class for each combination and benchmark their Increment method.</p>
+<p>A few comments on the attributes:</p>
+<ol>
+<li><code>DryCoreJob</code> doesn&rsquo;t do the benchmark, but just runs the diagnosers, in this case produces assembly code.</li>
+<li><code>InProcessAttribute</code> makes everything go faster, but cannot be used to generate assembly.</li>
+<li><code>DisassemblyDiagnoser</code> creates files with the assembly code.</li>
+<li><code>RankColumn</code> generates a nicer table.</li>
+</ol>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">//[DryCoreJob]
+</span><span style="color:#998;font-style:italic"></span><span style="color:#998;font-style:italic">//[InProcessAttribute]
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">[DisassemblyDiagnoser(printAsm: true, printPrologAndEpilog: true, printIL: false, printSource: false, recursiveDepth: 3)]</span>
+<span style="color:#008080">[Orderer(SummaryOrderPolicy.FastestToSlowest)]</span>
+<span style="color:#008080">[RankColumn(NumeralSystem.Stars)]</span>
+<span style="font-weight:bold">public</span>  <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MainClass</span>
+{
+    DynamicCounter&lt;IIncrementer&gt;         dynInterface           = <span style="font-weight:bold">new</span> DynamicCounter&lt;IIncrementer&gt;(<span style="font-weight:bold">new</span> CStandardIncrementer());
+    DynamicCounter&lt;CStandardIncrementer&gt; dynConcrete            = <span style="font-weight:bold">new</span> DynamicCounter&lt;CStandardIncrementer&gt;(<span style="font-weight:bold">new</span> CStandardIncrementer());
+    DynamicCounter&lt;SStandardIncrementer&gt; dynStruct              = <span style="font-weight:bold">new</span> DynamicCounter&lt;SStandardIncrementer&gt;(<span style="font-weight:bold">new</span> SStandardIncrementer());
+    StaticCounterMatch&lt;SStandardIncrementer&gt; staticCounterM     = <span style="font-weight:bold">new</span> StaticCounterMatch&lt;SStandardIncrementer&gt;();
+    StaticCounterInterface&lt;SStandardIncrementer&gt; staticCounterI = <span style="font-weight:bold">new</span> StaticCounterInterface&lt;SStandardIncrementer&gt;();
+<span style="color:#008080">
+</span><span style="color:#008080">    [Benchmark]</span> <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> DynamicInterface()                      =&gt; dynInterface.Increment();
+<span style="color:#008080">    [Benchmark]</span> <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> DynamicConcrete()                       =&gt; dynConcrete.Increment();
+<span style="color:#008080">    [Benchmark]</span> <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> DynamicStruct()                         =&gt; dynStruct.Increment();
+<span style="color:#008080">    [Benchmark]</span> <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> StaticCounterInterface()                =&gt; staticCounterI.Increment();
+<span style="color:#008080">    [Benchmark]</span> <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> StaticCounterMatch()                    =&gt; staticCounterM.Increment();
+<span style="color:#008080">    [Benchmark(Baseline = true)]</span> <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> IncrementRaw()         =&gt; staticCounterM.IncrementRaw();
+
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> Main() =&gt; BenchmarkRunner.Run&lt;MainClass&gt;();
+}
+</code></pre></div><h2 id="results">Results</h2>
+<p>Please note that the results are valid just for the tested configuration.</p>
+<p>I have no reason to think that they would be different on other modern runtimes/OSs as the optimizations are quite well known.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini">
+<span style="color:#008080">BenchmarkDotNet</span><span style="font-weight:bold">=</span><span style="color:#b84">v0.11.3, OS=Windows 10.0.17763.253 (1809/October2018Update/Redstone5)</span>
+<span style="color:#008080">Intel Core i7-6600U CPU 2.60GHz (Skylake), 1 CPU, 4 logical and 2 physical cores</span>
+<span style="color:#008080">.NET Core SDK</span><span style="font-weight:bold">=</span><span style="color:#b84">3.0.100-preview-009812
+</span><span style="color:#b84">  [Host]     : .NET Core 2.0.9 (CoreCLR 4.6.26614.01, CoreFX 4.6.26614.01), 64bit RyuJIT
+</span><span style="color:#b84">  DefaultJob : .NET Core 2.0.9 (CoreCLR 4.6.26614.01, CoreFX 4.6.26614.01), 64bit RyuJIT</span>
+
+
+</code></pre></div><table>
+<thead>
+<tr>
+<th>Method</th>
+<th align="right">Mean</th>
+<th align="right">Error</th>
+<th align="right">StdDev</th>
+<th align="right">Median</th>
+<th align="right">Ratio</th>
+<th align="right">RatioSD</th>
+<th align="right">Rank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StaticCounterInterface</td>
+<td align="right">0.0000 ns</td>
+<td align="right">0.0000 ns</td>
+<td align="right">0.0000 ns</td>
+<td align="right">0.0000 ns</td>
+<td align="right">0.000</td>
+<td align="right">0.00</td>
+<td align="right">*</td>
+</tr>
+<tr>
+<td>IncrementRaw</td>
+<td align="right">0.1036 ns</td>
+<td align="right">0.0515 ns</td>
+<td align="right">0.0573 ns</td>
+<td align="right">0.1071 ns</td>
+<td align="right">1.000</td>
+<td align="right">0.00</td>
+<td align="right">**</td>
+</tr>
+<tr>
+<td>StaticCounterMatch</td>
+<td align="right">0.1122 ns</td>
+<td align="right">0.0422 ns</td>
+<td align="right">0.0943 ns</td>
+<td align="right">0.1020 ns</td>
+<td align="right">2.092</td>
+<td align="right">1.95</td>
+<td align="right">**</td>
+</tr>
+<tr>
+<td>DynamicStruct</td>
+<td align="right">0.2707 ns</td>
+<td align="right">0.0910 ns</td>
+<td align="right">0.2683 ns</td>
+<td align="right">0.1407 ns</td>
+<td align="right">4.135</td>
+<td align="right">6.28</td>
+<td align="right">***</td>
+</tr>
+<tr>
+<td>DynamicConcrete</td>
+<td align="right">1.9216 ns</td>
+<td align="right">0.1506 ns</td>
+<td align="right">0.4440 ns</td>
+<td align="right">1.7883 ns</td>
+<td align="right">23.417</td>
+<td align="right">21.44</td>
+<td align="right">****</td>
+</tr>
+<tr>
+<td>DynamicInterface</td>
+<td align="right">2.2441 ns</td>
+<td align="right">0.1170 ns</td>
+<td align="right">0.3449 ns</td>
+<td align="right">2.1470 ns</td>
+<td align="right">32.783</td>
+<td align="right">30.52</td>
+<td align="right">*****</td>
+</tr>
+</tbody>
+</table>
+<p>As expected, you gain an order of magnitude in performance by foregoing run time customization, except when using a <code>struct</code> as the optimizer manages to inline that one (as we&rsquo;ll see).</p>
+<p>Notice that these numbers are really low. In fact the order of the first 4 lines might change when you run it. But they are always much faster than the rest.</p>
+<p>But why? Let&rsquo;s look at the generated code.</p>
+<h2 id="il-and-asm">IL and ASM</h2>
+<p>First let&rsquo;s look at IL for a few of the methods</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">MainClass.IncrementRaw()
+       IL_0000: ldarg.0
+       IL_0001: ldfld StaticCounterMatch`1&lt;SStandardIncrementer&gt; MainClass::staticCounterM
+       IL_0006: callvirt System.Void StaticCounterMatch`1&lt;SStandardIncrementer&gt;::IncrementRaw()
+       IL_000b: ret
+
+; MainClass.StaticCounterInterface()
+       IL_0000: ldarg.0
+       IL_0001: ldfld StaticCounterInterface`1&lt;SStandardIncrementer&gt; MainClass::staticCounterI
+       IL_0006: callvirt System.Void StaticCounterInterface`1&lt;SStandardIncrementer&gt;::Increment()
+       IL_000b: ret
+
+; MainClass.StaticCounterMatch()
+       IL_0000: ldarg.0
+       IL_0001: ldfld StaticCounterMatch`1&lt;SStandardIncrementer&gt; MainClass::staticCounterM
+       IL_0006: callvirt System.Void StaticCounterMatch`1&lt;SStandardIncrementer&gt;::Increment()
+       IL_000b: ret
+</code></pre></div><p>Ok, nothing interesting there apart from the use of <code>callvirt</code> when you would think a standard <code>call</code> would do (i.e. <code>IncrementRaw</code>).</p>
+<p>I vaguely remember from my C# compiler days that we do that as a way to short-circuit the test for null, as <code>callvirt</code> does it automatically.</p>
+<p>The assembly code is more interesting. Let&rsquo;s start from the three fast-resolved-at-compile-time methods.</p>
+<p>BTW: remember that looking at optimized ASM code is like peering into a muddy lake with foggy glasses. Let&rsquo;s do it.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">; MainClass.IncrementRaw()
+       mov     rax,qword ptr [rcx+20h]
+       inc     dword ptr [rax+8]
+       ret
+
+; MainClass.StaticCounterInterface()
+       mov     rax,qword ptr [rcx+28h]
+       (*)mov     edx,dword ptr [rax]
+       add     rax,8
+       inc     dword ptr [rax]
+       ret
+
+; MainClass.StaticCounterMatch()
+       mov     rax,qword ptr [rcx+20h]
+       (*)mov     edx,dword ptr [rax]
+       inc     dword ptr [rax+8]
+       ret
+
+; MainClass.DynamicStruct()
+       mov     rax,qword ptr [rcx+18h]
+       (*) mov     edx,dword ptr [rax]
+       add     rax,8
+       inc     dword ptr [rax]
+       ret
+</code></pre></div><p>Yep, they are all the same (apart from the mysterious <code>*</code> instruction)! Get the memory location of the field, increment it.</p>
+<p>The Jitter has completely inlined the code. It is as if you had written the incrementing code directly into the function, despite you composing the type using two independent abstractions.</p>
+<p>I think that is pretty cool! You can abstract your code properly and not pay the price for it (well, apart from one assembly instruction).</p>
+<p>For the sake of completeness, let&rsquo;s look at the assembly code for the dynamic dispatching cases.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">; MainClass.DynamicConcrete()
+       mov     rcx,qword ptr [rcx+10h]
+       cmp     dword ptr [rcx],ecx
+       lea     rdx,[rcx+10h]
+       mov     rcx,qword ptr [rcx+8]
+       mov     r11,7FF8C2B30470h
+       mov     rax,qword ptr [r11]
+       cmp     dword ptr [rcx],ecx
+       jmp     rax
+
+; MainClass.DynamicInterface()
+       mov     rcx,qword ptr [rcx+8]
+       cmp     dword ptr [rcx],ecx
+       lea     rdx,[rcx+10h]
+       mov     rcx,qword ptr [rcx+8]
+       mov     r11,7FF8C2B10470h
+       mov     rax,qword ptr [r11]
+       cmp     dword ptr [rcx],ecx
+       jmp     rax
+
+</code></pre></div><p>The first thing to notice is that the code is identical, despite their seemingly different declarations. The Jitter doesn&rsquo;t care.</p>
+<p>Notice the machinations the Jitter performs, very likely related to dynamic dispatching, to calculate the address to finally jump to. That&rsquo;s where our Increment method is located.</p>
+<p>No wonder it is slower.</p>
+<h2 id="summary">Summary</h2>
+<p>If you can afford to use the policy pattern instead of the more generic strategy pattern (i.e. compile time vs run time dispatch) and/or you need bare to the metal performance, consider the code above.</p>
+<p>As for me, I plan to use it in the near future for a few low level abstractions (i.e. memory allocators).</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/csharp">csharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    <nav id="TableOfContents">
+    <ul>
+        
+
+        
+        <li>
+        <a href="#abstract">Abstract</a>
+        
+
+        
+        </li><li>
+            <a href="#implementation">Implementation</a>
+        
+
+        
+        </li><li>
+            <a href="#results">Results</a>
+        
+
+        
+        </li><li>
+            <a href="#il-and-asm">IL and ASM</a>
+        
+
+        
+        </li><li>
+            <a href="#summary">Summary</a>
+    </li></ul>
+</nav>
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

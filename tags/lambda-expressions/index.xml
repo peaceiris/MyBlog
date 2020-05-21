@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lambda expressions on Lucabol blog</title>
+    <link>http://peaceiris.com/MyBlog/tags/lambda-expressions/</link>
+    <description>Recent content in Lambda expressions on Lucabol blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 16 Sep 2011 06:57:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://peaceiris.com/MyBlog/tags/lambda-expressions/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part V</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/</link>
+      <pubDate>Fri, 16 Sep 2011 06:57:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/</guid>
+      <description>We are now going to look at a solution which is concise, efficient and gives sophisticated error messages. It is also less than 20 lines of code. We’ll be using FParsec.
+FParsec is a port of an Haskell library. It is a parser combinator library or, as I like to think of it, an internal DSL to build parsers in F#. My usual disclaimer: I’m not an expert in FParsec. It is likely that, if you are an expert, you can come up with more maintainable/efficient/elegant version of this parser.</description>
+    </item>
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part IV</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/</link>
+      <pubDate>Fri, 09 Sep 2011 06:09:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/</guid>
+      <description>Let’ now look at the parser. First let’s review the grammar:
+(* &amp;lt;expression&amp;gt; ::= &amp;lt;name&amp;gt; | &amp;lt;function&amp;gt; | &amp;lt;application&amp;gt; &amp;lt;name&amp;gt; ::= non­blank character sequence &amp;lt;function&amp;gt; ::= \ &amp;lt;name&amp;gt; . &amp;lt;body&amp;gt; &amp;lt;body&amp;gt; ::= &amp;lt;expression&amp;gt; &amp;lt;application&amp;gt; ::= ( &amp;lt;function expression&amp;gt; &amp;lt;argument expression&amp;gt; ) &amp;lt;function expression&amp;gt; ::= &amp;lt;expression&amp;gt; &amp;lt;argument expression&amp;gt; ::= &amp;lt;expression&amp;gt; *)  And the data type to represent it:
+type Name = string and Body = Expression and Function = Name * Expression and FunctionExpression = Expression and ArgumentExpression = Expression and Expression = | EName of string | Function of Expression * Body | Application of FunctionExpression * ArgumentExpression | EOT In essence, the data type need to store all the information needed for subsequent stages of computation (i.</description>
+    </item>
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part III</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/</link>
+      <pubDate>Fri, 02 Sep 2011 15:25:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/</guid>
+      <description>Let’s start from the lexer. Remember, I wrote this code based on my memory of how a lexer ought to look like. I didn’t read again the relevant chapters in the Dragon book. But I think it came out all right after all.
+The tokenStream function we looked at last time takes a LazyList and returns a LazyList. It uses the unfold method on LazyList to call matchToken on each char until the stream is empty.</description>
+    </item>
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part II</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/</link>
+      <pubDate>Fri, 26 Aug 2011 14:25:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/</guid>
+      <description>The parser starts simple with the following two functions to parse either a string or a file. I use the XXX_Readers_ because I want to lazy read character by character.
+let parseString s = let reader = new StringReader(s) parseTextReader reader let parseFile fileName = let reader = new StreamReader(fileName: string) parseTextReader reader The whole parser is in the following two lines:
+let parseTextReader: TextReader -&amp;gt; seq&amp;lt;Expression&amp;gt; = textReaderToLazyList &amp;gt;&amp;gt; tokenStream &amp;gt;&amp;gt; parseExpressions I need to specify the signature otherwise the compiler gets confused : wait, does it take a StringReader or a StreamReader?</description>
+    </item>
+    
+    <item>
+      <title>Adventure in parserland – parsing lambda expressions in F# – Part I</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/</link>
+      <pubDate>Fri, 19 Aug 2011 06:53:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/</guid>
+      <description>This is part of my ‘things that I do in the empty spaces between one meeting and the next one, which might end up being vaguely interesting’. It is a lambda expression parser.
+The full source code is here.
+I actually have two versions of it: one written longhand and the other one written with FParsec. Just to be clear: I’m no expert of either.
+And just to be more clear: I think writing most parsers longhand in the way I am about to show is crazy.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part VII</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/</link>
+      <pubDate>Fri, 12 Aug 2011 07:11:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/</guid>
+      <description>Let’s talk about the environment now. This is the part of the interpreter that I like the least. It is a global variable and it contains a list of (string, LispVal) where the LispVal is mutable.
+type Env = (string * LispVal ref) list ref This is pretty bad. First of all, it immediately cuts off any option of running interpreters in different threads. Moreover, it makes a lot of functions in the evaluator to have side effects.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part VI</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/</link>
+      <pubDate>Fri, 05 Aug 2011 07:08:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/</guid>
+      <description>The evaluator takes as an input a LispVal. Where does it come from? There must be something that converts your textual input into it. That is the job of the parser.
+I have used FParsec to build my parser. FParsec is a fantastic library to build parsers. It is a perfect showcase of the composition potential that functional code yields. When you write an FParsec parser you compose many little parsers to create the one parser that works for your language.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part V</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/</link>
+      <pubDate>Fri, 29 Jul 2011 07:26:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/</guid>
+      <description>We have one loose end to tie in the evaluator: the primitive operators. These are things that the interpreter knows intrinsically. There is a list of them below.
+let rec primitives = [ &#34;+&#34;, numericBinop (+) &#34;-&#34;, numericBinop (-) &#34;*&#34;, numericBinop (*) &#34;/&#34;, numericBinop (/) &#34;mod&#34;, numericBinop (%) &#34;=&#34;, numBoolBinop (=) &#34;&amp;lt;&#34;, numBoolBinop (&amp;lt;) &#34;&amp;gt;&#34;, numBoolBinop (&amp;gt;) &#34;/=&#34;, numBoolBinop (&amp;lt;&amp;gt;) &#34;&amp;gt;=&#34;, numBoolBinop (&amp;gt;=) &#34;&amp;lt;=&#34;, numBoolBinop (&amp;lt;=) &#34;&amp;&amp;&#34;, boolBoolBinop (&amp;&amp;) &#34;||&#34;, boolBoolBinop (||) &#34;</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part IV</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/</link>
+      <pubDate>Fri, 22 Jul 2011 07:52:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/</guid>
+      <description>It is the evaluator turn. It is a big file, let’s see if I can fit it in a single post.
+Aptly enough, the most important function is called eval.
+eval env = function | String _ as v -&amp;gt; v | Number _ as v -&amp;gt; v | Bool _ as v -&amp;gt; v | Atom var -&amp;gt; getVar var env | List [Atom &#34;quote&#34;; v] -&amp;gt; v | List [Atom &#34;</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part III</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/</link>
+      <pubDate>Fri, 15 Jul 2011 07:12:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/</guid>
+      <description>Very often my code ends up having the following form: parse an input to create an intermediate data structure and evaluate the structure to produce an output. Strangely, many years ago, when my code was object oriented, that wasn’t the case. Or at least I wasn’t explicitly aware of it.
+When you write an interpreter or a compiler, things always work out like that, but I see the same pattern in almost everything I produce: from financial backtesting to chart libraries.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part II</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/</link>
+      <pubDate>Fri, 08 Jul 2011 07:01:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/</guid>
+      <description>Usually, when I do blog posts that are all about code, I write them ‘bottom up’. I start talking about the most primitive types and functions and build up from there toward higher abstractions. I think this is a pretty common way of doing it.
+For this series I’m going to try the opposite. I start with the code that creates the REPL window and move down from there toward the guts of the interpreter.</description>
+    </item>
+    
+    <item>
+      <title>Write Yourself a Scheme in 48 Hours in F# – Part I</title>
+      <link>http://peaceiris.com/MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/</link>
+      <pubDate>Thu, 30 Jun 2011 15:41:12 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/</guid>
+      <description>Hi, I’m back. I’ve finally sorted out the guidelines for blogging in Credit Suisse.
+Here is something I have been playing around with in the spare time between one meeting and the next one. It is a Scheme interpreter that includes a REPL window. The full code is here.
+All the smarts for it come from this Wiki Book. I just ported the code to F# (and modified it a bit).</description>
+    </item>
+    
+  </channel>
+</rss>

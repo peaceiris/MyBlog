@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="In the previous post, we talked about the difference between Critical and Normal code. In this post we are going to talk about the Critical code part. Ideally, we want:
+ A way to indicate that a particular piece of code (potentially the whole program) is Critical A way to force/encourage the programmer to make an explicit decision on the call site of a function on how he wants to manage the error conditions (both contingencies and faults) A way to force/encourage the programmer to expose contingencies/faults that are appropriate for the conceptual level of the function the code is in (aka don’t expose implementation details for the function, i.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Exceptions vs. Return Values to represent errors (in F#) – II– An example problem | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2012/11/11</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Exceptions vs. Return Values to represent errors (in F#) – II– An example problem
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>In the previous post, we talked about the difference between Critical and Normal code. In this post we are going to talk about the Critical code part. Ideally, we want:</p>
+<ul>
+<li>A way to indicate that a particular piece of code (potentially the whole program) is Critical</li>
+<li>A way to force/encourage the programmer to make an explicit decision on the call site of a function on how he wants to manage the error conditions (both contingencies and faults)</li>
+<li>A way to force/encourage the programmer to expose contingencies/faults that are appropriate for the conceptual level of the function the code is in (aka don’t expose implementation details for the function,  i.e. don’t throw SQLException from a getUser method where the caller is supposed to catch it)</li>
+</ul>
+<p>Remember that I can use the word ‘force’ here because the programmer has already taken the decision to analyse each line of code for error conditions. As we discussed in the previous post, In many/most cases, such level of scrutiny is unwarranted.</p>
+<p>Let’s use the below scenario to unravel the design:</p>
+<pre class="code"><span style="background:white;color:blue;">type </span><span style="background:white;color:black;">User = {Name:string; Age:int}</span></pre>
+<pre class="code"><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">fetchUser userName =
+    </span><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">userText            = dbQuery (userName + </span><span style="background:white;color:#a31515;">".user"</span><span style="background:white;color:black;">)
+    </span><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">user                = parseUser(userText)
+    user</span></pre>
+<p>This looks like a very reasonable .NET function and it is indeed reasonable in Normal code, but not in Critical code. Note that the caller likely needs to handle the user-not-in-repository case because there is no way for the caller to check such condition beforehand without incurring the performance cost of two network roundtrips.</p>
+<p>Albeit the beauty and simplicity, there are issues with this function in a Critical context:</p>
+<ul>
+<li>The function throws implementation related exceptions, breaking encapsulation when the user needs to catch them</li>
+<li>It is not clear from the code if the developer thought about error management (do you think he did?)</li>
+<li>Preconditions are not checked, what about empty or null strings?</li>
+</ul>
+<p>To test our design let’s define a fake dbQuery:</p>
+<pre class="code"><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">dbQuery     = </span><span style="background:white;color:blue;">function
+    </span><span style="background:white;color:black;">| </span><span style="background:white;color:#a31515;">"parseError.user"     </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:#a31515;">"parseError"
+    </span><span style="background:white;color:black;">| </span><span style="background:white;color:#a31515;">"notFound.user"       </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">raise (FileNotFoundException())
+    | </span><span style="background:white;color:#a31515;">"notAuthorized.user"  </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">raise (UnauthorizedAccessException())
+    | </span><span style="background:white;color:#a31515;">"unknown.user"        </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">failwith </span><span style="background:white;color:#a31515;">"Unknown error reading the file"
+    </span><span style="background:white;color:black;">| _                     </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:#a31515;">"FoundUser"</span></pre>
+<p>The first two exceptions are contingencies, the caller of fetchUser is supposed to manage them. The unknown.user exception is a fault in the implementation. parseError triggers a problem in the parseUser function.</p>
+<p>ParseUser looks like this:</p>
+<pre class="code"><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">parseUser   = </span><span style="background:white;color:blue;">function
+    </span><span style="background:white;color:black;">| </span><span style="background:white;color:#a31515;">"parseError"          </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">failwith </span><span style="background:white;color:#a31515;">"Error parsing the user text"
+    </span><span style="background:white;color:black;">| u                     </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">{Name = u; Age = 43}
+</span></pre>
+<p>Let’s now create a test function to test the different versions of fetchUser that we are going to create:</p>
+<pre class="code"><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">test fetchUser =
+    </span><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">p x                 = </span><span style="background:white;color:blue;">try </span><span style="background:white;color:black;">printfn </span><span style="background:white;color:#a31515;">"%A" </span><span style="background:white;color:black;">(fetchUser x) </span><span style="background:white;color:blue;">with </span><span style="background:white;color:black;">ex </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">printfn </span><span style="background:white;color:#a31515;">"%A %s" </span><span style="background:white;color:black;">(ex.GetType()) ex.Message
+    p </span><span style="background:white;color:#a31515;">"found"
+    </span><span style="background:white;color:black;">p </span><span style="background:white;color:#a31515;">"notFound"
+    </span><span style="background:white;color:black;">p </span><span style="background:white;color:#a31515;">"notAuthorized"
+    </span><span style="background:white;color:black;">p </span><span style="background:white;color:#a31515;">"parseError"
+    </span><span style="background:white;color:black;">p </span><span style="background:white;color:#a31515;">"unknown"</span></pre>
+<p>Running the function exposes the problems described above. From the point of view of the caller, there is no way to know what to expect by just inspecting the signature of the function. There is no differentiation between contingencies and faults. The only way to achieve that is to catch some implementation-specific exceptions.</p>
+<p>How would we translate this to Critical code?</p>
+<p>First, we would define a type to represent the result of a function:</p>
+<pre class="code"><span style="background:white;color:blue;">type </span><span style="background:white;color:black;">Result&lt;'a, 'b&gt; =
+| Success </span><span style="background:white;color:blue;">of </span><span style="background:white;color:black;">'a
+| Failure </span><span style="background:white;color:blue;">of </span><span style="background:white;color:black;">'b
+</span></pre>
+<p>This is called the Either type, but the names have been customized to represent this scenario. We then need to define which kind of contingencies our function could return.</p>
+<pre class="code"><span style="background:white;color:blue;">type </span><span style="background:white;color:black;">UserFetchError =
+| UserNotFound  </span><span style="background:white;color:blue;">of </span><span style="background:white;color:black;">exn
+| NotAuthorized </span><span style="background:white;color:blue;">of </span><span style="background:white;color:black;">int * exn</span></pre>
+<p>So we assume that the caller can manage the fact that the user is not found or not authorized. This type contains an Exception member.  This is useful in cases where the caller doesn’t want to manage a contingency, but wants to treat it like a fault (for example when some Normal code is calling some Critical code).</p>
+<p>In such cases, we don’t lose important debugging information. But we still don’t break encapsulation because the caller is not supposed to ‘catch’ a fault.</p>
+<p>Notice that NotAuthorized contains an int member. This is to show that contingencies can carry some more information than just their type. For example, a caller could match on both the type and the additional data.</p>
+<p>With that in place, let’s see how the previous function looks like:</p>
+<pre class="code"><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">tryFetchUser1 userName =
+    </span><span style="background:white;color:blue;">if </span><span style="background:white;color:black;">String.IsNullOrEmpty userName </span><span style="background:white;color:blue;">then </span><span style="background:white;color:black;">invalidArg </span><span style="background:white;color:#a31515;">"userName" "userName cannot be null/empty"
+    </span><span style="background:white;color:green;">// Could check for file existence in this case, but often not (i.e. db)
+    </span><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">userResult =    </span><span style="background:white;color:blue;">try
+                            </span><span style="background:white;color:black;">Success(dbQuery(userName + </span><span style="background:white;color:#a31515;">".user"</span><span style="background:white;color:black;">))
+                        </span><span style="background:white;color:blue;">with
+                        </span><span style="background:white;color:black;">| FileNotFoundException </span><span style="background:white;color:blue;">as </span><span style="background:white;color:black;">ex        </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">Failure(UserNotFound ex)
+                        | UnauthorizedAccessException </span><span style="background:white;color:blue;">as </span><span style="background:white;color:black;">ex  </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">Failure(NotAuthorized(2, ex))
+                        | ex                                    </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">reraise ()
+    </span><span style="background:white;color:blue;">match </span><span style="background:white;color:black;">userResult </span><span style="background:white;color:blue;">with
+    </span><span style="background:white;color:black;">| Success(userText) </span><span style="background:white;color:blue;">-&gt;
+        let </span><span style="background:white;color:black;">user        = Success(parseUser(userText))
+        user
+    | Failure(ex)       </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">Failure(ex)</span></pre>
+<p>Here is what changed:</p>
+<ul>
+<li>Changed name to tryXXX to convey the fact that the method has contingencies</li>
+<li>Added precondition test, which generates a fault</li>
+<li>The signature of the function now conveys the contingencies that the user is supposed to know about</li>
+</ul>
+<p>But still, there are problems:</p>
+<ul>
+<li>The code became very long and convoluted obfuscating the success code path</li>
+<li>Still, has the developer thought about the error conditions in parseUser and decided to let exceptions get out, or did she forget about it?</li>
+</ul>
+<p>The return value crowd at this point is going to shout: “Get over it!! Your code doesn’t need to be elegant, it needs to be correct!”. But I disagree, obfuscating the success code path is a problem because it becomes harder to figure out if your business logic is correct. It is harder to know if you solved the problem you set out to solve in the first place.</p>
+<p>In the next post we’ll see what we can do about keeping beauty and being correct.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

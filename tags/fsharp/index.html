@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>fsharp | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        fsharp
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+<main>
+<ul>
+  
+  
+  <li>
+    <span class="date">2013/03/20</span>
+    <a href="../../MyBlog/posts/2013-03-20-funky-c-for-literate-programming/">Funky C for literate programming</a>
+  </li>
+  
+  <li>
+    <span class="date">2012/12/14</span>
+    <a href="../../MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/">LLite : language friendly literate programming</a>
+  </li>
+  
+  <li>
+    <span class="date">2012/12/07</span>
+    <a href="../../MyBlog/posts/2012-12-07-exceptions-vs-return-values-to-represent-errors-in-f-iii-implementation/">Exceptions vs. Return Values to represent errors (in F#) – IV – Implementation</a>
+  </li>
+  
+  <li>
+    <span class="date">2012/11/30</span>
+    <a href="../../MyBlog/posts/2012-11-30-exceptions-vs-return-values-to-represent-errors-in-f-iiithe-critical-monad/">Exceptions vs. Return Values to represent errors (in F#) – III–The Critical monad</a>
+  </li>
+  
+  <li>
+    <span class="date">2012/11/23</span>
+    <a href="../../MyBlog/posts/2012-11-23-exceptions-vs-return-values-to-represent-errors-in-f-iithe-critical-monad/">Exceptions vs. Return Values to represent errors (in F#) – II– An example problem</a>
+  </li>
+  
+  <li>
+    <span class="date">2012/11/19</span>
+    <a href="../../MyBlog/posts/2012-11-19-exceptions-vs-return-values-to-represent-errors-in-f-i-conceptual-view/">Exceptions vs. Return Values to represent errors (in F#) – Conceptual view</a>
+  </li>
+  
+  <li>
+    <span class="date">2012/09/04</span>
+    <a href="../../MyBlog/posts/2012-09-04-retrieving-sql-server-data-with-type-providers-and-exposing-it-with-asp-net-web-apis-in-f/">Retrieving SQL Server data with type providers and exposing it with ASP.NET Web APIs in F#</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/09/16</span>
+    <a href="../../MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/">Adventure in parserland – parsing lambda expressions in F# – Part V</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/09/09</span>
+    <a href="../../MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/">Adventure in parserland – parsing lambda expressions in F# – Part IV</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/09/02</span>
+    <a href="../../MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/">Adventure in parserland – parsing lambda expressions in F# – Part III</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/08/26</span>
+    <a href="../../MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/">Adventure in parserland – parsing lambda expressions in F# – Part II</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/08/19</span>
+    <a href="../../MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/">Adventure in parserland – parsing lambda expressions in F# – Part I</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/08/12</span>
+    <a href="../../MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/">Write Yourself a Scheme in 48 Hours in F# – Part VII</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/08/05</span>
+    <a href="../../MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/">Write Yourself a Scheme in 48 Hours in F# – Part VI</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/07/29</span>
+    <a href="../../MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/">Write Yourself a Scheme in 48 Hours in F# – Part V</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/07/22</span>
+    <a href="../../MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/">Write Yourself a Scheme in 48 Hours in F# – Part IV</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/07/15</span>
+    <a href="../../MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/">Write Yourself a Scheme in 48 Hours in F# – Part III</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/07/08</span>
+    <a href="../../MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/">Write Yourself a Scheme in 48 Hours in F# – Part II</a>
+  </li>
+  
+  <li>
+    <span class="date">2011/06/30</span>
+    <a href="../../MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/">Write Yourself a Scheme in 48 Hours in F# – Part I</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/03/19</span>
+    <a href="../../MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/">Tracking spread trades in F# (and WPF MVVM) – Part II</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/03/13</span>
+    <a href="../../MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/">Tracking spread trades in F# (and hooking up XUnit and FsCheck) – Part 1</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/02/26</span>
+    <a href="../../MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/">Downloading stock prices, divs and splits in F# updated to Visual Studio 2010</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/02/19</span>
+    <a href="../../MyBlog/posts/2010-02-19-lchart-displaying-charts-in-f-part-iii/">LChart: displaying charts in F# – Part III</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/02/17</span>
+    <a href="../../MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-ii/">LChart: displaying charts in F# – Part II</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/02/17</span>
+    <a href="../../MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-i/">LChart: displaying charts in F# – Part I</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/02/16</span>
+    <a href="../../MyBlog/posts/2010-02-16-excel-financial-functions-upgraded-to-visual-studio-2010-rc/">Excel Financial Functions upgraded to Visual Studio 2010 RC</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/02/15</span>
+    <a href="../../MyBlog/posts/2010-02-15-new-version-of-lagent-compatible-with-vs-2010-rc-online/">New version of LAgent compatible with VS 2010 RC online</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/02/12</span>
+    <a href="../../MyBlog/posts/2010-02-12-a-simpler-f-mailboxprocessor/">A simpler F# MailboxProcessor</a>
+  </li>
+  
+  <li>
+    <span class="date">2010/02/11</span>
+    <a href="../../MyBlog/posts/2010-02-11-the-functional-londoners-meetup-group/">The F#unctional Londoners Meetup Group</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/12/10</span>
+    <a href="../../MyBlog/posts/2009-12-10-lagent-an-agent-framework-in-f-part-x-activeobject/">LAgent: an agent framework in F# – Part X – ActiveObject</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/11/13</span>
+    <a href="../../MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/">Luca at PDC 2009 next week</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/09/18</span>
+    <a href="../../MyBlog/posts/2009-09-18-lagent-an-agent-framework-in-f-part-ix-counting-words/">LAgent: an agent framework in F# – Part IX – Counting words …</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/09/04</span>
+    <a href="../../MyBlog/posts/2009-09-04-lagent-an-agent-framework-in-f-part-viii-implementing-mapreduce-user-model/">LAgent: an agent framework in F# – Part VIII  - Implementing MapReduce (user model)</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/07/10</span>
+    <a href="../../MyBlog/posts/2009-07-10-lagent-an-agent-framework-in-f-part-vii-an-auction-application/">LAgent: an agent framework in F# – part VII – An auction application</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/07/03</span>
+    <a href="../../MyBlog/posts/2009-07-03-lagent-an-agent-framework-in-f-part-vi-hot-swapping-of-code-and-something-silly/">LAgent: an agent framework in F# – Part VI – Hot swapping of code (and something silly)</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/06/26</span>
+    <a href="../../MyBlog/posts/2009-06-26-lagent-an-agent-framework-in-f-part-v-timeout-management/">LAgent: an agent framework in F# – Part V – Timeout management</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/06/19</span>
+    <a href="../../MyBlog/posts/2009-06-19-lagent-an-agent-framework-in-f-part-iv-custom-error-management/">LAgent: an agent framework in F# – Part IV – Custom error management</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/06/12</span>
+    <a href="../../MyBlog/posts/2009-06-12-lagent-an-agent-framework-in-f-part-iii-default-error-management/">LAgent: an agent framework in F# – Part III – Default error management</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/06/05</span>
+    <a href="../../MyBlog/posts/2009-06-05-lagent-an-agent-framework-in-f-part-ii-agents-and-control-messages/">LAgent : an agent framework in F# – Part II – Agents and control messages</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/05/29</span>
+    <a href="../../MyBlog/posts/2009-05-29-lagent-an-agent-framework-in-f-part-i-workers-and-parallelworkers/">LAgent : an agent framework in F# – Part I – Workers and ParallelWorkers</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/05/27</span>
+    <a href="../../MyBlog/posts/2009-05-27-luke-talks-about-f-on-channel9/">Luke talks about F# on Channel9</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/05/21</span>
+    <a href="../../MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/">A version of the AsyncCache found its way into the Parallel Programming samples …</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/05/14</span>
+    <a href="../../MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/">I talk about C# and VB Co-Evolution on Channel9 (and some F# …)</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/03/24</span>
+    <a href="../../MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/">Luca at NDC in Oslo 17 – 19 June 2009</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/02/25</span>
+    <a href="../../MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/">Excel Financial functions 2.0 released</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/01/27</span>
+    <a href="../../MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/">New release of Financial Functions .NET uploaded on MSDN Code Gallery</a>
+  </li>
+  
+  <li>
+    <span class="date">2009/01/19</span>
+    <a href="../../MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/">Bayesian inference in F# – Part IIb – Finding Maia underlying attitude</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/12/04</span>
+    <a href="../../MyBlog/posts/2008-12-04-financial-functions-for-net-released/">Financial Functions for .NET released !</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/11/26</span>
+    <a href="../../MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/">Bayesian inference in F# - Part IIa - A simple example - modeling Maia</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/11/07</span>
+    <a href="../../MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/">Bayesian inference in F#  - Part I - Background</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/11/03</span>
+    <a href="../../MyBlog/posts/2008-11-03-my-f-pdc-presentation-is-online-ppt-and-demo-application/">My F# PDC presentation is online (&#43; ppt and demo application)</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/10/24</span>
+    <a href="../../MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/">Luca presenting F# at PDC 2008</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/10/20</span>
+    <a href="../../MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/">Downloading stock prices in F# - Part VI - Code posted</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/09/26</span>
+    <a href="../../MyBlog/posts/2008-09-26-downloading-stock-prices-in-f-part-v-adjusting-historical-data/">Downloading stock prices in F# - Part V - Adjusting historical data</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/09/19</span>
+    <a href="../../MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/">Downloading stock prices in F# - Part IV - Async loader for splits</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/09/12</span>
+    <a href="../../MyBlog/posts/2008-09-12-downloading-stock-prices-in-f-part-iii-async-loader-for-prices-and-divs/">Downloading stock prices in F# - Part III - Async loader for prices and divs</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/09/05</span>
+    <a href="../../MyBlog/posts/2008-09-05-downloading-stock-prices-in-f-part-ii-html-scraping/">Downloading stock prices in F# - Part II - Html scraping</a>
+  </li>
+  
+  <li>
+    <span class="date">2008/08/29</span>
+    <a href="../../MyBlog/posts/2008-08-29-downloading-stock-prices-in-f-part-i-data-modeling/">Downloading stock prices in F# - Part I - Data modeling</a>
+  </li>
+  
+</ul>
+</main>
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+        
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+        
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

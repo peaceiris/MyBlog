@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="And here comes the guilt bit. I have the strong suspicion (but not certainty) that what I am doing here can be done with templates, but didn’t take the time to do it. With that out of the way, let’s go.
+Code for this post is here. Thanks to Steve Bower and Andy Sawyer for reviewing it.
+Algebraic datatypes (discriminated unions in F#) are a powerful concept in functional programming. They are the main way to represent type variation in your program.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Writing functional code in C&#43;&#43; IV – Algebraic datatypes | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2012/04/04</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Writing functional code in C&#43;&#43; IV – Algebraic datatypes
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>And here comes the guilt bit. I have the strong suspicion (but not certainty) that what I am doing here can be done with templates, but didn’t take the time to do it. With that out of the way, let’s go.</p>
+<p>Code for this post is <a href="https://github.com/lucabol/FunctionalCpp/blob/master/discriminated_union.cpp">here</a>. Thanks to Steve Bower and Andy Sawyer for reviewing it.</p>
+<p><a href="http://www.google.co.uk/url?sa=t&amp;rct=j&amp;q=algebraic%20datatypes&amp;source=web&amp;cd=1&amp;ved=0CDIQFjAA&amp;url=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAlgebraic_data_type&amp;ei=UmZ9T8fGOoK2hQeRk6i-DA&amp;usg=AFQjCNGG2oS5s9Ir1NvaX-RRcarkvVAoig">Algebraic datatypes</a> (discriminated unions in F#) are a powerful concept in functional programming. They are the main way to represent type variation in your program. Very roughly, where object orientation uses derivation, functional programming uses algebraic datatypes. An entire book could be written on the theory of this, but the goal of this post is to see how we can map them to C++ without loosing C++ness.</p>
+<p>When talking about this with C++ programmers, they always point me to boost variant. That doesn’t do it for me for several reasons.</p>
+<p>First of all, boost variants represent one of a fixed collection of types. Algebraic datatypes represent one of a fixed collection of <u>named</u> types. That means that a simple thing like the code below cannot be represented as variant:</p>
+<pre class="code"><span style="background:white;color:blue;">type </span><span style="background:white;color:black;">LivingEntity =
+| Person </span><span style="background:white;color:blue;">of </span><span style="background:white;color:black;">string  </span><span style="background:white;color:green;">// name
+</span><span style="background:white;color:black;">| Dog </span><span style="background:white;color:blue;">of </span><span style="background:white;color:black;">string     </span><span style="background:white;color:green;">// name</span></pre>
+<p><span style="background:white;color:green;"><font color="#000000">Ok, ok maybe you could represent it by ‘typifing’ things using <a href="http://www.boost.org/doc/libs/1_37_0/boost/strong_typedef.hpp">boost strong typedef</a>, but things get ugly syntactically. Moreover, a lot of time the name is all you care about …</font></span></p>
+<pre class="code"><span style="background:white;color:blue;">type </span><span style="background:white;color:black;">Switch = On | Off</span></pre>
+<p><span style="background:white;color:black;">Are we going to strong typedef for such a simple thing? Oh boy. Even accepting the syntactic weight of all this, there are other issues in play. Discriminated unions are used extensively in functional programs. So you want a nice syntax to work with them Something like the below F# syntax:</span></p>
+<pre class="code"><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">print living =
+    </span><span style="background:white;color:blue;">match </span><span style="background:white;color:black;">living </span><span style="background:white;color:blue;">with
+    </span><span style="background:white;color:black;">| Person(name) </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">printfn </span><span style="background:white;color:maroon;">"I'm a per named %s" </span><span style="background:white;color:black;">name
+    | Dog(name)    </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">printfn </span><span style="background:white;color:maroon;">"I'm a dog named %s" </span><span style="background:white;color:black;">name</span></pre>
+<p><span style="background:white;color:black;">Which could be made even sweeter by using the ‘function’ keyword as below:</span></p>
+<pre class="code"><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">print = </span><span style="background:white;color:blue;">function
+    </span><span style="background:white;color:black;">| Person(name) </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">printfn </span><span style="background:white;color:maroon;">"I'm a per named %s" </span><span style="background:white;color:black;">name
+    | Dog(name)    </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">printfn </span><span style="background:white;color:maroon;">"I'm a dog named %s" </span><span style="background:white;color:black;">name</span></pre>
+<p><span style="background:white;color:black;">In boost variant, you either use the get<type> functions or you write a visitor function. In the first case you are probably going to write a chain of ‘if’ statements or a ‘switch’ statement. Both are confusing and come with plenty of syntactic weight. I don’t really want to write a visitor like the one below for each ‘match’ in my code. The magic is gone.</span></p>
+<pre>class times_two_visitor
+    : public <code>&lt;a href="http://www.boost.org/doc/libs/1_49_0/doc/html/boost/static_visitor.html">boost::static_visitor&lt;/a></code>&lt;&gt;
+{
+public:
+    void operator()(int & i) const
+    {
+        i *= 2;
+    }
+    void operator()(std::string & str) const
+    {
+        str += str;
+    }
+};</pre>
+<p>Ok, so boost variant doesn’t really work for this. Remember that our overarching goal was to stay close to C++. The language itself has something that comes pretty close to what we want in the form of a union, or better a <a href="http://en.wikipedia.org/wiki/Tagged_union">tagged union</a>. Again, the types are not named, but maybe we can work that in.</p>
+<p>It turns out that Jared <a href="http://blogs.msdn.com/b/jaredpar/archive/2010/11/18/discriminated-unions-in-c.aspx">here</a> did all the hard work. The general idea is to use macros to hide the construction of a tagged union with methods to test the type and return the contained value.</p>
+<p>For example this code:</p>
+<pre class="code"><span style="background:white;color:#6f008a;">DU_DECLARE</span><span style="background:white;color:black;">(</span><span style="background:white;color:#2b91af;">LivingEntity</span><span style="background:white;color:black;">)
+    </span><span style="background:white;color:#6f008a;">DU_VALUE</span><span style="background:white;color:black;">(Person,    </span><span style="background:white;color:#2b91af;">string</span><span style="background:white;color:black;">)
+    </span><span style="background:white;color:#6f008a;">DU_VALUE</span><span style="background:white;color:black;">(Dog,       </span><span style="background:white;color:#2b91af;">string</span><span style="background:white;color:black;">)
+</span><span style="background:white;color:#6f008a;">DU_END
+</span></pre>
+<p><span style="background:white;color:#6f008a;"><font color="#000000">Becomes something like:</font></span></p>
+<pre class="code"><span style="background:white;color:blue;">struct </span><span style="background:white;color:#2b91af;">LivingEntity </span><span style="background:white;color:black;">{
+    </span><span style="background:white;color:blue;">private</span><span style="background:white;color:black;">:
+        LivingEntity() {}
+        </span><span style="background:white;color:blue;">unsigned int </span><span style="background:white;color:black;">m_kind;
+    </span><span style="background:white;color:blue;">public</span><span style="background:white;color:black;">:
+        </span><span style="background:white;color:blue;">static </span><span style="background:white;color:#2b91af;">LivingEntity </span><span style="background:white;color:black;">Person(</span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">string</span><span style="background:white;color:black;">& </span><span style="background:white;color:gray;">value</span><span style="background:white;color:black;">) {
+            </span><span style="background:white;color:#2b91af;">LivingEntity </span><span style="background:white;color:black;">unionValue;
+            unionValue.m_kind = 19;
+            unionValue.m_Person = </span><span style="background:white;color:gray;">value</span><span style="background:white;color:black;">;
+            </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">unionValue; }
+        </span><span style="background:white;color:blue;">bool </span><span style="background:white;color:black;">IsPerson() </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">{
+            </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">m_kind == 19;
+        }
+        </span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">string</span><span style="background:white;color:black;">& GetPerson() </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">{
+            (</span><span style="background:white;color:blue;">void</span><span style="background:white;color:black;">)( (!!(m_kind == 19)) || (_wassert(L</span><span style="background:white;color:maroon;">"m_kind == __LINE__"</span><span style="background:white;color:black;">, L</span><span style="background:white;color:maroon;">"c:discriminated_union.cpp"</span><span style="background:white;color:black;">, 19), 0) );
+            </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">m_Person; }
+        </span><span style="background:white;color:#2b91af;">string </span><span style="background:white;color:black;">GetPerson() {
+            (</span><span style="background:white;color:blue;">void</span><span style="background:white;color:black;">)( (!!(m_kind == 19)) || (_wassert(L</span><span style="background:white;color:maroon;">"m_kind == __LINE__"</span><span style="background:white;color:black;">, L</span><span style="background:white;color:maroon;">"c:discriminated_union.cpp"</span><span style="background:white;color:black;">, 19), 0) );
+            </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">m_Person; }
+   </span><span style="background:white;color:blue;">private</span><span style="background:white;color:black;">:<br /></span><span style="background:white;color:#2b91af;">        string </span><span style="background:white;color:black;">m_Person;<br /><br />   …</span></pre>
+<p><span style="background:white;color:black;">You can see the outline of a tagged union (i.e. m_kind) with a constructor for each type (i.e. Person) and methods to test for at type and return its value. You can also see the storage for the value (i.e. m_Person).</span></p>
+<p><span style="background:white;color:black;">The only thing in DU_DECLARE that is different from Jared’s solution is the typedef below that allows not repeating the LivingEntity name in each DU_VALUE.</span></p>
+<pre class="code"><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">DU_DECLARE</span><span style="background:white;color:black;">(name)                        \
+    </span><span style="background:white;color:blue;">struct </span><span style="background:white;color:black;">name {                               \
+    </span><span style="background:white;color:blue;">private</span><span style="background:white;color:black;">:                                    \
+        </span><span style="background:white;color:blue;">typedef </span><span style="background:white;color:black;">name unionName;                 \
+        name() {}                               \
+        </span><span style="background:white;color:blue;">unsigned int </span><span style="background:white;color:black;">m_kind;                    \
+    </span><span style="background:white;color:blue;">public</span><span style="background:white;color:black;">:
+</span></pre>
+<pre class="code"><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">DU_VALUE</span><span style="background:white;color:black;">(entryName, entryType)                                                                      \
+        </span><span style="background:white;color:blue;">static </span><span style="background:white;color:black;">unionName entryName(</span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">entryType& value) {                                                \
+            unionName unionValue;                                                                           \
+            unionValue.m_kind = </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">;                                                                   \
+            unionValue.m_##entryName = value;                                                               \
+            </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">unionValue;  }                                                                           \
+        </span><span style="background:white;color:blue;">bool </span><span style="background:white;color:black;">Is##entryName() </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">{ </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">m_kind == </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">;}                                            \
+        </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">entryType& Get##entryName() </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">{ </span><span style="background:white;color:#6f008a;">assert</span><span style="background:white;color:black;">(m_kind == </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">); </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">m_##entryName; }       \
+        entryType Get##entryName() { </span><span style="background:white;color:#6f008a;">assert</span><span style="background:white;color:black;">(m_kind == </span><span style="background:white;color:#6f008a;">__LINE__</span><span style="background:white;color:black;">); </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">m_##entryName; }                    \
+    </span><span style="background:white;color:blue;">private</span><span style="background:white;color:black;">:                                                                                                \
+        entryType m_##entryName;                                                                            \
+    </span><span style="background:white;color:blue;">public</span><span style="background:white;color:black;">:
+</span></pre>
+<p><span style="background:white;color:black;">With all of that at your disposal it becomes easy to write:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">entity = </span><span style="background:white;color:#2b91af;">LivingEntity</span><span style="background:white;color:black;">::Dog(</span><span style="background:white;color:maroon;">"Bob"</span><span style="background:white;color:black;">);
+    </span><span style="background:white;color:#6f008a;">DU_MATCH</span><span style="background:white;color:black;">(entity)
+        </span><span style="background:white;color:#6f008a;">DU_CASE</span><span style="background:white;color:black;">(Dog,   </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(value, </span><span style="background:white;color:maroon;">"Bob"</span><span style="background:white;color:black;">);)
+        </span><span style="background:white;color:#6f008a;">DU_CASE</span><span style="background:white;color:black;">(Person,</span><span style="background:white;color:#6f008a;">BOOST_CHECK</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">false</span><span style="background:white;color:black;">);)
+    </span><span style="background:white;color:#6f008a;">DU_MATCH_END
+</span></pre>
+<p><span style="background:white;color:#6f008a;"><font color="#000000">There are some beautiful things about this. First of all, the construction of any of such types is super simple. You even get intellisense!<br /> <br /></font></span><span style="background:white;color:#6f008a;"><font color="#000000">Moreover the ‘value’ variable contains whatever was passed in the constructor for the object. So this is semantically equivalent, if not syntactically, to the match statement in F#.</font></span></p>
+<p><span style="background:white;color:#6f008a;"><font color="#000000">Obviously the code part is not limited to a single instruction:</font></span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:#6f008a;">DU_MATCH</span><span style="background:white;color:black;">(entity)
+        </span><span style="background:white;color:#6f008a;">DU_CASE</span><span style="background:white;color:black;">(Dog,
+            cout &lt;&lt; </span><span style="background:white;color:maroon;">"I should be here"</span><span style="background:white;color:black;">;
+            </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(value, </span><span style="background:white;color:maroon;">"Bob"</span><span style="background:white;color:black;">);
+        )
+        </span><span style="background:white;color:#6f008a;">DU_CASE</span><span style="background:white;color:black;">(Person,
+            </span><span style="background:white;color:#6f008a;">BOOST_CHECK</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">false</span><span style="background:white;color:black;">);
+        )
+    </span><span style="background:white;color:#6f008a;">DU_MATCH_END</span></pre>
+<p><span style="background:white;color:#6f008a;"><font color="#000000">And for those of you addicted to braces, I venture:</font></span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:#6f008a;">DU_MATCH</span><span style="background:white;color:black;">(entity)
+        </span><span style="background:white;color:#6f008a;">DU_CASE</span><span style="background:white;color:black;">(Dog,
+        {
+            cout &lt;&lt; </span><span style="background:white;color:maroon;">"I should be here"</span><span style="background:white;color:black;">;
+            </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(value, </span><span style="background:white;color:maroon;">"Bob"</span><span style="background:white;color:black;">);
+        })
+        </span><span style="background:white;color:#6f008a;">DU_CASE</span><span style="background:white;color:black;">(Person,
+        {
+            </span><span style="background:white;color:#6f008a;">BOOST_CHECK</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">false</span><span style="background:white;color:black;">);
+        })
+    </span><span style="background:white;color:#6f008a;">DU_MATCH_END</span></pre>
+<p><span style="background:white;color:#6f008a;"><font color="#000000">They all work with the same macro definition. They expand to something along the line of:</font></span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">false</span><span style="background:white;color:black;">) {}
+        </span><span style="background:white;color:blue;">else if</span><span style="background:white;color:black;">(entity.IsDog()) {
+            </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">value = entity.GetDog();
+            </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(value, </span><span style="background:white;color:maroon;">"Bob"</span><span style="background:white;color:black;">);
+        }
+        </span><span style="background:white;color:blue;">else if</span><span style="background:white;color:black;">(entity.IsPerson()) {
+            </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">value = entity.GetPerson();
+            </span><span style="background:white;color:#6f008a;">BOOST_CHECK</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">false</span><span style="background:white;color:black;">);
+        }
+        </span><span style="background:white;color:blue;">else </span><span style="background:white;color:black;">{
+            </span><span style="background:white;color:blue;">throw </span><span style="background:white;color:#2b91af;">match_exception</span><span style="background:white;color:black;">();
+        }</span></pre>
+<p><span style="background:white;color:black;">I’ve not reached the pinnacle of macro naming mastering with this one. Making them lowercase and risking a bit more on the conflict side would make the syntax much more palatable. I call it, as it is, not too bad.</span></p>
+<p><span style="background:white;color:black;">The last ‘else’ clause assures you then if you add a new type to the discriminated union and forget to update one of the ‘MATCH’ clauses at least you get a run time error. That is not good. Functional languages would give you a compile time error, which is much better. Maybe with judicious use of templates you can bring the error at compile time.</span></p>
+<p><span style="background:white;color:black;">The macros are trivial:</span></p>
+<pre class="code"><span style="background:white;color:blue;">class </span><span style="background:white;color:#2b91af;">match_exception</span><span style="background:white;color:black;">: std::</span><span style="background:white;color:#2b91af;">exception </span><span style="background:white;color:black;">{};
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">DU_MATCH</span><span style="background:white;color:black;">(unionName) { </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">du_match_var = unionName; </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">false</span><span style="background:white;color:black;">) {}
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">DU_CASE_TAG</span><span style="background:white;color:black;">(entry, ...)                        \
+    </span><span style="background:white;color:blue;">else if</span><span style="background:white;color:black;">(du_match_var.Is##entry()) {                \
+        __VA_ARGS__                                    \
+    }
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">DU_CASE</span><span style="background:white;color:black;">(entry, ...)                            \
+    </span><span style="background:white;color:blue;">else if</span><span style="background:white;color:black;">(du_match_var.Is##entry()) {                \
+        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">value = du_match_var.Get##entry();        \
+        __VA_ARGS__                                    \
+    }
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">DU_DEFAULT</span><span style="background:white;color:black;">(...)                                \
+    </span><span style="background:white;color:blue;">else if</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">true</span><span style="background:white;color:black;">) { __VA_ARGS__}
+</span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">DU_MATCH_END </span><span style="background:white;color:blue;">else </span><span style="background:white;color:black;">{</span><span style="background:white;color:blue;">throw new </span><span style="background:white;color:#2b91af;">match_exception</span><span style="background:white;color:black;">();} }
+</span></pre>
+<p><span style="background:white;color:black;">Let’s now go back to our initial goal and see how far off we are. We were trying to do the following:</span></p>
+<pre class="code"><span style="background:white;color:blue;">type </span><span style="background:white;color:black;">LivingEntity =
+| Person </span><span style="background:white;color:blue;">of </span><span style="background:white;color:black;">string
+| Dog </span><span style="background:white;color:blue;">of </span><span style="background:white;color:black;">string
+</span><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">print = </span><span style="background:white;color:blue;">function
+    </span><span style="background:white;color:black;">| Person(name) </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">printfn </span><span style="background:white;color:maroon;">"I'm a per named %s" </span><span style="background:white;color:black;">name
+    | Dog(name)    </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">printfn </span><span style="background:white;color:maroon;">"I'm a dog named %s" </span><span style="background:white;color:black;">name</span></pre>
+<p><span style="background:white;color:black;">And here is what we ended up with:</span></p>
+<pre class="code"><span style="background:white;color:#6f008a;">DU_DECLARE</span><span style="background:white;color:black;">(</span><span style="background:white;color:#2b91af;">LivingEntity</span><span style="background:white;color:black;">)
+    </span><span style="background:white;color:#6f008a;">DU_VALUE</span><span style="background:white;color:black;">(</span><span style="background:white;color:black;">Person,    </span><span style="background:white;color:#2b91af;">string</span><span style="background:white;color:black;">)
+    </span><span style="background:white;color:#6f008a;">DU_VALUE</span><span style="background:white;color:black;">(</span><span style="background:white;color:black;">Dog,        </span><span style="background:white;color:#2b91af;">string</span><span style="background:white;color:black;">)
+</span><span style="background:white;color:#6f008a;">DU_END
+</span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">print(</span><span style="background:white;color:#2b91af;">LivingEntity </span><span style="background:white;color:gray;">en</span><span style="background:white;color:black;">) -&gt; </span><span style="background:white;color:blue;">void </span><span style="background:white;color:black;">{
+    </span><span style="background:white;color:#6f008a;">DU_MATCH</span><span style="background:white;color:black;">(entity)
+        </span><span style="background:white;color:#6f008a;">DU_CASE</span><span style="background:white;color:black;">(Dog,    cout &lt;&lt; </span><span style="background:white;color:maroon;">"I'm a dog named " </span><span style="background:white;color:black;">&lt;&lt; value;)
+        </span><span style="background:white;color:#6f008a;">DU_CASE</span><span style="background:white;color:black;">(Person, cout &lt;&lt; </span><span style="background:white;color:maroon;">"I'm a per named " </span><span style="background:white;color:black;">&lt;&lt; value;)
+    </span><span style="background:white;color:#6f008a;">DU_MATCH_END
+</span><span style="background:white;color:black;">}</span></pre>
+<p><span style="background:white;color:black;">In our Switch case:</span></p>
+<p><span style="background:white;color:blue;">type </span><span style="background:white;color:black;">Switch = On | Off</span></p>
+<p><span style="background:white;color:black;">You get the good looking :</span></p>
+<p><span style="background:white;color:black;"></p></p>
+<pre class="code"><span style="background:white;color:#6f008a;">DU_DECLARE</span><span style="background:white;color:black;">(</span><span style="background:white;color:#2b91af;">Switch</span><span style="background:white;color:black;">)
+    </span><span style="background:white;color:#6f008a;">DU_FLAG</span><span style="background:white;color:black;">(</span><span style="background:white;color:black;">On)
+    </span><span style="background:white;color:#6f008a;">DU_FLAG</span><span style="background:white;color:black;">(</span><span style="background:white;color:black;">Off)
+</span><span style="background:white;color:#6f008a;">DU_END
+</span></pre>
+<p>
+  And along the way we lost compile time type safety in the very common case of adding new types to the discriminated union. That’s bad.
+</p>
+<p>
+  Also some of you would strongly dislike the (ab)use of macros. As for me, it looks workable.
+</p>
+<p>
+  </span>
+</p>
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/c&#43;&#43;">C&#43;&#43;</a></li>
+        
+            <li><a href="../../MyBlog/tags/functional-programming">Functional Programming</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

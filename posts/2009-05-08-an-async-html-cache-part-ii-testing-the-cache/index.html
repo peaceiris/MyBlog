@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Other posts:
+ Part I – Writing the cache  Let’s try out our little cache. First I want to write a synchronous version of it as a baseline.
+Private Shared Sub TestSync(ByVal sites() As String, ByVal sitesToDownload As Integer, ByVal howLong As Integer) Dim syncCache As New Dictionary(Of String, String) Dim count = sites.Count() Dim url1 = &#34;http://moneycentral.msn.com/investor/invsub/results/statemnt.aspx?Symbol=&#34; For i = 0 To sitesToDownload - 1 Dim html As String = &#34;">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>An Async Html cache – part II – Testing the cache | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2009/05/05</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        An Async Html cache – part II – Testing the cache
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Other posts:</p>
+<ul>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/04/27/an-async-html-cache-part-i.aspx">Part I – Writing the cache</a></li>
+</ul>
+<p>Let’s try out our little cache. First I want to write a synchronous version of it as a baseline.</p>
+<pre class="code"><span style="background:white;">    </span><span style="background:white;color:blue;">Private Shared Sub </span><span style="background:white;">TestSync(</span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">sites() </span><span style="background:white;color:blue;">As String</span><span style="background:white;">, </span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">sitesToDownload </span><span style="background:white;color:blue;">As Integer</span><span style="background:white;">, </span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">howLong </span><span style="background:white;color:blue;">As Integer</span><span style="background:white;">)
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">syncCache </span><span style="background:white;color:blue;">As New </span><span style="background:white;color:#2b91af;">Dictionary</span><span style="background:white;">(</span><span style="background:white;color:blue;">Of String</span><span style="background:white;">, </span><span style="background:white;color:blue;">String</span><span style="background:white;">)
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">count = sites.Count()
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">url1 = </span><span style="background:white;color:#a31515;">"http://moneycentral.msn.com/investor/invsub/results/statemnt.aspx?Symbol="
+        </span><span style="background:white;color:blue;">For </span><span style="background:white;">i = 0 </span><span style="background:white;color:blue;">To </span><span style="background:white;">sitesToDownload - 1
+            </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">html </span><span style="background:white;color:blue;">As String </span><span style="background:white;">= </span><span style="background:white;color:#a31515;">""
+            </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">url = url1 & sites(i </span><span style="background:white;color:blue;">Mod </span><span style="background:white;">count)
+            </span><span style="background:white;color:blue;">If Not </span><span style="background:white;"><strong>syncCache.TryGetValue(url, html)</strong> </span><span style="background:white;color:blue;">Then
+                </span><span style="background:white;">html = LoadWebPage(url)
+                <strong>syncCache(url) = html</strong>
+            </span><span style="background:white;color:blue;">End If
+            </span><span style="background:white;">DoWork(html, howLong)
+        </span><span style="background:white;color:blue;">Next
+    End Sub</span></pre>
+<p>This is a loop that loads webpages in the cache if they are not already there. <em>sites</em> is a list of tickers used to compose the urls; <em>sitesToDownload</em> is the total number of sites to download, so that a single url can be loaded multiple times; <em>howLong</em> represents the work to be done on each loaded page.</p>
+<p>In this version the cache is simply a <em>Dictionary</em> and there is no parallelism. The two bold lines is where the cache is managed.</p>
+<p><em>DoWork</em> is this.</p>
+<pre class="code"><span style="background:white;">    </span><span style="background:white;color:blue;">Public Shared Sub </span><span style="background:white;">DoWork(</span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">html </span><span style="background:white;color:blue;">As String</span><span style="background:white;">, </span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">howLong </span><span style="background:white;color:blue;">As Integer</span><span style="background:white;">)
+        </span><span style="background:white;color:#2b91af;">Thread</span><span style="background:white;">.Sleep(howLong)
+    </span><span style="background:white;color:blue;">End Sub</span></pre>
+<p>Let’s take a look at the asynchronous version.</p>
+<pre class="code"><span style="background:white;">    </span><span style="background:white;color:blue;">Private Shared Sub </span><span style="background:white;">TestAsync(</span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">sites() </span><span style="background:white;color:blue;">As String</span><span style="background:white;">, </span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">sitesToDownload </span><span style="background:white;color:blue;">As Integer</span><span style="background:white;">, </span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">howLong </span><span style="background:white;color:blue;">As Integer</span><span style="background:white;">)
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">htmlCache </span><span style="background:white;color:blue;">As New </span><span style="background:white;color:#2b91af;">HtmlCache
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">count = sites.Count()
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">url = </span><span style="background:white;color:#a31515;">"http://moneycentral.msn.com/investor/invsub/results/statemnt.aspx?Symbol="
+        </span><span style="background:white;color:blue;">Using </span><span style="background:white;">ce = </span><span style="background:white;color:blue;">New </span><span style="background:white;color:#2b91af;">CountdownEvent</span><span style="background:white;">(sitesToDownload)
+            </span><span style="background:white;color:blue;">For </span><span style="background:white;">i = 1 </span><span style="background:white;color:blue;">To </span><span style="background:white;">sitesToDownload
+                </span><span style="background:white;color:#2b91af;">htmlCache</span><span style="background:white;">.GetHtmlAsync(
+                    url & sites(i </span><span style="background:white;color:blue;">Mod </span><span style="background:white;">count),
+                    </span><span style="background:white;color:blue;">Sub</span><span style="background:white;">(s)
+                        DoWork(s, howLong)
+                        ce.Signal()
+                    </span><span style="background:white;color:blue;">End Sub</span><span style="background:white;">)
+            </span><span style="background:white;color:blue;">Next
+            </span><span style="background:white;">ce.Wait()
+        </span><span style="background:white;color:blue;">End Using</span></pre>
+<p>There are several points worth making on this:</p>
+<ul>
+<li>The lambda used as second parameter for <em>GetHtmlAsync</em> is invoked on a different thread whenever the html has been retrieved (which could be immediately if the cache has downloaded the url before)</li>
+<li><em>CountDownEvent</em> allows a thread to wait for a certain number of signals to be sent. The waiting happens on the main thread in the <em>ce.Wait()</em> instruction. The triggering of the event happens in the lambda described in the point above (the <em>ce.Signal()</em> instruction)</li>
+</ul>
+<p>This is the driver for the overall testing.</p>
+<pre class="code"><span style="background:white;">    </span><span style="background:white;color:blue;">Private Shared Sub </span><span style="background:white;">TestPerf(</span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">s </span><span style="background:white;color:blue;">As String</span><span style="background:white;">, </span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">a </span><span style="background:white;color:blue;">As </span><span style="background:white;color:#2b91af;">Action</span><span style="background:white;">, </span><span style="background:white;color:blue;">ByVal </span><span style="background:white;">iterations </span><span style="background:white;color:blue;">As Integer</span><span style="background:white;">)
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">clock </span><span style="background:white;color:blue;">As New </span><span style="background:white;color:#2b91af;">Stopwatch
+        </span><span style="background:white;">clock.Start()
+        </span><span style="background:white;color:blue;">For </span><span style="background:white;">i = 1 </span><span style="background:white;color:blue;">To </span><span style="background:white;">iterations
+            a()
+        </span><span style="background:white;color:blue;">Next
+        </span><span style="background:white;">clock.Stop()
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">ts = clock.Elapsed
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">elapsedTime = </span><span style="background:white;color:blue;">String</span><span style="background:white;">.Format(s & </span><span style="background:white;color:#a31515;">": {0:00}:{1:00}:{2:00}.{3:00}"</span><span style="background:white;">, ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10)
+        </span><span style="background:white;color:#2b91af;">Console</span><span style="background:white;">.WriteLine(elapsedTime, </span><span style="background:white;color:#a31515;">"RunTime"</span><span style="background:white;">)
+    </span><span style="background:white;color:blue;">End Sub</span></pre>
+<p>There is not much to say about it. Start the clock, perform a bunch of iterations of the passed lambda, stop the clock, print out performance.</p>
+<p>And finally the main method. Note that all the adjustable parameters are factored out before the calls to <em>TestPerf</em>.</p>
+<pre class="code"><span style="background:white;">    </span><span style="background:white;color:blue;">Public Shared Sub </span><span style="background:white;">Main()
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">tickers = </span><span style="background:white;color:blue;">New String</span><span style="background:white;">() {</span><span style="background:white;color:#a31515;">"mmm"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"aos"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"shlm"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"cas"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"abt"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"anf"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"abm"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"akr"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"acet"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"afl"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"agl"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"adc"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"apd"</span><span style="background:white;">,<br />                                           </span><span style="background:white;color:#a31515;">"ayr"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"alsk"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"ain"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"axb"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"are"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"ale"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"ab"</span><span style="background:white;">, </span><span style="background:white;color:#a31515;">"all"</span><span style="background:white;">}
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">sitesToDownload = 50
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">workToDoOnEachUrlInMilliSec = 20
+        </span><span style="background:white;color:blue;">Dim </span><span style="background:white;">perfIterations = 5
+        TestPerf(</span><span style="background:white;color:#a31515;">"Async"</span><span style="background:white;">, </span><span style="background:white;color:blue;">Sub</span><span style="background:white;">() TestAsync(tickers, sitesToDownload, workToDoOnEachUrlInMilliSec), perfIterations)
+        TestPerf(</span><span style="background:white;color:#a31515;">"Sync"</span><span style="background:white;">, </span><span style="background:white;color:blue;">Sub</span><span style="background:white;">() TestSync(tickers, sitesToDownload, workToDoOnEachUrlInMilliSec), perfIterations)
+    </span><span style="background:white;color:blue;">End Sub</span></pre>
+<p>Feel free to change (<em>tickers</em>, <em>sitesToDownload</em>, <em>workToDoOnEachUrlInMilliSec</em>, <em>perfIterations</em>). Depending on the ratios between these parameters and the number of cores on your machine, you’re going to see different results. Which highlights the fact that parallelizing your algorithms can yield performance gains or not depending on both software and hardware considerations. I get ~3X improvement on my box. I attached the full source file for your amusement.</p>
+<p><a href="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Components.PostAttachments/00/09/58/90/57/AsyncCache.vb">AsyncCache.vb</a></p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/vb">VB</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="I am back in Microsoft and today we talk about the code below, which is on github here:
+public ref struct SpanStack&amp;lt;T&amp;gt; { private Span memory; private int index; private int size; public SpanStack(Span mem) { memory = mem; index = 0; size = mem.Length; } public bool IsEmpty() =&amp;gt; index &amp;lt; 0; public bool IsFull() =&amp;gt; index &amp;gt; size - 1; public void Push(T item) =&amp;gt; memory[index&#43;&#43;] = item; public T Pop() =&amp;gt; memory[--index]; } public static class SpanExtensions { public static SpanStack AsStack&amp;lt;T&amp;gt;(this Span span) =&amp;gt; new SpanStack(span); } This Stack data structure can be used over memory that resides on the stack, heap or unmanaged heap.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>A Stack data structure implementation using Span | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2018/06/06</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        A Stack data structure implementation using Span
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>I am back in Microsoft and today we talk about the code below, which is on github here:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">public</span> <span style="font-weight:bold">ref</span> <span style="font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">SpanStack</span>&lt;T&gt;
+{
+    <span style="font-weight:bold">private</span> Span memory;
+    <span style="font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> index;
+    <span style="font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> size;
+
+    <span style="font-weight:bold">public</span> SpanStack(Span mem) { memory = mem; index = <span style="color:#099">0</span>; size = mem.Length; }
+
+    <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsEmpty() =&gt; index &lt; <span style="color:#099">0</span>;
+    <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsFull() =&gt; index &gt; size - <span style="color:#099">1</span>;
+
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Push(T item) =&gt; memory[index++] = item;
+    <span style="font-weight:bold">public</span> T Pop() =&gt; memory[--index];
+}
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SpanExtensions</span>
+{
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> SpanStack AsStack&lt;T&gt;(<span style="font-weight:bold">this</span> Span span) =&gt; <span style="font-weight:bold">new</span> SpanStack(span);
+}
+</code></pre></div><p>This Stack data structure can be used over memory that resides on the stack, heap or unmanaged heap. If you know about Span this should immediately make sense to you.</p>
+<p>This has to be a ref struct because it contains a Span. It can&rsquo;t be used on the heap (i.e. in lambdas, async, class field, &hellip;). You have to build it on top of Memory if you need that. Also, you can happily blow the stack with this guy &hellip;</p>
+<p>Let&rsquo;s micro-benchmark it with BenchmarkDotNet.  For example, a postfix calculator. Let&rsquo;s first do it naively using inheritance and the generic Stack class in the framework.</p>
+<p>This is the naive object model:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">abstract</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Token</span> {}
+
+<span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Operand</span>: Token
+{
+    <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Value { <span style="font-weight:bold">get</span>; }
+    <span style="font-weight:bold">public</span> Operand(<span style="color:#458;font-weight:bold">int</span> v) { Value = v; }
+}
+
+<span style="font-weight:bold">abstract</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Operator</span>: Token {
+    <span style="font-weight:bold">abstract</span> <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Calc(<span style="color:#458;font-weight:bold">int</span> a, <span style="color:#458;font-weight:bold">int</span> b);
+}
+
+<span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Add</span>: Operator
+{
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> Calc(<span style="color:#458;font-weight:bold">int</span> a, <span style="color:#458;font-weight:bold">int</span> b) =&gt; a + b;
+}
+
+<span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Mult</span> : Operator
+{
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> Calc(<span style="color:#458;font-weight:bold">int</span> a, <span style="color:#458;font-weight:bold">int</span> b) =&gt; a * b;
+}
+
+<span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Minus</span> : Operator
+{
+    <span style="font-weight:bold">public</span> <span style="font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> Calc(<span style="color:#458;font-weight:bold">int</span> a, <span style="color:#458;font-weight:bold">int</span> b) =&gt; a - b;
+}
+Let<span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s then <span style="font-weight:bold">do</span> it trying to be a bit more performance aware <span style="font-weight:bold">using</span> <span style="color:#555">a</span> stack friendly representation:
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">enum</span> TokenType { Operand, Sum, Mult, Minus}
+
+<span style="font-weight:bold">readonly</span> <span style="font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">SToken</span>
+{
+    <span style="font-weight:bold">public</span> TokenType Type { <span style="font-weight:bold">get</span>; }
+    <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Value { <span style="font-weight:bold">get</span>; }
+    <span style="font-weight:bold">public</span> SToken(TokenType t, <span style="color:#458;font-weight:bold">int</span> v) { Type = t; Value = v; }
+    <span style="font-weight:bold">public</span> SToken(TokenType t) { Type = t; Value = <span style="color:#099">0</span>; }
+
+    <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Calc(<span style="color:#458;font-weight:bold">int</span> a, <span style="color:#458;font-weight:bold">int</span> b) =&gt;
+               Type == TokenType.Sum   ? a + b :
+               Type == TokenType.Minus ? a - b :
+               Type == TokenType.Minus ? a * b :
+               <span style="font-weight:bold">throw</span> <span style="font-weight:bold">new</span> Exception(<span style="color:#b84">&#34;I don&#39;t know that one&#34;</span>);
+
+}
+</code></pre></div><p>Perhaps not overtly elegant, but not that terrible either. You got to love those expression bodied methods and throw-expression.</p>
+<p>We then setup things (I know I could/should parse a string here):</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">static</span> Token[] tokens;
+<span style="font-weight:bold">static</span> SToken[] stokens;
+<span style="color:#008080">
+</span><span style="color:#008080">[GlobalSetup]</span>
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> Setup()
+{
+    tokens = <span style="font-weight:bold">new</span> Token[] { <span style="font-weight:bold">new</span> Operand(<span style="color:#099">2</span>), <span style="font-weight:bold">new</span> Operand(<span style="color:#099">3</span>), <span style="font-weight:bold">new</span> Operand(<span style="color:#099">4</span>), <span style="font-weight:bold">new</span> Add(),
+                           <span style="font-weight:bold">new</span> Mult(), <span style="font-weight:bold">new</span> Operand(<span style="color:#099">5</span>), <span style="font-weight:bold">new</span> Minus() };
+    stokens = <span style="font-weight:bold">new</span> SToken[] { <span style="font-weight:bold">new</span> SToken(TokenType.Operand, <span style="color:#099">2</span>),
+                             <span style="font-weight:bold">new</span> SToken(TokenType.Operand, <span style="color:#099">3</span>), <span style="font-weight:bold">new</span> SToken(TokenType.Operand, <span style="color:#099">4</span>),
+                             <span style="font-weight:bold">new</span> SToken(TokenType.Sum),  <span style="font-weight:bold">new</span> SToken(TokenType.Mult),
+                             <span style="font-weight:bold">new</span> SToken(TokenType.Operand, <span style="color:#099">5</span>), <span style="font-weight:bold">new</span> SToken(TokenType.Minus)};
+}
+</code></pre></div><p>And first test the naive object model with the standard Stack from System.Collections.Generic.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Benchmark]</span>
+<span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> PostfixEvalStack()
+{
+    <span style="color:#458;font-weight:bold">var</span> stack = <span style="font-weight:bold">new</span> Stack(<span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>);
+
+    <span style="font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">var</span> token <span style="font-weight:bold">in</span> tokens)
+    {
+        <span style="font-weight:bold">switch</span> (token)
+        {
+            <span style="font-weight:bold">case</span> Operand t:
+                stack.Push(t);
+                <span style="font-weight:bold">break</span>;
+            <span style="font-weight:bold">case</span> Operator o:
+                <span style="color:#458;font-weight:bold">var</span> a = stack.Pop() <span style="font-weight:bold">as</span> Operand;
+                <span style="color:#458;font-weight:bold">var</span> b = stack.Pop() <span style="font-weight:bold">as</span> Operand;
+                <span style="color:#458;font-weight:bold">var</span> result = o.Calc(a.Value, b.Value);
+                stack.Push(<span style="font-weight:bold">new</span> Operand(result));
+                <span style="font-weight:bold">break</span>;
+        }
+    }
+    <span style="font-weight:bold">return</span> (stack.Pop() <span style="font-weight:bold">as</span> Operand).Value;
+}
+</code></pre></div><p>Then let&rsquo;s just swap out our own lean-and-mean stack:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Benchmark]</span>
+<span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> PostfixEvalSpanStack()
+{
+    Span span = <span style="font-weight:bold">new</span> Token[<span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>];
+    <span style="color:#458;font-weight:bold">var</span> stack = span.AsStack();
+
+    <span style="font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">var</span> token <span style="font-weight:bold">in</span> tokens)
+    {
+        <span style="font-weight:bold">switch</span> (token)
+        {
+            <span style="font-weight:bold">case</span> Operand t:
+                stack.Push(t);
+                <span style="font-weight:bold">break</span>;
+            <span style="font-weight:bold">case</span> Operator o:
+                <span style="color:#458;font-weight:bold">var</span> a = stack.Pop() <span style="font-weight:bold">as</span> Operand;
+                <span style="color:#458;font-weight:bold">var</span> b = stack.Pop() <span style="font-weight:bold">as</span> Operand;
+                <span style="color:#458;font-weight:bold">var</span> result = o.Calc(a.Value, b.Value);
+                stack.Push(<span style="font-weight:bold">new</span> Operand(result));
+                <span style="font-weight:bold">break</span>;
+        }
+    }
+    <span style="font-weight:bold">return</span> (stack.Pop() <span style="font-weight:bold">as</span> Operand).Value;
+}
+</code></pre></div><p>And finally let&rsquo;s go the whole way, lean object model and lean data structure, everything on the stack:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Benchmark(Baseline = true)]</span>
+<span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> PostfixEvalSpanStackStructTypes()
+{
+    Span span = <span style="font-weight:bold">stackalloc</span> SToken[<span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>];
+    <span style="color:#458;font-weight:bold">var</span> stack = span.AsStack();
+
+    <span style="font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">var</span> token <span style="font-weight:bold">in</span> stokens)
+    {
+        <span style="font-weight:bold">if</span> (token.Type == TokenType.Operand)
+        {
+            stack.Push(token);
+        } <span style="font-weight:bold">else</span> {
+            <span style="color:#458;font-weight:bold">var</span> a = stack.Pop();
+            <span style="color:#458;font-weight:bold">var</span> b = stack.Pop();
+            <span style="color:#458;font-weight:bold">var</span> result = token.Calc(a.Value, b.Value);
+            stack.Push(<span style="font-weight:bold">new</span> SToken(TokenType.Operand, result));
+            <span style="font-weight:bold">break</span>;
+        }
+    }
+    <span style="font-weight:bold">return</span> stack.Pop().Value;
+}
+</code></pre></div><p>We also want to check that we didn&rsquo;t code anything stupid and finally run the benchmark.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> Test()
+{
+    <span style="color:#458;font-weight:bold">var</span> p = <span style="font-weight:bold">new</span> Program();
+    p.Setup();
+    Trace.Assert(p.PostfixEvalStack() == p.PostfixEvalSpanStack() &amp;&amp;
+                 p.PostfixEvalSpanStack() == p.PostfixEvalSpanStackStructTypes());
+}
+<span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+{
+    Test();
+    <span style="color:#458;font-weight:bold">var</span> summary = BenchmarkRunner.Run();
+}
+</code></pre></div><p>On my machine I get these results:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">BenchmarkDotNet=v0.10.14, OS=Windows 10.0.16299.431 (1709/FallCreatorsUpdate/Redstone3)
+Intel Core i7-6600U CPU 2.60GHz (Skylake), 1 CPU, 4 logical and 2 physical cores
+Frequency=2742185 Hz, Resolution=364.6727 ns, Timer=TSC
+.NET Core SDK=2.1.300-rc1-008673
+  [Host]     : .NET Core 2.1.0-rc1 (CoreCLR 4.6.26426.02, CoreFX 4.6.26426.04), 64bit RyuJIT
+  DefaultJob : .NET Core 2.1.0-rc1 (CoreCLR 4.6.26426.02, CoreFX 4.6.26426.04), 64bit RyuJIT
+Method	Mean	Error	StdDev	Scaled	ScaledSD
+PostfixEvalSpanStackStructTypes	76.24 ns	1.563 ns	2.857 ns	1.00	0.00
+PostfixEvalSpanStack	168.65 ns	5.280 ns	15.319 ns	2.22	0.22
+PostfixEvalStack	334.56 ns	7.387 ns	20.593 ns	4.39	0.31
+</code></pre></div><p>Your mileage might vary. I want to emphasize that I am just playing with things. I haven&rsquo;t done any deep analysis of this benchmark. There can be flaws, etc&hellip; etc&hellip;</p>
+<p>Still, I find the idea of data structures which are memory-location-independent rather fascinating.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/csharp">csharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

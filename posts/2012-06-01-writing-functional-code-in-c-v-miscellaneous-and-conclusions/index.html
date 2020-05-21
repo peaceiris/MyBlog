@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Just a couple of trivialities and my parting thoughts.
+Nested functions If your language has lambdas, you don’t need nested functions support because you can implement them using it.
+I am a heavy user of nested functions, but I’m of two minds about it. On one side, I like that they sit close to where they are used, avoiding going outside the main function body to understand them. I also like that you don’t need to pass a lot of parameters to them, as they capture the function locals.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Writing functional code in C&#43;&#43; V – Miscellaneous and conclusions | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2012/06/06</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Writing functional code in C&#43;&#43; V – Miscellaneous and conclusions
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Just a couple of trivialities and my parting thoughts.</p>
+<h2 id="nested-functions">Nested functions</h2>
+<p>If your language has lambdas, you don’t need nested functions support because you can implement them using it.</p>
+<p>I am a heavy user of nested functions, but I’m of two minds about it. On one side, I like that they sit close to where they are used, avoiding going outside the main function body to understand them. I also like that you don’t need to pass a lot of parameters to them, as they capture the function locals. On the other side, they end up creating the impression that your functions are very long and so, in my eyes, they occasionally reduce readability. The IDE helps you out there (at least VS 11) by allowing you to collapse the lambdas.</p>
+<p>An example of trivial case is below:</p>
+<pre class="code"><span style="background:white;color:#6f008a;">BOOST_AUTO_TEST_CASE</span><span style="background:white;color:black;">(</span><span style="background:white;color:#2b91af;">NestedFunctions</span><span style="background:white;color:black;">)
+{
+    </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">x = 3;
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">sumX = [&] (</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">y</span><span style="background:white;color:black;">) { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">x + </span><span style="background:white;color:gray;">y</span><span style="background:white;color:black;">;};
+    </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(sumX(2), 3+2);
+}</span></pre>
+<p><span style="background:white;color:black;">And here is a more realistic one (not written in a functional style), where readability is reduced by the three nested functions (among many other things):</span></p>
+<pre class="code"><span style="background:white;color:blue;">bool </span><span style="background:white;color:black;">condor(
+            boost::gregorian::date now,  </span><span style="background:white;color:green;">// date to evaluate
+            </span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">spot,                 </span><span style="background:white;color:green;">// spot price underlying
+            </span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">v,                    </span><span style="background:white;color:green;">// ATM volatility
+            </span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">r,                    </span><span style="background:white;color:green;">// risk free rate
+            </span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">step,                 </span><span style="background:white;color:green;">// % of spot price to keep as distance between wings
+            </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">minCallShortDist,        </span><span style="background:white;color:green;">// min distance from the short call strike in steps
+            </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">minPutShortDist,         </span><span style="background:white;color:green;">// min distance from the short put strike in steps
+            </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">minDays,                 </span><span style="background:white;color:green;">// min number of days to expiry
+            </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">maxDays,                 </span><span style="background:white;color:green;">// max number of days to expiry
+            </span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">maxDelta,             </span><span style="background:white;color:green;">// max acceptable delta value for shorts in steps
+            </span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">minPremium,           </span><span style="background:white;color:green;">// min accepted premium as % of step
+            </span><span style="background:white;color:black;">Condor& ret                  </span><span style="background:white;color:green;">// return value
+            </span><span style="background:white;color:black;">)
+{
+    </span><span style="background:white;color:green;">// convert params to dollar signs
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">stepPr            = round(step * spot);
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">toUSD             = [stepPr] (</span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">x) { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">round(stepPr * x);};
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">minCpr            = toUSD( minCallShortDist );
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">minPpr            = toUSD( minPutShortDist );
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">premiumPr         = toUSD( minPremium );
+    </span><span style="background:white;color:green;">// calc strike values for short legs
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">atm               = round(spot / stepPr) * (</span><span style="background:white;color:blue;">long</span><span style="background:white;color:black;">) stepPr;
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">callShort         = atm + minCpr;
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">putShort          = atm - minPpr;
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">addDays           = [](boost::gregorian::date d, </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">dys) -&gt; boost::gregorian::date {
+        </span><span style="background:white;color:blue;">using namespace </span><span style="background:white;color:black;">boost::gregorian;
+        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">toAdd         = days(dys);
+        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">dTarget       = d + toAdd;
+        </span><span style="background:white;color:blue;">return  </span><span style="background:white;color:black;">dTarget;
+    };
+    </span><span style="background:white;color:green;">// calc min & max allowed expiry dates
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">minDate           = addDays(now, minDays);
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">maxDate           = addDays(now, maxDays);
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">expiry            = calcExpiry(now, 0);
+    </span><span style="background:white;color:green;">// find first good expiry
+    </span><span style="background:white;color:blue;">while</span><span style="background:white;color:black;">(expiry &lt; minDate)
+        expiry          = calcExpiry(expiry, +1);
+    Greeks g;
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">scholes           = [=, &g] (</span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">strike, </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">days, </span><span style="background:white;color:blue;">bool </span><span style="background:white;color:black;">CorP) {
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">blackScholesEuro(spot, strike, days, CorP, v, r, g, </span><span style="background:white;color:blue;">true</span><span style="background:white;color:black;">);
+    };
+    </span><span style="background:white;color:green;">// find a condor that works at this expiry
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">findCondor        = [=, &g, &ret] (</span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">days) -&gt; </span><span style="background:white;color:blue;">bool </span><span style="background:white;color:black;">{
+        ret.shortCallStrike                = callShort;
+        ret.shortPutStrike                 = putShort;
+        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">shCallPremium                 = 0.0;
+        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">shPutPremium                  = 0.0;
+        </span><span style="background:white;color:green;">// find short call strike price &lt; maxDelta
+        </span><span style="background:white;color:blue;">while</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">true</span><span style="background:white;color:black;">) {
+            shCallPremium                  = scholes(ret.shortCallStrike, days, </span><span style="background:white;color:blue;">true</span><span style="background:white;color:black;">);
+            </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(g.delta &lt;= maxDelta)
+                </span><span style="background:white;color:blue;">break</span><span style="background:white;color:black;">;
+            </span><span style="background:white;color:blue;">else
+                </span><span style="background:white;color:black;">ret.shortCallStrike        += stepPr;
+        }
+        </span><span style="background:white;color:green;">// find short put strike price &lt; maxDelta
+        </span><span style="background:white;color:blue;">while</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">true</span><span style="background:white;color:black;">) {
+            shPutPremium                   = scholes(ret.shortPutStrike, days, </span><span style="background:white;color:blue;">false</span><span style="background:white;color:black;">);
+            </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">( (- g.delta) &lt;= maxDelta)
+                </span><span style="background:white;color:blue;">break</span><span style="background:white;color:black;">;
+            </span><span style="background:white;color:blue;">else
+                </span><span style="background:white;color:black;">ret.shortPutStrike         -= stepPr;
+        }
+        </span><span style="background:white;color:green;">// check premium is adeguate
+        </span><span style="background:white;color:black;">ret.longCallStrike                = ret.shortCallStrike + stepPr;
+        ret.longPutStrike                 = ret.shortPutStrike  - stepPr;
+        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">lgCall                       = scholes(ret.longCallStrike, days, </span><span style="background:white;color:blue;">true</span><span style="background:white;color:black;">);
+        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">lgPut                        = scholes(ret.longPutStrike,  days, </span><span style="background:white;color:blue;">false</span><span style="background:white;color:black;">);
+        ret.netPremium                    = shCallPremium + shPutPremium - lgCall - lgPut;
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">ret.netPremium &gt; premiumPr;
+    };
+    </span><span style="background:white;color:green;">// increases the expiry until it finds a condor or the expiry is too far out
+    </span><span style="background:white;color:blue;">while </span><span style="background:white;color:black;">(expiry &lt; maxDate) {
+        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">days        = (expiry - now).days();
+        </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(findCondor(days)) {
+            ret.year     = expiry.year();
+            ret.month    = expiry.month();
+            ret.day      = expiry.day();
+            </span><span style="background:white;color:blue;">return true</span><span style="background:white;color:black;">;
+        }
+        expiry           = calcExpiry(expiry, +1);
+    }
+    </span><span style="background:white;color:blue;">return false</span><span style="background:white;color:black;">;
+}</span></pre>
+<p><span style="background:white;color:black;"></span></p>
+<p>That is quite a mouthful, isn’t it? But really the function is not that long. It is all these nested functions that makes it seems so.</p>
+<h2 id="tuples">Tuples</h2>
+<p>Tuples are another feature toward which I have mixed feelings. They are really useful to return multiple results from a function and for rapid prototyping of concepts. But they are easy to abuse. Creating Records is almost always a better, safer way to craft your code, albeit more verbose.</p>
+<p>The standard C++ has an excellent tuple library that makes working with them almost as easy as in mainstream functional languages. The below function shows creating them, getting their value, passing them to functions and deconstructing them:</p>
+<pre class="code"><span style="background:white;color:#6f008a;">BOOST_AUTO_TEST_CASE</span><span style="background:white;color:black;">(</span><span style="background:white;color:#2b91af;">Tuples</span><span style="background:white;color:black;">)
+{
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">t = make_tuple(</span><span style="background:white;color:maroon;">"bob"</span><span style="background:white;color:black;">, </span><span style="background:white;color:maroon;">"john"</span><span style="background:white;color:black;">, 3, 2.3);
+    </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(get&lt;0&gt;(t), </span><span style="background:white;color:maroon;">"bob"</span><span style="background:white;color:black;">);
+    </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(get&lt;2&gt;(t), 3);
+    </span><span style="background:white;color:green;">// yep, compiler error
+    //auto k = get&lt;10&gt;(t);
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">t2(t);
+    </span><span style="background:white;color:#6f008a;">BOOST_CHECK</span><span style="background:white;color:black;">(t2 == t);
+    </span><span style="background:white;color:green;">// passing as argument, returning it
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">f = [] (</span><span style="background:white;color:#2b91af;">tuple</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">string</span><span style="background:white;color:black;">, </span><span style="background:white;color:#2b91af;">string</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">int</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">double</span><span style="background:white;color:black;">&gt; </span><span style="background:white;color:gray;">t</span><span style="background:white;color:black;">) { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">t</span><span style="background:white;color:black;">;};
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">t1 = f(t);
+    </span><span style="background:white;color:#6f008a;">BOOST_CHECK</span><span style="background:white;color:black;">(t == t1);
+    </span><span style="background:white;color:green;">// automatic deconstruction
+    </span><span style="background:white;color:#2b91af;">string </span><span style="background:white;color:black;">s1; </span><span style="background:white;color:#2b91af;">string </span><span style="background:white;color:black;">s2; </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">i; </span><span style="background:white;color:blue;">double </span><span style="background:white;color:black;">d;
+    std::tie(s1, s2, i, d) = f(t);
+    </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(s1, </span><span style="background:white;color:maroon;">"bob"</span><span style="background:white;color:black;">);
+    </span><span style="background:white;color:green;">// partial reconstruction
+    </span><span style="background:white;color:#2b91af;">string </span><span style="background:white;color:black;">s11;
+    std::tie(s11, ignore, ignore, ignore) = f(t);
+    </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(s11, </span><span style="background:white;color:maroon;">"bob"</span><span style="background:white;color:black;">);
+}</span></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>I’m sure there are some fundamental functional features that I haven’t touched on (i.e. currying, more powerful function composition, etc…).  Despite that, I think we have enough material here to start drawing some conclusions. To start with, where is C++ deficient compared to mainstream functional languages <em><u>for the sake of writing functional code</u></em> ?</p>
+<ul>
+<li><u>Compiler errors</u>: if you make a well natured error, you often get back from the compiler a long page of rubbish if you are using templates (and you are). You put your goggles on and start swimming through it to find the nugget of gold that is the root cause of your problem. <br>
+I can hear you C++ gurus screaming: come on, come on, it’s not that bad. After a while you get used to it. You become proficient in rubbish swimming. That makes me think of the story of that guy who lived in a strange neighbourhood where, as soon as you open the door of you house, someone kicks you in the nuts. His wife suggested that they moved to a better part of town, but the man replied: “no worries, I got used to it”.</li>
+<li><u>Syntax oddity:</u> we did our best to make the gods of syntax happy in this series of articles, but we are still far removed from Haskell, F#, etc beauty…</li>
+<li><u>Advanced features</u>: if you go beyond the basics of functional languages, there is a plethora of interesting features that just make your life so much easier and bring your code to an higher level of abstraction. Things like monads (i.e. f# async workflow), type providers, Haskell’s lazy execution, Haskell’s super strong type system, Closure’s transactional memory etc… Boost is trying to bring many of these things to C++, but there is still a big gap to be filled.</li>
+<li><u>Temptation to cheat</u>: you can cheat in many functional programming languages (i.e. having mutable variables), but nowhere the temptation is as strong as in C++. You need an iron discipline not to do it. The fact that sometimes cheating is the right thing to do makes it even worse.</li>
+</ul>
+<p>Overall, am I going to use C++ now as my main programming language? Not really. I don’t have one of those. My general view is to always use the best language for the job at hand (yes, I even use Javascript for web pages).</p>
+<p>C++ has some unique characteristics (i.e. speed, cross compilation &amp; simple C interfacing). I’m going to use it whenever I need these characteristics, but now I’ll be a happier user knowing that I can write decent functional code in it.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/c&#43;&#43;">C&#43;&#43;</a></li>
+        
+            <li><a href="../../MyBlog/tags/functional-programming">Functional Programming</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    <nav id="TableOfContents">
+    <ul>
+        
+
+        
+        <li>
+        <a href="#nested-functions">Nested functions</a>
+        
+
+        
+        </li><li>
+            <a href="#tuples">Tuples</a>
+        
+
+        
+        </li><li>
+            <a href="#conclusion">Conclusion</a>
+    </li></ul>
+</nav>
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

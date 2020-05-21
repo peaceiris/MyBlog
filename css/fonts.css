@@ -1,0 +1,3062 @@
+
+    
+        /* 9. Sa Geometric: Antique Olive*/
+@font-face {
+    font-family: AntiqueOlive;
+    src: url('/fonts/URW Antique Olive W01 Regular.woff2') format('woff2'),
+        url('/fonts/URW Antique Olive W01 Regular.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: AntiqueOliveLight;
+    src: url('/fonts/URW Antique Olive W01 Light.woff2') format('woff2'),
+    url('/fonts/URW Antique Olive W01 Light.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: AntiqueOlive;
+    src: url('/fonts/URW Antique Olive W01 Bold.woff2') format('woff2'),
+    url('/fonts/URW Antique Olive W01 Bold.woff') format('woff');
+    font-weight: bold;
+    font-display: swap;
+}
+@font-face {
+    font-family: AntiqueOlive;
+    src: url('/fonts/URW Antique Olive W01 Italic.woff2') format('woff2'),
+    url('/fonts/URW Antique Olive W01 Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: optional;
+}
+@font-face {
+    font-family: AntiqueOliveSC;
+    src: url('/fonts/URW Antique Olive W01_SC.woff2') format('woff2'),
+    url('/fonts/URW Antique Olive W01_SC.woff') format('woff');
+    font-weight: normal;
+    font-display: optional;
+}
+.AntiqueOlive {
+    --font-family-text: 'AntiqueOliveLight', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --font-family-ui:  'AntiqueOliveSC', serif;
+    --code-factor: 0.9;
+    --p-wght-min: 300;
+    --p-wght-max: 400;
+}
+    
+
+    
+        /* 5. Se Didone: Computer Modern */
+@font-face {
+    font-family: CM;
+    src: url('/fonts/ComputerModern/cmr8.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: CM;
+    src: url('/fonts/ComputerModern/cmbx12.woff') format('woff');
+    font-weight: bold;
+    font-display: swap;
+}
+@font-face {
+    font-family: CM;
+    src: url('/fonts/ComputerModern/cmti10.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "CM TypeWriter";
+    src: url('/fonts/ComputerModern/cmtt12.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "CM SmallCaps";
+    src: url('/fonts/ComputerModern/cmcsc8.woff') format('woff');
+    font-display: swap;
+}
+@font-face {
+    font-family: CM;
+    src: local('Times New Roman');
+    unicode-range: U+00B0, U+00B6;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: CM;
+    src: local('Times New Roman');
+    unicode-range: U+00B0, U+00B6;
+    font-style: italic;
+    font-display: swap;
+}
+.CM {
+    --font-family-text: 'CM', serif;
+    --font-family-code: 'CM TypeWriter', monospace;
+    --p-wght-min: 390;
+    --p-wght-max: 450;
+    --code-factor: 1;
+    --p-lh-min: 1.2;
+    --p-lh-max: 1.2;
+}
+    
+
+    
+        /* 1. Se Old Style: Cardo (Minion, Gallard, Centaur) */
+@font-face {
+    font-family: 'Cardo';
+    src:
+        url('/fonts/Cardo104s.woff2') format('woff2'),
+        url('/fonts/Cardo104s.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Cardo';
+    src:
+        url('/fonts/Cardoi99.woff2') format('woff2'),
+        url('/fonts/Cardoi99.woff') format('woff');
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Cardo';
+    src:
+        url('/fonts/Cardob101.woff2') format('woff2'),
+        url('/fonts/Cardob101.woff') format('woff');
+    font-weight: bold;
+    font-display: swap;
+}
+
+
+.Cardo {
+    --font-family-text: 'Cardo',  TimesNewRoman, "Times New Roman", serif;
+}
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 6. Se Scotch: Charter */
+@font-face {
+    font-family: Charter;
+    src: url('/fonts/charter_regular-webfont.woff2') format('woff2'),
+    url('/fonts/charter_regular-webfont.woff') format('woff');
+    font-display: swap;
+    font-weight: normal;
+}
+@font-face {
+    font-family: Charter;
+    src: url('/fonts/charter_bold-webfont.woff2') format('woff2'),
+    url('/fonts/charter_bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-display: swap;
+}
+@font-face {
+    font-family: Charter;
+    src: url('/fonts/charter_italic-webfont.woff2') format('woff2'),
+    url('/fonts/charter_italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+.Charter {
+    --font-family-text: 'Charter', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 0.9;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 9. Sa Geometric: Cooper Hewitt (Calibre) */
+@font-face {
+    font-family: CooperHewitt;
+    src: url('/fonts/CooperHewitt-Book.woff2') format('woff2'),
+    url('/fonts/CooperHewitt-Book.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: CooperHewitt;
+    src: url('/fonts/CooperHewitt-Bold.woff2') format('woff2'),
+    url('/fonts/CooperHewitt-Bold.woff') format('woff');
+    font-weight: bold;
+    font-display: swap;
+}
+@font-face {
+    font-family: CooperHewitt;
+    src: url('/fonts/CooperHewitt-BookItalic.woff2') format('woff2'),
+    url('/fonts/CooperHewitt-BookItalic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: optional;
+}
+.CooperHewitt {
+    --font-family-text: 'CooperHewitt', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 0.9;
+    --p-lh-min: 1.2;
+    --p-lh-max: 1.2;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon) */
+@font-face {
+    font-family: 'CrimsonPro';
+    src:
+        url('/fonts/CrimsonPro-Roman-VF.woff2') format('woff2'),
+        url('/fonts/CrimsonPro-Roman-VF.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'CrimsonPro';
+    src:
+        url('/fonts/CrimsonPro-Italic-VF.woff2') format('woff2'),
+        url('/fonts/CrimsonPro-Italic-VF.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: italic;
+    font-display: swap;
+}
+
+.CrimsonPro {
+    --font-family-text: 'CrimsonPro', 'CooperHewitt', serif;
+    --p-size-s-px: 17;
+    --p-size-l-px: 25;
+    --p-wght-min: 340;
+    --p-wght-max: 400;
+    --p-lh-min: 1.2;
+    --p-lh-max: 1.2;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 1. Se Old Style: Garamond */
+@font-face {
+    font-family: 'EB Garamond';
+    src:
+        url('/fonts/EBGaramond-subset.woff2') format('woff2-variations'),
+        url('/fonts/EBGaramond-subset.woff') format('woff'),
+        url('/fonts/EBGaramond-VariableFont_wght.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'EB Garamond';
+    src:
+        url('/fonts/EBGaramond-italic-subset.woff2') format('woff2'),
+        url('/fonts/EBGaramond-italic-subset.woff') format('woff'),
+        url('/fonts/EBGaramond-Italic-VariableFont_wght.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: italic;
+    font-display: swap;
+}
+
+.EBGaramond {
+    --font-family-text: 'EB Garamond', 'CooperHewitt', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --p-size-s-px: 17;
+    --p-size-l-px: 25;
+    --p-wght-min: 390;
+    --p-wght-max: 440;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* d. Sl Humanist: Enriqueta (PMN Caecilia) */
+@font-face {
+    font-family: Enriqueta;
+    src: url('/fonts/Enriqueta-Regular.woff2') format('woff2'),
+    url('/fonts/Enriqueta-Regular.woff') format('woff');
+    font-display: swap;
+    font-weight: normal;
+}
+@font-face {
+    font-family: Enriqueta;
+    src: url('/fonts/Enriqueta-Bold.woff2') format('woff2'),
+    url('/fonts/Enriqueta-Bold.woff') format('woff');
+    font-weight: bold;
+    font-display: swap;
+}
+.Enriqueta {
+    --font-family-text: 'Enriqueta', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 0.9;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* a. Sa Humanist: Fira Sans (FF Meta) */
+@font-face {
+    font-family: FiraSans;
+    src: url('/fonts/FiraSans-Book.woff') format('woff'),
+    url('/fonts/FiraSans-Book.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: FiraSans;
+    src: url('/fonts/FiraSans-Bold.woff') format('woff'),
+    url('/fonts/FiraSans-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-display: swap;
+}
+@font-face {
+    font-family: FiraSans;
+    src: url('/fonts/FiraSans-BookItalic.woff') format('woff'),
+    url('/fonts/FiraSans-BookItalic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: FiraSans;
+    src: url('/fonts/FiraSans-BoldItalic.woff') format('woff'),
+    url('/fonts/FiraSans-BoldItalic.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+  font-family: 'Fira Code VF';
+  src: url('/fonts/FiraCode-VF.woff2') format('woff2-variations'),
+       url('/fonts/FiraCode-VF.woff') format('woff-variations'),
+       url('/fonts/FiraCode-VariableFont_wght.woff') format('woff');
+    font-weight: 300 700;
+    font-display: swap;
+}
+.FiraSans {
+    --font-family-headers: 'FiraSans';
+    --font-family-text: 'FiraSans';
+    --font-family-code: 'Fira Code VF', monospace;
+    --p-wght-min: 340;
+    --p-wght-max: 390;
+    --code-factor: 1;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 1. Se Old Style: Gentium */
+@font-face {
+    font-family: Gentium;
+    src: url('/fonts/GentiumPlus-R.woff2') format('woff2'),
+    url('/fonts/GentiumPlus-R.woff') format('woff');
+    font-display: swap;
+    font-weight: normal;
+}
+@font-face {
+    font-family: Gentium;
+    src: url('/fonts/GentiumPlus-I.woff2') format('woff2'),
+    url('/fonts/GentiumPlus-I.woff') format('woff');
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: GentiumBook;
+    src: url('/fonts/GenBkBasR.woff2') format('woff2'),
+    url('/fonts/GenBkBasR.woff') format('woff');
+    font-display: swap;
+    font-weight: normal;
+}
+@font-face {
+    font-family: GentiumBook;
+    src: url('/fonts/GenBkBasI.woff2') format('woff2'),
+    url('/fonts/GenBkBasI.woff') format('woff');
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: Gentium;
+    src: url('/fonts/GenBasBI.woff2') format('woff2'),
+    url('/fonts/GenBasBI.woff') format('woff');
+    font-style: italic;
+    font-weight: bold;
+    font-display: swap;
+}
+@font-face {
+    font-family: Gentium;
+    src: url('/fonts/GenBasB.woff2') format('woff2'),
+    url('/fonts/GenBasB.woff') format('woff');
+    font-style: normal;
+    font-weight: bold;
+    font-display: swap;
+}
+.Gentium {
+    --font-family-text: 'Gentium', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 0.9;
+    --p-lh-min: 1.2;
+    --p-lh-max: 1.2;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 6. Se Scotch: Georgia */
+.Georgia {
+    --font-family-text: Georgia, serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 1;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 1. Se Old Style: Sorts Mill Goudy */
+@font-face {
+    font-family: 'GoudyStM';
+    src:
+        url('/fonts/GoudyStM-webfont.woff2') format('woff2'),
+        url('/fonts/GoudyStM-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'GoudyStM';
+    src:
+        url('/fonts/GoudyStM-Italic-webfont.woff2') format('woff2'),
+        url('/fonts/GoudyStM-Italic-webfont.woff') format('woff');
+    font-style: italic;
+    font-display: swap;
+}
+
+.GoudyStM {
+    --font-family-text: 'GoudyStM', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --p-wght-min: 440;
+    --p-wght-max: 500;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 4. Se Transitional: Libre Bask. (Mrs Eaves) */
+@font-face {
+    font-family: 'LibreBaskerville';
+    src:
+        url('/fonts/LibreBaskerville-Regular.woff2') format('woff2'),
+        url('/fonts/LibreBaskerville-Regular.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'LibreBaskerville';
+    src:
+        url('/fonts/LibreBaskerville-Italic.woff2') format('woff2'),
+        url('/fonts/LibreBaskerville-Italic.woff') format('woff');
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'LibreBaskerville';
+    src:
+        url('/fonts/LibreBaskerville-Bold.woff2') format('woff2'),
+        url('/fonts/LibreBaskerville-Bold.woff') format('woff');
+    font-weight: bold;
+    font-display: swap;
+}
+
+.LibreBaskerville {
+    --font-family-text: 'LibreBaskerville', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --p-lh-min: 1.5;
+    --p-lh-max: 1.7;
+    --p-size-s-px: 12;
+    --p-size-l-px: 21;
+    --p-wght-min: 300;
+    --p-wght-max: 400;
+    --code-factor: 1;
+    --p-lh-min: 1.4;
+    --p-lh-max: 1.7;
+}
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 4. Se Transitional: Libre Caslon */
+@font-face {
+    font-family: 'Libre Caslon';
+    src:
+        url('/fonts/LibreCaslonText-Roman-VF.woff2') format('woff2'),
+        url('/fonts/LibreCaslonText-Roman-VF.woff') format('woff');
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Libre Caslon';
+    src:
+        url('/fonts/EBGaramond-italic-subset.woff2') format('woff2-variations'),
+        url('/fonts/EBGaramond-italic-subset.woff') format('woff'),
+        url('/fonts/EBGaramond-Italic-VariableFont_wght.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Libre Caslon 1';
+    src:
+        url('/fonts/LibreCaslonDisplay-Regular.woff2') format('woff2'),
+        url('/fonts/LibreCaslonDisplay-Regular.woff') format('woff');
+    font-style: normal;
+    font-weight: bold;
+    font-display: swap;
+}
+.LibreCaslon {
+    --font-family-text: 'Libre Caslon', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --p-wght-min: 400;
+    --p-wght-max: 400;
+    --code-factor: 0.9;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* d. Sl Humanist: Merriweather (Chapparal) */
+@font-face {
+    font-family: 'Merriweather';
+    src:
+        url('/fonts/MerriweatherGX.woff2') format('woff2'),
+        url('/fonts/MerriweatherGX.woff') format('woff');
+    font-weight: 100 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    src:
+        url('/fonts/MerriweatherItalicGX.woff2') format('woff2'),
+        url('/fonts/MerriweatherItalicGX.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: italic;
+    font-display: swap;
+}
+
+.Merriweather {
+    --font-family-text: 'Merriweather', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --p-wght-min: 100;
+    --p-wght-max: 100;
+    --code-factor: 0.9;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* b. Sl Grotesque: Munson (Clarendon) */
+@font-face {
+    font-family: Munson;
+    src: url('/fonts/Munson_Roman.woff') format('woff'),
+    url('/fonts/Munson_Roman.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: Munson;
+    src: url('/fonts/Munson_Italic.woff') format('woff'),
+    url('/fonts/Munson_Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: Munson;
+    src: url('/fonts/Munson_Bold.woff') format('woff'),
+    url('/fonts/Munson_Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: Munson;
+    src: url('/fonts/Munson_BoldItalic.woff') format('woff'),
+    url('/fonts/Munson_BoldItalic.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+.Munson {
+    --font-family-text: Munson, serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 0.9;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* a. Sa Humanist: Nimbus (Helvetica) */
+@font-face {
+    font-family: 'Nimbus';
+    src:
+        url('/fonts/NimbusSans-Regular.woff2') format('woff2'),
+        url('/fonts/NimbusSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Nimbus';
+    src:
+        url('/fonts/NimbusSans-Italic.woff2') format('woff2'),
+        url('/fonts/NimbusSans-Italic.woff') format('woff');
+    font-style: italic;
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Nimbus';
+    src:
+        url('/fonts/NimbusSans-Bold.woff2') format('woff2'),
+        url('/fonts/NimbusSans-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Nimbus';
+    src:
+        url('/fonts/NimbusSans-BoldItalic.woff2') format('woff2'),
+        url('/fonts/NimbusSans-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'NimbusMonoPS';
+    src:
+        url('/fonts/NimbusMonoPS-Regular.woff2') format('woff2'),
+        url('/fonts/NimbusMonoPS-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NimbusMonoPS';
+    src:
+        url('/fonts/NimbusMonoPS-Italic.woff2') format('woff2'),
+        url('/fonts/NimbusMonoPS-Italic.woff') format('woff');
+    font-style: italic;
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NimbusMonoPS';
+    src:
+        url('/fonts/NimbusMonoPS-Bold.woff2') format('woff2'),
+        url('/fonts/NimbusMonoPS-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NimbusMonoPS';
+    src:
+        url('/fonts/NimbusMonoPS-BoldItalic.woff2') format('woff2'),
+        url('/fonts/NimbusMonoPS-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+.Nimbus {
+    --font-family-text: 'Nimbus', serif;
+    --font-family-code: NimbusMonoPS, LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor:0.9;
+}
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 5. Se Didone: Old Standard TT (Filosofia, Scotch Modern) */
+@font-face {
+    font-family: 'OldStandardTT';
+    src:
+        url('/fonts/OldStandardTT-Regular.woff2') format('woff2'),
+        url('/fonts/OldStandardTT-Regular.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OldStandardTT';
+    src:
+        url('/fonts/OldStandardTT-Italic.woff2') format('woff2'),
+        url('/fonts/OldStandardTT-Italic.woff') format('woff');
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OldStandardTT';
+    src:
+        url('/fonts/OldStandardTT-Bold.woff2') format('woff2'),
+        url('/fonts/OldStandardTT-Bold.woff') format('woff');
+    font-weight: bold;
+    font-display: swap;
+}
+
+.OldStandardTT {
+    --font-family-text: 'OldStandardTT', serif;
+    --code-factor:0.9;
+    --p-lh-min: 1.2;
+    --p-lh-max: 1.2;
+}
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 0. OpenDyslexic */
+@font-face {
+    font-family: 'OpenDyslexic';
+    src:
+        url('/fonts/OpenDyslexic-Regular.woff2') format('woff2'),
+        url('/fonts/OpenDyslexic-Regular.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenDyslexic';
+    src:
+        url('/fonts/OpenDyslexic-Italic.woff2') format('woff2'),
+        url('/fonts/OpenDyslexic-Italic.woff') format('woff');
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenDyslexic';
+    src:
+        url('/fonts/OpenDyslexic-Bold.woff2') format('woff2'),
+        url('/fonts/OpenDyslexic-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenDyslexic';
+    src:
+        url('/fonts/OpenDyslexic-BoldItalic.woff2') format('woff2'),
+        url('/fonts/OpenDyslexic-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenDyslexicMono';
+    src:
+        url('/fonts/OpenDyslexicMono-Regular.woff2') format('woff2'),
+        url('/fonts/OpenDyslexicMono-Regular.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+.OpenDyslexic {
+    --font-family-text: 'OpenDyslexic', sans-serif;
+    --font-family-headers: 'OpenDyslexic', sans-serif;
+    --font-family-title: 'OpenDyslexic', sans-serif;
+    --font-family-ui: 'OpenDyslexic', sans-serif;
+    --font-family-code: 'OpenDyslexicMono', sans-serif;
+    --p-wght-min: 400;
+    --p-wght-max: 400;
+}
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 4. Se Transitional: PT fonts (Le Monde) */
+
+/* https://company.paratype.com/pt-sans-pt-serif */
+
+@font-face {
+	font-family: 'PTSerif';
+	src:
+	     url('/fonts/PTF55F_W.woff2') format('woff2'),
+	     url('/fonts/PTF55F_W.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'PTSerif';
+	src:
+	     url('/fonts/PTF56F_W.woff2') format('woff2'),
+	     url('/fonts/PTF56F_W.woff') format('woff');
+	font-weight: normal;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'PTSerif';
+	src:
+	     url('/fonts/PTF75F_W.woff2') format('woff2'),
+	     url('/fonts/PTF75F_W.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'PTSerif';
+	src:
+	     url('/fonts/PTF76F_W.woff2') format('woff2'),
+	     url('/fonts/PTF76F_W.woff') format('woff');
+	font-weight: bold;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'PTMono';
+	src:
+	     url('/fonts/PTM55F_W.woff2') format('woff2'),
+	     url('/fonts/PTM55F_W.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'PTMono';
+	src:
+	     url('/fonts/PTM75F_W.woff2') format('woff2'),
+	     url('/fonts/PTM75F_W.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+
+.PT {
+    --font-family-text: PTSerif, serif;
+    --font-family-code: PTMono, LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* a. Sa Humanist: Roboto (DIN)*/
+@font-face {
+    font-family: Roboto;
+    src: url('/fonts/Roboto-Regular.woff2') format('woff2'),
+    url('/fonts/Roboto-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: Roboto;
+    src: url('/fonts/Roboto-Italic.woff2') format('woff2'),
+    url('/fonts/Roboto-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: Roboto;
+    src: url('/fonts/Roboto-Bold.woff2') format('woff2'),
+    url('/fonts/Roboto-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: Roboto;
+    src: url('/fonts/Roboto-BoldItalic.woff2') format('woff2'),
+    url('/fonts/Roboto-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: RobotoMono;
+    src: url('/fonts/RobotoMono-Regular.woff2') format('woff2'),
+    url('/fonts/RobotoMono-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: RobotoMono;
+    src: url('/fonts/RobotoMono-Italic.woff2') format('woff2'),
+    url('/fonts/RobotoMono-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: RobotoMono;
+    src: url('/fonts/RobotoMono-Bold.woff2') format('woff2'),
+    url('/fonts/RobotoMono-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: RobotoMono;
+    src: url('/fonts/RobotoMono-BoldItalic.woff2') format('woff2'),
+    url('/fonts/RobotoMono-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+.Roboto {
+    --font-family-headers: Roboto, serif;
+    --font-family-text: Roboto, serif;
+    --font-family-code: RobotoMono, LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 1.0;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 5. Se Didone: Stix2 */
+@font-face {
+    font-family: STIX2;
+    src: url('/fonts/STIX2Text-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: STIX2;
+    src: url('/fonts/STIX2Text-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-display: swap;
+}
+@font-face {
+    font-family: STIX2;
+    src: url('/fonts/STIX2Text-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: optional;
+}
+.STIX2 {
+    --font-family-text: 'STIX2', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 0.9;
+    --p-lh-min: 1.5;
+    --p-lh-max: 1.7;
+    --p-lh-min: 1.2;
+    --p-lh-max: 1.2;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* c. Sl Geometric: Sanchez (Rockwell) */
+@font-face {
+    font-family: Sanchez;
+    src: url('/fonts/Sanchez-Regular.woff2') format('woff2'),
+    url('/fonts/Sanchez-Regular.woff') format('woff');
+    font-display: swap;
+    font-weight: normal;
+}
+@font-face {
+    font-family: Sanchez;
+    src: url('/fonts/Sanchez-Italic.woff2') format('woff2'),
+    url('/fonts/Sanchez-Italic.woff') format('woff');
+    font-style: italic;
+    font-display: swap;
+}
+.Sanchez {
+    --font-family-text: 'Sanchez', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 0.9;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 4. Se Transitional: Source Pro (Skolar, Fournier) */
+@font-face {
+    font-family: SourceSerifPro;
+    src:
+        url('/fonts/SourceSerifVariable-Roman.woff2') format('woff2'),
+        url('/fonts/SourceSerifVariable-Roman.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: normal;
+    font-display: optional;
+}
+@font-face {
+    font-family: SourceSerifPro;
+    src:
+        url('/fonts/SourceSerifVariable-Italic.woff2') format('woff2'),
+        url('/fonts/SourceSerifVariable-Italic.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: italic;
+    font-display: optional;
+}
+@font-face {
+    font-family: SourceCodePro;
+    src:
+        url('/fonts/SourceCodeVariable-Roman.woff2') format('woff2'),
+        url('/fonts/SourceCodeVariable-Roman.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: normal;
+    font-display: optional;
+}
+@font-face {
+    font-family: SourceCodePro;
+    src:
+        url('/fonts/SourceCodeVariable-Italic.woff2') format('woff2'),
+        url('/fonts/SourceCodeVariable-Italic.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: italic;
+    font-display: optional;
+}
+
+.SourcePro {
+    --p-wght-min: 370;
+    --p-wght-max: 430;
+}
+    
+
+    
+        /* 9. Sa Humanist: Source Sans (Balto, Adelle Sans) */
+@font-face {
+    font-family: SourceSansPro;
+    src:
+        url('/fonts/SourceSansVariable-Roman.woff2') format('woff2'),
+        url('/fonts/SourceSansVariable-Roman.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: SourceSansPro;
+    src:
+        url('/fonts/SourceSansVariable-Italic.woff2') format('woff2'),
+        url('/fonts/SourceSansVariable-Italic.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: SourceCodePro;
+    src:
+        url('/fonts/SourceCodeVariable-Roman.woff2') format('woff2'),
+        url('/fonts/SourceCodeVariable-Roman.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: SourceCodePro;
+    src:
+        url('/fonts/SourceCodeVariable-Italic.woff2') format('woff2'),
+        url('/fonts/SourceCodeVariable-Italic.woff') format('woff');
+    font-weight: 1 1000;
+    font-style: italic;
+    font-display: swap;
+}
+
+.SourceSans {
+    --font-family-headers: SourceSansPro, serif;
+    --font-family-text: SourceSansPro, serif;
+    --font-family-code: SourceCodePro, LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --p-wght-min: 340;
+    --p-wght-max: 390;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 4. Se Transitional: Times New Roman */
+.TimesNewRoman {
+    --code-factor: 0.9;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 9. Sa Humanist: URW Classico (Optima) */
+@font-face {
+    font-family: URWClassico;
+    src: url('/fonts/URWClassico-Regular.woff2') format('woff2'),
+    url('/fonts/URWClassico-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: URWClassico;
+    src: url('/fonts/URWClassico-Italic.woff2') format('woff2'),
+    url('/fonts/URWClassico-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: URWClassico;
+    src: url('/fonts/URWClassico-Bold.woff2') format('woff2'),
+    url('/fonts/URWClassico-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: URWClassico;
+    src: url('/fonts/URWClassico-BoldItalic.woff2') format('woff2'),
+    url('/fonts/URWClassico-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+.URWClassico {
+    --font-family-text: URWClassico, serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --code-factor: 0.9;
+    --p-lh-min: 1.2;
+    --p-lh-max: 1.2;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus) */
+@font-face {
+    font-family: 'WorkSans';
+    src:
+        url('/fonts/WorkSans[wght].woff2') format('woff2'),
+        url('/fonts/WorkSans[wght].woff') format('woff');
+    font-weight: 1 1000;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'WorkSans';
+    src:
+        url('/fonts/WorkSans-Italic[wght].woff2') format('woff2'),
+        url('/fonts/WorkSans-Italic[wght].woff') format('woff');
+    font-weight: 1 1000;
+    font-style: italic;
+    font-display: swap;
+}
+
+.WorkSans {
+    --font-family-headers: 'WorkSans', serif;
+    --font-family-text: 'WorkSans', 'CooperHewitt', serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --p-lh-min: 1.2;
+    --p-lh-max: 1.2;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* 9. Sa Geometric: Bahnschrift */
+@font-face {
+    font-family: BahnschriftFont;
+    src:
+        local('Bahnschrift'),
+        url('/fonts/bahnschrift.woff2') format('woff2'),
+        url('/fonts/bahnschrift.woff') format('woff');
+    font-weight: 1 1000;
+    font-stretch: 1% 500%;
+    font-display: swap;
+}
+.bahnschrift {
+    --font-family-text: BahnschriftFont, serif;
+    --font-family-code: LucidaTy, Lucida Console, monaco, Bitstream Vera Sans Mono, monospace;
+    --p-wght-min: 300;
+    --p-wght-max: 350;
+    --code-factor: 0.9;
+}
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+        /* Z. Sa Monospace: Profont */
+@font-face {
+    font-family: profont;
+    src: url('/fonts/ProFontWindows.woff');
+    font-display: optional;
+    font-weight: normal;
+}
+@font-face {
+    font-family: profont;
+    src: url('/fonts/ProFontWindows-Bold.woff');
+    font-display: optional;
+    font-weight: bold;
+}
+.Profont {
+    --font-family-code: profont, monospace;
+    --p-size-s-px: 16;
+    --p-size-l-px: 20;
+    --p-wght-min: 300;
+    --p-wght-max: 400;
+    --code-factor: 1.1;
+}
+    
+
+    
+    

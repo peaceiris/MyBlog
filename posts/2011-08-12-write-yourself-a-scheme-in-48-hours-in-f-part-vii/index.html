@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Let’s talk about the environment now. This is the part of the interpreter that I like the least. It is a global variable and it contains a list of (string, LispVal) where the LispVal is mutable.
+type Env = (string * LispVal ref) list ref This is pretty bad. First of all, it immediately cuts off any option of running interpreters in different threads. Moreover, it makes a lot of functions in the evaluator to have side effects.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Write Yourself a Scheme in 48 Hours in F# – Part VII | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2011/08/08</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Write Yourself a Scheme in 48 Hours in F# – Part VII
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Let’s talk about the environment now.  This is the part of the interpreter that I like the least. It is a global variable and it contains a list of  (string, LispVal) where the LispVal is mutable.</p>
+<pre class="code"><span style="color:blue;">type </span>Env = (string * LispVal ref) list ref</pre>
+<p>This is pretty bad. First of all, it immediately cuts off any option of running interpreters in different threads. Moreover, it makes a lot of functions in the evaluator to have side effects. That makes it much harder to reason about them.</p>
+<p>In a world where I am provided with infinite time and energy, I would change it. In this world, I won’t. If you try your hand at doing it, make sure that you pass all the testcases before declaring victory. The scope rules of Scheme are not all that obvious. A code reviewer called them the Italian scoping rules because he thought I got them wrong …</p>
+<p>In any case, there isn’t much to the symbol table management.  You can create an empty one:</p>
+<pre class="code"><span style="color:blue;">let </span>nullEnv (): Env = ref List.empty</pre>
+<p>Check if a variable is bound:</p>
+<pre class="code"><span style="color:blue;">let </span>keyEq name (k, _) = name = k
+<span style="color:blue;">let </span>isBound var (env: Env) = !env |&gt; List.exists (keyEq var)</pre>
+<p>Get a variable out:</p>
+<pre class="code"><span style="color:blue;">let </span>getVar var (env: Env) =
+    <span style="color:blue;">let </span>result = !env |&gt; List.tryFind (keyEq var)
+    <span style="color:blue;">match </span>result <span style="color:blue;">with
+    </span>| None <span style="color:blue;">-&gt; </span>throw (UnboundVar(<span style="color:maroon;">"Getting an unbound variable: " </span>, var))
+    | Some(_, r) <span style="color:blue;">-&gt; </span>!r</pre>
+<p>Set the value of an existing variable:</p>
+<pre class="code"><span style="color:blue;">let </span>setVar var value (env:Env) =
+    <span style="color:blue;">let </span>result = !env |&gt; List.tryFind (keyEq var)
+    <span style="color:blue;">match </span>result <span style="color:blue;">with
+    </span>| Some(_, v) <span style="color:blue;">-&gt; </span>v := value ; value
+    | None <span style="color:blue;">-&gt; </span>throw (UnboundVar(<span style="color:maroon;">"Setting an unbound variable: " </span>, var))</pre>
+<p>Or define a new variable in the environment. Note that if the variable already exist, its value gets set.</p>
+<pre class="code"><span style="color:blue;">let </span>define (env:Env) var value =
+    <span style="color:blue;">let </span>result = !env |&gt; List.tryFind (keyEq var)
+    <span style="color:blue;">match </span>result <span style="color:blue;">with
+    </span>| Some(_, v) <span style="color:blue;">-&gt; </span>v := value ; value
+    | None <span style="color:blue;">-&gt;
+        </span>env := [var, ref value] @ !env; value</pre>
+<pre class="code"><font face="Lucida Sans Unicode">You can also bind a list of (string, LispVal) to the environment by prepending it to the existing ones:</font></pre>
+<pre class="code"><span style="color:blue;">let </span>bindVars bindings (env:Env) =
+   ref ((bindings |&gt; List.map (<span style="color:blue;">fun </span>(n, v) <span style="color:blue;">-&gt; </span>n , ref v)) @ !env)</pre>
+<p>Once you accept the evil of the global mutable variable scheme, these functions are easy enough.</p>
+<p>The only piece left is error management. This is where my implementation differs from the Haskell version the most. In essence, I throw exception and catch them to report errors, while the Haskell version uses a monad to propagate the error information.</p>
+<p>I have a <em>LispError</em> that represents everything that can go wrong:</p>
+<pre class="code"><span style="color:blue;">type </span>LispError =
+    | NumArgs <span style="color:blue;">of </span>int * LispVal list
+    | TypeMismatch <span style="color:blue;">of </span>string * LispVal
+    | ParseError <span style="color:blue;">of </span>string * FParsec.Error.ParserError
+    | BadSpecialForm <span style="color:blue;">of </span>string * LispVal
+    | NotFunction <span style="color:blue;">of </span>string * string
+    | UnboundVar <span style="color:blue;">of </span>string * string
+    | Default <span style="color:blue;">of </span>string
+    | IOError <span style="color:blue;">of </span>string</pre>
+<p>I wrap it in an exception:</p>
+<pre class="code"><span style="color:blue;">exception </span>LispException <span style="color:blue;">of </span>LispError</pre>
+<p>This is what I throw in various places in the code.</p>
+<pre class="code"><span style="color:blue;">let </span>throw le = raise (LispException(le))</pre>
+<p>I then catch it at the outer layer:</p>
+<pre class="code"><span style="color:blue;">let </span>evalString env expr =
+    <span style="color:blue;">try
+        </span>expr |&gt; readExpr |&gt; eval env
+    <span style="color:blue;">with
+    </span>| LispException(error) <span style="color:blue;">-&gt; </span>String (showError error)</pre>
+<p>And display the error by using the below function:</p>
+<pre class="code"><span style="color:blue;">let </span>showError = <span style="color:blue;">function
+    </span>| NumArgs(expected, found) <span style="color:blue;">-&gt; </span><span style="color:maroon;">"Expected " </span>+ expected.ToString() + <span style="color:maroon;">" args; found values " </span>+ unwordsList found
+    | TypeMismatch(expected, found) <span style="color:blue;">-&gt; </span><span style="color:maroon;">"Invalid type: expected " </span>+ expected + <span style="color:maroon;">", found " </span>+ showVal found
+    | ParseError(msg, _) <span style="color:blue;">-&gt; </span><span style="color:maroon;">"Parse Errror" </span>+ msg
+    | BadSpecialForm(message, form) <span style="color:blue;">-&gt; </span>message + showVal form
+    | NotFunction(message, func) <span style="color:blue;">-&gt; </span>message + func
+    | UnboundVar(message, varName) <span style="color:blue;">-&gt; </span>message + varName
+    | Default(message) <span style="color:blue;">-&gt; </span>message
+    | IOError(message) <span style="color:blue;">-&gt; </span>message</pre>
+<p>And that’s all there is to it. I hope you guys and gals enjoyed this seven part extravagance. Cheers.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+            <li><a href="../../MyBlog/tags/lambda-expressions">Lambda expressions</a></li>
+        
+            <li><a href="../../MyBlog/tags/parsing">Parsing</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

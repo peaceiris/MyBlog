@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Abstract Writing C# functional code has become easier with each new release of the language (i.e. nullable ref types, tuples, switch expr, &amp;hellip;). This document presents a review of the current status of basic functional features for C# 8.0. It focuses mostly on syntax and aims to achieve its goal using code examples. It doesn&amp;rsquo;t touches on more advanced topics as Monad, Functors, etc &amp;hellip;
+Haskell has been chosen as the &amp;lsquo;comparison&amp;rsquo; language (using few examples from here and elsewhere).">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Status of C# 8.0 functional features with a comparison to Haskell | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2019/12/12</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Status of C# 8.0 functional features with a comparison to Haskell
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<h2 id="abstract">Abstract</h2>
+<p>Writing C# functional code has become easier with each new release of the language (i.e. nullable ref types, tuples, switch expr, &hellip;).
+This document presents a review of the current status of <em>basic</em> functional features for C# 8.0.
+It focuses mostly on syntax and aims to achieve its goal using code examples.
+It doesn&rsquo;t touches on more advanced topics as Monad, Functors, etc &hellip;</p>
+<p>Haskell has been chosen as the &lsquo;comparison&rsquo; language (using few examples from <a href="http://learnyouahaskell.com/">here</a> and elsewhere).
+This is not intended as a statement of value of one language vs the other.
+The languages are profoundly  different in underlying philosophies.
+They both do much more than what is presented here (i.e. C# supports OO and imperative style, while Haskell goes much deeper in type system power etc&hellip;).</p>
+<p>I also present samples of usage of <a href="https://github.com/louthy/language-ext">language-ext</a> to show what can be achieved in C# using a functional library.</p>
+<h2 id="using-a-library-of-functions">Using a library of functions</h2>
+<p>In C# you can use static functions as if they were &lsquo;floating&rsquo; by importing the static class they are defined to with the syntax <code>using static CLASSNAME</code>. Below an example of both importing <code>Console.WriteLine</code> and using it.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">using</span> <span style="color:#555">System</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">System.IO</span>;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">LanguageExt</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">LanguageExt.TypeClasses</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">LanguageExt.ClassInstances</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">System.Collections.Generic</span>;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">static</span> System.Console;
+<span style="font-weight:bold">using</span> <span style="color:#555">static</span> System.Linq.Enumerable;
+<span style="font-weight:bold">using</span> <span style="color:#555">static</span> System.Math;
+<span style="font-weight:bold">using</span> <span style="color:#555">static</span> LanguageExt.Prelude;
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Core</span> {
+
+    <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> UseFunc() =&gt; WriteLine(<span style="color:#b84">&#34;System.WriteLine as a floating function&#34;</span>);
+</code></pre></div><h2 id="writing-simple-functions">Writing simple functions</h2>
+<p>In Haskell, a simple function might be written as:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell">   square <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Num</span> a <span style="font-weight:bold">=&gt;</span> a <span style="font-weight:bold">-&gt;</span> a
+   square x <span style="font-weight:bold">=</span> x <span style="font-weight:bold">*</span> x
+</code></pre></div><p>Which in C# looks like the below.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int</span> Square(<span style="color:#458;font-weight:bold">int</span> x) =&gt; x * x; 
+</code></pre></div><p>As an aside, note that we lose the generality of the function (i.e. we need a different one for doubles).This is due to the lack of ad-hoc polymorphism in C#.
+By using language-ext, you can fake it so that it looks like this:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> A Square&lt;NumA, A&gt;(A x) <span style="font-weight:bold">where</span> NumA : struct, Num&lt;A&gt; =&gt; <span style="font-weight:bold">default</span>(NumA).Product(x, x);
+
+    <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> SquarePoly() {
+        WriteLine(Square&lt;TInt, <span style="color:#458;font-weight:bold">int</span>&gt;(<span style="color:#099">2</span>));
+        WriteLine(Square&lt;TDouble, <span style="color:#458;font-weight:bold">double</span>&gt;(<span style="color:#099">2.5</span>));
+    }
+</code></pre></div><p>In Haskell, it is conventional to write the type of a function before the function itself. In C# you can use <code>Func</code> and <code>Action</code> to
+achieve a similar goal (aka seeing the types separately from the function implementation), despite with more verbose syntax, as below:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> Func&lt;<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">int</span>&gt; SquareF = x =&gt; x * x;
+</code></pre></div><h2 id="pattern-matching">Pattern matching</h2>
+<p>Here is an example in Haskell:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell">    lucky <span style="font-weight:bold">::</span> (<span style="color:#458;font-weight:bold">Integral</span> a) <span style="font-weight:bold">=&gt;</span> a <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">String</span>  
+    lucky <span style="color:#099">7</span> <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;</span><span style="color:#b84">LUCKY NUMBER SEVEN!</span><span style="color:#b84">&#34;</span>  
+    lucky x <span style="font-weight:bold">=</span> show x
+</code></pre></div><p>In C#, you can write it in a few ways. Either as a function static property &hellip;</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> Func&lt;<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">string</span>&gt; Lucky = x =&gt; x <span style="font-weight:bold">switch</span> {
+            <span style="color:#099">7</span> =&gt; <span style="color:#b84">&#34;LUCKY NUMBER SEVEN!&#34;</span>,
+            _ =&gt; x.ToString()
+        };
+</code></pre></div><p>Or with a normal function:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> Lucky1(<span style="color:#458;font-weight:bold">int</span> x) =&gt; x <span style="font-weight:bold">switch</span> {
+            <span style="color:#099">7</span> =&gt; <span style="color:#b84">&#34;LUCKY NUMBER SEVEN!&#34;</span>,
+            _ =&gt; x.ToString()
+    };
+</code></pre></div><p>Or even using the ternary operator (a perennial favorite of mine).</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> Lucky2(<span style="color:#458;font-weight:bold">int</span> x) =&gt; x == <span style="color:#099">7</span> ? <span style="color:#b84">&#34;LUCKY NUMBER SEVEN!&#34;</span>
+                                          : x.ToString();
+</code></pre></div><p>Pattern matching on tuples works with similar syntax:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> And(<span style="color:#458;font-weight:bold">bool</span> x, <span style="color:#458;font-weight:bold">bool</span> y) =&gt;
+        (x, y) <span style="font-weight:bold">switch</span>
+        {
+            (<span style="font-weight:bold">true</span>, <span style="font-weight:bold">true</span>) =&gt; <span style="font-weight:bold">true</span>,
+            _            =&gt; <span style="font-weight:bold">false</span>
+        };
+
+    
+</code></pre></div><p>In Haskell you can match on lists as follows:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell">    sum <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Num</span> a <span style="font-weight:bold">=&gt;</span> [a] <span style="font-weight:bold">-&gt;</span> a
+    sum <span style="color:#458;font-weight:bold">[]</span> <span style="font-weight:bold">=</span> <span style="color:#099">0</span>
+    sum (x<span style="color:#458;font-weight:bold">:</span>xs) <span style="font-weight:bold">=</span> x <span style="font-weight:bold">+</span> sum xs
+</code></pre></div><p>Writing this in standard C# looks like this:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int</span> Sum(IEnumerable&lt;<span style="color:#458;font-weight:bold">int</span>&gt; l) =&gt; l.Count() == <span style="color:#099">0</span>
+                                            ? <span style="color:#099">0</span>
+                                            : l.First() + Sum(l.Skip(<span style="color:#099">1</span>));
+
+    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int</span> Sum1(IEnumerable&lt;<span style="color:#458;font-weight:bold">int</span>&gt; l) =&gt; l.Count() <span style="font-weight:bold">switch</span> {
+        <span style="color:#099">0</span> =&gt; <span style="color:#099">0</span>,
+        _ =&gt; l.First() + Sum(l.Skip(<span style="color:#099">1</span>))
+    };
+</code></pre></div><p>Language-ext gives you a simpler syntax, with more flexibility on what you can match against:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int</span> Sum2(Seq&lt;<span style="color:#458;font-weight:bold">int</span>&gt; l) =&gt;
+        match(l,
+               () =&gt; <span style="color:#099">0</span>,
+               (x, xs) =&gt; x + Sum1(xs));
+</code></pre></div><p>Obviously you always have to be careful with recursion in C# (<a href="https://github.com/dotnet/csharplang/issues/2544">here</a>).
+Better use the various methods on <code>Enumerable</code>.</p>
+<h2 id="guards-and-case-expressions">Guards (and case expressions)</h2>
+<p>Let&rsquo;s explore guards. Case expressions have an identical translation in C#.</p>
+<p>In Haskell guards are used as below:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell">    bmiTell <span style="font-weight:bold">::</span> (<span style="color:#458;font-weight:bold">RealFloat</span> a) <span style="font-weight:bold">=&gt;</span> a <span style="font-weight:bold">-&gt;</span> a <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">String</span>  
+    bmiTell weight height  
+            <span style="font-weight:bold">|</span> weight <span style="font-weight:bold">/</span> height <span style="font-weight:bold">^</span> <span style="color:#099">2</span> <span style="font-weight:bold">&lt;=</span> <span style="color:#099">18.5</span> <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Under</span><span style="color:#b84">&#34;</span>  
+            <span style="font-weight:bold">|</span> weight <span style="font-weight:bold">/</span> height <span style="font-weight:bold">^</span> <span style="color:#099">2</span> <span style="font-weight:bold">&lt;=</span> <span style="color:#099">25.0</span> <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Normal</span><span style="color:#b84">&#34;</span>  
+            <span style="font-weight:bold">|</span> weight <span style="font-weight:bold">/</span> height <span style="font-weight:bold">^</span> <span style="color:#099">2</span> <span style="font-weight:bold">&lt;=</span> <span style="color:#099">30.0</span> <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Over</span><span style="color:#b84">&#34;</span>  
+            <span style="font-weight:bold">|</span> otherwise                   <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Way over</span><span style="color:#b84">&#34;</span>
+</code></pre></div><p>Which can be coded in C# as:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> BmiTell(<span style="color:#458;font-weight:bold">double</span> weight, <span style="color:#458;font-weight:bold">double</span> height) =&gt;
+        (weight, height) <span style="font-weight:bold">switch</span>
+        {
+            _ when Pow(weight / height, <span style="color:#099">2</span>) &lt;= <span style="color:#099">1</span><span style="color:#099">8.5</span> =&gt; <span style="color:#b84">&#34;Under&#34;</span>,
+            _ when Pow(weight / height, <span style="color:#099">2</span>) &lt;= <span style="color:#099">2</span><span style="color:#099">5.0</span> =&gt; <span style="color:#b84">&#34;Normal&#34;</span>,
+            _ when Pow(weight / height, <span style="color:#099">2</span>) &lt;= <span style="color:#099">3</span><span style="color:#099">0.0</span> =&gt; <span style="color:#b84">&#34;Over&#34;</span>,
+            _                                      =&gt; <span style="color:#b84">&#34;Way over&#34;</span>
+        };
+</code></pre></div><p>Obviously this is quite bad. You would like something more like:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell">    bmiTell <span style="font-weight:bold">::</span> (<span style="color:#458;font-weight:bold">RealFloat</span> a) <span style="font-weight:bold">=&gt;</span> a <span style="font-weight:bold">-&gt;</span> a <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">String</span>  
+    bmiTell weight height  
+            <span style="font-weight:bold">|</span> bmi <span style="font-weight:bold">&lt;=</span> skinny <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Under</span><span style="color:#b84">&#34;</span>  
+            <span style="font-weight:bold">|</span> bmi <span style="font-weight:bold">&lt;=</span> normal <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Normal</span><span style="color:#b84">&#34;</span>  
+            <span style="font-weight:bold">|</span> bmi <span style="font-weight:bold">&lt;=</span> fat    <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Over</span><span style="color:#b84">&#34;</span>  
+            <span style="font-weight:bold">|</span> otherwise     <span style="font-weight:bold">=</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Way Over</span><span style="color:#b84">&#34;</span>  
+            <span style="font-weight:bold">where</span> bmi <span style="font-weight:bold">=</span> weight <span style="font-weight:bold">/</span> height <span style="font-weight:bold">^</span> <span style="color:#099">2</span>  
+                  skinny <span style="font-weight:bold">=</span> <span style="color:#099">18.5</span>  
+                  normal <span style="font-weight:bold">=</span> <span style="color:#099">25.0</span>  
+                  fat <span style="font-weight:bold">=</span> <span style="color:#099">30.0</span> 
+</code></pre></div><p>But it is not trivial in C# to declare variables in expression bodied members.
+You can either move it to a normal method or abuse the LINQ query syntax. Both shown below.
+Notice that this is more similar to <code>let</code> expressions in Haskell, as they come before the expression, not after.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> BmiTell1(<span style="color:#458;font-weight:bold">double</span> weight, <span style="color:#458;font-weight:bold">double</span> height) {
+        <span style="color:#458;font-weight:bold">double</span> bmi = Pow(weight / height, <span style="color:#099">2</span>),
+               skinny = <span style="color:#099">1</span><span style="color:#099">8.5</span>,
+               normal = <span style="color:#099">2</span><span style="color:#099">5.0</span>,
+               fat = <span style="color:#099">3</span><span style="color:#099">0</span>;
+
+        <span style="font-weight:bold">return</span> bmi <span style="font-weight:bold">switch</span>
+        {
+            _ when bmi &lt;= skinny =&gt; <span style="color:#b84">&#34;Under&#34;</span>,
+            _ when bmi &lt;= normal =&gt; <span style="color:#b84">&#34;Normal&#34;</span>,
+            _ when bmi &lt;= fat    =&gt; <span style="color:#b84">&#34;Over&#34;</span>,
+            _                    =&gt; <span style="color:#b84">&#34;Way over&#34;</span>
+        };
+    }
+
+    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> BmiTell2(<span style="color:#458;font-weight:bold">double</span> weight, <span style="color:#458;font-weight:bold">double</span> height) =&gt;
+        (   <span style="font-weight:bold">from</span> _ <span style="font-weight:bold">in</span> <span style="color:#b84">&#34;x&#34;</span>
+            <span style="font-weight:bold">let</span> bmi     = Pow(weight / height, <span style="color:#099">2</span>)
+            <span style="font-weight:bold">let</span> skinny  = <span style="color:#099">1</span><span style="color:#099">8.5</span>
+            <span style="font-weight:bold">let</span> normal  = <span style="color:#099">2</span><span style="color:#099">5.0</span>
+            <span style="font-weight:bold">let</span> fat     = <span style="color:#099">3</span><span style="color:#099">0</span>
+            <span style="font-weight:bold">select</span>   bmi &lt;= skinny ? <span style="color:#b84">&#34;Under&#34;</span>
+                   : bmi &lt;= normal ? <span style="color:#b84">&#34;Normal&#34;</span>
+                   : bmi &lt;= fat    ? <span style="color:#b84">&#34;Over&#34;</span>
+                   :                 <span style="color:#b84">&#34;Way over&#34;</span>).First();
+</code></pre></div><h2 id="product-types-aka-records">Product types (aka Records)</h2>
+<p>In Haskell you define a product type as below:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell">    <span style="font-weight:bold">data</span> <span style="color:#458;font-weight:bold">Person</span> <span style="font-weight:bold">=</span> <span style="color:#458;font-weight:bold">Person</span> { firstName <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">String</span>  
+                             , lastName <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">String</span>  
+                             , age <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Int</span>
+                             } <span style="font-weight:bold">deriving</span> (<span style="color:#458;font-weight:bold">Show</span>)
+</code></pre></div><p>In C#, it is currently complicated to define an immutable product type with structural equality, structural ordering and efficient hashing.</p>
+<p>In essence, you have to implement a bunch of interfaces and operators, somehow similar to below (and I am not implementing ordering, and it is probably not too efficient either).</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">PersonData</span>: IEquatable&lt;PersonData&gt; {
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">string</span> FirstName;
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">string</span> LastName;
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">int</span> Age;
+
+        <span style="font-weight:bold">public</span> PersonData(<span style="color:#458;font-weight:bold">string</span> first, <span style="color:#458;font-weight:bold">string</span> last, <span style="color:#458;font-weight:bold">int</span> age) =&gt; (LastName, FirstName, Age) = (last, first, age);
+
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> GetHashCode() =&gt; (FirstName, LastName, Age).GetHashCode();
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> Equals(<span style="color:#458;font-weight:bold">object</span> other) =&gt; other <span style="font-weight:bold">is</span> PersonData l &amp;&amp; Equals(l);
+        <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> Equals(PersonData oth) =&gt; LastName == oth.LastName &amp;&amp; FirstName == oth.FirstName &amp;&amp; Age == oth.Age;
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="font-weight:bold">operator</span> ==(PersonData lhs, PersonData rhs) =&gt; lhs.Equals(rhs);
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="font-weight:bold">operator</span> !=(PersonData lhs, PersonData rhs) =&gt; !(lhs == rhs);
+    }
+</code></pre></div><p>If you use a <code>struct</code>, you are still open to someone simply newing it using the default constructor, that you can&rsquo;t make <code>private</code>.</p>
+<p>Using a class (as below) avoids that, but loses the pass by value semantic.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">public</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonData1</span> : IEquatable&lt;PersonData1&gt; {
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">string</span> FirstName;
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">string</span> LastName;
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">int</span> Age;
+
+        <span style="font-weight:bold">public</span> PersonData1(<span style="color:#458;font-weight:bold">string</span> first, <span style="color:#458;font-weight:bold">string</span> last, <span style="color:#458;font-weight:bold">int</span> age) =&gt; (LastName, FirstName, Age) = (last, first, age);
+
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> GetHashCode() =&gt; (FirstName, LastName, Age).GetHashCode();
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> Equals(<span style="color:#458;font-weight:bold">object</span> oth) =&gt; oth <span style="font-weight:bold">is</span> PersonData l &amp;&amp; Equals(l);
+        <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> Equals(PersonData1 other) =&gt; LastName == other.LastName &amp;&amp; FirstName == other.FirstName &amp;&amp; Age == other.Age;
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="font-weight:bold">operator</span> ==(PersonData1 lhs, PersonData1 rhs) =&gt; lhs.Equals(rhs);
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="font-weight:bold">operator</span> !=(PersonData1 lhs, PersonData1 rhs) =&gt; !(lhs == rhs);
+    }
+</code></pre></div><p>So, there is no easy fix. Using Language-ext you can do it much more simply, by inheritance.
+But obviously it uses IL generation that is slow the first time around. Try running the code and notice the delay when IL generating.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">public</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonData2</span> : Record&lt;PersonData2&gt; {
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">string</span> FirstName;
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">string</span> LastName;
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">int</span> Age;
+
+        <span style="font-weight:bold">public</span> PersonData2(<span style="color:#458;font-weight:bold">string</span> first, <span style="color:#458;font-weight:bold">string</span> last, <span style="color:#458;font-weight:bold">int</span> age) =&gt; (LastName, FirstName, Age) = (last, first, age);
+
+    }
+</code></pre></div><h2 id="sum-types-aka-discriminated-union">Sum types (aka Discriminated Union)</h2>
+<p>In Haskell you write:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell">    <span style="font-weight:bold">data</span> <span style="color:#458;font-weight:bold">Shape</span> <span style="font-weight:bold">=</span>
+                <span style="color:#458;font-weight:bold">Circle</span> <span style="color:#458;font-weight:bold">Float</span> <span style="color:#458;font-weight:bold">Float</span> <span style="color:#458;font-weight:bold">Float</span>
+            <span style="font-weight:bold">|</span> <span style="color:#458;font-weight:bold">Rectangle</span> <span style="color:#458;font-weight:bold">Float</span> <span style="color:#458;font-weight:bold">Float</span> <span style="color:#458;font-weight:bold">Float</span> <span style="color:#458;font-weight:bold">Float</span>
+            <span style="font-weight:bold">|</span> <span style="color:#458;font-weight:bold">NoShape</span>
+            <span style="font-weight:bold">deriving</span> (<span style="color:#458;font-weight:bold">Show</span>)  
+</code></pre></div><p>There is no obvious equivalent in C#, and different libraries has sprung up to propose possible solutions (but not language-ext)
+(i.e. <a href="https://github.com/Galad/CSharpDiscriminatedUnion">here</a> or <a href="https://github.com/mcintyre321/OneOf">here</a>).</p>
+<p>One possible &lsquo;pure language&rsquo; implementation, not considering structural equality/ordering/hash, follows:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">abstract</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Shape</span> {
+
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">NoShape</span> : Shape { }
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Circle</span> : Shape {
+            <span style="font-weight:bold">internal</span> Circle(<span style="color:#458;font-weight:bold">double</span> r) =&gt; Radius = r;
+            <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">double</span> Radius;
+        }
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">sealed</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Rectangle</span> : Shape {
+            <span style="font-weight:bold">internal</span> Rectangle(<span style="color:#458;font-weight:bold">double</span> height, <span style="color:#458;font-weight:bold">double</span> width) =&gt; (Height, Width) = (height, width);
+            <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">double</span> Height;
+            <span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> <span style="color:#458;font-weight:bold">double</span> Width;
+        }
+    }
+
+    <span style="font-weight:bold">static</span> Shape.Circle Circle(<span style="color:#458;font-weight:bold">double</span> x)                 =&gt; <span style="font-weight:bold">new</span> Shape.Circle(x);
+    <span style="font-weight:bold">static</span> Shape.Rectangle Rectangle(<span style="color:#458;font-weight:bold">double</span> x, <span style="color:#458;font-weight:bold">double</span> y) =&gt; <span style="font-weight:bold">new</span> Shape.Rectangle(x,y);
+    <span style="font-weight:bold">static</span> Shape.NoShape NoShape()                       =&gt; <span style="font-weight:bold">new</span> Shape.NoShape();
+</code></pre></div><p>You can then pattern match on it in various obvious ways:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">double</span> Area(Shape s) =&gt; s <span style="font-weight:bold">switch</span>
+    {
+        Shape.NoShape _                  =&gt; <span style="color:#099">0</span>,
+        Shape.Circle {Radius: <span style="color:#458;font-weight:bold">var</span> r }    =&gt; Pow(r, <span style="color:#099">2</span>) * PI,
+        Shape.Rectangle r                =&gt; r.Height * r.Width,
+        _                                =&gt; <span style="font-weight:bold">throw</span> <span style="font-weight:bold">new</span> Exception(<span style="color:#b84">&#34;No known shape&#34;</span>)
+    };
+
+    <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> CalcAreas() {
+        <span style="color:#458;font-weight:bold">var</span> c = Circle(<span style="color:#099">1</span><span style="color:#099">0</span>);
+        <span style="color:#458;font-weight:bold">var</span> r = Rectangle(<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="color:#099">3</span>);
+        <span style="color:#458;font-weight:bold">var</span> n = NoShape();
+
+        WriteLine(Area(c));
+        WriteLine(Area(r));
+        WriteLine(Area(n));
+    }
+</code></pre></div><h2 id="maybe-or-option-type">Maybe (Or Option) type</h2>
+<p>In Haskell you write:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Haskell" data-lang="Haskell">     f<span style="font-weight:bold">::</span><span style="color:#458;font-weight:bold">Int</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Maybe</span> <span style="color:#458;font-weight:bold">Int</span>
+     f <span style="color:#099">0</span> <span style="font-weight:bold">=</span> <span style="color:#458;font-weight:bold">Nothing</span>
+     f x <span style="font-weight:bold">=</span> <span style="color:#458;font-weight:bold">Just</span> x
+
+     g<span style="font-weight:bold">::</span><span style="color:#458;font-weight:bold">Maybe</span> <span style="color:#458;font-weight:bold">Int</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Int</span>
+     g <span style="color:#458;font-weight:bold">Nothing</span>  <span style="font-weight:bold">=</span> <span style="color:#099">0</span>
+     g (<span style="color:#458;font-weight:bold">Just</span> x) <span style="font-weight:bold">=</span> x
+
+</code></pre></div><p>In C#, this easily translates to <code>Nullable</code> value and reference types. Assume you have <code>Nullable = enabled</code> in your project</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int?</span> F(<span style="color:#458;font-weight:bold">int</span> i) =&gt; i <span style="font-weight:bold">switch</span> {
+        <span style="color:#099">0</span> =&gt; <span style="font-weight:bold">new</span> Nullable&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(),
+        _ =&gt; i
+    };
+
+    <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int</span> G(<span style="color:#458;font-weight:bold">int?</span> i) =&gt; i ?? <span style="color:#099">0</span>;
+</code></pre></div><h2 id="main-method">Main Method</h2>
+<p>Let&rsquo;s wrap all the samples with a <code>Main</code> function and then write a full program.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> Main() {
+        UseFunc();
+        SquarePoly();
+        WriteLine(Square(<span style="color:#099">2</span>) == SquareF(<span style="color:#099">2</span>));
+        WriteLine(Sum(<span style="font-weight:bold">new</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">4</span> })  == Sum1(<span style="font-weight:bold">new</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">4</span> }));
+        WriteLine(Sum1(<span style="font-weight:bold">new</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">4</span> }) == Sum2(<span style="font-weight:bold">new</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">4</span> }.ToSeq()));
+        WriteLine(BmiTell(<span style="color:#099">8</span><span style="color:#099">0</span>, <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>) == BmiTell1(<span style="color:#099">8</span><span style="color:#099">0</span>, <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>));
+        WriteLine(BmiTell(<span style="color:#099">8</span><span style="color:#099">0</span>, <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>) == BmiTell2(<span style="color:#099">8</span><span style="color:#099">0</span>, <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>));
+
+        WriteLine(<span style="font-weight:bold">new</span> PersonData(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>) == <span style="font-weight:bold">new</span> PersonData(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>));
+        WriteLine(<span style="font-weight:bold">new</span> PersonData1(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>) == <span style="font-weight:bold">new</span> PersonData1(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>));
+        WriteLine(<span style="color:#b84">&#34;Before IL gen&#34;</span>);
+        WriteLine(<span style="font-weight:bold">new</span> PersonData2(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>) == <span style="font-weight:bold">new</span> PersonData2(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>));
+        WriteLine(<span style="font-weight:bold">new</span> PersonData2(<span style="color:#b84">&#34;Alphie&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>) &lt;= <span style="font-weight:bold">new</span> PersonData2(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>));
+        WriteLine(<span style="color:#b84">&#34;Already genned&#34;</span>);
+        WriteLine(<span style="font-weight:bold">new</span> PersonData2(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>) == <span style="font-weight:bold">new</span> PersonData2(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>));
+        WriteLine(<span style="font-weight:bold">new</span> PersonData2(<span style="color:#b84">&#34;Alphie&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>) &lt;= <span style="font-weight:bold">new</span> PersonData2(<span style="color:#b84">&#34;Bob&#34;</span>, <span style="color:#b84">&#34;Blake&#34;</span>, <span style="color:#099">4</span><span style="color:#099">0</span>));
+
+        CalcAreas();
+
+        Hangman.Core.MainHangman();
+
+    }
+}
+</code></pre></div><h2 id="full-program">Full program</h2>
+<p>Let&rsquo;s finish with a semi-working version of Hangman,
+from an exercise in <a href="http://haskellbook.com/">Haskell programming from first principles</a>,
+just to get an overall impression of how the two languages look for bigger things.</p>
+<p>The exercise was a fill-in-the-blanks kind of thing with the function names and types given,
+so I don&rsquo;t think I butcher it too badly, but maybe not.</p>
+<p>The Haskell code is:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="font-weight:bold">module</span> <span style="color:#555">Main</span> <span style="font-weight:bold">where</span>
+
+<span style="font-weight:bold">import</span> <span style="color:#555">Control.Monad</span> (<span style="color:#900;font-weight:bold">forever</span>) <span style="color:#998;font-style:italic">-- [1]</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">Data.Char</span> (<span style="color:#900;font-weight:bold">toLower</span>) <span style="color:#998;font-style:italic">-- [2]</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">Data.Maybe</span> (<span style="color:#900;font-weight:bold">isJust</span>) <span style="color:#998;font-style:italic">-- [3]</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">Data.List</span> (<span style="color:#900;font-weight:bold">intersperse</span>) <span style="color:#998;font-style:italic">-- [4]</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">System.Exit</span> (<span style="color:#900;font-weight:bold">exitSuccess</span>) <span style="color:#998;font-style:italic">-- [5]</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">System.Random</span> (<span style="color:#900;font-weight:bold">randomRIO</span>) <span style="color:#998;font-style:italic">-- [6]</span>
+
+<span style="font-weight:bold">type</span> <span style="color:#458;font-weight:bold">WordList</span> <span style="font-weight:bold">=</span> [<span style="color:#458;font-weight:bold">String</span>]
+
+<span style="color:#900;font-weight:bold">allWords</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">IO</span> <span style="color:#458;font-weight:bold">WordList</span>
+<span style="color:#900;font-weight:bold">allWords</span> <span style="font-weight:bold">=</span> <span style="font-weight:bold">do</span>
+      dict <span style="font-weight:bold">&lt;-</span> readFile <span style="color:#b84">&#34;</span><span style="color:#b84">data/dict.txt</span><span style="color:#b84">&#34;</span>
+      return (lines dict)
+
+<span style="color:#900;font-weight:bold">minWordLength</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Int</span>
+<span style="color:#900;font-weight:bold">minWordLength</span> <span style="font-weight:bold">=</span> <span style="color:#099">5</span>
+
+<span style="color:#900;font-weight:bold">maxWordLength</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Int</span>
+<span style="color:#900;font-weight:bold">maxWordLength</span> <span style="font-weight:bold">=</span> <span style="color:#099">9</span>
+
+<span style="color:#900;font-weight:bold">gameWords</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">IO</span> <span style="color:#458;font-weight:bold">WordList</span>
+<span style="color:#900;font-weight:bold">gameWords</span> <span style="font-weight:bold">=</span> <span style="font-weight:bold">do</span>
+      aw <span style="font-weight:bold">&lt;-</span> allWords
+      return (filter gameLength aw)
+      <span style="font-weight:bold">where</span> gameLength w <span style="font-weight:bold">=</span>
+              <span style="font-weight:bold">let</span> l <span style="font-weight:bold">=</span> length (w <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">String</span>)
+              <span style="font-weight:bold">in</span> l <span style="font-weight:bold">&gt;</span> minWordLength <span style="font-weight:bold">&amp;&amp;</span> l <span style="font-weight:bold">&lt;</span> maxWordLength
+
+<span style="color:#900;font-weight:bold">randomWord</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">WordList</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">IO</span> <span style="color:#458;font-weight:bold">String</span>
+<span style="color:#900;font-weight:bold">randomWord</span> wl <span style="font-weight:bold">=</span> <span style="font-weight:bold">do</span>
+      randomIndex <span style="font-weight:bold">&lt;-</span> randomRIO ( <span style="color:#099">0</span>, length wl <span style="font-weight:bold">-</span> <span style="color:#099">1</span>)
+      return <span style="font-weight:bold">$</span> wl <span style="font-weight:bold">!!</span> randomIndex
+
+<span style="color:#900;font-weight:bold">randomWord&#39;</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">IO</span> <span style="color:#458;font-weight:bold">String</span>
+<span style="color:#900;font-weight:bold">randomWord&#39;</span> <span style="font-weight:bold">=</span> gameWords <span style="font-weight:bold">&gt;&gt;=</span> randomWord
+
+<span style="font-weight:bold">data</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">=</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="color:#458;font-weight:bold">String</span> [<span style="color:#458;font-weight:bold">Maybe</span> <span style="color:#458;font-weight:bold">Char</span>] [<span style="color:#458;font-weight:bold">Char</span>]
+
+<span style="font-weight:bold">instance</span> <span style="color:#458;font-weight:bold">Show</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">where</span>
+      show (<span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">_</span> discovered guessed) <span style="font-weight:bold">=</span>
+        (intersperse <span style="color:#b84">&#39; &#39;</span> <span style="font-weight:bold">$</span> fmap renderPuzzleChar discovered)
+        <span style="font-weight:bold">++</span> <span style="color:#b84">&#34;</span><span style="color:#b84"> Guessed so far: </span><span style="color:#b84">&#34;</span> <span style="font-weight:bold">++</span> guessed
+
+<span style="color:#900;font-weight:bold">freshPuzzle</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">String</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Puzzle</span>
+<span style="color:#900;font-weight:bold">freshPuzzle</span> s <span style="font-weight:bold">=</span> <span style="color:#458;font-weight:bold">Puzzle</span> s (map (const <span style="color:#458;font-weight:bold">Nothing</span>) s) <span style="color:#458;font-weight:bold">[]</span>
+
+<span style="color:#900;font-weight:bold">charInWord</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Char</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Bool</span>
+<span style="color:#900;font-weight:bold">charInWord</span> (<span style="color:#458;font-weight:bold">Puzzle</span> s <span style="font-weight:bold">_</span> <span style="font-weight:bold">_</span>) c <span style="font-weight:bold">=</span> c `elem` s
+
+<span style="color:#900;font-weight:bold">alreadyGuessed</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Char</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Bool</span>
+<span style="color:#900;font-weight:bold">alreadyGuessed</span> (<span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">_</span> <span style="font-weight:bold">_</span> s) c <span style="font-weight:bold">=</span> c `elem` s
+
+<span style="color:#900;font-weight:bold">renderPuzzleChar</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Maybe</span> <span style="color:#458;font-weight:bold">Char</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Char</span>
+<span style="color:#900;font-weight:bold">renderPuzzleChar</span> <span style="color:#458;font-weight:bold">Nothing</span>  <span style="font-weight:bold">=</span> <span style="color:#b84">&#39;_&#39;</span>
+<span style="color:#900;font-weight:bold">renderPuzzleChar</span> (<span style="color:#458;font-weight:bold">Just</span> c) <span style="font-weight:bold">=</span> c
+
+<span style="color:#900;font-weight:bold">fillInCharacter</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Char</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Puzzle</span>
+<span style="color:#900;font-weight:bold">fillInCharacter</span> (<span style="color:#458;font-weight:bold">Puzzle</span> word filledInSoFar s) c <span style="font-weight:bold">=</span>
+      <span style="color:#458;font-weight:bold">Puzzle</span> word newFilledInSoFar (c <span style="color:#458;font-weight:bold">:</span> s)
+      <span style="font-weight:bold">where</span> zipper guessed wordChar guessChar <span style="font-weight:bold">=</span>
+              <span style="font-weight:bold">if</span> wordChar <span style="font-weight:bold">==</span> guessed
+                <span style="font-weight:bold">then</span> <span style="color:#458;font-weight:bold">Just</span> wordChar
+                <span style="font-weight:bold">else</span> guessChar
+            newFilledInSoFar <span style="font-weight:bold">=</span>
+              zipWith (zipper c) word filledInSoFar
+
+<span style="color:#900;font-weight:bold">handleGuess</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">Char</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">IO</span> <span style="color:#458;font-weight:bold">Puzzle</span>
+<span style="color:#900;font-weight:bold">handleGuess</span> puzzle guess <span style="font-weight:bold">=</span> <span style="font-weight:bold">do</span>
+      putStrLn <span style="font-weight:bold">$</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Your guess was: </span><span style="color:#b84">&#34;</span> <span style="font-weight:bold">++</span> [guess]
+      <span style="font-weight:bold">case</span> (charInWord puzzle guess, alreadyGuessed puzzle guess) <span style="font-weight:bold">of</span>
+        (<span style="font-weight:bold">_</span>, <span style="color:#458;font-weight:bold">True</span>) <span style="font-weight:bold">-&gt;</span> <span style="font-weight:bold">do</span>
+          putStrLn <span style="color:#b84">&#34;</span><span style="color:#b84">You already guessed that character, pick something else!</span><span style="color:#b84">&#34;</span>
+          return puzzle
+        (<span style="color:#458;font-weight:bold">True</span>, <span style="font-weight:bold">_</span>) <span style="font-weight:bold">-&gt;</span> <span style="font-weight:bold">do</span>
+          putStrLn <span style="color:#b84">&#34;</span><span style="color:#b84">This character was in the word,filling in the word accordingly</span><span style="color:#b84">&#34;</span>
+          return (fillInCharacter puzzle guess)
+        (<span style="color:#458;font-weight:bold">False</span>, <span style="font-weight:bold">_</span>) <span style="font-weight:bold">-&gt;</span> <span style="font-weight:bold">do</span>
+          putStrLn <span style="color:#b84">&#34;</span><span style="color:#b84">This character wasn&#39;t in the word, try again.</span><span style="color:#b84">&#34;</span>
+          return (fillInCharacter puzzle guess)
+
+<span style="color:#900;font-weight:bold">gameOver</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">IO</span> <span style="color:#999">()</span>
+<span style="color:#900;font-weight:bold">gameOver</span> (<span style="color:#458;font-weight:bold">Puzzle</span> wordToGuess <span style="font-weight:bold">_</span> guessed) <span style="font-weight:bold">=</span>
+      <span style="font-weight:bold">if</span> (length guessed) <span style="font-weight:bold">&gt;</span> <span style="color:#099">7</span> <span style="font-weight:bold">then</span> <span style="font-weight:bold">do</span>
+          putStrLn <span style="color:#b84">&#34;</span><span style="color:#b84">You lose!</span><span style="color:#b84">&#34;</span>
+          putStrLn <span style="font-weight:bold">$</span> <span style="color:#b84">&#34;</span><span style="color:#b84">The word was: </span><span style="color:#b84">&#34;</span> <span style="font-weight:bold">++</span> wordToGuess
+          exitSuccess
+      <span style="font-weight:bold">else</span> return <span style="color:#999">()</span>
+
+<span style="color:#900;font-weight:bold">gameWin</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">IO</span> <span style="color:#999">()</span>
+<span style="color:#900;font-weight:bold">gameWin</span> (<span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">_</span> filledInSoFar <span style="font-weight:bold">_</span>) <span style="font-weight:bold">=</span>
+      <span style="font-weight:bold">if</span> all isJust filledInSoFar <span style="font-weight:bold">then</span> <span style="font-weight:bold">do</span>
+        putStrLn <span style="color:#b84">&#34;</span><span style="color:#b84">You win!</span><span style="color:#b84">&#34;</span>
+        exitSuccess
+      <span style="font-weight:bold">else</span> return <span style="color:#999">()</span>
+
+<span style="color:#900;font-weight:bold">runGame</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">Puzzle</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#458;font-weight:bold">IO</span> <span style="color:#999">()</span>
+<span style="color:#900;font-weight:bold">runGame</span> puzzle <span style="font-weight:bold">=</span> forever <span style="font-weight:bold">$</span> <span style="font-weight:bold">do</span>
+      gameOver puzzle
+      gameWin puzzle
+      putStrLn <span style="font-weight:bold">$</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Current puzzle is: </span><span style="color:#b84">&#34;</span> <span style="font-weight:bold">++</span> show puzzle
+      putStr <span style="color:#b84">&#34;</span><span style="color:#b84">Guess a letter: </span><span style="color:#b84">&#34;</span>
+      guess <span style="font-weight:bold">&lt;-</span> getLine
+      <span style="font-weight:bold">case</span> guess <span style="font-weight:bold">of</span>
+        [c] <span style="font-weight:bold">-&gt;</span> handleGuess puzzle c <span style="font-weight:bold">&gt;&gt;=</span> runGame
+        <span style="font-weight:bold">_</span> <span style="font-weight:bold">-&gt;</span> putStrLn <span style="color:#b84">&#34;</span><span style="color:#b84">Your guess must be a single character</span><span style="color:#b84">&#34;</span>
+
+
+<span style="color:#900;font-weight:bold">main</span> <span style="font-weight:bold">::</span> <span style="color:#458;font-weight:bold">IO</span> <span style="color:#999">()</span>
+<span style="color:#900;font-weight:bold">main</span> <span style="font-weight:bold">=</span> <span style="font-weight:bold">do</span>
+      word <span style="font-weight:bold">&lt;-</span> randomWord&#39;
+      <span style="font-weight:bold">let</span> puzzle <span style="font-weight:bold">=</span> freshPuzzle (fmap toLower word)
+      runGame puzzle
+</code></pre></div><p>Which loosely translate to the code below (pure C#, no language-ext) . A few comments:</p>
+<ol>
+<li>I tried to keep the translation as 1:1 as possible.</li>
+<li>I used expression bodied members for everything except IO returning function. That&rsquo;s a pleasing convention to me.</li>
+<li>Things translate rather straightforwardly except for:
+<ol>
+<li>Cheated using a simple <code>struct</code> instead of a <code>Record</code>, but often it is ok to do so.</li>
+<li>Needed to use LINQ query syntax to translate more complex expressions, but cannot have lambadas in it.</li>
+<li>Needed to do manual currying (<code>language-ext</code> would have beautified that).</li>
+</ol>
+</li>
+<li>The line count for this example is roughly similar. I think that&rsquo;s random. Also the C# code &lsquo;extends to the right&rsquo; more.</li>
+<li>Notably absent from the code are sum types, which would have been verbose to implement in C#.</li>
+</ol>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">namespace</span> <span style="color:#555">Hangman</span> {
+    <span style="font-weight:bold">using</span> <span style="color:#555">WordList</span> = IEnumerable&lt;String&gt;;
+    <span style="font-weight:bold">using</span> <span style="color:#555">static</span> System.Linq.Enumerable;
+
+    <span style="font-weight:bold">static</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Core</span> {
+
+        <span style="font-weight:bold">const</span> <span style="color:#458;font-weight:bold">int</span> MinWordLength = <span style="color:#099">5</span>;
+        <span style="font-weight:bold">const</span> <span style="color:#458;font-weight:bold">int</span> MaxWordLength = <span style="color:#099">9</span>;
+
+        <span style="font-weight:bold">static</span> WordList AllWords =&gt; File.ReadAllLines(<span style="color:#b84">&#34;data/dict.txt&#34;</span>);
+
+        <span style="font-weight:bold">static</span> WordList GameWords =&gt;
+            AllWords.Where(w =&gt; w.Length &gt; MinWordLength &amp;&amp; w.Length &lt; MaxWordLength);
+
+        <span style="font-weight:bold">static</span> Random r = <span style="font-weight:bold">new</span> Random();
+
+        <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> RandomWord(WordList wl) =&gt; GameWords.ElementAt(r.Next(<span style="color:#099">0</span>, wl.Length()));
+
+        <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> RandomWord1 =&gt; RandomWord(GameWords);
+
+        <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">char</span> RenderPuzzleChar(<span style="color:#458;font-weight:bold">char?</span> c) =&gt; c ?? <span style="color:#b84">&#39;_&#39;</span>;
+
+        <span style="font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Puzzle</span> { <span style="color:#998;font-style:italic">// Not implemented Eq and Ord because not needed in this program
+</span><span style="color:#998;font-style:italic"></span>            <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Word;
+            <span style="font-weight:bold">public</span> IEnumerable&lt;<span style="color:#458;font-weight:bold">char?</span>&gt; Discovered;
+            <span style="font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Guessed;
+
+            <span style="font-weight:bold">public</span> <span style="font-weight:bold">override</span> <span style="color:#458;font-weight:bold">string</span> ToString() =&gt;
+                <span style="color:#b84">$&#34;{string.Join(&#34;</span> <span style="color:#b84">&#34;, Discovered.Select(RenderPuzzleChar))}&#34;</span>
+                    + <span style="color:#b84">&#34; Guessed so far: &#34;</span> + Guessed;
+        }
+
+        <span style="font-weight:bold">static</span> Puzzle FreshPuzzle(<span style="color:#458;font-weight:bold">string</span> s) =&gt; <span style="font-weight:bold">new</span> Puzzle {
+            Word       = s,
+            Discovered = s.Select(_ =&gt; <span style="font-weight:bold">new</span> Nullable&lt;<span style="color:#458;font-weight:bold">char</span>&gt;()),
+            Guessed    = <span style="color:#b84">&#34;&#34;</span>
+        };
+
+        <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> CharInWord(Puzzle p, <span style="color:#458;font-weight:bold">char</span> c)     =&gt; p.Word.Contains(c);
+        <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> AlreadyGuessed(Puzzle p, <span style="color:#458;font-weight:bold">char</span> c) =&gt; p.Guessed.Contains(c);
+
+        <span style="color:#998;font-style:italic">// Can&#39;t assign lambda expression to range variable with let, hence separate function
+</span><span style="color:#998;font-style:italic"></span>        <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">char?</span> Zipper(<span style="color:#458;font-weight:bold">char</span> guessed, <span style="color:#458;font-weight:bold">char</span> wordChar, <span style="color:#458;font-weight:bold">char?</span> guessChar) =&gt;
+            wordChar == guessed ? wordChar : guessChar;
+
+        <span style="color:#998;font-style:italic">// Manual curry. Could use language-ext to make it more beautiful.
+</span><span style="color:#998;font-style:italic"></span>        <span style="font-weight:bold">static</span> Func&lt;<span style="color:#458;font-weight:bold">char</span>, <span style="color:#458;font-weight:bold">char?</span>, <span style="color:#458;font-weight:bold">char?</span>&gt; Zipper1(<span style="color:#458;font-weight:bold">char</span> c) =&gt; (c1, c2) =&gt; Zipper(c, c1, c2);
+
+        <span style="font-weight:bold">static</span> Puzzle FillInCharacter(Puzzle p, <span style="color:#458;font-weight:bold">char</span> c) =&gt;
+            (<span style="font-weight:bold">from</span> _ <span style="font-weight:bold">in</span> <span style="color:#b84">&#34;x&#34;</span>
+             <span style="font-weight:bold">let</span> newFilledInSoFar = System.Linq.Enumerable.Zip&lt;<span style="color:#458;font-weight:bold">char</span>, <span style="color:#458;font-weight:bold">char?</span>, <span style="color:#458;font-weight:bold">char?</span>&gt;(p.Word, p.Discovered, Zipper1(c))
+             <span style="font-weight:bold">select</span> <span style="font-weight:bold">new</span> Puzzle {
+                Word = p.Word,
+                Discovered = newFilledInSoFar,
+                Guessed = c + p.Guessed
+            }).First();
+
+        <span style="font-weight:bold">static</span> Puzzle HandleGuess(Puzzle puzzle, <span style="color:#458;font-weight:bold">char</span> guess) {<span style="color:#998;font-style:italic">// Braces means IO ...
+</span><span style="color:#998;font-style:italic"></span>            WriteLine(<span style="color:#b84">$&#34;Your guess was {guess}&#34;</span>);
+            <span style="font-weight:bold">switch</span> (CharInWord(puzzle, guess), AlreadyGuessed(puzzle, guess)) {
+                <span style="font-weight:bold">case</span> (_, <span style="font-weight:bold">true</span>):
+                    WriteLine(<span style="color:#b84">&#34;You already guessed that character, pick something else!&#34;</span>);
+                    <span style="font-weight:bold">return</span> puzzle;
+                <span style="font-weight:bold">case</span> (<span style="font-weight:bold">true</span>, _):
+                    WriteLine(<span style="color:#b84">&#34;This character was in the word,filling in the word accordingly&#34;</span>);
+                    <span style="font-weight:bold">return</span> FillInCharacter(puzzle, guess);
+                <span style="font-weight:bold">case</span> (<span style="font-weight:bold">false</span>, _):
+                    WriteLine(<span style="color:#b84">&#34;This character wasn&#39;t in the word, try again.&#34;</span>);
+                    <span style="font-weight:bold">return</span> FillInCharacter(puzzle, guess);
+            }
+        }
+
+        <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> GameOver(Puzzle p) {
+            <span style="font-weight:bold">if</span>(p.Guessed.Length &gt; <span style="color:#099">7</span>) {
+                WriteLine(<span style="color:#b84">&#34;You lose!&#34;</span>);
+                WriteLine(<span style="color:#b84">$&#34;The word was {p.Word}&#34;</span>);
+                Environment.Exit(<span style="color:#099">0</span>);
+            }
+        }
+
+        <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> GameWin(Puzzle p) {
+            <span style="font-weight:bold">if</span>(p.Discovered.All(c =&gt; c.HasValue)) {
+                WriteLine(<span style="color:#b84">&#34;You win!&#34;</span>);
+                Environment.Exit(<span style="color:#099">0</span>);
+            }
+        }
+
+        <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> RunGame(Puzzle puzzle) {
+            <span style="font-weight:bold">while</span>(<span style="font-weight:bold">true</span>) {
+                GameOver(puzzle);
+                GameWin(puzzle);
+                WriteLine(<span style="color:#b84">$&#34;Current puzzle is: {puzzle}&#34;</span>);
+                WriteLine(<span style="color:#b84">&#34;Guess a letter: &#34;</span>);
+                <span style="color:#458;font-weight:bold">var</span> guess = ReadLine();
+                <span style="font-weight:bold">if</span>(guess.Length == <span style="color:#099">1</span>) RunGame(HandleGuess(puzzle, guess[<span style="color:#099">0</span>]));
+                <span style="font-weight:bold">else</span> WriteLine(<span style="color:#b84">&#34;Your guess must be a single char&#34;</span>);
+            }
+        }
+
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="font-weight:bold">void</span> MainHangman() {
+            <span style="color:#458;font-weight:bold">var</span> puzzle = FreshPuzzle(RandomWord1);
+            RunGame(puzzle);
+        }
+
+    }
+}
+</code></pre></div>
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/csharp">csharp</a></li>
+        
+            <li><a href="../../MyBlog/tags/functional-programming">functional-programming</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    <nav id="TableOfContents">
+    <ul>
+        
+
+        
+        <li>
+        <a href="#abstract">Abstract</a>
+        
+
+        
+        </li><li>
+            <a href="#using-a-library-of-functions">Using a library of functions</a>
+        
+
+        
+        </li><li>
+            <a href="#writing-simple-functions">Writing simple functions</a>
+        
+
+        
+        </li><li>
+            <a href="#pattern-matching">Pattern matching</a>
+        
+
+        
+        </li><li>
+            <a href="#guards-and-case-expressions">Guards (and case expressions)</a>
+        
+
+        
+        </li><li>
+            <a href="#product-types-aka-records">Product types (aka Records)</a>
+        
+
+        
+        </li><li>
+            <a href="#sum-types-aka-discriminated-union">Sum types (aka Discriminated Union)</a>
+        
+
+        
+        </li><li>
+            <a href="#maybe-or-option-type">Maybe (Or Option) type</a>
+        
+
+        
+        </li><li>
+            <a href="#main-method">Main Method</a>
+        
+
+        
+        </li><li>
+            <a href="#full-program">Full program</a>
+    </li></ul>
+</nav>
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

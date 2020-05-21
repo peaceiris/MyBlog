@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Miscellanea on Lucabol blog</title>
+    <link>http://peaceiris.com/MyBlog/tags/miscellanea/</link>
+    <description>Recent content in Miscellanea on Lucabol blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 31 Mar 2010 20:50:32 +0000</lastBuildDate>
+    
+	<atom:link href="http://peaceiris.com/MyBlog/tags/miscellanea/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>I have been DEEP FRIED!</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-03-31-i-have-been-deep-fried/</link>
+      <pubDate>Wed, 31 Mar 2010 20:50:32 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-03-31-i-have-been-deep-fried/</guid>
+      <description>Yep, here is my interview with the Deep Fried Bytes guys on various software topics. Enjoy.</description>
+    </item>
+    
+    <item>
+      <title>Luca Bolognese leaves Microsoft</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-19-luca-bolognese-leaves-microsoft/</link>
+      <pubDate>Fri, 19 Feb 2010 08:58:02 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-19-luca-bolognese-leaves-microsoft/</guid>
+      <description>FYI I imported all the posts from the old MSDN blog to this one. Hence this post doesn&amp;rsquo;t make sense anymore. I left it here for memory sake. BTW: I am also back in msft now (30/11/2018).
+This is my last post on this blog. My new blog is here: http://www.lucabol.com 
+I accepted a role as Director for Credit Suisse in London. I’m excited by the opportunity to work in the financial industry, a long-standing desire of mine.</description>
+    </item>
+    
+    <item>
+      <title>Luca presenting F# at PDC 2008</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/</link>
+      <pubDate>Fri, 24 Oct 2008 12:21:14 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/</guid>
+      <description>Next Thursday at 1.45pm I will present &amp;ldquo;An introduction to Microsoft F#&amp;quot; at PDC 2008. If you are there, please stop by or drop by the lounge area to chat.
+There are a bunch of other great sessions from my team. They are all good (I swear I tried to format John&amp;rsquo;s session correctly, but failed).
+  TL16: The Future of C#    Speaker: Anders Hejlsberg    Mon 10/27 | 1:45 PM-3:00 PM | Petree Hall CD    Repeated: Wed 10/29 | 3:00 PM-4:15 PM | 502A    TL10: Deep Dive: Dynamic Languages in .</description>
+    </item>
+    
+    <item>
+      <title>Brief review of Total Workday Control</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-11-20-brief-review-of-quottotal-workday-controlquot/</link>
+      <pubDate>Tue, 20 Nov 2007 11:56:46 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-11-20-brief-review-of-quottotal-workday-controlquot/</guid>
+      <description>We get plenty of emails in Microsoft. Without a system to manage them you are dead. Or better, your mind plays strange tricks on you making you think that you still have work to do. You need to convince your mind that you are done for the day and to stop bugging you, please.
+Almost everyone has a system. Some are better than others. My current system is Getting things done and it does achieve its goal of freeing my mind (mostly) without imposing too much overhead.</description>
+    </item>
+    
+    <item>
+      <title>Interesting 10 years retrospective on The cathedral and the Bazaar</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-07-05-interesting-10-years-retrospective-on-the-cathedral-and-the-bazaar/</link>
+      <pubDate>Thu, 05 Jul 2007 12:12:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-07-05-interesting-10-years-retrospective-on-the-cathedral-and-the-bazaar/</guid>
+      <description>Interesting read on what open source has been good for, on the difference between Linux and Wikipedia and on how to best harness the power of crowds.
+Also a highly positively reviewed new book that formalizes in almost mathematical fashion what diversity is good for (I haven’t read it yet). The classical work on the matter is “The Wisdom of crowds”.
+Excerpt from the initial article: “Raymond was clear on that point when, toward the end of his paper, he examined some of the “necessary preconditions” for the bazaar model of production.</description>
+    </item>
+    
+    <item>
+      <title>Homeowner association transcripts</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-08-18-homeowner-association-transcripts/</link>
+      <pubDate>Wed, 18 Aug 2004 12:19:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-08-18-homeowner-association-transcripts/</guid>
+      <description>Does anyone know if the homeowner association president for a condominium complex is legally forced to give the transcripts of their meetings to prospective buyers?
+It is quite funny, the lady in charge just doesn&amp;rsquo;t want to talk to me. I know, I know, I shouldn&amp;rsquo;t buy that condo then love over reason</description>
+    </item>
+    
+    <item>
+      <title>My first (and last?) post</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-07-27-my-first-and-last-post/</link>
+      <pubDate>Tue, 27 Jul 2004 14:18:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-07-27-my-first-and-last-post/</guid>
+      <description>Hello folks, My crazy coworkers finally convinced me to get my own blog. They think I&#39;ll say something funny, but I won&#39;t - so don&#39;t link to me - it&#39;s probably not worth it. For the few perseverant ones, here is what I plan to talk about: object orientation, c#, sports, financial stuff and books (not in that order). See you later. &amp;nbsp; BTW: strange how this blog thing reduces the complexity of one&#39;s personality to a bunch of categories on the left of the screen </description>
+    </item>
+    
+    <item>
+      <title>Here I am.</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-07-27-here-i-am/</link>
+      <pubDate>Tue, 27 Jul 2004 13:59:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-07-27-here-i-am/</guid>
+      <description>I&amp;rsquo;m Luca Bolognese.
+I&amp;rsquo;m the Principal Group Program Manager for the C#, VB and F# languages, compilers and IDEs. Before that, I was the LINQ guy. Before that, I was the ObjectSpaces guy.
+In my spare time, I read a lot of books. I mean: a lot. I&amp;rsquo;m not sure how much I retain. I also try to keep some form of physical shape by playing sports and walking.
+All in all, I try to recreate my own Italian lifestyle in the Kirkland area.</description>
+    </item>
+    
+  </channel>
+</rss>

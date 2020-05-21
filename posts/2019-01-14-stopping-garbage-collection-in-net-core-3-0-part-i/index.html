@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Scenario Thanks to Mike for reviewing this.
+You have an application or a particular code path of your application that cannot take the pauses that GC creates. Typical examples are real time systems, tick by tick financial apps, embedded systems, etc &amp;hellip;
+Disclaimer For any normal kind of applications, YOU DON&amp;rsquo;T NEED TO DO THIS. You are likely to make your application run slower or blow up memory. If you have an hot path in your application (i.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Stopping Garbage Collection in .NET Core 3.0 (part I) | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2019/01/01</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Stopping Garbage Collection in .NET Core 3.0 (part I)
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<h2 id="scenario">Scenario</h2>
+<p>Thanks to <a href="https://github.com/mjrousos">Mike</a> for reviewing this.</p>
+<p>You have an application or a particular code path of your application that cannot take the pauses that GC creates.
+Typical examples are real time systems, tick by tick financial apps, embedded systems, etc &hellip;</p>
+<h2 id="disclaimer">Disclaimer</h2>
+<p>For any normal kind of applications, <em>YOU DON&rsquo;T NEED TO DO THIS</em>. You are likely to make your application run slower or blow up memory.
+If you have an hot path in your application (i.e. you are creating an editor with Intellisense), use the GC latency modes.
+Use the code below just under extreme circumstance as it is untested, error prone and wacky.
+You are probably better off waiting for an official way of doing it (i.e. when <a href="https://github.com/dotnet/coreclr/issues/21750">this</a>
+is implemented)</p>
+<h2 id="the-problem-with-trystartnogcregion">The problem with TryStartNoGCRegion</h2>
+<p>There is a GC.TryStartNoGCRegion in .NET. You can use it to stop garbage collection passing a totalBytes parameter that represents
+the maximum amount of memory  that you plan to allocate from the managed heap. Matt describes it
+<a href="https://mattwarren.org/2016/08/16/Preventing-dotNET-Garbage-Collections-with-the-TryStartNoGCRegion-API/">here</a>.</p>
+<p>The problem is that when/if you allocate more than that, garbage collection resumes silently. Your application continues to work,
+but with different performance characteristics from what you expected.</p>
+<h2 id="the-idea">The idea</h2>
+<p>The main idea is to use <a href="https://docs.microsoft.com/en-us/windows/desktop/etw/about-event-tracing">ETW events</a> to detect when a
+GC occurs and to call an user provided delegate at that point. You can then do whatever you want in the delegate (i.e. shutdown the process,
+send email to support, start another NoGC region, etc&hellip;).</p>
+<p>Also, I have wrapped the whole StartNoGCRegion/EndNoGCRegion in an IDisposable wrapper for easy of use.</p>
+<h2 id="the-tests">The tests</h2>
+<p>Let&rsquo;s start by looking at how you use it.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">using</span> <span style="color:#555">Xunit</span>;
+<span style="font-weight:bold">using</span> <span style="color:#555">System.Threading</span>;
+
+<span style="font-weight:bold">namespace</span> <span style="color:#555">LNativeMemory.Tests</span>
+{
+
+    <span style="color:#998;font-style:italic">// XUnit executes all tests in a class sequentially, so no problem with multi-threading calls to GC
+</span><span style="color:#998;font-style:italic"></span>    <span style="font-weight:bold">public</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">GC2Tests</span>
+    {
+</code></pre></div><p>We need to use a timer to maximize the chances that a GC happens in some of the tests. Also we allocate an amount that should
+work in all GC configuration as per the article above. <code>trigger</code> is a static field so as to stay zero-allocation
+(otherwise the delegate will have to capture the a local <code>trigger</code> variable creating a heap allocated closure).
+Not that it matters any to be zero-allocation in this test, but I like to keep
+<a href="https://github.com/Microsoft/RoslynClrHeapAllocationAnalyzer">ClrHeapAllocationAnalyzer</a> happy.</p>
+<p>BTW: XUnit executes all tests in a class sequentially, so no problem with multi-threading calls to GC.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">        <span style="font-weight:bold">const</span> <span style="color:#458;font-weight:bold">int</span> sleepTime = <span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span>;
+        <span style="font-weight:bold">const</span> <span style="color:#458;font-weight:bold">int</span> totalBytes = <span style="color:#099">1</span><span style="color:#099">6</span> * <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">2</span><span style="color:#099">4</span> * <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">2</span><span style="color:#099">4</span>;
+        <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> triggered = <span style="font-weight:bold">false</span>;
+
+
+</code></pre></div><p>First we test that any allocation that doesn&rsquo;t exceed the limit doesn&rsquo;t trigger the call to action.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">        [Fact]</span>
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> NoAllocationBeforeLimit()
+        {
+            <span style="font-weight:bold">try</span>
+            {
+                triggered = <span style="font-weight:bold">false</span>;
+                <span style="color:#458;font-weight:bold">var</span> succeeded = GC2.TryStartNoGCRegion(totalBytes, () =&gt; triggered = <span style="font-weight:bold">true</span>);
+                Assert.True(succeeded);
+                Thread.Sleep(sleepTime);
+                Assert.False(triggered);
+
+                <span style="color:#458;font-weight:bold">var</span> bytes = <span style="font-weight:bold">new</span> <span style="color:#458;font-weight:bold">byte</span>[<span style="color:#099">9</span><span style="color:#099">9</span>];
+                Thread.Sleep(sleepTime);
+                Assert.False(triggered);
+            }
+            <span style="font-weight:bold">finally</span>
+            {
+                GC2.EndNoGCRegion();
+                triggered = <span style="font-weight:bold">false</span>;
+            }
+        }
+</code></pre></div><p>Then we test that allocating over the limit does trigger the action. To do so we need to trigger a garbage collection.
+Out best attempt is with the goofy for loop. If you got a better idea, shout.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">        [Fact]</span>
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> AllocatingOverLimitTriggersTheAction()
+        {
+            <span style="font-weight:bold">try</span>
+            {
+                triggered = <span style="font-weight:bold">false</span>;
+                <span style="color:#458;font-weight:bold">var</span> succeeded = GC2.TryStartNoGCRegion(totalBytes, () =&gt; triggered = <span style="font-weight:bold">true</span>);
+                Assert.True(succeeded);
+                Assert.False(triggered);
+
+                <span style="font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">var</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">3</span>; i++) { <span style="color:#458;font-weight:bold">var</span> k = <span style="font-weight:bold">new</span> <span style="color:#458;font-weight:bold">byte</span>[totalBytes]; }
+
+                Thread.Sleep(sleepTime);
+                Assert.True(triggered);
+            }
+            <span style="font-weight:bold">finally</span>
+            {
+                GC2.EndNoGCRegion();
+                triggered = <span style="font-weight:bold">false</span>;
+            }
+        }
+</code></pre></div><p>We also test that we can go back and forth between starting and stopping without messing things up.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">        [Fact]</span>
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> CanCallMultipleTimes()
+        {
+
+            <span style="font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">3</span>; i++)
+            {
+                NoAllocationBeforeLimit();
+            }
+        }
+</code></pre></div><p>And lastly, we make sure that we can use our little wrapper function, just to be sure everything works.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">        [Fact]</span>
+        <span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> CanUseNoGCRegion()
+        {
+            triggered = <span style="font-weight:bold">false</span>;
+            <span style="font-weight:bold">using</span> (<span style="font-weight:bold">new</span> NoGCRegion(totalBytes, () =&gt; triggered = <span style="font-weight:bold">true</span>))
+            {
+                <span style="font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">var</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">3</span>; i++) { <span style="color:#458;font-weight:bold">var</span> k = <span style="font-weight:bold">new</span> <span style="color:#458;font-weight:bold">byte</span>[totalBytes]; }
+                Thread.Sleep(sleepTime);
+                Assert.True(triggered);
+                triggered = <span style="font-weight:bold">false</span>;
+            }
+        }
+    }
+}
+</code></pre></div>
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/csharp">csharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    <nav id="TableOfContents">
+    <ul>
+        
+
+        
+        <li>
+        <a href="#scenario">Scenario</a>
+        
+
+        
+        </li><li>
+            <a href="#disclaimer">Disclaimer</a>
+        
+
+        
+        </li><li>
+            <a href="#the-problem-with-trystartnogcregion">The problem with TryStartNoGCRegion</a>
+        
+
+        
+        </li><li>
+            <a href="#the-idea">The idea</a>
+        
+
+        
+        </li><li>
+            <a href="#the-tests">The tests</a>
+    </li></ul>
+</nav>
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

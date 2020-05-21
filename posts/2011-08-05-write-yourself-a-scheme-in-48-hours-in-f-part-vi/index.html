@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="The evaluator takes as an input a LispVal. Where does it come from? There must be something that converts your textual input into it. That is the job of the parser.
+I have used FParsec to build my parser. FParsec is a fantastic library to build parsers. It is a perfect showcase of the composition potential that functional code yields. When you write an FParsec parser you compose many little parsers to create the one parser that works for your language.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Write Yourself a Scheme in 48 Hours in F# – Part VI | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2011/08/08</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Write Yourself a Scheme in 48 Hours in F# – Part VI
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>The evaluator takes as an input a <em>LispVal</em>. Where does it come from? There must be something that converts your textual input into it. That is the job of the parser.</p>
+<p>I have used <a href="http://www.quanttec.com/fparsec/">FParsec</a> to build my parser. FParsec is a fantastic library to build parsers. It is a perfect showcase of the composition potential that functional code yields. </p>
+<p>When you write an FParsec parser you compose many little parsers to create the one parser that works for your language.  The resulting code looks very much like your language grammar, but you don’t need  a separate code generation compilation step to produce it.</p>
+<p>There is one element of ugliness in the syntax to create recursive parsers. You need to define two global variables that can be referred to before they are constructed. This is an artefact of how F# works. So you need a line in your code that looks like this:</p>
+<pre class="code"><span style="color:blue;">let </span>parseExpr, parseExprRef : LispParser * LispParser ref = createParserForwardedToRef()</pre>
+<p>With that piece of machinery out of the way, we can focus on the parser itself. Our goal here is to parse expressions and generate <em>LispVal</em>. We need a <em>LispParser</em> like the below (the second generic parameter is for advanced usage).</p>
+<pre class="code"><span style="color:blue;">type </span>LispParser = Parser&lt;LispVal, unit&gt;</pre>
+<p>We need to parse all the kind of expressions that the user can type. Notice in the below the use of a computation expression to simplify the syntax. Also note that lists and dotted lists look very much the same until you encounter the ‘.’ character. You could disambiguate the situation by extracting out the commonality in a separate kind of expression. I decided instead to instruct the parser to backtrack if it gets it wrong (<em>attempt</em>). This is slower, but keeps the code identical to our conceptual model. I value that greatly.</p>
+<pre class="code"><span style="color:blue;">do </span>parseExprRef := parseAtom
+                   &lt;|&gt; parseString
+                   &lt;|&gt; parseNumber
+                   &lt;|&gt; parseQuoted
+                   &lt;|&gt; parse {
+                           <span style="color:blue;">do! </span>chr <span style="color:maroon;">'('
+                           </span><span style="color:blue;">let! </span>x = (attempt parseList) &lt;|&gt; parseDottedList
+                           <span style="color:blue;">do! </span>chr <span style="color:maroon;">')'
+                           </span><span style="color:blue;">return </span>x
+                       }</pre>
+<p>Let’s start from the top. Parsing an atom means parsing something that starts with a letter or symbol and continues with letters, symbols or digits. Also “#t” and “#f” can be resolved at parsing time.</p>
+<pre class="code"><span style="color:blue;">let </span>parseAtom : LispParser = parse {
+        <span style="color:blue;">let! </span>first = letter &lt;|&gt; symbol
+        <span style="color:blue;">let! </span>rest = manyChars (letter &lt;|&gt; symbol &lt;|&gt; digit)
+        <span style="color:blue;">return match </span>first.ToString() + rest <span style="color:blue;">with
+               </span>| <span style="color:maroon;">"#t" </span><span style="color:blue;">-&gt; </span>Bool <span style="color:blue;">true
+               </span>| <span style="color:maroon;">"#f" </span><span style="color:blue;">-&gt; </span>Bool <span style="color:blue;">false
+               </span>| atom <span style="color:blue;">-&gt; </span>Atom atom
+}</pre>
+<p>A string is just a bunch of chars (except ‘\’) surrounded by ‘ ” ’.</p>
+<pre class="code"><span style="color:blue;">let </span>parseString : LispParser = parse {
+    <span style="color:blue;">do! </span>chr <span style="color:maroon;">'"'
+    </span><span style="color:blue;">let! </span>xs = manyChars (noneOf <span style="color:maroon;">"\""</span>)
+    <span style="color:blue;">do! </span>chr <span style="color:maroon;">'"'
+    </span><span style="color:blue;">return </span>String(xs)
+}</pre>
+<p>A number is just one or more digits. I am afraid we just support integers at this stage …</p>
+<pre class="code"><span style="color:blue;">let </span>parseNumber : LispParser = many1Chars digit |&gt;&gt; (System.Int32.Parse &gt;&gt; Number)</pre>
+<p>A quoted expression is jut a ‘\’ followed by an expression.</p>
+<pre class="code"><span style="color:blue;">let </span>parseQuoted : LispParser = chr <span style="color:maroon;">'\'' </span>&gt;&gt;. parseExpr |&gt;&gt; <span style="color:blue;">fun </span>expr <span style="color:blue;">-&gt; </span>List [Atom <span style="color:maroon;">"quote"</span>; expr] </pre>
+<p>A list is just a bunch of expressions separate by at least one space.</p>
+<pre class="code"><span style="color:blue;">let </span>parseList : LispParser = sepBy parseExpr spaces1 |&gt;&gt; List</pre>
+<p>A dotted list starts in the same way (hence the backtracking above), but then has a dot, one or more spaces and an expression.</p>
+<pre class="code"><span style="color:blue;">let </span>parseDottedList : LispParser = parse {
+    <span style="color:blue;">let! </span>head = endBy parseExpr spaces1
+    <span style="color:blue;">let! </span>tail = chr <span style="color:maroon;">'.' </span>&gt;&gt;. spaces1 &gt;&gt;. parseExpr
+    <span style="color:blue;">return </span>DottedList (head, tail)
+}</pre>
+<p>And here are a bunch of functions used throughout the code, presented here for completeness.</p>
+<pre class="code"><span style="color:blue;">let </span>spaces1 : LispParser&lt;unit&gt; = skipMany1 whitespace
+    <span style="color:blue;">let </span>chr c = skipChar c
+    <span style="color:blue;">let </span>endBy  p sep = many  (p .&gt;&gt; sep)
+    <span style="color:blue;">let </span>symbol : LispParser&lt;char&gt; = anyOf <span style="color:maroon;">"!$%&|*+-/:&lt;=&gt;?@^_~#"
+</span></pre>
+<p>This is all the code you need to translate text to a <em>LispVal</em> to feed the evaluator. That is pretty impressive.</p>
+<p>There is also a function to go the other way, from a LispVal to text. It is used in implementing the testcases and to print out diagnostics.</p>
+<pre class="code"><span style="color:blue;">let rec </span>showVal = <span style="color:blue;">function
+        </span>| String contents <span style="color:blue;">-&gt; </span><span style="color:maroon;">"\"" </span>+ contents + <span style="color:maroon;">"\""
+        </span>| Atom name <span style="color:blue;">-&gt; </span>name
+        | Number num <span style="color:blue;">-&gt; </span>num.ToString()
+        | Bool t <span style="color:blue;">-&gt; if </span>t <span style="color:blue;">then </span><span style="color:maroon;">"#t" </span><span style="color:blue;">else </span><span style="color:maroon;">"#f"
+        </span>| List l <span style="color:blue;">-&gt; </span><span style="color:maroon;">"(" </span>+ unwordsList l + <span style="color:maroon;">")"
+        </span>| DottedList (head, tail) <span style="color:blue;">-&gt; </span><span style="color:maroon;">"(" </span>+ unwordsList head + <span style="color:maroon;">" . " </span>+ showVal tail + <span style="color:maroon;">")"
+        </span>| PrimitiveFunc(_) <span style="color:blue;">-&gt; </span><span style="color:maroon;">"&lt;primitive&gt;"
+        </span>| Port (_) <span style="color:blue;">-&gt; </span><span style="color:maroon;">"&lt;IO port&gt;"
+        </span>| Func({ parms = parms; varargs = varargs; body = body; closure = closure }) <span style="color:blue;">-&gt;
+                                                </span><span style="color:maroon;">"(lambda (" </span>+ unwordsList (parms |&gt; List.map (String)) +
+                                                    (<span style="color:blue;">match </span>varargs <span style="color:blue;">with
+                                                        </span>| None <span style="color:blue;">-&gt; </span><span style="color:maroon;">""
+                                                        </span>| Some(arg) <span style="color:blue;">-&gt; </span><span style="color:maroon;">" . " </span>+ arg) + <span style="color:maroon;">") ...)"
+    </span><span style="color:blue;">and
+        </span>unwordsList = List.map showVal &gt;&gt; String.concat <span style="color:maroon;">" "
+</span></pre>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+            <li><a href="../../MyBlog/tags/lambda-expressions">Lambda expressions</a></li>
+        
+            <li><a href="../../MyBlog/tags/parsing">Parsing</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

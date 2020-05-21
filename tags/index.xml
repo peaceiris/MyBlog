@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Lucabol blog</title>
+    <link>http://peaceiris.com/MyBlog/tags/</link>
+    <description>Recent content in Tags on Lucabol blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 11 May 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://peaceiris.com/MyBlog/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Functional Programming</title>
+      <link>http://peaceiris.com/MyBlog/tags/functional-programming/</link>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/functional-programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>racket</title>
+      <link>http://peaceiris.com/MyBlog/tags/racket/</link>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/racket/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>typography</title>
+      <link>http://peaceiris.com/MyBlog/tags/typography/</link>
+      <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/typography/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devtest-labs</title>
+      <link>http://peaceiris.com/MyBlog/tags/devtest-labs/</link>
+      <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/devtest-labs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lab-services</title>
+      <link>http://peaceiris.com/MyBlog/tags/lab-services/</link>
+      <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/lab-services/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>csharp</title>
+      <link>http://peaceiris.com/MyBlog/tags/csharp/</link>
+      <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/csharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Financial</title>
+      <link>http://peaceiris.com/MyBlog/tags/financial/</link>
+      <pubDate>Fri, 31 Oct 2014 08:11:13 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/financial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>C</title>
+      <link>http://peaceiris.com/MyBlog/tags/c/</link>
+      <pubDate>Wed, 20 Mar 2013 15:29:05 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fsharp</title>
+      <link>http://peaceiris.com/MyBlog/tags/fsharp/</link>
+      <pubDate>Wed, 20 Mar 2013 15:29:05 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Literate programming</title>
+      <link>http://peaceiris.com/MyBlog/tags/literate-programming/</link>
+      <pubDate>Wed, 20 Mar 2013 15:29:05 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/literate-programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>http://peaceiris.com/MyBlog/tags/c&#43;&#43;/</link>
+      <pubDate>Fri, 01 Jun 2012 06:45:26 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Lambda expressions</title>
+      <link>http://peaceiris.com/MyBlog/tags/lambda-expressions/</link>
+      <pubDate>Fri, 16 Sep 2011 06:57:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/lambda-expressions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Parsing</title>
+      <link>http://peaceiris.com/MyBlog/tags/parsing/</link>
+      <pubDate>Fri, 16 Sep 2011 06:57:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/parsing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Miscellanea</title>
+      <link>http://peaceiris.com/MyBlog/tags/miscellanea/</link>
+      <pubDate>Wed, 31 Mar 2010 20:50:32 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/miscellanea/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VB</title>
+      <link>http://peaceiris.com/MyBlog/tags/vb/</link>
+      <pubDate>Mon, 23 Nov 2009 13:17:44 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/vb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Statistics</title>
+      <link>http://peaceiris.com/MyBlog/tags/statistics/</link>
+      <pubDate>Mon, 19 Jan 2009 11:48:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/statistics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Books</title>
+      <link>http://peaceiris.com/MyBlog/tags/books/</link>
+      <pubDate>Mon, 07 Jan 2008 14:04:22 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/books/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sport</title>
+      <link>http://peaceiris.com/MyBlog/tags/sport/</link>
+      <pubDate>Mon, 13 Aug 2007 20:42:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/sport/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Object Orientation</title>
+      <link>http://peaceiris.com/MyBlog/tags/object-orientation/</link>
+      <pubDate>Fri, 06 Aug 2004 09:05:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/tags/object-orientation/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

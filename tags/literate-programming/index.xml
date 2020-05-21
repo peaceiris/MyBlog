@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Literate programming on Lucabol blog</title>
+    <link>http://peaceiris.com/MyBlog/tags/literate-programming/</link>
+    <description>Recent content in Literate programming on Lucabol blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Mar 2013 15:29:05 +0000</lastBuildDate>
+    
+	<atom:link href="http://peaceiris.com/MyBlog/tags/literate-programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Funky C for literate programming</title>
+      <link>http://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</link>
+      <pubDate>Wed, 20 Mar 2013 15:29:05 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</guid>
+      <description>Main ideas This is a port of LLIte in C. The reason for it is to experiment with writing functional code in standard C and compare the experience with using a functional language like F#. It is in a way a continuation of my previous posts on the topic.
+I will be using glib and an header of convenient macros/functions to help me (lutils.h). I don’t think that is cheating. Any modern C praticoner has its bag of tricks …</description>
+    </item>
+    
+    <item>
+      <title>LLite : language friendly literate programming</title>
+      <link>http://peaceiris.com/MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/</link>
+      <pubDate>Fri, 14 Dec 2012 12:29:26 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/</guid>
+      <description>Main ideas My interest in literate programming comes from some realizations on my part:
+ When I go back to code that I have written some time ago, I don&amp;rsquo;t remember my reasoning When I write a blog post, my code seems to be better. Perhaps explaining things to people encourages me to be more precise I like to think top down, but the compiler forces me to write code bottom up, starting from details and going to higher level concepts  Unhappiness with existing tools Many of the existing literate programming tools work similarly to the original CWeb.</description>
+    </item>
+    
+  </channel>
+</rss>

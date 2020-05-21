@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Now we know how to represent records and we know how to operate on them using a nice F# like syntax. But how do we store our record in a data structure in the first place?
+Code for this post is here. Thanks to Andy Sawyer and Steve Bower for reviewing this.
+As it is often the case, C&#43;&#43; gives you many options that are not available in standard functional languages.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Writing functional code in C&#43;&#43; III – Performance of different allocation schemes | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2012/04/04</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Writing functional code in C&#43;&#43; III – Performance of different allocation schemes
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Now we know how to represent records and we know how to operate on them using a nice F# like syntax. But how do we store our record in a data structure in the first place?</p>
+<p>Code for this post is <a href="https://github.com/lucabol/TestPointersCPP">here</a>. Thanks to Andy Sawyer and Steve Bower for reviewing this.</p>
+<p>As it is often the case, C++ gives you many options that are not available in standard functional languages. A mixed blessing of some sort.</p>
+<ol>
+<li>You can store them by value or by pointer</li>
+<li>If you store them by pointer, you can use normal pointers or smart pointers</li>
+<li>If you store them by smart pointer, you can use different ones</li>
+</ol>
+<p>Well, storing them by value is the simplest option, but it has two shortcomings:</p>
+<ol>
+<li>You pay the price of a full record copy whenever the object need to be copied (i.e. when you add/remove records to/from a vector and whenever the vector needs to resize itself)</li>
+<li>If you store a record in two containers, you get two different copies of it. If you modify one, the other won’t be modified</li>
+</ol>
+<p>The second issue is not a problem in our scenario as records, by definition, are immutable and structurally equivalent (aka equality for them doesn’t mean pointer equality). The first issue is more tricky. Our records get a copy constructor by default which does a ‘memcpy’ of the object. That should be fast. But fast enough?</p>
+<p>To answer this question (and more), I embarked in a little performance test that encompasses most ways to store a pod type in an vector like data structure. For all my test I used this struct:</p>
+<pre class="code"><span style="background:white;color:blue;">struct </span><span style="background:white;color:#2b91af;">Record </span><span style="background:white;color:black;">{
+    </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">Id;
+    </span><span style="background:white;color:blue;">char </span><span style="background:white;color:black;">k1[2];
+    </span><span style="background:white;color:blue;">char </span><span style="background:white;color:black;">k2[2];
+    </span><span style="background:white;color:blue;">char </span><span style="background:white;color:black;">k3[2];
+    </span><span style="background:white;color:blue;">char </span><span style="background:white;color:black;">k4[2];
+    </span><span style="background:white;color:blue;">char </span><span style="background:white;color:black;">k5[2];
+    </span><span style="background:white;color:blue;">char </span><span style="background:white;color:black;">k6[2];
+    </span><span style="background:white;color:blue;">char </span><span style="background:white;color:black;">mem[bigBlock];
+    </span><span style="background:white;color:blue;">void </span><span style="background:white;color:black;">Lock() {}
+    </span><span style="background:white;color:blue;">void </span><span style="background:white;color:black;">Unlock() {}
+};</span></pre>
+<p><span style="background:white;color:black;">By recompiling with different values for ‘bigBlock’ I can test what happens when the record size grows. In all tests a record is initialized with this function:</span></p>
+<pre class="code"><span style="background:white;color:blue;">void </span><span style="background:white;color:black;">record_init(</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">& </span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">) {
+    </span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.Id = </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">;
+    strcpy(</span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.k1, </span><span style="background:white;color:maroon;">"0"</span><span style="background:white;color:black;">);
+    strcpy(</span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.k2, </span><span style="background:white;color:maroon;">"0"</span><span style="background:white;color:black;">);
+    strcpy(</span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.k3, </span><span style="background:white;color:maroon;">"0"</span><span style="background:white;color:black;">);
+    strcpy(</span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.k4, </span><span style="background:white;color:maroon;">"0"</span><span style="background:white;color:black;">);
+    strcpy(</span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.k5, </span><span style="background:white;color:maroon;">"0"</span><span style="background:white;color:black;">);
+    strcpy(</span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.k6, </span><span style="background:white;color:maroon;">"0"</span><span style="background:white;color:black;">);
+    memset(</span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.mem, </span><span style="background:white;color:maroon;">'-'</span><span style="background:white;color:black;">, bigBlock);
+}</span></pre>
+<p><span style="background:white;color:black;">The tests are specific to the scenario I care about: performing functional-like operations on a Range:</span></p>
+<pre class="code"><span style="background:white;color:blue;">struct </span><span style="background:white;color:#2b91af;">to_int </span><span style="background:white;color:black;">{
+    </span><span style="background:white;color:blue;">typedef int </span><span style="background:white;color:#2b91af;">result_type</span><span style="background:white;color:black;">;
+    </span><span style="background:white;color:blue;">int operator</span><span style="background:white;color:black;">() (</span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">& </span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">) </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">{
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.Id;
+    };
+};
+</span><span style="background:white;color:#2b91af;">function</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">bool </span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">&)&gt; filter_f = [](</span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">& </span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">) {</span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">.Id &lt; filterNo;};
+</span><span style="background:white;color:blue;">template </span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">class </span><span style="background:white;color:#2b91af;">Range</span><span style="background:white;color:black;">&gt;
+</span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">accumulate_filter(</span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">Range</span><span style="background:white;color:black;">& </span><span style="background:white;color:gray;">r</span><span style="background:white;color:black;">) {
+    </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">boost::accumulate(
+        </span><span style="background:white;color:gray;">r </span><span style="background:white;color:black;">| filtered(filter_f) | transformed(</span><span style="background:white;color:#2b91af;">to_int</span><span style="background:white;color:black;">()),
+        0,
+        </span><span style="background:white;color:#2b91af;">plus</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">int</span><span style="background:white;color:black;">&gt;());
+}</span></pre>
+<p><span style="background:white;color:black;">The usage of a function and  a functor is a bit odd. I don’t recall why I did it that way, but it doesn’t matter as it is the same for each test. What the test does is just filtering a bunch of record, transforming them (map) to ints and sum these ints.</span></p>
+<p><span style="background:white;color:black;">How many repetitions of each test are used, how big is the record, how many records the Range contains is specified in these constants:</span></p>
+<pre class="code"><span style="background:white;color:blue;">const int </span><span style="background:white;color:black;">repetitions = 1000;
+</span><span style="background:white;color:blue;">const int </span><span style="background:white;color:black;">bigBlock = 1000;
+</span><span style="background:white;color:blue;">const int </span><span style="background:white;color:black;">howMany = 1000;</span></pre>
+<p><span style="background:white;color:black;">Time is kept using this clock that wraps boost::chrono:</span></p>
+<pre class="code"><span style="background:white;color:blue;">typedef </span><span style="background:white;color:black;">boost::chrono::</span><span style="background:white;color:#2b91af;">process_cpu_clock the_clock</span><span style="background:white;color:black;">;
+</span><span style="background:white;color:blue;">struct </span><span style="background:white;color:#2b91af;">timer </span><span style="background:white;color:black;">{
+    timer(): clock_(</span><span style="background:white;color:#2b91af;">the_clock</span><span style="background:white;color:black;">::now()) {}
+    </span><span style="background:white;color:#2b91af;">the_clock</span><span style="background:white;color:black;">::</span><span style="background:white;color:#2b91af;">times </span><span style="background:white;color:black;">elapsed() {
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">(</span><span style="background:white;color:#2b91af;">the_clock</span><span style="background:white;color:black;">::now() - clock_).count();
+    }
+    </span><span style="background:white;color:#2b91af;">the_clock</span><span style="background:white;color:black;">::</span><span style="background:white;color:#2b91af;">time_point </span><span style="background:white;color:black;">clock_;
+};</span></pre>
+<p><span style="background:white;color:black;">I have tested the following configurations. Adding records by value:</span></p>
+<pre class="code"><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">normal() {
+    </span><span style="background:white;color:#2b91af;">vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">&gt; v;
+    </span><span style="background:white;color:blue;">for </span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">i = 0; i &lt; howMany; ++i) {
+        </span><span style="background:white;color:#2b91af;">Record </span><span style="background:white;color:black;">r;
+        record_init(r, i);
+        v.push_back(r);
+    }
+    </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">accumulate_filter(v);
+}</span></pre>
+<p><span style="background:white;color:black;">I then tested adding records using a pod_vector. This is a data structure described <a href="http://www.stlsoft.org/doc-1.9/classstlsoft_1_1pod__vector.html">here</a> and in “<a href="http://www.google.co.uk/url?sa=t&rct=j&q=imperfect%20c%2B%2B%20amazon&source=web&cd=1&ved=0CCoQFjAA&url=http%3A%2F%2Fwww.amazon.co.uk%2FImperfect-Practical-Solutions-Real-Life-Programming%2Fdp%2F0321228774&ei=JfN6T8PsFNS3hAesgbk8&usg=AFQjCNH4jd3EOoC933wZ5n2hzTSfObxLdw">Imperfect C++”.</a> It is a vector that uses as an <a href="http://www.stlsoft.org/doc-1.9/classstlsoft_1_1auto__buffer.html">auto_buffer</a> as the underlying storage. An auto_buffer is a class that uses stack memory if it needs more than a certain number of bytes specified at compile time, otherwise it uses heap memory. It works well if you know at compile time that most allocations for something take at most N bytes, but some might need more. This situation is surprisingly frequent. Unfortunately, your objects need to be <a href="http://stackoverflow.com/questions/146452/what-are-pod-types-in-c">POD</a> to use the pod_vector.</span></p>
+<p><span style="background:white;color:black;">I tested it in the case where the stack space is big enough (podVector&lt;howMany*2&gt;) and when it is not (podVector&lt;howMany/10&gt;).</span></p>
+<pre class="code"><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">podVector() {
+    </span><span style="background:white;color:#2b91af;">pod_vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">,</span><span style="background:white;color:black;"> size&gt; v;
+    </span><span style="background:white;color:blue;">for </span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">i = 0; i &lt; howMany; ++i) {
+        </span><span style="background:white;color:#2b91af;">Record </span><span style="background:white;color:black;">r;
+        record_init(r, i);
+        v.push_back(r);
+    }
+    </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">accumulate_filter(v);
+}</span></pre>
+<p><span style="background:white;color:black;">I then tested just allocating the memory, without freeing it and using <a href="http://www.boost.org/doc/libs/1_49_0/libs/pool/doc/html/index.html">boost::pool</a> in it’s ‘local’ form, which means that memory is freed when it goes out of scope (stack-like). The main drawback of the latter is that you cannot return the container/range.</span></p>
+<pre class="code"><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">boostallocator(</span><span style="background:white;color:#2b91af;">WhichOne </span><span style="background:white;color:gray;">which</span><span style="background:white;color:black;">) {
+    boost::</span><span style="background:white;color:#2b91af;">pool</span><span style="background:white;color:black;">&lt;&gt; p(</span><span style="background:white;color:blue;">sizeof</span><span style="background:white;color:black;">(</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">));
+    </span><span style="background:white;color:#2b91af;">vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">*&gt; v;
+    </span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">* r;
+    </span><span style="background:white;color:blue;">for </span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">i = 0; i &lt; howMany; ++i) {
+        </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(</span><span style="background:white;color:gray;">which </span><span style="background:white;color:black;">== </span><span style="background:white;color:#2f4f4f;">Boost</span><span style="background:white;color:black;">)
+            r = (</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">*)p.malloc(); </span><span style="background:white;color:green;">// memory freed at function exit
+        </span><span style="background:white;color:blue;">else
+            </span><span style="background:white;color:black;">r = </span><span style="background:white;color:blue;">new </span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">; </span><span style="background:white;color:green;">// oops, memory leak
+        </span><span style="background:white;color:black;">record_init(*r, i);
+        v.push_back(r);
+    }
+    </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">accumulate_filter(v | indirected);
+}</span></pre>
+<p>Indirected is needed because we are not talking about pointers. I also tested various variations of shared pointers. First a normal shared_ptr, then a shared_ptr initialized with the boost::singleton_pool and finally a pointer initialized with make_shared.</p>
+<pre class="code"><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">pointers(</span><span style="background:white;color:#2b91af;">WhichOne </span><span style="background:white;color:gray;">which</span><span style="background:white;color:black;">) {
+    </span><span style="background:white;color:#2b91af;">vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">shared_ptr</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">&gt;&gt; v;
+    </span><span style="background:white;color:blue;">for </span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">i = 0; i &lt; howMany; ++i) {
+        </span><span style="background:white;color:#2b91af;">shared_ptr</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">&gt; r;
+        </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(</span><span style="background:white;color:gray;">which </span><span style="background:white;color:black;">== </span><span style="background:white;color:#2f4f4f;">Normal</span><span style="background:white;color:black;">)
+            r = </span><span style="background:white;color:#2b91af;">shared_ptr</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">&gt;(</span><span style="background:white;color:blue;">new </span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">);
+        </span><span style="background:white;color:blue;">else if</span><span style="background:white;color:black;">(</span><span style="background:white;color:gray;">which </span><span style="background:white;color:black;">== </span><span style="background:white;color:#2f4f4f;">Boost</span><span style="background:white;color:black;">)
+            r = </span><span style="background:white;color:#2b91af;">shared_ptr</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">&gt;((</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">*)</span><span style="background:white;color:#2b91af;">record_pool</span><span style="background:white;color:black;">::malloc(), [](</span><span style="background:white;color:blue;">void</span><span style="background:white;color:black;">* </span><span style="background:white;color:gray;">p</span><span style="background:white;color:black;">) {</span><span style="background:white;color:#2b91af;">record_pool</span><span style="background:white;color:black;">::free(</span><span style="background:white;color:gray;">p</span><span style="background:white;color:black;">);});
+        </span><span style="background:white;color:blue;">else if</span><span style="background:white;color:black;">(</span><span style="background:white;color:gray;">which </span><span style="background:white;color:black;">== </span><span style="background:white;color:#2f4f4f;">Make</span><span style="background:white;color:black;">)
+            r = make_shared&lt;</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">&gt;();
+        </span><span style="background:white;color:blue;">else throw </span><span style="background:white;color:maroon;">"This kind of pointer doesn't exist"</span><span style="background:white;color:black;">;
+        record_init(*r, i);
+        v.push_back(r);
+    }
+    </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">accumulate_filter(v | indirected);
+}</span></pre>
+<p>Finally, I used a <a href="http://www.google.co.uk/url?sa=t&amp;rct=j&amp;q=loki%20c%2B%2B%20smart%20pointer&amp;source=web&amp;cd=3&amp;ved=0CDUQFjAC&amp;url=http%3A%2F%2Floki-lib.sourceforge.net%2Fhtml%2Fa00528.html&amp;ei=-_d6T7awDo2whAeO7qVY&amp;usg=AFQjCNGwub9irghuNNlMzQCmgHLrbkG66Q">Loki smart pointer</a>. This is a very elegantly designed smart pointers from  “<a href="http://www.amazon.co.uk/s/ref=nb_sb_noss/278-0149531-8020334?url=search-alias%3Daps&amp;field-keywords=alexandrescu+c%2B%2B+modern">Modern C++ design</a>”. You pass as template parameters the policies you want your smart pointer to have (aka how it should behave). I tested it like so:</p>
+<pre class="code"><span style="background:white;color:blue;">typedef </span><span style="background:white;color:black;">Loki::</span><span style="background:white;color:#2b91af;">SmartPtr</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">,
+                 Loki::</span><span style="background:white;color:#2b91af;">RefCounted</span><span style="background:white;color:black;">,
+                 Loki::</span><span style="background:white;color:#2b91af;">DisallowConversion</span><span style="background:white;color:black;">,
+                 Loki::</span><span style="background:white;color:#2b91af;">AssertCheck</span><span style="background:white;color:black;">,
+                 Loki::</span><span style="background:white;color:#2b91af;">DefaultSPStorage</span><span style="background:white;color:black;">,
+                 </span><span style="background:white;color:#6f008a;">LOKI_DEFAULT_CONSTNESS</span><span style="background:white;color:black;">&gt; </span><span style="background:white;color:#2b91af;">RecordPtr</span><span style="background:white;color:black;">;</span></pre>
+<p><span style="background:white;color:black;">And using the following, slightly more convoluted code:</span></p>
+<pre class="code"><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">lokipointers(</span><span style="background:white;color:#2b91af;">WhichOne</span><span style="background:white;color:black;">) {
+    </span><span style="background:white;color:#2b91af;">vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:#2b91af;">RecordPtr</span><span style="background:white;color:black;">&gt; v;
+    </span><span style="background:white;color:blue;">for </span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">i = 0; i &lt; howMany; ++i) {
+        </span><span style="background:white;color:#2b91af;">RecordPtr </span><span style="background:white;color:black;">r = </span><span style="background:white;color:#2b91af;">RecordPtr</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">new </span><span style="background:white;color:#2b91af;">Record</span><span style="background:white;color:black;">());
+        record_init(*r, i);
+        v.push_back(r);
+    }
+    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">ret = accumulate_filter(v | transformed(</span><span style="background:white;color:#2b91af;">RecordPtr</span><span style="background:white;color:black;">::GetPointer) | indirected);
+    </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">ret;
+}</span></pre>
+<p><span style="background:white;color:black;">The result of my tests are in this table and at <a href="https://github.com/lucabol/TestPointersCPP/blob/master/Results.xlsx">this link</a>. I used VS10 and gcc 4.6.2 on a Windows 7 box. The first number in the (S, N) pair at the top of each column represents  the size of the record, the second one represents the number of objects in the vector. To obtain reasonable numbers, the tests have been run with a different number of iteration for each pair, which means that you can compare the results vertically, but not horizontally.</span></p>
+<p><span style="background:white;color:black;"><a href="../../wp-content/uploads/2012/04/results.jpg"><img style="background-image:none;padding-left:0;padding-right:0;display:inline;padding-top:0;border-width:0;" title="Results" border="0" alt="Results" src="../../wp-content/uploads/2012/04/results_thumb.jpg" width="637" height="911" /></a></span></p>
+<p>There are a lot of interesting things in this table. Here are my takeaways. They are obviously specific to this single scenario. You might have different scenarios or different takeaways:</p>
+<ul>
+<li>Stack allocation is not too bad for small objects, especially for gcc</li>
+<li>Pod_vector is a good overall performer (even if you don’t get the size right), it is unfortunate that just works with POD types</li>
+<li>GCC seems to be lagging on the shared_ptr front. Also msvc implementation of the make_shared optimization gives a visible advantage</li>
+<li>There is not much advantage in using the shared pointer with the boost pooled allocator</li>
+<li>If you can use the boost local pool allocator, you should. It is faster than stack allocation (in this scenario). Remember that the memory is reclaimed when you exit the function …</li>
+</ul>
+<p>So here you have it. A small detour on the performance of different schemes for allocating pod types. As it is often the case in C++, it depends …</p>
+<p>BTW: Andy Sawyer told me about his rough algorithm to decide which STL container to use. I reproduce it here:</p>
+<p><em>BEGIN</em></p>
+<p>A decision tree for selecting a sequence container:</p>
+<ul>
+<li>
+<p>I’m in a rush and don’t want to read the rest: use std::deque</p>
+</li>
+<li>
+<p>Do we know ahead of time <em>exactly</em> how many elements will be needed (and will they all fit on our stack!)  - If so, use std::array.</p>
+</li>
+<li>
+<p>Do we need constant-time random access? (Note that we often <em><strong>think</strong></em> we do, but actually don&rsquo;t  - YAGNI) If so, then we can eliminate std::list/std::forward_list as candidates.</p>
+</li>
+<li>
+<p>Do we need bidirectional iteration? (Again, we need this less often that we think we do). If so, that eliminates std::forward_list</p>
+</li>
+<li>
+<p>Will there be a large number of in-the-middle insertion/removal?  (and assuming we haven’t already eliminated them) then std::list/std::forward_list (especially when the contained type is expensive to move/copy).  In extreme cases, this may be a strong enough requirement to override other constraints (e.g. the need for random access). On the other hand, it may be viable to reduce the cost of move/copy of large contained types by using containers of (smart) pointers.</p>
+</li>
+<li>
+<p>Do we need the contents as a contiguous array? use std::vector (and call reserve  if we can)  - sometimes, anyway; I’ve seen cases where it&rsquo;s faster to build my collection as a std::deque, then transform to std::vector later on.)</p>
+</li>
+<li>
+<p>Use std::deque.</p>
+</li>
+</ul>
+<p>Or, to put it another way, “use std::deque  unless there’s a good reason not to”.  That’s probably an overly-strong statement, but it’s a reasonable starting point.</p>
+<p>Naturally, every case will be different  - and no set of ‘rules of thumb&rsquo; is going to work every time (this is one of the things which distinguish rules of thumb from laws of physics). Commonly, we don&rsquo;t know ahead of time which of those criteria is going to have the most significant impact on what we&rsquo;re doing; when I find myself in that situation, I&rsquo;ll use std::deque; once I have a firmer idea of the criteria, I’ll go back and revisit that choice (which – quite often – is as simple as changing a typedef). And of course  - as with all ‘optimisations&rsquo;  - measure, measure and measure again!</p>
+<p><em>END</em></p>
+<p>Next time, we’ll go back to more traditional functional programming topics.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/c&#43;&#43;">C&#43;&#43;</a></li>
+        
+            <li><a href="../../MyBlog/tags/functional-programming">Functional Programming</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

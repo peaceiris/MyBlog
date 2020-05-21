@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Download framework here.
+All posts are here:
+ Part I - Workers and ParallelWorkers Part II - Agents and control messages Part III - Default error management Part IV - Custom error management Part V - Timeout management Part VI - Hot swapping of code Part VII - An auction framework Part VIII – Implementing MapReduce (user model) Part IX – Counting words …  Introduction I like to try out different programming paradigms.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>LAgent : an agent framework in F# – Part I – Workers and ParallelWorkers | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2009/05/05</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        LAgent : an agent framework in F# – Part I – Workers and ParallelWorkers
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+</p> 
+<p>Download framework <a href="http://code.msdn.microsoft.com/LAgent">here</a>.</p>
+<p>All posts are here:</p>
+<ul>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/05/29/lagent-an-agent-framework-in-f-part-i-workers-and-parallelworkers.aspx">Part I  - Workers and ParallelWorkers</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/06/05/lagent-an-agent-framework-in-f-part-ii-agents-and-control-messages.aspx">Part II  - Agents and control messages</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/06/12/lagent-an-agent-framework-in-f-part-iii-default-error-management.aspx">Part III  - Default error management</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/06/19/lagent-an-agent-framework-in-f-part-iv-custom-error-management.aspx">Part IV  - Custom error management</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/06/26/lagent-an-agent-framework-in-f-part-v-timeout-management.aspx">Part V  - Timeout management</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/07/03/lagent-an-agent-framework-in-f-part-vi-hot-swapping-of-code-and-something-silly.aspx">Part VI  - Hot swapping of code</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/07/10/lagent-an-agent-framework-in-f-part-vii-an-auction-application.aspx">Part VII  - An auction framework</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/09/04/lagent-an-agent-framework-in-f-part-viii-implementing-mapreduce-user-model.aspx">Part VIII – Implementing MapReduce (user model)</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2009/09/18/lagent-an-agent-framework-in-f-part-ix-counting-words.aspx">Part IX – Counting words …</a></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>I like to try out different programming paradigms. I started out as an object oriented programmer. In university, I used Prolog. I then learned functional programming. I also experimented with various shared memory parallel paradigms (i.e. async, tasks and such). I now want to learn more about message based parallel programming (<a href="http://www.amazon.com/Programming-Erlang-Software-Concurrent-World/dp/193435600X">Erlang</a> style). I’m convinced that doing so makes me a better programmer. Plus, I enjoy it …</p>
+<p>My usual learning style is to build a framework that replicates a particular programming model and then write code using it. In essence, I build a very constrained environment. For example, when learning functional programming, I didn’t use any OO construct for a while even if my programming language supports them.</p>
+<p>In this case, I built myself a little agent framework based on F# <em>MailboxProcessors</em>. I could have used <em>MailboxProcessors</em> directly, but they are too flexible for my goal. Even to write a simple one of these guys, you need to use async and recursion in a specific pattern, which I always forget. Also, there are multiple ways to to do Post. I wanted things to be as simple as possible. I was willing to sacrifice flexibility for that.</p>
+<p>Notice that there are serious efforts in this space (as <a href="http://blogs.msdn.com/maestroteam/">Axum</a>). This is not one of them. It’s just a simple thing I enjoy working on between one meeting and the next.</p>
+<h2 id="workers-and-parallelworkers">Workers and ParallelWorkers</h2>
+<p>The two major primitives are spawning an agent and posting a message.</p>
+<pre class="code"><span style="color:blue;">let </span>echo = spawnWorker (<span style="color:blue;">fun </span>msg <span style="color:blue;">-&gt; </span>printfn <span style="color:maroon;">"%s" </span>msg)
+echo &lt;-- <span style="color:maroon;">"Hello guys!"</span></pre>
+<p><span style="color:maroon;"><font color="#000000">There are two kinds of agents in my system. A <em>worker</em> is an agent that doesn’t keep any state between consecutive messages. It is a stateless guy. Notice that the lambda that you pass to create the agent is strongly typed (aka <em>msg</em> is of type <em>string</em>). Also notice that I overloaded the <em>&lt;—</em> operator to mean <em>Post</em>.</font></span></p>
+<p><span style="color:maroon;"><font color="#000000">Given that a worker is stateless, you can create a whole bunch of them and, when a message is posted, route it to one of them transparently.</font></span></p>
+<pre class="code"><span style="color:blue;">let </span>parallelEcho = spawnParallelWorker(<span style="color:blue;">fun </span>s <span style="color:blue;">-&gt; </span>printfn <span style="color:maroon;">"%s" </span>s) 10
+parallelEcho &lt;-- <span style="color:maroon;">"Hello guys!”</span></pre>
+<p><span style="color:maroon;"><font color="#000000">For example, in the above code, 10 workers are created and, when a message is posted, it gets routed to one of them (using a super duper innovative dispatching algorithm I’ll describe in the implementation part). This <em>parallelWorker</em> guy is not really needed, you could easily built it out of the other primitives, but it is kind of cute.</font></span></p>
+<p><span style="color:maroon;"><font color="#000000">To show the difference between a worker and a <em>parallelWorker</em>, consider this:</font></span></p>
+<pre class="code"><span style="color:blue;">let </span>tprint s = printfn <span style="color:maroon;">"%s running on thread %i" </span>s Thread.CurrentThread.ManagedThreadId
+<span style="color:blue;">let </span>echo1 = spawnWorker (<span style="color:blue;">fun </span>s <span style="color:blue;">-&gt; </span>tprint s)
+<span style="color:blue;">let </span>parallelEcho1 = spawnParallelWorker(<span style="color:blue;">fun </span>s <span style="color:blue;">-&gt; </span>tprint s) 10
+<span style="color:blue;">let </span>messages = [<span style="color:maroon;">"a"</span>;<span style="color:maroon;">"b"</span>;<span style="color:maroon;">"c"</span>;<span style="color:maroon;">"d"</span>;<span style="color:maroon;">"e"</span>;<span style="color:maroon;">"f"</span>;<span style="color:maroon;">"g"</span>;<span style="color:maroon;">"h"</span>;<span style="color:maroon;">"i"</span>;<span style="color:maroon;">"l"</span>;<span style="color:maroon;">"m"</span>;<span style="color:maroon;">"n"</span>;<span style="color:maroon;">"o"</span>;<span style="color:maroon;">"p"</span>;<span style="color:maroon;">"q"</span>;<span style="color:maroon;">"r"</span>;<span style="color:maroon;">"s"</span>;<span style="color:maroon;">"t"</span>]
+messages |&gt; Seq.iter (<span style="color:blue;">fun </span>msg <span style="color:blue;">-&gt; </span>echo1 &lt;-- msg)
+messages |&gt; Seq.iter (<span style="color:blue;">fun </span>msg <span style="color:blue;">-&gt; </span>parallelEcho1 &lt;-- msg)</pre>
+<p> </p>
+<p>The result of the <em>echo1</em> iteration is:</p>
+<blockquote>
+<p>**a running on thread 11</p>
+</blockquote>
+<blockquote>
+<p>b running on thread 11</p>
+</blockquote>
+<blockquote>
+<p>c running on thread 11</p>
+</blockquote>
+<blockquote>
+<p>d running on thread 11</p>
+</blockquote>
+<blockquote>
+<p>…**</p>
+</blockquote>
+<p>While the result of the <em>parallelEcho1</em> iteration is:</p>
+<blockquote>
+<p>**a running on thread 13</p>
+</blockquote>
+<blockquote>
+<p>c running on thread 14</p>
+</blockquote>
+<blockquote>
+<p>b running on thread 12</p>
+</blockquote>
+<blockquote>
+<p>o running on thread 14</p>
+</blockquote>
+<blockquote>
+<p>m running on thread 13</p>
+</blockquote>
+<blockquote>
+<p>…**</p>
+</blockquote>
+<p>Notice how the latter executes on multiple threads (but not in order). Next time I’ll talk about agents, control messages and error management.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    <nav id="TableOfContents">
+    <ul>
+        
+
+        
+        <li>
+        <a href="#introduction">Introduction</a>
+        
+
+        
+        </li><li>
+            <a href="#workers-and-parallelworkers">Workers and ParallelWorkers</a>
+    </li></ul>
+</nav>
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

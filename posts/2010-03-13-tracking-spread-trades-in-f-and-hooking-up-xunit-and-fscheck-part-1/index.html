@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="I have a bunch of spread trades open. Spread trades are trades where you buy something and you sell something else generally in the same amount. You hope to profit from the widening of the spread between the price of the two instruments.
+I place stop loss orders or trailing stops for all my trades. I have various tool that automatically notify me when a stop loss or trailing stop is hit.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Tracking spread trades in F# (and hooking up XUnit and FsCheck) – Part 1 | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2010/03/03</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Tracking spread trades in F# (and hooking up XUnit and FsCheck) – Part 1
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>I have a bunch of spread trades open. Spread trades are trades where you buy something and you sell something else generally in the same amount. You hope to profit from the widening of the spread between the price of the two instruments.</p>
+<p>I place stop loss orders or trailing stops for all my trades. I have various tool that automatically notify me when a stop loss or trailing stop is hit. For spread trades I don’t have such a tool, hence I decided to build it.</p>
+<p>I defined maximum adverse excursion for a spread trade as the percentage difference between the current value of ‘long price’ / ‘short price’ and its maximum value from the point the trade was placed (aka Current(‘long price’ / ‘short price’) / max (‘long price’ / ‘short price’) – 1 ). This goes from 0 to 100. If the maximum adverse excursion is larger than the trailing stop (using closing prices only), then I want to be notified by email.</p>
+<p>I decided to create a simple exe and use Task Scheduler to run it at the end of the trading day. The program reads a file with all the open spread trades, downloads their prices, calculates maximum adverse excursion and sends an email if it is larger than the trailing stop. I also built a little WPF veneer to manipulate the configuration file.</p>
+<p>Here is what my <em>common.fs</em> file looks like.</p>
+<pre class="code"><span style="color:blue;">namespace </span>Spread
+<span style="color:blue;">module internal </span>Common =
+    <span style="color:blue;">open </span>System
+    <span style="color:blue;">let internal </span>isValidDate s =
+        <span style="color:blue;">let </span>v, _ = DateTime.TryParse(s)
+        v
+    <span style="color:blue;">let internal </span>isValidTrailingStop s =
+        <span style="color:blue;">let </span>v1, n = Int32.TryParse(s)
+        <span style="color:blue;">if </span>not(v1) <span style="color:blue;">then
+            false
+        else
+            </span>n &gt;= 0 && n &lt;= 100
+    <span style="color:blue;">let internal </span>isValidTicker (t:string) = not(t.Contains(<span style="color:maroon;">","</span>))
+    <span style="color:blue;">let internal </span>isValidLine (l:string) = l.Split([|<span style="color:maroon;">','</span>|]).Length = 4
+    <span style="color:blue;">let internal </span>elseThrow message expression = <span style="color:blue;">if </span>not(expression) <span style="color:blue;">then </span>raise message
+    <span style="color:blue;">let internal </span>elseThrowi i message expression = <span style="color:blue;">if </span>not(expression) <span style="color:blue;">then </span>failwith (sprintf <span style="color:maroon;">"On line %i : %s" </span>i message)</pre>
+<p> </p>
+<p>Notice the <em>isValidTicker</em> function. Yep, I’m using a CSV file to store the list of spread trades. Also I often end up using the little _elseThrow_� functions that I originally used in the <a href="http://code.msdn.microsoft.com/FinancialFunctions/Wiki/View.aspx?title=Home">Excel functions library</a> to check preconditions.</p>
+<p>Here is an example of using them for the <em>parseLine</em> function:</p>
+<pre class="code"><span style="color:green;">// parse a line in the csv config file, assumes valid csv, dates and trailing stop in [0,100]
+</span><span style="color:blue;">let internal </span>parseLine lineNumber line =
+    isValidLine line                |&gt; elseThrowi lineNumber <span style="color:maroon;">"badly formatted line"
+    </span><span style="color:blue;">let </span>values = line.Split([|<span style="color:maroon;">','</span>|])
+    isValidDate values.[0]          |&gt; elseThrowi lineNumber <span style="color:maroon;">"badly formatted date"
+    </span>isValidTicker values.[1]        |&gt; elseThrowi lineNumber <span style="color:maroon;">"long ticker has a comma in it"
+    </span>isValidTicker values.[2]        |&gt; elseThrowi lineNumber <span style="color:maroon;">"short ticker has a comma in it"
+    </span>isValidTrailingStop values.[3]  |&gt; elseThrowi lineNumber <span style="color:maroon;">"trailing stop has to be between 0 and 100 included"
+    </span>DateTime.Parse(values.[0]), values.[1].Trim(), values.[2].Trim(), int values.[3]</pre>
+<p> </p>
+<p>As you can see, the csv format is (dateOfTrade, longTicker, shortTicker, trailingStop). Let’s now look and the FsCheck testcase for this function.</p>
+<pre class="code"><span style="color:blue;">let </span>writeLine (date:DateTime) (tickerLong:string) (tickerShort:string) (trailingStopValue:int) =
+    sprintf <span style="color:maroon;">"%s,%s,%s,%i" </span>(date.ToShortDateString()) tickerLong tickerShort trailingStopValue
+[&lt;Fact;Category(<span style="color:maroon;">"Fast Tests"</span>)&gt;]
+<span style="color:blue;">let </span>can_parse_valid_lines () =
+    <span style="color:blue;">let  </span>prop_parseLine (lineNumber:int) date tickerLong tickerShort trailingStopValue =
+        <span style="color:blue;">let </span>line = writeLine date tickerLong tickerShort trailingStopValue
+        <span style="color:blue;">let </span>values = line.Split([|<span style="color:maroon;">','</span>|])
+        (isValidLine(line) && isValidDate values.[0] && isValidTicker values.[1] && isValidTicker values.[2]
+                                                                                        && isValidTrailingStop values.[3])
+            ==&gt; <span style="color:blue;">lazy
+                let </span>actual = parseLine lineNumber line
+                (date, tickerLong.Trim(), tickerShort.Trim(), trailingStopValue) = actual
+    check config prop_parseLine</pre>
+<p>In FsCheck you state properties of your functions and FsCheck generates random values to test them. In this case I’m asserting that, given a <em>date, tickerLong, tickerShort, trailingStopValue</em>, I can write them to a string, read them back and I get the same values. Frankly, I was skeptical on the utility of such exercise, but I was wrong. That’s how I discovered that tickers cannot have commas in them (among other things).</p>
+<p>To hook up FsCheck and XUnit (aka to run FsCheck property checking as normal testcases), you need to write the below black magic code.</p>
+<pre class="code"><span style="color:blue;">let </span>xUnitRunner =
+    { <span style="color:blue;">new </span>IRunner <span style="color:blue;">with
+        member </span>x.OnArguments(_,_,_) = ()
+        <span style="color:blue;">member </span>x.OnShrink(_,_) = ()
+        <span style="color:blue;">member </span>x.OnFinished(name, result) =
+            <span style="color:blue;">match </span>result <span style="color:blue;">with
+                </span>| True data <span style="color:blue;">-&gt; </span>Assert.True(<span style="color:blue;">true</span>)
+                | _ <span style="color:blue;">-&gt; </span>failwith (testFinishedToString name result)
+    }
+<span style="color:blue;">let </span>config = {quick <span style="color:blue;">with </span>Runner = xUnitRunner}</pre>
+<p>Also, to run XUnit with your brand new .net 4.0 project, you need to add xunit.gui.exe.config to the XUnit directory with the following content:</p>
+<configuration>
+<startup>
+<requiredRuntime version=v4.0.20506&#8243; safemode=true/>
+</startup>
+</configuration>
+<p>While we are talking about such trivialities, I compile my testcases as executable, so that I can easily run them under debug. I also add the InternalsVisibleTo attribute, so that I can test internal stuff. Many of my algorithms are in internal functions and I want to test them in isolation.</p>
+<pre class="code">[&lt;assembly:InternalsVisibleTo(<span style="color:maroon;">"SpreadTrackingTests"</span>)&gt;]
+    <span style="color:blue;">do
+</span></pre>
+<p> </p>
+<p>Given the previous function, I can then parse text and files with the following:</p>
+<pre class="code"><span style="color:blue;">let internal </span>parseText (lines:string) = lines.Trim().Split([|<span style="color:maroon;">'\n'</span>|]) |&gt; Array.mapi parseLine
+<span style="color:blue;">let public </span>parseFile fileName = File.ReadAllText fileName |&gt; parseText</pre>
+<p>I need to load closing prices. I’m using <a href="http://code.msdn.microsoft.com/DownloadStockPrices">my own library</a> to load prices. That library is pretty badly designed. Also, the function below should be factorized in several sub-functions. It kind of shows how you can write spaghetti code in a beautiful functional language as F# if you really try hard. But let’s not worry about such subtleties for now …</p>
+<pre class="code"><span style="color:blue;">let internal </span>loadClosingPrices (endDate:DateTime) tickersStartDate  =
+    <span style="color:green;">// format parameters to conform to loadTickersAsync
+    </span><span style="color:blue;">let </span>tickersLong, tickersShort =
+        tickersStartDate
+        |&gt; Array.map (<span style="color:blue;">fun </span>(startDate:DateTime, ticker1:string, ticker2:string, _) <span style="color:blue;">-&gt;
+                </span>(ticker1, {Start = startDate; End = endDate}), (ticker2, {Start = startDate; End = endDate}))
+        |&gt; Array.unzip
+    <span style="color:blue;">let </span>prices = tickersShort
+                 |&gt; Array.append tickersLong
+                 |&gt; Array.toList
+                 |&gt; loadTickersAsync
+                 |&gt; Async.RunSynchronously
+                 |&gt; Array.map (<span style="color:blue;">fun </span>(ticker, span, obs) <span style="color:blue;">-&gt; </span>ticker, obs <span style="color:green;">(*|&gt; asHappened 1. |&gt; adjusted adjStart*)</span>)
+    <span style="color:blue;">let </span>len = tickersLong.Length
+    <span style="color:blue;">let </span>longObs = Array.sub prices 0 len
+    <span style="color:blue;">let </span>shortObs = Array.sub prices len len
+    <span style="color:green;">// removes divs and splits
+    </span><span style="color:blue;">let </span>choosePrices observation = <span style="color:blue;">match </span>observation.Event <span style="color:blue;">with </span>Price(pr) <span style="color:blue;">-&gt; </span>Some(observation) | _ <span style="color:blue;">-&gt; </span>None
+    <span style="color:blue;">let </span>combineOverTickerObservations f tickerObservations =
+        tickerObservations
+        |&gt; Array.map (<span style="color:blue;">fun </span>(ticker, observations) <span style="color:blue;">-&gt;
+                                            </span>ticker,
+                                            observations |&gt; List.choose f |&gt; List.rev)
+    <span style="color:blue;">let </span>longPrices = combineOverTickerObservations choosePrices longObs
+    <span style="color:blue;">let </span>shortPrices = combineOverTickerObservations choosePrices shortObs
+    longPrices, shortPrices</pre>
+<p>In the above, <em>tickerStartDate</em> is an array of (trade date * long ticker * short ticker * trailingStop) which is what is produced by our <em>parseLine</em> function. The function first separates out long tickers from short ones.</p>
+<pre class="code"><span style="color:blue;">let </span>tickersLong, tickersShort =
+    tickersStartDate
+    |&gt; Array.map (<span style="color:blue;">fun </span>(startDate:DateTime, ticker1:string, ticker2:string, _) <span style="color:blue;">-&gt;
+            </span>(ticker1, {Start = startDate; End = endDate}), (ticker2, {Start = startDate; End = endDate}))
+    |&gt; Array.unzip</pre>
+<p>It then puts them together again in a single Array, to be able to pass it to the loadTickerAsync functions. It runs the function, waits for the results and then returns an array of (ticker * observations).</p>
+<pre class="code"><span style="color:blue;">let </span>prices = tickersShort
+             |&gt; Array.append tickersLong
+             |&gt; Array.toList
+             |&gt; loadTickersAsync
+             |&gt; Async.RunSynchronously
+             |&gt; Array.map (<span style="color:blue;">fun </span>(ticker, span, obs) <span style="color:blue;">-&gt; </span>ticker, obs |&gt; asHappened 1. |&gt; adjusted adjStart)</pre>
+<p> </p>
+<p>The data is downloaded as it comes from Yahoo, which is a mix of adjusted and not adjusted data. <em>asHappened</em> transforms it so that everything is as it really happened, <em>adjusted</em> then adjusts it for the effect of dividends and splits. Think of this two function as ‘make the data right’.</p>
+<p>We then split them again to get the long and short series. The point of merging them and splitting them is to call <em>loadTickersAsync</em> just once instead of twice. There are better ways to do it.</p>
+<pre class="code"><span style="color:blue;">let </span>len = tickersLong.Length
+        <span style="color:blue;">let </span>longObs = Array.sub prices 0 len
+        <span style="color:blue;">let </span>shortObs = Array.sub prices len len</pre>
+<p>At this point we remove the observations that represents dividends or splits, as we are interested just in prices and we return the resulting observations.</p>
+<pre class="code"><span style="color:blue;">let </span>choosePrices observation = <span style="color:blue;">match </span>observation.Event <span style="color:blue;">with </span>Price(pr) <span style="color:blue;">-&gt; </span>Some(observation) | _ <span style="color:blue;">-&gt; </span>None
+<span style="color:blue;">let </span>combineOverTickerObservations f tickerObservations =
+    tickerObservations
+    |&gt; Array.map (<span style="color:blue;">fun </span>(ticker, observations) <span style="color:blue;">-&gt;
+                                        </span>ticker,
+                                        observations |&gt; List.choose f |&gt; List.rev)
+<span style="color:blue;">let </span>longPrices = combineOverTickerObservations choosePrices longObs
+<span style="color:blue;">let </span>shortPrices = combineOverTickerObservations choosePrices shortObs
+longPrices, shortPrices</pre>
+<p>The List.rev at the end is interesting. Somewhere in the loadTickerAsync/asHappened/adjusted triad of functions I end up reversing the list. I should fix the bug instead of workaround it, but this is just a blog post, not production code, so I’ll let it slip.</p>
+<p>Now that we have our price observations, we need to extract the price values and calculate the sequence of ratios (long price / short price).</p>
+<pre class="code"><span style="color:blue;">let internal </span>calcRatioSeries longPrices shortPrices =
+    <span style="color:blue;">let </span>extractPrice obs = <span style="color:blue;">match </span>obs.Event <span style="color:blue;">with </span>Price(pr) <span style="color:blue;">-&gt; </span>pr.Close | _ <span style="color:blue;">-&gt; </span>failwith <span style="color:maroon;">"At this point divs and splits should have been removed"
+    </span><span style="color:blue;">let </span>longValues = longPrices |&gt;  List.map extractPrice
+    <span style="color:blue;">let </span>shortValues = shortPrices |&gt; List.map extractPrice
+    shortValues |&gt; List.map2 (/) longValues</pre>
+<p>Having this ratio series, we can calculate the maximum adverse excursion, incorrectly called trailing stop below.</p>
+<pre class="code"><span style="color:blue;">let internal </span>calcTrailingStop ratioSeries = List.head ratioSeries / List.max ratioSeries - 1.</pre>
+<p>We then create a function that puts it all together.</p>
+<pre class="code"><span style="color:blue;">type public </span>Result = {RatioName:string; CurrentTrailing:int; TrailingStop:int} <span style="color:blue;">with
+    override </span>x.ToString() = x.RatioName + <span style="color:maroon;">"\t\t" </span>+ x.CurrentTrailing.ToString() + <span style="color:maroon;">"\t\t" </span>+ x.TrailingStop.ToString()
+<span style="color:green;">// reads a csv file (startDate, longTicker, shortTicker, trailingStop) and returns an array of results
+</span><span style="color:blue;">let public </span>processFile fileName endDate =
+    <span style="color:blue;">let </span>fileInfo = parseFile fileName
+    <span style="color:blue;">let </span>longPrices, shortPrices = loadClosingPrices endDate fileInfo
+    <span style="color:blue;">let </span>ratioSeries = Array.map2 (<span style="color:blue;">fun </span>l s <span style="color:blue;">-&gt; </span>fst l + <span style="color:maroon;">"/" </span>+ fst s, calcRatioSeries (snd l) (snd s)) longPrices shortPrices
+    ratioSeries |&gt; Array.mapi (<span style="color:blue;">fun </span>i (name, series) <span style="color:blue;">-&gt;
+                    let </span>(_,_,_,ts) = fileInfo.[i]
+                    {RatioName = name; CurrentTrailing = - int (Math.Round (calcTrailingStop series * 100., 0));
+                                                                                                       TrailingStop = ts})</pre>
+<p>The function takes a fileName and an endDate, the latter parameter is for the sake of testcases that has to work in the past, so that the data doesn’t change on them.</p>
+<p>Now we need to send an email. The code below works for me:</p>
+<pre class="code"><span style="color:blue;">let </span>sendEmail smtpServer port fromField toField subject body (user:string) (password:string) =
+    <span style="color:blue;">let </span>client = <span style="color:blue;">new </span>SmtpClient(smtpServer, port)
+    client.Credentials &lt;- <span style="color:blue;">new </span>NetworkCredential(user, password)
+    client.EnableSsl &lt;- <span style="color:blue;">true
+    </span>client.Send(fromField, toField, subject, body)
+<span style="color:green;">// gets the password from a file under C: so that when I post it on my blog I don't forget to delete it
+</span><span style="color:blue;">let </span>getPassword () =
+    File.ReadAllText(<span style="color:maroon;">@"D:\Documents and Settings\Luca\My Documents\config.txt"</span>)</pre>
+<p>Almost done, in the main part of the program, we gather the data, create the content of the email and send it out:</p>
+<pre class="code"><span style="color:blue;">do
+    let </span>file = <span style="color:maroon;">"spreads.csv"
+    </span><span style="color:blue;">let </span>spreads = processFile file DateTime.Today
+    <span style="color:blue;">let mutable </span>builder = <span style="color:blue;">new </span>System.Text.StringBuilder()
+    builder &lt;- builder.AppendLine(<span style="color:maroon;">"Name\t\tCurrent\t\tStop"</span>)
+    <span style="color:blue;">for </span>s <span style="color:blue;">in </span>spreads <span style="color:blue;">do
+        </span>builder &lt;- builder.AppendLine(s.ToString())
+    <span style="color:blue;">let </span>password = getPassword()
+    sendEmail <span style="color:maroon;">"smtp.gmail.com" </span>587 <span style="color:maroon;">"***@***.com" <span style="color:maroon;">"***@***.com</span>" "Alert Trigger Spread" </span>(builder.ToString())
+                                                                                           <span style="color:maroon;">"lucabolg@gmail.com" </span>password;;</pre>
+<p>Next stop, the WPF veneer on top of the file.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+            <li><a href="../../MyBlog/tags/financial">Financial</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

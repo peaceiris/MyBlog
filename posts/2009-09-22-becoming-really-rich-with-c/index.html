@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Or maybe not, please do not hold me responsible if you lose money following this system. Having said that, it is my opinion that there are very few concepts that are important in investing. Three big ones are value, diversification and momentum. This post is about the latter two and how to use C# to create a simple trading system that uses both.
+Diversification is ‘not put all your eggs in one basket’ (contrary to ‘put all of them in one basket and watch that basket’).">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Becoming really rich with C# | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2009/09/09</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Becoming really rich with C#
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Or maybe not, please do not hold me responsible if you lose money following this system. Having said that, it is my opinion that there are very few concepts that are important in investing. Three big ones are value, diversification and momentum. This post is about the latter two and how to use C# to create a simple trading system that uses both.</p>
+<p>Diversification is ‘not put all your eggs in one basket’ (contrary to ‘put all of them in one basket and watch that basket’). I don’t believe you can ‘watch’ very much in financial markets, so I tend to prefer diversification.</p>
+<p>Momentum is a mysterious tendency of financial prices that have risen the most in the recent past, to continue outperforming in the close future. In essence, buying the top stocks/sectors/asset classes tends to outperform buying the bottom ones over horizons from three months to one year.</p>
+<p>The idea then is to rank some assets (i.e. ETFs) by how fast they have risen in the past, go long the top ones and short the bottom ones. There are hundreds of variations of this basic strategy, we’ll add the rule that we won’t buy assets that are below their 200 days moving average or sell short assets that are above it.</p>
+<p>I’m writing this code with VS 2010 Beta 2 (which hasn’t shipped yet). It should be trivial to modify it to run on B1 (or maybe it does run on it already). I attach the code and data files to this post.</p>
+<pre class="code"><span style="color:blue;">struct </span><span style="color:#2b91af;">Event </span>{
+    <span style="color:blue;">internal </span>Event(<span style="color:#2b91af;">DateTime </span>date, <span style="color:blue;">double </span>price) { Date = date; Price = price; }
+    <span style="color:blue;">internal readonly </span><span style="color:#2b91af;">DateTime </span>Date;
+    <span style="color:blue;">internal readonly double </span>Price;
+}</pre>
+<p>We’ll use this simple structure to load the closing price for a particular date. My use of internal is kind of bizarre. Actually the whole code might look strange. It is an interesting (maybe un-elegant) mix of object orientation and functional programming.</p>
+<pre class="code"><span style="color:blue;">class </span><span style="color:#2b91af;">Summary </span>{
+    <span style="color:blue;">internal </span>Summary(<span style="color:blue;">string </span>ticker, <span style="color:blue;">string </span>name, <span style="color:blue;">string </span>assetClass,
+                    <span style="color:blue;">string </span>assetSubClass, <span style="color:blue;">double</span>? weekly, <span style="color:blue;">double</span>? fourWeeks,
+                    <span style="color:blue;">double</span>? threeMonths, <span style="color:blue;">double</span>? sixMonths, <span style="color:blue;">double</span>? oneYear,
+                    <span style="color:blue;">double</span>? stdDev, <span style="color:blue;">double </span>price, <span style="color:blue;">double</span>? mav200) {
+        Ticker = ticker;
+        Name = name;
+        AssetClass = assetClass;
+        AssetSubClass = assetSubClass;
+        <span style="color:green;">// Abracadabra ...
+        </span>LRS = (fourWeeks + threeMonths + sixMonths + oneYear) / <span style="color:brown;">4</span>;
+        Weekly = weekly;
+        FourWeeks = fourWeeks;
+        ThreeMonths = threeMonths;
+        SixMonths = sixMonths;
+        OneYear = oneYear;
+        StdDev = stdDev;
+        Mav200 = mav200;
+        Price = price;
+    }
+    <span style="color:blue;">internal readonly string </span>Ticker;
+    <span style="color:blue;">internal readonly string </span>Name;
+    <span style="color:blue;">internal readonly string </span>AssetClass;
+    <span style="color:blue;">internal readonly string </span>AssetSubClass;
+    <span style="color:blue;">internal readonly double</span>? LRS;
+    <span style="color:blue;">internal readonly double</span>? Weekly;
+    <span style="color:blue;">internal readonly double</span>? FourWeeks;
+    <span style="color:blue;">internal readonly double</span>? ThreeMonths;
+    <span style="color:blue;">internal readonly double</span>? SixMonths;
+    <span style="color:blue;">internal readonly double</span>? OneYear;
+    <span style="color:blue;">internal readonly double</span>? StdDev;
+    <span style="color:blue;">internal readonly double</span>? Mav200;
+    <span style="color:blue;">internal double </span>Price;
+    <span style="color:blue;">internal static void </span>Banner() {
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,-6}"</span>, <span style="color:#a31515;">"Ticker"</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,-50}"</span>, <span style="color:#a31515;">"Name"</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,-12}"</span>, <span style="color:#a31515;">"Asset Class"</span>);
+        <span style="color:green;">//Console.Write("{0,-30}t", "Asset SubClass";
+        </span><span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4}"</span>, <span style="color:#a31515;">"RS"</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4}"</span>, <span style="color:#a31515;">"1Wk"</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4}"</span>, <span style="color:#a31515;">"4Wk"</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4}"</span>, <span style="color:#a31515;">"3Ms"</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4}"</span>, <span style="color:#a31515;">"6Ms"</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4}"</span>, <span style="color:#a31515;">"1Yr"</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,6}"</span>, <span style="color:#a31515;">"Vol"</span>);
+        <span style="color:#2b91af;">Console</span>.WriteLine(<span style="color:#a31515;">"{0,2}"</span>, <span style="color:#a31515;">"Mv"</span>);
+        <span style="color:green;">//Console.Write("{0,6}", "Pr");
+        //Console.WriteLine("{0,6}", "M200");
+    </span>}
+    <span style="color:blue;">internal void </span>Print() {
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,-6}"</span>, Ticker);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,-50}"</span>, <span style="color:blue;">new </span><span style="color:#2b91af;">String</span>(Name.Take(<span style="color:brown;">48</span>).ToArray()));
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,-12}"</span>, <span style="color:blue;">new </span><span style="color:#2b91af;">String</span>(AssetClass.Take(<span style="color:brown;">10</span>).ToArray()));
+        <span style="color:green;">//Console.Write("{0,-30}t", new String(AssetSubClass.Take(28).ToArray()));
+        </span><span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4:N0}"</span>, LRS * <span style="color:brown;">100</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4:N0}"</span>, Weekly * <span style="color:brown;">100</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4:N0}"</span>, FourWeeks * <span style="color:brown;">100</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4:N0}"</span>, ThreeMonths * <span style="color:brown;">100</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4:N0}"</span>, SixMonths * <span style="color:brown;">100</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,4:N0}"</span>, OneYear * <span style="color:brown;">100</span>);
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0,6:N0}"</span>, StdDev * <span style="color:brown;">100</span>);
+        <span style="color:blue;">if </span>(Price &lt;= Mav200)
+            <span style="color:#2b91af;">Console</span>.WriteLine(<span style="color:#a31515;">"{0,2}"</span>, <span style="color:#a31515;">"X"</span>);
+        <span style="color:blue;">else
+            </span><span style="color:#2b91af;">Console</span>.WriteLine();
+        <span style="color:green;">//Console.Write("{0,6:N2}", Price);
+        //Console.WriteLine("{0,6:N2}", Mav200);
+    </span>}
+}</pre>
+<p>The class Summary above is how I want to present my results. A few comments on the code. I use <em>Nullable<T></em> because some of this values can be null (i.e. not enough history), but I still don’t want to worry about it. It ends up working rather neatly.</p>
+<p>I also print the results out to <em>Console,</em> which is crazy. I really should be using WPF/Silverlight as the presentation layer. Also the <em>{0,4:N0}</em> notation might be unfamiliar to some of you, but this is how mad <em>Console</em> guys like myself avoid using real UI frameworks. Sometimes we print things in color too.</p>
+<p>The real meat is in the following line:</p>
+<pre class="code">LRS = (fourWeeks + threeMonths + sixMonths + oneYear) / <span style="color:brown;">4</span>;</pre>
+<p>That is our highway to richness. It’s a very elaborated quant formula, never before shown, that calculate a magick relative strength (aka momentum) factor as the average of the performance of four weeks, three months, six months and one year.</p>
+<pre class="code"><span style="color:blue;">class </span><span style="color:#2b91af;">TimeSeries </span>{
+    <span style="color:blue;">internal readonly string </span>Ticker;
+    <span style="color:blue;">readonly </span><span style="color:#2b91af;">DateTime </span>_start;
+    <span style="color:blue;">readonly </span><span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:#2b91af;">DateTime</span>, <span style="color:blue;">double</span>&gt; _adjDictionary;
+    <span style="color:blue;">readonly string </span>_name;
+    <span style="color:blue;">readonly string </span>_assetClass;
+    <span style="color:blue;">readonly string </span>_assetSubClass;
+    <span style="color:blue;">internal </span>TimeSeries(<span style="color:blue;">string </span>ticker, <span style="color:blue;">string </span>name, <span style="color:blue;">string </span>assetClass, <span style="color:blue;">string </span>assetSubClass, <br />                                                                <span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">Event</span>&gt; events) {
+        Ticker = ticker;
+        _name = name;
+        _assetClass = assetClass;
+        _assetSubClass = assetSubClass;
+        _start = events.Last().Date;
+        _adjDictionary = events.ToDictionary(e =&gt; e.Date, e =&gt; e.Price);
+    }</pre>
+<p>I then built myself a little TimeSeries class that represents a series of (date, price). I choose a dictionary to store it because of my assumption that I will be accessing it by date a lot. In retrospect, I was kind of right and kind of wrong. It doesn’t really matter much.</p>
+<pre class="code"><span style="color:blue;">bool </span>GetPrice(<span style="color:#2b91af;">DateTime </span>when, <span style="color:blue;">out double </span>price, <span style="color:blue;">out double </span>shift) {
+    <span style="color:green;">// To nullify the effect of hours/min/sec/millisec being different from 0
+    </span>when = <span style="color:blue;">new </span><span style="color:#2b91af;">DateTime</span>(when.Year, when.Month, when.Day);
+    <span style="color:blue;">var </span>found = <span style="color:blue;">false</span>;
+    shift = <span style="color:brown;">1</span>;
+    <span style="color:blue;">double </span>aPrice = <span style="color:brown;"></span>;
+    <span style="color:blue;">while </span>(when &gt;= _start && !found) {
+        <span style="color:blue;">if </span>(_adjDictionary.TryGetValue(when, <span style="color:blue;">out </span>aPrice)) {
+            found = <span style="color:blue;">true</span>;
+        }
+        when = when.AddDays(-<span style="color:brown;">1</span>);
+        shift -= <span style="color:brown;">1</span>;
+    }
+    price = aPrice;
+    <span style="color:blue;">return </span>found;
+}</pre>
+<p>A TimeSeries can give you back the price at a particular date. This looks bizarre and complex, but there is a reason for it. I might ask for a date that doesn’t have a price associated with it (i.e. holidays, week-ends). In such cases I want to return the previous price which could be N days in the past.</p>
+<p>I also want to return how many days in the past I had to go, so that other calculations (i.e. <em>Return</em>) can modify their end date by the same amount. Also I might not find such a price at all, in which case I don’t want to throw an exception, but instead notify the caller. In retrospect, I should have used <em>double?</em> to signify ‘price not found’.</p>
+<pre class="code"><span style="color:blue;">double</span>? GetReturn(<span style="color:#2b91af;">DateTime </span>start, <span style="color:#2b91af;">DateTime </span>end) {
+    <span style="color:blue;">var </span>startPrice = <span style="color:brown;">0.0</span>;
+    <span style="color:blue;">var </span>endPrice = <span style="color:brown;">0.0</span>;
+    <span style="color:blue;">var </span>shift = <span style="color:brown;">0.0</span>;
+    <span style="color:blue;">var </span>foundEnd = GetPrice(end, <span style="color:blue;">out </span>endPrice, <span style="color:blue;">out </span>shift);
+    <span style="color:blue;">var </span>foundStart = GetPrice(start.AddDays(shift), <span style="color:blue;">out </span>startPrice, <span style="color:blue;">out </span>shift);
+    <span style="color:blue;">if </span>(!foundStart || !foundEnd)
+        <span style="color:blue;">return null</span>;
+    <span style="color:blue;">else
+        return </span>endPrice / startPrice - <span style="color:brown;">1</span>;
+}</pre>
+<p>We can now go and calculate the return between two dates. Also the <em>TimeSeries</em> object needs to perform a little more calculations.</p>
+<pre class="code"><span style="color:blue;">internal double</span>? LastWeekReturn() {
+        <span style="color:blue;">return </span>GetReturn(<span style="color:#2b91af;">DateTime</span>.Now.AddDays(-<span style="color:brown;">7</span>), <span style="color:#2b91af;">DateTime</span>.Now);
+    }
+    <span style="color:blue;">internal double</span>? Last4WeeksReturn() {
+        <span style="color:blue;">return </span>GetReturn(<span style="color:#2b91af;">DateTime</span>.Now.AddDays(-<span style="color:brown;">28</span>), <span style="color:#2b91af;">DateTime</span>.Now);
+    }
+    <span style="color:blue;">internal double</span>? Last3MonthsReturn() {
+        <span style="color:blue;">return </span>GetReturn(<span style="color:#2b91af;">DateTime</span>.Now.AddMonths(-<span style="color:brown;">3</span>), <span style="color:#2b91af;">DateTime</span>.Now);
+    }
+    <span style="color:blue;">internal double</span>? Last6MonthsReturn() {
+        <span style="color:blue;">return </span>GetReturn(<span style="color:#2b91af;">DateTime</span>.Now.AddMonths(-<span style="color:brown;">6</span>), <span style="color:#2b91af;">DateTime</span>.Now);
+    }
+    <span style="color:blue;">internal double</span>? LastYearReturn() {
+        <span style="color:blue;">return </span>GetReturn(<span style="color:#2b91af;">DateTime</span>.Now.AddYears(-<span style="color:brown;">1</span>), <span style="color:#2b91af;">DateTime</span>.Now);
+    }
+    <span style="color:blue;">internal double</span>? StdDev() {
+        <span style="color:blue;">var </span>now = <span style="color:#2b91af;">DateTime</span>.Now;
+        now = <span style="color:blue;">new </span><span style="color:#2b91af;">DateTime</span>(now.Year, now.Month, now.Day);
+        <span style="color:blue;">var </span>limit = now.AddYears(-<span style="color:brown;">3</span>);
+        <span style="color:blue;">var </span>rets = <span style="color:blue;">new </span><span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">double</span>&gt;();
+        <span style="color:blue;">while </span>(now &gt;= _start.AddDays(<span style="color:brown;">12</span>) && now &gt;= limit) {
+            <span style="color:blue;">var </span>ret = GetReturn(now.AddDays(-<span style="color:brown;">7</span>), now);
+            rets.Add(ret.Value);
+            now = now.AddDays(-<span style="color:brown;">7</span>);
+        }
+        <span style="color:blue;">var </span>mean = rets.Average();
+        <span style="color:blue;">var </span>variance = rets.Select(r =&gt; <span style="color:#2b91af;">Math</span>.Pow(r - mean, <span style="color:brown;">2</span>)).Sum();
+        <span style="color:blue;">var </span>weeklyStdDev = <span style="color:#2b91af;">Math</span>.Sqrt(variance / rets.Count);
+        <span style="color:blue;">return </span>weeklyStdDev * <span style="color:#2b91af;">Math</span>.Sqrt(<span style="color:brown;">40</span>);
+    }
+    <span style="color:blue;">internal double</span>? MAV200() {
+        <span style="color:blue;">return </span>_adjDictionary<br />               .ToList()<br />               .OrderByDescending(k =&gt; k.Key)<br />               .Take(<span style="color:brown;">200)<br />               </span>.Average(k =&gt; k.Value);
+    }
+    <span style="color:blue;">internal double </span>TodayPrice() {
+        <span style="color:blue;">var </span>price = <span style="color:brown;">0.0</span>;
+        <span style="color:blue;">var </span>shift = <span style="color:brown;">0.0</span>;
+        GetPrice(<span style="color:#2b91af;">DateTime</span>.Now, <span style="color:blue;">out </span>price, <span style="color:blue;">out </span>shift);
+        <span style="color:blue;">return </span>price;
+    }
+    <span style="color:blue;">internal </span><span style="color:#2b91af;">Summary </span>GetSummary() {
+        <span style="color:blue;">return new </span><span style="color:#2b91af;">Summary</span>(Ticker, _name, _assetClass, _assetSubClass, <br />                           LastWeekReturn(), Last4WeeksReturn(), Last3MonthsReturn(),<br />                           Last6MonthsReturn(), LastYearReturn(), StdDev(), TodayPrice(),<br />                           MAV200());
+    }
+}</pre>
+<p>Nothing particularly interesting in this code. Just a bunch of calculations. The <em>MAV200</em> is the 200 days moving average of closing prices. It shows a more functional way of doing things. The <em>StdDev</em> function is instead very imperative.</p>
+<p>We now can work on downloading the prices. This is how you construct the right URL:</p>
+<pre class="code"><span style="color:blue;">static string </span>CreateUrl(<span style="color:blue;">string </span>ticker, <span style="color:#2b91af;">DateTime </span>start, <span style="color:#2b91af;">DateTime </span>end) {
+    <span style="color:blue;">return </span><span style="color:#a31515;">@"http://ichart.finance.yahoo.com/table.csv?s=" </span>+ ticker + <span style="color:#a31515;">"&a="<br />            </span>+ (start.Month - <span style="color:brown;">1</span>).ToString() + <span style="color:#a31515;">"&b=" </span>+ start.Day.ToString() + <span style="color:#a31515;">"&c="<br />            </span>+ start.Year.ToString() + <span style="color:#a31515;">"&d=" </span>+ (end.Month - <span style="color:brown;">1</span>).ToString() + <span style="color:#a31515;">"&e="<br />            </span>+ end.Day.ToString() + <span style="color:#a31515;">"&f=" </span>+ end.Year.ToString() + <span style="color:#a31515;">"&g=d&ignore=.csv"</span>;
+}</pre>
+<p> </p>
+<p>And let’s set how many concurrent connections we are going to use …</p>
+<pre class="code"><span style="color:#2b91af;">ServicePointManager</span>.DefaultConnectionLimit = <span style="color:brown;">10</span>;</pre>
+<p>On my machine, setting this number too high causes errors to be returned. I’m not sure on which side of the connection the problem lies.</p>
+<p>We can then load all the tickers we want to load from a file. One of the files has Leveraged ETFs, which I want to filter out because they tend to pop up always at the top.</p>
+<pre class="code"><span style="color:blue;">var </span>tickers =
+    <span style="color:green;">//File.ReadAllLines("ETFs.csv")
+    //File.ReadAllLines("ETFTest.csv")
+    </span><span style="color:#2b91af;">File</span>.ReadAllLines(<span style="color:#a31515;">"AssetClasses.csv"</span>)
+    .Skip(<span style="color:brown;">1</span>)
+    .Select(l =&gt; l.Split(<span style="color:blue;">new</span>[] { <span style="color:#a31515;">',' </span>}))
+    .Where(v =&gt; v[<span style="color:brown;">2</span>] != <span style="color:#a31515;">"Leveraged"</span>)
+    .Select(values =&gt; <span style="color:#2b91af;">Tuple</span>.Create(values[<span style="color:brown;"></span>], values[<span style="color:brown;">1</span>], values[<span style="color:brown;">2</span>], values[<span style="color:brown;">3</span>]))
+    .ToArray();
+<span style="color:blue;">var </span>len = tickers.Length;
+<span style="color:blue;">var </span>start = <span style="color:#2b91af;">DateTime</span>.Now.AddYears(-<span style="color:brown;">2</span>);
+<span style="color:blue;">var </span>end = <span style="color:#2b91af;">DateTime</span>.Now;
+<span style="color:blue;">var </span>cevent = <span style="color:blue;">new </span><span style="color:#2b91af;">CountdownEvent</span>(len);
+<span style="color:blue;">var </span>summaries = <span style="color:blue;">new </span><span style="color:#2b91af;">Summary</span>[len];</pre>
+<p>And then load all of them, making sure to make an asynchronous call so not to keep the thread busy.</p>
+<pre class="code"><span style="color:#2b91af;">for(var i = </span><span style="color:brown;">0;</span> i &lt; len; i++)  {
+    <span style="color:blue;">var </span>t = tickers[i];
+    <span style="color:blue;">var </span>url = CreateUrl(t.Item1, start, end);
+    <span style="color:blue;">using </span>(<span style="color:blue;">var </span>webClient = <span style="color:blue;">new </span><span style="color:#2b91af;">WebClient</span>()) {
+        webClient.DownloadStringCompleted +=<br />                          <span style="color:blue;">new </span><span style="color:#2b91af;">DownloadStringCompletedEventHandler</span>(downloadStringCompleted);
+        webClient.DownloadStringAsync(<span style="color:blue;">new </span><span style="color:#2b91af;">Uri</span>(url), <span style="color:#2b91af;">Tuple</span>.Create(t, cevent, summaries, i));
+    }
+}
+cevent.Wait();</pre>
+<p> </p>
+<p>Notice the use of a Countdown event to wait for all the thread to complete before printing out the results. Also notice the new <em>Tuple<T></em> class used to package things to send around.</p>
+<p>We can then print out the top and bottom 15%:</p>
+<pre class="code"><span style="color:blue;">var </span>top15perc =
+        summaries
+        .Where(s =&gt; s.LRS.HasValue)
+        .OrderByDescending(s =&gt; s.LRS)
+        .Take((<span style="color:blue;">int</span>)(len * <span style="color:brown;">0.15</span>));
+<span style="color:blue;">var </span>bottom15perc =
+        summaries
+        .Where(s =&gt; s.LRS.HasValue)
+        .OrderBy(s =&gt; s.LRS)
+        .Take((<span style="color:blue;">int</span>)(len * <span style="color:brown;">0.15</span>));
+<span style="color:#2b91af;">Console</span>.WriteLine();
+<span style="color:#2b91af;">Summary</span>.Banner();
+<span style="color:#2b91af;">Console</span>.WriteLine(<span style="color:#a31515;">"TOP 15%"</span>);
+<span style="color:blue;">foreach</span>(<span style="color:blue;">var </span>s <span style="color:blue;">in </span>top15perc)
+    s.Print();
+<span style="color:#2b91af;">Console</span>.WriteLine();
+<span style="color:#2b91af;">Console</span>.WriteLine(<span style="color:#a31515;">"Bottom 15%"</span>);
+<span style="color:blue;">foreach </span>(<span style="color:blue;">var </span>s <span style="color:blue;">in </span>bottom15perc)
+    s.Print();</pre>
+<p> </p>
+<p>Here is what we do when a request comes back with data:</p>
+<pre class="code"><span style="color:blue;">static void </span>downloadStringCompleted(<span style="color:blue;">object </span>sender, <span style="color:#2b91af;">DownloadStringCompletedEventArgs </span>e) {
+    <span style="color:blue;">var </span>bigTuple =<br />             (<span style="color:#2b91af;">Tuple</span>&lt;<span style="color:#2b91af;">Tuple</span>&lt;<span style="color:blue;">string</span>, <span style="color:blue;">string</span>, <span style="color:blue;">string</span>, <span style="color:blue;">string</span>&gt;, <span style="color:#2b91af;">CountdownEvent</span>, <span style="color:#2b91af;">Summary</span>[], <span style="color:blue;">int</span>&gt;)<br />              e.UserState;
+    <span style="color:blue;">var </span>tuple = bigTuple.Item1;
+    <span style="color:blue;">var </span>cevent = bigTuple.Item2;
+    <span style="color:blue;">var </span>summaries = bigTuple.Item3;
+    <span style="color:blue;">var </span>i = bigTuple.Item4;
+    <span style="color:blue;">var </span>ticker = tuple.Item1;
+    <span style="color:blue;">var </span>name = tuple.Item2;
+    <span style="color:blue;">var </span>asset = tuple.Item3;
+    <span style="color:blue;">var </span>subAsset = tuple.Item4;
+    <span style="color:blue;">if </span>(e.Error == <span style="color:blue;">null</span>) {
+        <span style="color:blue;">var </span>adjustedPrices =
+                e.Result
+                .Split(<span style="color:blue;">new</span>[] { <span style="color:#a31515;">'n' </span>})
+                .Skip(<span style="color:brown;">1</span>)
+                .Select(l =&gt; l.Split(<span style="color:blue;">new</span>[] { <span style="color:#a31515;">',' </span>}))
+                .Where(l =&gt; l.Length == <span style="color:brown;">7</span>)
+                .Select(v =&gt; <span style="color:blue;">new </span><span style="color:#2b91af;">Event</span>(<span style="color:#2b91af;">DateTime</span>.Parse(v[<span style="color:brown;"></span>]), <span style="color:#2b91af;">Double</span>.Parse(v[<span style="color:brown;">6</span>])));
+        <span style="color:blue;">var </span>timeSeries = <span style="color:blue;">new </span><span style="color:#2b91af;">TimeSeries</span>(ticker, name, asset, subAsset, adjustedPrices);
+        summaries[i] = timeSeries.GetSummary();
+        cevent.Signal();
+        <span style="color:#2b91af;">Console</span>.Write(<span style="color:#a31515;">"{0} "</span>, ticker);
+    }
+    <span style="color:blue;">else </span>{
+        <span style="color:#2b91af;">Console</span>.WriteLine(<span style="color:#a31515;">"[{0} ERROR] "</span>, ticker);
+        <span style="color:green;">//Console.WriteLine(e.Error);
+        </span>summaries[i] = <span style="color:blue;">new </span><span style="color:#2b91af;">Summary</span>(ticker, name, <span style="color:#a31515;">"ERROR"</span>, <span style="color:#a31515;">"ERROR"</span>, <span style="color:brown;"></span>, <span style="color:brown;"></span>, <span style="color:brown;"></span>, <span style="color:brown;"></span>, <span style="color:brown;"></span>, <span style="color:brown;"></span>,<span style="color:brown;"></span>,<span style="color:brown;"></span>);
+        cevent.Signal();
+    }
+}</pre>
+<p>We first unpack the <em>Tuple</em> we sent out originally, we then extract the Date and Price, create a <em>Summary</em> object and store it in the <em>summaries</em> array. It’s important to remember to <em>Signal</em> to the <em>cevent</em> in the error case as well because we want to print out the results even if some downloading failed.</p>
+<p>And here is what you get for your effort:</p>
+<p><a href="https://msdnshared.blob.core.windows.net/media/TNBlogsFS/BlogFileStorage/blogs_msdn/lucabol/WindowsLiveWriter/BecomingreallyrichwithC_C128/image_2.png"><img style="display:inline;border-width:0;" title="image" border="0" alt="image" src="https://msdnshared.blob.core.windows.net/media/TNBlogsFS/BlogFileStorage/blogs_msdn/lucabol/WindowsLiveWriter/BecomingreallyrichwithC_C128/image_thumb.png" width="743" height="506" /></a></p>
+<p><a href="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Components.PostAttachments/00/09/89/69/82/SystemCodeAndData.zip">SystemCodeAndData.zip</a></p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/csharp">csharp</a></li>
+        
+            <li><a href="../../MyBlog/tags/financial">Financial</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

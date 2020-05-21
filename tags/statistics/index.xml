@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Statistics on Lucabol blog</title>
+    <link>http://peaceiris.com/MyBlog/tags/statistics/</link>
+    <description>Recent content in Statistics on Lucabol blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 19 Jan 2009 11:48:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://peaceiris.com/MyBlog/tags/statistics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bayesian inference in F# – Part IIb – Finding Maia underlying attitude</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/</link>
+      <pubDate>Mon, 19 Jan 2009 11:48:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/</guid>
+      <description>Other parts:
+ Part I – Background Part II – A simple example – modeling Maia  The previous post ended on this note.
+let MaiaJointProb attitude action = match attitude with | Happy -&amp;gt; happyActions |&amp;gt; List.assoc action | UnHappy -&amp;gt; unHappyActions |&amp;gt; List.assoc action | Quiet -&amp;gt; quietActions |&amp;gt; List.assoc action This is just a two by two matrix. It simply represents which probability is associated to an (attitude, action) tuple.</description>
+    </item>
+    
+    <item>
+      <title>Bayesian inference in F# - Part IIa - A simple example - modeling Maia</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/</link>
+      <pubDate>Wed, 26 Nov 2008 15:41:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/</guid>
+      <description>Other parts:
+ Part I - Background Part IIb - Finding Maia underlying attitude   Let&amp;rsquo;s start with a simple example: inferring the underlying attitude of a small baby by observing her actions. Let&amp;rsquo;s call this particular small baby Maia. People always asks her father if she is a ‘good&amp;rsquo; baby or not. Her father started to wonder how he can possibly know that. Being ‘good&amp;rsquo; is not very clear, so he chooses to answer the related question if her attitude is generally happy, unhappy or simply quiet (a kind of middle ground).</description>
+    </item>
+    
+    <item>
+      <title>Bayesian inference in F#  - Part I - Background</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/</link>
+      <pubDate>Fri, 07 Nov 2008 11:48:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/</guid>
+      <description>Other posts:
+   Part IIa - A simple example - modeling Maia     Part IIb - Finding Maia underlying attitude    My interest in Bayesian inference comes from my dissatisfaction with ‘classical&amp;rsquo; statistics. Whenever I want to know something, for example the probability that an unknown parameter is between two values, ‘classical&amp;rsquo; statistics seems to answer a different and more convoluted question.
+Try asking someone what the 95% confidence interval for X is (x1, x2) means.</description>
+    </item>
+    
+  </channel>
+</rss>

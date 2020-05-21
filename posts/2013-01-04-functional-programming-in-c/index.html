@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="This post/program (as I’m writing it in literate style) is a continuation of my previous posts about functional programming in C&#43;&#43;. I promise I’m not going to post about doing it in assembly language (I think) ….
+I came to like the simplicity of C very much and got interested in how you could write functional code in it.
+There is one irritating thing about C as a viable programming language.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Functional programming in C | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2013/01/01</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Functional programming in C
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>This post/program (as I’m writing it in literate style) is a continuation of my previous posts about functional programming in C++. I promise I’m not going to post about doing it in assembly language (I think) ….</p>
+<p>I came to like the simplicity of C very much and got interested in how you could write functional code in it.</p>
+<p>There is one irritating thing about C as a viable programming language. Microsoft’s compiler support is not good. It just supports ANSI C, not C99 or C11. So, if you want to use more modern idyoms, you got to use gcc or clang. In this post I assume you use gcc. I will point out the gcc specific extensions.</p>
+<p>Also, the C standard library is pretty limited, so I decided to use GLib to complement it. I also created some macros to simplify the syntax. I never understood why people like templates and think macros are evil. It takes me all of 5 minutes to do a -E on GCC to debug the result of a macro expansion. With templates, well, that’s different.</p>
+<p>So, in summary, this post is about how you can write functional code in C, perhaps with some gcc extensions and certainly with some macro tricks. Let’s call it funkyC (thanks Ian ). I’m going to show how to use it first. Next post I’m going to show how it’s implemented.</p>
+<h2 id="discriminated-unions-in-c">Discriminated unions in C</h2>
+<p>With a bit of macro magic, you can get a decent looking discriminated union syntax. First we need to include the correct headers. lutils.h is where all the macros are defined.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&lt;glib.h&gt;</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&lt;assert.h&gt;</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&lt;stdbool.h&gt;</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&lt;signal.h&gt;</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&lt;string.h&gt;</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>
+<span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&#34;lutils.h&#34;</span><span style="color:#999;font-weight:bold">
+</span></code></pre></div><p>Then you can declare a discriminated union with the syntax below. It suffers from two problems: repeting the list of possible types in union_decl and repeating the name of the discriminated union in union_end. Perhaps there is a way to avoid that, but I haven’t found it.</p>
+<p>The syntax for the union_type call is the same as you would use inside a struct declaration. We’ll see how this works when we look at lutils.h.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">union_decl  (Car, Volvo, Fiat, Ferrari)
+union_type      (Volvo,     <span style="color:#458;font-weight:bold">int</span> x; <span style="color:#458;font-weight:bold">double</span> y;)
+union_type      (Fiat,      <span style="color:#458;font-weight:bold">char</span><span style="font-weight:bold">*</span> brand, <span style="font-weight:bold">*</span>model;)
+union_type      (Ferrari,   <span style="color:#458;font-weight:bold">char</span><span style="font-weight:bold">*</span> brand, <span style="font-weight:bold">*</span>model;)
+union_end   (Car)
+</code></pre></div><p>We can create a Car either on the stack, as below, or on the heap and we can set its value with union_set.</p>
+<p>Notice the usage of the new struct construction syntax to simulate optional named parameters in C. I would prefer not to have a dot at the start of the name, but overall it is beautiful (if I can say that myself).</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">printCar</span>(Car<span style="font-weight:bold">*</span>);
+
+<span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">testUnion</span>() {
+    Car c;
+
+    union_set   (<span style="font-weight:bold">&amp;</span>c, Volvo, .x <span style="font-weight:bold">=</span> <span style="color:#099">3</span>, .y <span style="font-weight:bold">=</span> <span style="color:#099">4</span>);
+    printCar    (<span style="font-weight:bold">&amp;</span>c);
+    union_set   (<span style="font-weight:bold">&amp;</span>c, Ferrari, .brand <span style="font-weight:bold">=</span> <span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">Ferrari</span><span style="color:#b84">&#34;</span>);
+    printCar    (<span style="font-weight:bold">&amp;</span>c);
+    union_set   (<span style="font-weight:bold">&amp;</span>c, Fiat, .brand <span style="font-weight:bold">=</span> <span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">Fiat</span><span style="color:#b84">&#34;</span>, .model <span style="font-weight:bold">=</span> <span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">234</span><span style="color:#b84">&#34;</span>);
+    printCar    (<span style="font-weight:bold">&amp;</span>c);
+}
+</code></pre></div><p>You can then access values inside your discriminated union with normal if statements.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">testCar</span>(Car<span style="font-weight:bold">*</span>, <span style="color:#458;font-weight:bold">char</span> <span style="font-weight:bold">const</span> <span style="font-weight:bold">*</span>);
+
+<span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">printCar</span>(Car<span style="font-weight:bold">*</span> c) {
+
+    <span style="font-weight:bold">if</span>(c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Volvo) {
+        <span style="color:#458;font-weight:bold">int</span> x <span style="font-weight:bold">=</span> c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>Volvo.x;
+        g_assert_cmpint(x, <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span>, <span style="color:#099">3</span>);
+    }
+</code></pre></div><p>Or perhaps you want the equivalent of a match statement in F# (aka an expression that returns a value based on the type of the discriminated union). Notice that, as logical, all the expressions need to return the same type. That’s why union_fail takes a value of the expression type.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">    <span style="color:#458;font-weight:bold">char</span> temp[<span style="color:#099">40</span>];
+
+    <span style="color:#458;font-weight:bold">char</span><span style="font-weight:bold">*</span> value <span style="font-weight:bold">=</span>   c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Volvo    <span style="font-weight:bold">?</span>   itoa(c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>Volvo.x, temp, <span style="color:#099">10</span>)
+                  <span style="font-weight:bold">:</span> c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Ferrari  <span style="font-weight:bold">?</span>   (<span style="color:#458;font-weight:bold">void</span>)c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>Ferrari.model, c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>Ferrari.brand
+                  : c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Fiat     <span style="font-weight:bold">?</span>   c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>Fiat.model
+                                        :   union_fail(<span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">Not a valid car type</span><span style="color:#b84">&#34;</span>);
+</code></pre></div><p>If you are willing to be gcc specific, then your expression can be comprised of multiple statements, of which the last one returns the value of the expression. This allows a much more flexible syntax for your match clauses.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">ifdef __GNUC__</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>
+    value       <span style="font-weight:bold">=</span>   c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Volvo    <span style="font-weight:bold">?</span> ({
+                                            <span style="font-weight:bold">struct</span> Volvo<span style="font-weight:bold">*</span> it <span style="font-weight:bold">=</span> <span style="font-weight:bold">&amp;</span>c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>Volvo;
+                                            itoa(it<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>x, temp, <span style="color:#099">10</span>);
+                                          })
+                  <span style="font-weight:bold">:</span> c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Ferrari  <span style="font-weight:bold">?</span>   (<span style="color:#458;font-weight:bold">void</span>)c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>Ferrari.model, c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>Ferrari.brand
+                  : c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Fiat     <span style="font-weight:bold">?</span>   c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>Fiat.model
+                                        :   union_fail(<span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">Not a valid car type</span><span style="color:#b84">&#34;</span>);
+
+    testCar(c, value);
+
+<span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">endif </span><span style="color:#998;font-style:italic">// __GNUC__
+</span><span style="color:#998;font-style:italic"></span>}
+</code></pre></div><p>We then use the super simple test framework in GLib to make sure that it all works as expected …</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">testCar</span>(Car<span style="font-weight:bold">*</span> c, <span style="color:#458;font-weight:bold">char</span> <span style="font-weight:bold">const</span> <span style="font-weight:bold">*</span> value) {
+    <span style="font-weight:bold">if</span>(c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Volvo) g_assert_cmpstr(value, <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span>, <span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">3</span><span style="color:#b84">&#34;</span>);
+    <span style="font-weight:bold">else</span> <span style="font-weight:bold">if</span> (c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Fiat) g_assert_cmpstr(value, <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span>, <span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">234</span><span style="color:#b84">&#34;</span>);
+    <span style="font-weight:bold">else</span> <span style="font-weight:bold">if</span> (c<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span> Ferrari) g_assert_cmpstr(value, <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span>, <span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">Ferrari</span><span style="color:#b84">&#34;</span>);
+    <span style="font-weight:bold">else</span> g_assert_not_reached();
+
+}
+</code></pre></div><h2 id="nested-functions-and-lambda-variables">Nested functions and lambda variables</h2>
+<p>GCC has many other cool extensions. A very simple one is nested functions. It allows you to nest functions :-) Look at the definition of doA and f2 in the function below. Putting together nested functions and block statement expressions allows you, with some macro magic, to define lambda functions in your code (from here ).</p>
+<p>Remember that lambdas (aka nested functions) are allocated on the stack. They are very fast, but you cannot store their pointer into a gloal table (unless such table is used while the stack for this function is alive).</p>
+<p>In such cases, you have to create a proper function. But for the other 90% of use cases, they work pretty well. They are lambdas in the spirit of C: very fast, but error prone …</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">ifdef __GNUC__</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>
+<span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">testLambda</span>() {
+
+    <span style="font-weight:bold">typedef</span> <span style="color:#458;font-weight:bold">int</span> (<span style="font-weight:bold">*</span>aFunc) (<span style="color:#458;font-weight:bold">int</span>);
+
+    aFunc doA(aFunc f){
+
+        <span style="color:#458;font-weight:bold">int</span> k(<span style="color:#458;font-weight:bold">int</span> i) {
+            <span style="font-weight:bold">return</span> f(i) <span style="font-weight:bold">+</span> <span style="color:#099">3</span>;
+        }
+        <span style="font-weight:bold">return</span> k;
+    }
+
+    <span style="color:#458;font-weight:bold">int</span> clos <span style="font-weight:bold">=</span> <span style="color:#099">2</span>;
+
+    <span style="color:#458;font-weight:bold">int</span> f2 (<span style="color:#458;font-weight:bold">int</span> i) {<span style="font-weight:bold">return</span> i;}
+    aFunc b <span style="font-weight:bold">=</span> doA(lambda (<span style="color:#458;font-weight:bold">int</span>, (<span style="color:#458;font-weight:bold">int</span> p) {<span style="font-weight:bold">return</span> p <span style="font-weight:bold">+</span> clos;}));
+
+    g_assert_cmpint(b(<span style="color:#099">3</span>), <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span>, <span style="color:#099">8</span>);
+}
+</code></pre></div><h2 id="automatic-cleanup-of-local-variables">Automatic cleanup of local variables</h2>
+<p>This is not a functional topic per se, but something that always annoyed me tremendously about C. The fact that you cannot define the equivalent of the using statement in C#, or destructors in C++. Well, now you can. Or not?</p>
+<p>Again, if you are willing to be GCC specific, you can use an attribute (more on this in the upcoming implementation post) to associate a cleanup function that gets called when your variable goes out of scope. In this case, I wrapped the free case in a nice looking macro.</p>
+<p>But that doesn’t really work. You would certainly want such function to be called on any kind of exit from the enclosing scope (aka via exit(), abort() or longjmp()). Alas, that doesn’t happen.</p>
+<p>This reduces the usefulness of this mechanism tremendously. Probably too much in that it lulls you into a false sense of security. You still need to free your resources in the error path of your application.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">testAutomaticCleanup</span>() {
+    <span style="color:#458;font-weight:bold">char</span><span style="font-weight:bold">*</span> stack_alloc() {
+        auto_free <span style="color:#458;font-weight:bold">char</span><span style="font-weight:bold">*</span> b <span style="font-weight:bold">=</span> g_malloc(<span style="color:#099">10000</span>);
+        memset(b, <span style="color:#b84"></span><span style="color:#b84">&#39;</span><span style="color:#b84">#</span><span style="color:#b84">&#39;</span>, <span style="color:#099">10000</span>);
+        <span style="font-weight:bold">return</span> b;
+    };
+
+    <span style="color:#458;font-weight:bold">char</span> <span style="font-weight:bold">*</span> c <span style="font-weight:bold">=</span> stack_alloc();
+    g_assert(<span style="font-weight:bold">*</span>c <span style="font-weight:bold">!</span><span style="font-weight:bold">=</span> <span style="color:#b84"></span><span style="color:#b84">&#39;</span><span style="color:#b84">#</span><span style="color:#b84">&#39;</span>);
+}
+
+<span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">endif</span><span style="color:#999;font-weight:bold">
+</span></code></pre></div><h2 id="data-structures">Data structures</h2>
+<p>GLib comes with a vast library of data structures to use, not too different from the .NET framework or Java. For example, below you have a single linked list …</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">testGLib</span>() {
+     GSList<span style="font-weight:bold">*</span> list <span style="font-weight:bold">=</span> <span style="color:#999">NULL</span>;
+
+     list <span style="font-weight:bold">=</span> g_slist_append(list, <span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">Three</span><span style="color:#b84">&#34;</span>);
+     list <span style="font-weight:bold">=</span> g_slist_prepend(list, <span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">first</span><span style="color:#b84">&#34;</span>);
+     g_assert_cmpint(g_slist_length(list), <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span>, <span style="color:#099">2</span>);
+
+     list <span style="font-weight:bold">=</span> g_slist_remove(list, <span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">first</span><span style="color:#b84">&#34;</span>);
+     g_assert_cmpint(g_slist_length(list), <span style="font-weight:bold">=</span><span style="font-weight:bold">=</span>, <span style="color:#099">1</span>);
+
+     g_slist_free(list);
+}
+</code></pre></div><h2 id="wrapping-up">Wrapping up</h2>
+<p>There you go, rising the level of abstraction of C, still keeping it very fast (if you are willing to be gcc bound).</p>
+<p>There are other features in functional programming languages that are not in this post. Maybe I’ll get around to macro my way into them eventually, maybe not.</p>
+<p>In the next post we’ll talk about how all of this is implemented. Below is the code for running the testcases.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">runTests</span>(<span style="color:#458;font-weight:bold">int</span> argc, <span style="color:#458;font-weight:bold">char</span><span style="font-weight:bold">*</span> argv[]) {
+    g_test_init(<span style="font-weight:bold">&amp;</span>argc, <span style="font-weight:bold">&amp;</span>argv, <span style="color:#999">NULL</span>);
+
+    <span style="font-weight:bold">if</span>(g_test_quick()) {
+        g_test_add_func(<span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">/utils/automatic_cleanup</span><span style="color:#b84">&#34;</span>, testAutomaticCleanup);
+        g_test_add_func(<span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">/utils/lambda</span><span style="color:#b84">&#34;</span>, testLambda);
+        g_test_add_func(<span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">/utils/Union</span><span style="color:#b84">&#34;</span>, testUnion);
+        g_test_add_func(<span style="color:#b84"></span><span style="color:#b84">&#34;</span><span style="color:#b84">/utils/SList</span><span style="color:#b84">&#34;</span>, testGLib);
+    }
+
+    <span style="font-weight:bold">return</span> g_test_run();
+}
+
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>(<span style="color:#458;font-weight:bold">int</span> argc, <span style="color:#458;font-weight:bold">char</span> <span style="font-weight:bold">*</span>argv[]) {
+    <span style="font-weight:bold">return</span> runTests(argc, argv);
+}
+</code></pre></div>
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/c">C</a></li>
+        
+            <li><a href="../../MyBlog/tags/functional-programming">Functional Programming</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    <nav id="TableOfContents">
+    <ul>
+        
+
+        
+        <li>
+        <a href="#discriminated-unions-in-c">Discriminated unions in C</a>
+        
+
+        
+        </li><li>
+            <a href="#nested-functions-and-lambda-variables">Nested functions and lambda variables</a>
+        
+
+        
+        </li><li>
+            <a href="#automatic-cleanup-of-local-variables">Automatic cleanup of local variables</a>
+        
+
+        
+        </li><li>
+            <a href="#data-structures">Data structures</a>
+        
+
+        
+        </li><li>
+            <a href="#wrapping-up">Wrapping up</a>
+    </li></ul>
+</nav>
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

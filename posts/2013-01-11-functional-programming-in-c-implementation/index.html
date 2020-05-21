@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Cleanup Let&amp;rsquo;s start simple with the cleanup function. First we need the usual barrage of includes. G_BEGIN_DECLS allows the header to be linked in C&#43;&#43;.
+#ifndef L_UTILS_INCLUDED#define L_UTILS_INCLUDED #include &amp;#34;glib.h&amp;#34; G_BEGIN_DECLS #include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;stdio.h&amp;gt;This feature is GCC specific. It uses __attribute((cleanup(f))) where f is the cleanup function. In this case the cleanup function just frees the memory. #ifdef __GNUC__ static inline void __autofree(void *p) { void **_p = (void**)p; free(*_p); } auto_clean is a building block that you can use to plug in your own cleanup function.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Functional programming in C: Implementation | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2013/01/01</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Functional programming in C: Implementation
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<h2 id="cleanup">Cleanup</h2>
+<p>Let&rsquo;s start simple with the cleanup function. First we need the usual barrage of includes. <code>G_BEGIN_DECLS</code> allows the header to be linked in C++.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">ifndef L_UTILS_INCLUDED</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define L_UTILS_INCLUDED</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>
+<span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&#34;glib.h&#34;</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>
+G_BEGIN_DECLS
+
+<span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&lt;stdlib.h&gt;</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">include</span> <span style="color:#999;font-weight:bold">&lt;stdio.h&gt;</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>This feature is GCC specific. It uses __attribute((cleanup(f))) where f is the cleanup function. In this <span style="font-weight:bold">case</span> the cleanup function just frees the memory.
+
+<span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">ifdef __GNUC__</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>
+ <span style="font-weight:bold">static</span> <span style="font-weight:bold">inline</span> <span style="color:#458;font-weight:bold">void</span> __autofree(<span style="color:#458;font-weight:bold">void</span> <span style="font-weight:bold">*</span>p) {
+     <span style="color:#458;font-weight:bold">void</span> <span style="font-weight:bold">*</span><span style="font-weight:bold">*</span>_p <span style="font-weight:bold">=</span> (<span style="color:#458;font-weight:bold">void</span><span style="font-weight:bold">*</span><span style="font-weight:bold">*</span>)p;
+     free(<span style="font-weight:bold">*</span>_p);
+ }
+</code></pre></div><p>auto_clean is a building block that you can use to plug in your own cleanup function. In the common case of memory allocation, I created a wrapper macro auto_free to make it even easier.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define auto_clean(f)   __attribute((cleanup(f)))</span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define auto_free       auto_clean(__autofree)</span><span style="color:#999;font-weight:bold">
+</span></code></pre></div><h2 id="lambdas">Lambdas</h2>
+<p>I took this one from here.</p>
+<p>If you think about it, a lambda is just an expression that returns a function. This macro creates a nested function, called fn, inside a statement expression and returns it. Unfortunately these features are gcc specific.</p>
+<p>Remember that lambdas are not allocated on the heap, so you have to be careful on how you used them.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define lambda(return_type, function_body)                                          </span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>  ({                                                                                
+    return_type __fn__ function_body                                                
+    __fn__;                                                                         
+  })
+
+<span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">endif</span><span style="color:#999;font-weight:bold">
+</span></code></pre></div><h2 id="unions">Unions</h2>
+<p>A union type is what you would expect: a struct that contains an unnamed union and a field to specify which type it is. We need the list of types in union_decl to create the kind enum. The usage of <strong>VA_ARGS</strong> allows to use whatever syntax you want to go into the enum (i.e. specify int values).</p>
+<p>Having to specify the the types here is unfortunate as you are going to need to specify it in the union_case macros as well.</p>
+<p>I haven&rsquo;t found another way to do it. If you do, let me know.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define union_decl(alg, ...)                                                        </span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span><span style="font-weight:bold">typedef</span> <span style="font-weight:bold">struct</span> alg {                                                                
+    <span style="font-weight:bold">enum</span> {  __VA_ARGS__ } kind;                                                     
+    <span style="font-weight:bold">union</span> {
+</code></pre></div><p>You specify each type for the union with union_type. That looks pretty good to me.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define union_type(type, ...)                                                       </span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>    <span style="font-weight:bold">struct</span> type { __VA_ARGS__ } type;
+</code></pre></div><p>Ideally you shouldn&rsquo;t need to specify alg here. Perhaps there is a way to avoid doing so.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define union_end(alg)                                                              </span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>    };} alg;
+</code></pre></div><p>You can then set the fields on the union type by using the below macro. Notice the usage of the new struct constructor here to allow optional named parameters.</p>
+<p>This is a statement, so it cannot go into an expression place. I think I could make it an expression that returns the existing (or a new) union. This is going to be a sceanrio if people are not using gcc statement expressions.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define union_set(instance, type, ...)                                              </span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>    G_STMT_START {                                                                  
+        (instance)<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>kind     <span style="font-weight:bold">=</span> (type);                                              
+        (instance)<span style="font-weight:bold">-</span><span style="font-weight:bold">&gt;</span>type   <span style="font-weight:bold">=</span> (<span style="font-weight:bold">struct</span> type) { __VA_ARGS__ };                         
+    } G_STMT_END
+</code></pre></div><p>This is an utility macro. It is a version of g_assert that you can use in an expression position.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define g_assert_e(expr) (                                                          </span><span style="color:#999;font-weight:bold">
+</span><span style="color:#999;font-weight:bold"></span>    (G_LIKELY (<span style="font-weight:bold">!</span>expr) <span style="font-weight:bold">?</span>                                                             
+   (<span style="color:#458;font-weight:bold">void</span>)g_assertion_message_expr (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, 
+                                             <span style="color:#a61717;background-color:#e3d2d2">#</span>expr)                             
+    <span style="font-weight:bold">:</span> (<span style="color:#458;font-weight:bold">void</span>) <span style="color:#099">1</span>) )
+</code></pre></div><p>And this allows to fill the default case in a match statement implemented as a ternary operator. It prints out a text representation of the expression and returns it.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">define union_fail(...) (g_assert_e(((void)(__VA_ARGS__) , false)), (__VA_ARGS__))</span><span style="color:#999;font-weight:bold">
+</span></code></pre></div><p>The rest of the code is commented out. It is a macro way to do pattern matching. For me, the ternary operator is simpler, but I left it there in case you want to play with it.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#998;font-style:italic">/*
+</span><span style="color:#998;font-style:italic">#define union_case_only_s(instance, type, ...)                                      
+</span><span style="color:#998;font-style:italic">        G_STMT_START {                                                              
+</span><span style="color:#998;font-style:italic">        if((instance)-&gt;kind == (type)) {                                            
+</span><span style="color:#998;font-style:italic">            G_GNUC_UNUSED struct type* it = &amp;((instance)-&gt;type); __VA_ARGS__; }     
+</span><span style="color:#998;font-style:italic">        else g_assert_not_reached();                                                
+</span><span style="color:#998;font-style:italic">        } G_STMT_END
+</span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">#define union_case_first_s(alg, instance, type, ...)                                
+</span><span style="color:#998;font-style:italic">    G_STMT_START {                                                                  
+</span><span style="color:#998;font-style:italic">        alg* private_tmp = (instance);                                              
+</span><span style="color:#998;font-style:italic">        if(private_tmp-&gt;kind == type) {                                             
+</span><span style="color:#998;font-style:italic">            G_GNUC_UNUSED struct type* it = &amp;((private_tmp)-&gt;type); __VA_ARGS__; }
+</span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">#define union_case_s(type, ...)                                                     
+</span><span style="color:#998;font-style:italic">        else if(private_tmp-&gt;kind == type) {                                        
+</span><span style="color:#998;font-style:italic">            G_GNUC_UNUSED struct type* it = &amp;((private_tmp)-&gt;type); __VA_ARGS__; }
+</span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">#define union_case_last_s(type, ...)                                                
+</span><span style="color:#998;font-style:italic">        else if(private_tmp-&gt;kind == type) {                                        
+</span><span style="color:#998;font-style:italic">            G_GNUC_UNUSED struct type* it = &amp;((private_tmp)-&gt;type); __VA_ARGS__; }  
+</span><span style="color:#998;font-style:italic">            else g_assert_not_reached(); } G_STMT_END
+</span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">#define union_case_default_s(...)                                                   
+</span><span style="color:#998;font-style:italic">        else __VA_ARGS__; } G_STMT_END
+</span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">// Need to use assert here because g_assert* cannot be used in expressions as it expands to do .. while(0)
+</span><span style="color:#998;font-style:italic">#define union_case_only(instance, type, ...)                                        
+</span><span style="color:#998;font-style:italic">        ( (instance)-&gt;kind == (type) ? (__VA_ARGS__) : (assert(false), __VA_ARGS__) )
+</span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">#define union_case_first(instance, type, ...)                                       
+</span><span style="color:#998;font-style:italic">        ( (instance)-&gt;kind == (type) ? (__VA_ARGS__) :
+</span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">#define union_case(instance, type, ...)                                             
+</span><span style="color:#998;font-style:italic">        (instance)-&gt;kind == (type) ? (__VA_ARGS__) :
+</span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">#define union_case_last(instance, type, ...)                                        
+</span><span style="color:#998;font-style:italic">        (instance)-&gt;kind == (type) ? (__VA_ARGS__) : (assert(false), (__VA_ARGS__)) )
+</span><span style="color:#998;font-style:italic">#define union_case_default(...)                                                     
+</span><span style="color:#998;font-style:italic">        (__VA_ARGS__) )
+</span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">*/</span>
+
+G_BEGIN_DECLS
+
+<span style="color:#999;font-weight:bold">#</span><span style="color:#999;font-weight:bold">endif </span><span style="color:#998;font-style:italic">// L_UTILS_INCLUDED
+</span></code></pre></div>
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/c">C</a></li>
+        
+            <li><a href="../../MyBlog/tags/functional-programming">Functional Programming</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    <nav id="TableOfContents">
+    <ul>
+        
+
+        
+        <li>
+        <a href="#cleanup">Cleanup</a>
+        
+
+        
+        </li><li>
+            <a href="#lambdas">Lambdas</a>
+        
+
+        
+        </li><li>
+            <a href="#unions">Unions</a>
+    </li></ul>
+</nav>
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

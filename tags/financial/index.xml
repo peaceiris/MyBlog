@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Financial on Lucabol blog</title>
+    <link>http://peaceiris.com/MyBlog/tags/financial/</link>
+    <description>Recent content in Financial on Lucabol blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 31 Oct 2014 08:11:13 +0000</lastBuildDate>
+    
+	<atom:link href="http://peaceiris.com/MyBlog/tags/financial/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Building a stock alert system with Google Script</title>
+      <link>http://peaceiris.com/MyBlog/posts/2014-10-31-building-a-stock-alert-system-with-google-script/</link>
+      <pubDate>Fri, 31 Oct 2014 08:11:13 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2014-10-31-building-a-stock-alert-system-with-google-script/</guid>
+      <description>This is obsolete as Yahoo stopped their quote service. I have a new spreadsheet here.
+When I thought about it, I realized that my ideal system would be a spreadsheet where to add tickers and alert levels. Under the covers, the system would need to check the current price of a ticker, compare it with the alert level and send me email when triggered.
+Also the whole thing shouldn&amp;rsquo;t be running from my machine at home, but from somewhere on the internet.</description>
+    </item>
+    
+    <item>
+      <title>Letter on investing</title>
+      <link>http://peaceiris.com/MyBlog/posts/2012-04-05-letter-on-investing/</link>
+      <pubDate>Thu, 05 Apr 2012 07:57:59 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2012-04-05-letter-on-investing/</guid>
+      <description>In 2007 I wrote a blog post on investing. During the last five years, my view evolved a bit. People often ask me how to get a financial education. This is the latest email I sent on the topic.
+From: Bolognese, Luca
+Sent: 04 April 2012 16:52
+To: XXX
+Subject: RE: A financial education
+Disclaimer: this are just my personal opinions drawn from my 10+ years of investing, reading books and academic papers about it.</description>
+    </item>
+    
+    <item>
+      <title>Tracking spread trades in F# (and WPF MVVM) – Part II</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/</link>
+      <pubDate>Fri, 19 Mar 2010 23:33:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/</guid>
+      <description>I wanted to experiment with MVVM and WPF in F#, so I decided to create a little graphical interface for the csv file that drives the spread tracking application. When I started I thought I needed some kind of a grid with Submit/Cancel buttons, but the more I thought about it, the more I realized that I wouldn’t need them.
+See, I’ve always be one to complain about our current paradigm of Open File / Close File / Save File arguing that the user shouldn’t know about an entity called ‘file’.</description>
+    </item>
+    
+    <item>
+      <title>Tracking spread trades in F# (and hooking up XUnit and FsCheck) – Part 1</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/</link>
+      <pubDate>Sat, 13 Mar 2010 01:18:37 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/</guid>
+      <description>I have a bunch of spread trades open. Spread trades are trades where you buy something and you sell something else generally in the same amount. You hope to profit from the widening of the spread between the price of the two instruments.
+I place stop loss orders or trailing stops for all my trades. I have various tool that automatically notify me when a stop loss or trailing stop is hit.</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices, divs and splits in F# updated to Visual Studio 2010</title>
+      <link>http://peaceiris.com/MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/</link>
+      <pubDate>Fri, 26 Feb 2010 23:50:44 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/</guid>
+      <description>I’m working on a program to keep track of paired trades with trailing stops. I need to download stock prices, so I thought I might reuse some old code of mine. Here is the updated framework.</description>
+    </item>
+    
+    <item>
+      <title>Becoming really rich with C#</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-09-22-becoming-really-rich-with-c/</link>
+      <pubDate>Tue, 22 Sep 2009 19:40:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-09-22-becoming-really-rich-with-c/</guid>
+      <description>Or maybe not, please do not hold me responsible if you lose money following this system. Having said that, it is my opinion that there are very few concepts that are important in investing. Three big ones are value, diversification and momentum. This post is about the latter two and how to use C# to create a simple trading system that uses both.
+Diversification is ‘not put all your eggs in one basket’ (contrary to ‘put all of them in one basket and watch that basket’).</description>
+    </item>
+    
+    <item>
+      <title>Excel Financial functions 2.0 released</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/</link>
+      <pubDate>Wed, 25 Feb 2009 14:55:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/</guid>
+      <description>I simply fixed a bug related to the Rate function (wrong name for parameters).
+It is here: http://code.msdn.microsoft.com/FinancialFunctions</description>
+    </item>
+    
+    <item>
+      <title>New release of Financial Functions .NET uploaded on MSDN Code Gallery</title>
+      <link>http://peaceiris.com/MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/</link>
+      <pubDate>Tue, 27 Jan 2009 14:18:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/</guid>
+      <description>I fixed the bug described in this thread and cleaned up the root finding algorithm. I’m still unhappy about it, but I have no time to code a better one right now (i.e. Ridder, Brent). I also added changes.txt and todo.txt to keep track of things.
+Changes.txt
+V1
+ Fixed call to throw in bisection Changed findBounds algo Added TestXirrBugs function Removed the NewValue functions everywhere  ToDo.txt
+ The interaction of Bisection and Newton algo in findRoot needs review.</description>
+    </item>
+    
+    <item>
+      <title>Financial Functions for .NET released !</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</link>
+      <pubDate>Thu, 04 Dec 2008 16:40:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</guid>
+      <description>Today I released the following library on CodeGallery. It is the result of three months of coding during my paternity leave in Italy. You can get it from here.
+What is it?
+This is a .NET library that provides the full set of financial functions from Excel. The main goal for the library is compatibility with Excel, by providing the same functions, with the same behaviour. Note though that this is not a wrapper over the Excel library; the functions have been re-implemented in managed code so that you do not need to have Excel installed to use this library.</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices in F# - Part VI - Code posted</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/</link>
+      <pubDate>Mon, 20 Oct 2008 18:45:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/</guid>
+      <description>Other parts:
+ Part I - Data modeling Part II - Html scraping Part III - Async loader for prices and divs Part IV - Async loader for splits Part V - Adjusting historical data  An unnamed friend told me that I should stop posting small snippets of code and instead post entire solutions on CodeGallery. I did it for this one and here is the link.
+Here is what&amp;rsquo;s in the zip file:</description>
+    </item>
+    
+    <item>
+      <title>Downloading stock prices in F# - Part IV - Async loader for splits</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/</link>
+      <pubDate>Fri, 19 Sep 2008 17:59:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/</guid>
+      <description>Other parts:
+ Part I - Data modeling Part II - Html scraping Part III - Async loader for prices and divs Part V - Adjusting historical data Part VI - Code posted  Downloading splits is a messy affair. The problem is that Yahoo doesn&amp;rsquo;t give you a nice comma-delimitated stream to work with. You have to parse the Html yourself (and it can be on multiple pages). At the end of the post, the overall result is kind of neat, but to get there we need a lot of busywork.</description>
+    </item>
+    
+    <item>
+      <title>Book review: The Halo Effect</title>
+      <link>http://peaceiris.com/MyBlog/posts/2008-01-07-book-review-the-halo-effect/</link>
+      <pubDate>Mon, 07 Jan 2008 14:04:22 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2008-01-07-book-review-the-halo-effect/</guid>
+      <description>When I read Built to Last, In search of excellent and Good to great I immediately thought: What a bunch of BS!!. But again, I think that about most business books.
+The content of these books seemed particularly ludicrous to me. I found both logical inconsistencies and methodological flaws in their process. For example, picking successful companies after the fact is analogous to picking the winners of a lottery and claim that they have exceptional skills.</description>
+    </item>
+    
+    <item>
+      <title>Bisection-based XIRR implementation in C#</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-12-17-bisection-based-xirr-implementation-in-c/</link>
+      <pubDate>Mon, 17 Dec 2007 18:17:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-12-17-bisection-based-xirr-implementation-in-c/</guid>
+      <description>Here is a quick implementation of XIRR (using Excel nomenclature) written in C#.
+Disclaimer: this is a super simple Bisection-based implementation. People tend to prefer the Newton method, but this is simpler and works for the app I&amp;rsquo;m writing. I decided to post it because I couldn&amp;rsquo;t find one on the net when I looked for it. I attached testcases to show the extent of my testing.
+It is called CalculateXIRR and it is invoked by passing a list of cash flows, a tolerance and a max number of iterations.</description>
+    </item>
+    
+    <item>
+      <title>Parsing QIF Quicken files in C#</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-08-31-parsing-qif-quicken-files-in-c/</link>
+      <pubDate>Fri, 31 Aug 2007 16:43:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-08-31-parsing-qif-quicken-files-in-c/</guid>
+      <description>I&amp;rsquo;m slightly prouder of the structure of this code than the one in the previous blog post. You can simply inherit from QIFParserBase and override a couple of abstract methods to customize the behavior. Still, I just tested it on a couple of test QIF files. It is not production quality at all.
+Notice that I don&amp;rsquo;t even have Quicken. I&amp;rsquo;m producing these test file with FundManager, which I use for my investments.</description>
+    </item>
+    
+    <item>
+      <title>Retrieve prices, dividends and splits for a stock in C#</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-08-30-retrieve-prices-dividends-and-splits-for-a-stock-in-c/</link>
+      <pubDate>Thu, 30 Aug 2007 16:25:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-08-30-retrieve-prices-dividends-and-splits-for-a-stock-in-c/</guid>
+      <description>I wrote this code very quickly and I&amp;rsquo;m kind of ashamed of it, but it gets the job done (I think). You need the HTML Agility Pack for the stock splits retrieving code. You can download it from here{.} or you can simply comment out the code. I wrote it against Visual Studio 2008 beta 2{.}, but it should be trivial to port it to previous versions.
+You run it from a command window like this: priceretriever msft 1/1/1990 2/3/2003.</description>
+    </item>
+    
+    <item>
+      <title>A financial education (my ideas)</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-04-20-a-financial-education-my-ideas/</link>
+      <pubDate>Fri, 20 Apr 2007 14:55:39 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-04-20-a-financial-education-my-ideas/</guid>
+      <description>When I came to US, I wanted to get an introduction on personal finance. I needed to know what to insure, when, how to buy an house and all this sort of basic things. At the time I read Personal Finance for Dummies. I then discovered that very many US folks don’t know about these things either and I found myself recommending this simple book to plenty of people. You can find it for a few bucks in used book-stores.</description>
+    </item>
+    
+    <item>
+      <title>A good Emerging Market fund</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-02-02-a-good-emerging-market-fund/</link>
+      <pubDate>Fri, 02 Feb 2007 13:26:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-02-02-a-good-emerging-market-fund/</guid>
+      <description>If you are looking for a good fund for this corner of your portfolio, you might want to consider Eaton Vance Structured Emerging Mkt (EAEMX). There is also a much cheaper version (EITEX), but it is open just to folks with a financial advisor.
+It is a mechanical fund. Here is how their strategy works (as far as I understand it):
+ They divide EM market countries in 4 categories, they assign a weight to each category (I.</description>
+    </item>
+    
+    <item>
+      <title>A trading/portfolio management Excel Add-in based on the books by Ralph Vince</title>
+      <link>http://peaceiris.com/MyBlog/posts/2007-01-04-a-tradingportfolio-management-excel-add-in-based-on-the-books-by-ralph-vince/</link>
+      <pubDate>Thu, 04 Jan 2007 17:53:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2007-01-04-a-tradingportfolio-management-excel-add-in-based-on-the-books-by-ralph-vince/</guid>
+      <description>I like to write code and I still manage to do it even now that it is not my primary job. I never post the things that I write because I don&amp;rsquo;t want to maintain them. Lately Charlie convinced me that I don&amp;rsquo;t have to do that. I can just throw the code out, without much preparation or implicit contract of perpetual maintenance.
+This one is an Excel add-in that adds functions to Excel to analyze your trading and manage your portfolio.</description>
+    </item>
+    
+    <item>
+      <title>To rent or to buy a house, some more evidence of my unpopular thesis</title>
+      <link>http://peaceiris.com/MyBlog/posts/2005-03-09-to-rent-or-to-buy-a-house-some-more-evidence-of-my-unpopular-thesis/</link>
+      <pubDate>Wed, 09 Mar 2005 12:01:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2005-03-09-to-rent-or-to-buy-a-house-some-more-evidence-of-my-unpopular-thesis/</guid>
+      <description>I discussed this topic in a previous post http://blogs.msdn.com/lucabol/archive/2004/07/30/202394.aspx and I received a number of emails telling me how crazy I was even speculating that, at the current juncture, it may be more convinient to rent than to buy a house.
+This week The Economist runs a piece where they make the same exact claim. House prices are so high and rents are so low all over the world that renting might, indeed, be better.</description>
+    </item>
+    
+    <item>
+      <title>Rent or buy spreadsheet</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-08-18-rent-or-buy-spreadsheet/</link>
+      <pubDate>Wed, 18 Aug 2004 12:13:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-08-18-rent-or-buy-spreadsheet/</guid>
+      <description>Someone asked me for the spreadsheet I used for the calculations in my previous posts. Here you have it. The data doesn&amp;rsquo;t reflect my current situation.
+Feel free to use it with your own numbers (and tell me of any bug).</description>
+    </item>
+    
+    <item>
+      <title>I am buying a house</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-08-02-im-buying-a-house/</link>
+      <pubDate>Mon, 02 Aug 2004 12:57:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-08-02-im-buying-a-house/</guid>
+      <description>I think I&amp;rsquo;ve been misinterpreted in my previous posts. I&amp;rsquo;m not suggesting that renting is better than owning. You have to run your numbers and make your own choice. There are many assumptions to consider (financial and not). The not financial ones often are more important. You have to run your numbers, but in general renting looks better if:
+ You cannot buy ( 🙂 ) and/or You plan to stay in a place for a short time and/or You believe houses are vastly overpriced in your area and they&amp;rsquo;ll return will be negative for a while and/or You don&amp;rsquo;t want the psychological part of having a house (maintenance, tax payments,)  In my case the most worrisome scenario is 3.</description>
+    </item>
+    
+    <item>
+      <title>To rent or to buy a house??</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-07-30-to-rent-or-to-buy-a-house/</link>
+      <pubDate>Fri, 30 Jul 2004 11:06:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-07-30-to-rent-or-to-buy-a-house/</guid>
+      <description>Spurred by some comments to a previous post I quickly run these numbers. They analyze the case of house price not rising in the next five years. I&#39;ll take more time to check them if I really get to a point of deciding, but they should be correct. &amp;nbsp; This data (fairly typical in my area): &amp;nbsp; Home price: $200,000 Down payment: $0 Interest rate: 6% Monthly mortgage: 1210 Rent: 750 Annual gains on investments: 6% &amp;nbsp; If I run this for 5 years and house appreciation 0% I get: $33,043 on investing the rent-mortgage difference $30,609 on paying the mortgage (equity accumulation + tax savings at 28%) &amp;nbsp; If we assume to put down 20% to buy the house then the numbers are even worse: $83,542 on investing the down payment and the rent-mortgage difference $67,548 on paying the mortgage (equity accumulation + tax savings at 28%) &amp;nbsp; There are other things to consider: house repairs for houses, annual raises in rent, etc etc &amp;nbsp; Are those assumptions reasonable?</description>
+    </item>
+    
+    <item>
+      <title>My quest for a new home</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-07-29-my-quest-for-a-new-home/</link>
+      <pubDate>Thu, 29 Jul 2004 09:10:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-07-29-my-quest-for-a-new-home/</guid>
+      <description>I&#39;m refining my understanding of how to value residential properties. There is this rule of thumb: buy when you can get a rent for the property which is at least 1.2% of the property price (or in another form, when the home price is 7x the annual rent). This is an approx for a more formal spreadsheet (which I have). &amp;nbsp; This is fine and dandy, but in the area I&#39;m interested in a typical one bedroom condo sells for around 200,000-300,000 and you can get a monthly rent of $1,000-1,300.</description>
+    </item>
+    
+    <item>
+      <title>Book: The coming crash in the housing market, John R. Talbott</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-07-28-book-the-coming-crash-in-the-housing-market-john-r-talbott/</link>
+      <pubDate>Wed, 28 Jul 2004 08:56:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-07-28-book-the-coming-crash-in-the-housing-market-john-r-talbott/</guid>
+      <description>My wife and I are planning to move somewhere where you can walk to shops and restaurants. We were thinking about selling or renting our current suburbia home. So, as usual, I picked up a bunch of books from the local library. This is one of them. Amazon reviews are&amp;nbsp;here. &amp;nbsp; My opinion on the book The author did a good job of providing numeric evidence of the possibility of a real estate bubble.</description>
+    </item>
+    
+  </channel>
+</rss>

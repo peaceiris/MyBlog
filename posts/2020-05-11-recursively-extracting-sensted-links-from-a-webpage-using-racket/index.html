@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="This is my first attempt at writing Racket or LISP code. It might be ugly &amp;hellip; For now, let&amp;rsquo;s build a web crawler, next, I shall write myself a language. That&amp;rsquo;s where Racket really shine.
+The code is here. Thanks to Mike for reviewing it.
+Why I want to translate a website, including recursively reached pages, to a pdf to read on my e-reader. This program does the first step: going from a URL to a list of URLs by recursively navigating the links on the page.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Recursively extracting nested links from a webpage using Racket | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2020/05/05</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Recursively extracting nested links from a webpage using Racket
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>This is my first attempt at writing Racket or LISP code. It might be ugly &hellip;
+For now, let&rsquo;s build a web crawler, next, I shall write myself a language.
+That&rsquo;s where Racket really shine.</p>
+<p>The code is <a href="https://github.com/lucabol/website-links">here</a>. Thanks to <a href="https://github.com/mjrousos">Mike</a> for reviewing it.</p>
+<h2 id="why">Why</h2>
+<p>I want to translate a website, including recursively reached pages, to a pdf to read on my e-reader.
+This program does the first step: going from a URL to a list of URLs by recursively navigating the links
+on the page.</p>
+<p>The <code>PS1Script</code> directory contains scripts to perfrom the other steps:</p>
+<ol>
+<li>Translate all the links to PDF pages (using Chrome headless).</li>
+<li>Combine all the PDFs to a single document (using <code>cpdf</code>).</li>
+</ol>
+<h2 id="prelude">Prelude</h2>
+<p>First you declare which language you are using. Racket is a language to build
+languages and the language itself is just one of many (try rereading this phrase).</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket"><span style="font-weight:bold">#lang </span><span style="color:#555">racket</span>
+</code></pre></div><p>We then expose the main functions of the library. Aka recursively getting all links from a webpage
+to a certain nesting level both as a Racket list and as a newline delimitated string.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket"><span style="color:#998;font-style:italic">; Provides functions to extract links from web pages recursively</span>
+
+(<span style="font-weight:bold">provide</span>
+ <span style="color:#998;font-style:italic">; uriString nestingLevels -&gt; list of uriStrings</span>
+ <span style="color:#998;font-style:italic">; Doesn&#39;t follow links to non-html resources or pointing to a different domain then uriString.</span>
+ uri-&gt;nestedLinks
+ <span style="color:#998;font-style:italic">; uriSTring nestingLevels -&gt; string of newline separated Uri Strings</span>
+ uri-&gt;nestedLinksNl)<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><h2 id="implementation">Implementation</h2>
+<p>This is similar, but not identical, to C# <code>using</code> statement as you declare which packages are needed.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">require</span> (<span style="font-weight:bold">planet</span> neil/html-parsing:2:0)
+         net/url
+         xml
+         html
+         sxml/sxpath
+         threading)<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>The program crawl just links to html files in the same domain as the first URI given to it. It is
+possible to extend this more by having the program take a regular expression (or * expression) to
+identify which file sto leave out of the crawling.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">define</span> invalid-suffixes
+  <span style="font-weight:bold">&#39;</span>(<span style="color:#b84">&#34;</span><span style="color:#b84">./</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.xml</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.jpg</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.jpeg</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.png</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.gif</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.tiff</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.psd</span><span style="color:#b84">&#34;</span>
+    <span style="color:#b84">&#34;</span><span style="color:#b84">.eps</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.ai</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.indd</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.raw</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">.svg</span><span style="color:#b84">&#34;</span>))
+
+(<span style="font-weight:bold">define</span> invalid-prefixes <span style="font-weight:bold">&#39;</span>(<span style="color:#b84">&#34;</span><span style="color:#b84">#</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">mailto:</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">javascript:</span><span style="color:#b84">&#34;</span>))
+
+(<span style="font-weight:bold">define</span> (different-domain? baseUrl l)
+  (<span style="font-weight:bold">define</span> url (string-&gt;url l))
+  (<span style="font-weight:bold">and</span> (url-host url) (<span style="color:#999">not</span> (<span style="color:#999">equal?</span> (url-host baseUrl) (url-host url)))))
+
+(<span style="font-weight:bold">define</span> (good-link? baseUrl l) (<span style="color:#999">not</span> (<span style="font-weight:bold">or</span> (different-domain? baseUrl l)
+                                (<span style="color:#999">ormap</span> (<span style="color:#999">curry</span> <span style="color:#999">string-suffix?</span> l) invalid-suffixes)
+                                (<span style="color:#999">ormap</span> (<span style="color:#999">curry</span> <span style="color:#999">string-prefix?</span> l) invalid-prefixes))))<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>Next we have to parse the HTML. We use XPath for that. Racket is particularly good for XML parsing as
+it maps naturally to expressions which are the bread and butter of the language. I don&rsquo;t enjoy
+the nesting of expressions that LISP like languages force onto you (as in the expression below). But
+see later for a partial solution.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">define</span> (xexp-&gt;links xexp) (<span style="color:#999">flatten</span> (<span style="color:#999">map</span> <span style="color:#999">cdr</span> ((sxpath <span style="color:#b84">&#34;</span><span style="color:#b84">//a/@href</span><span style="color:#b84">&#34;</span>) xexp))))<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>The strange <code>~&gt;&gt;</code> operator in the code below comes from the <a href="https://docs.racket-lang.org/threading/index.html"><code>Threading</code></a>
+package. This set of macros lets you build pipelines of computations similarly to the F# <code>|&gt;</code> operator.
+The initial value comes first and then the functions are applied in series each one to the result of
+the previous. By doing that you &lsquo;flatten&rsquo; the nested expressions, making them more readable (at least to my eyes).</p>
+<p>This capability of changing the core behavior of the language is something very peculiar to the LISP family,
+and the reaason why I am attracted to Racket in the first place.</p>
+<p>This function extracts all the &lsquo;good&rsquo; links from a url. BTW: I love that you can use <code>-&gt;</code> to name symbols.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">define</span> (url-&gt;links url)
+  (~&gt;&gt; (call/input-url url get-pure-port html-&gt;xexp)
+       xexp-&gt;links
+       (<span style="color:#999">filter</span> (<span style="color:#999">curry</span> good-link? url))))<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>λ~&gt; is the function composition operator in the &lsquo;Threading&rsquo; library. You got to love embedding lambdas in the code.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">define</span> uri-&gt;links
+  (λ~&gt; string-&gt;url url-&gt;links))<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>This is the main recursive workhorse of the program. It works something like this (numbers marked in the code):</p>
+<ol start="0">
+<li>Treat links to subparts of a web page as if they were links to the webpage</li>
+<li>If it is not a good link, return the links already visited (<code>visited</code>)</li>
+<li>Same thing if the link is alread in <code>visited</code></li>
+<li>If we reached the nesting level specified, add the link to <code>visited</code> and return &lsquo;visited&rsquo;</li>
+<li>Otherwise add the link to <code>visited</code> and call yourself on all sublinks on the page</li>
+</ol>
+<p>The function is not tail recursive, but that is not a huge deal in Racket as the stack is very large.
+It doesn&rsquo;t blow up as easily as in most other languages.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">define</span> (uri-&gt;nestedLinks-rec baseUrl uri visited levels)
+  
+  (<span style="font-weight:bold">define</span> abs-url (<span style="font-weight:bold">if</span> (<span style="color:#999">string-contains?</span> uri <span style="color:#b84">&#34;</span><span style="color:#b84">#</span><span style="color:#b84">&#34;</span>) <span style="color:#998;font-style:italic">; &lt;0&gt;</span>
+      (~&gt; uri (<span style="color:#999">string-split</span> <span style="color:#b84">&#34;</span><span style="color:#b84">#</span><span style="color:#b84">&#34;</span>) <span style="color:#999">first</span> (combine-url/relative baseUrl <span style="font-weight:bold">_</span>))
+      (~&gt;&gt; uri (combine-url/relative baseUrl))))
+  
+  (<span style="font-weight:bold">log-info</span> <span style="color:#b84">&#34;</span><span style="color:#b84">~a, ~a, ~a:~a~n</span><span style="color:#b84">&#34;</span> (url-&gt;string baseUrl)
+                              levels uri (url-&gt;string abs-url))
+
+  (<span style="font-weight:bold">cond</span> [(<span style="color:#999">not</span> (good-link? baseUrl uri)) visited] <span style="color:#998;font-style:italic">; &lt;1&gt;</span>
+        [(<span style="color:#999">member</span> abs-url visited)  visited]      <span style="color:#998;font-style:italic">; &lt;2&gt;</span>
+        [(<span style="color:#999">zero?</span> levels)  (<span style="color:#999">cons</span> abs-url visited)] <span style="color:#998;font-style:italic">; &lt;3&gt;</span>
+        [<span style="font-weight:bold">else</span>  (<span style="font-weight:bold">for/fold</span> ([acc (<span style="color:#999">cons</span> abs-url visited)]) <span style="color:#998;font-style:italic">;&lt;4&gt;</span>
+                         ([l (<span style="color:#999">in-list</span> (url-&gt;links abs-url))])
+                 (uri-&gt;nestedLinks-rec abs-url l acc (<span style="color:#999">sub1</span> levels)))]))<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>Finally we can trivially define the two main functions in the module.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">define</span> (uri-&gt;nestedLinks uri levels)
+  (<span style="color:#999">reverse</span> (uri-&gt;nestedLinks-rec (string-&gt;url uri) <span style="color:#b84">&#34;</span><span style="color:#b84">&#34;</span> <span style="font-weight:bold">&#39;</span>() levels)))
+
+(<span style="font-weight:bold">define</span> (uri-&gt;nestedLinksNl uri levels)
+  (<span style="font-weight:bold">define</span> links (uri-&gt;nestedLinks uri levels))
+  (<span style="color:#999">string-join</span> (<span style="color:#999">map</span> url-&gt;string links) <span style="color:#b84">&#34;</span><span style="color:#b84">\n</span><span style="color:#b84">&#34;</span> <span style="font-weight:bold">#:after-last</span> <span style="color:#b84">&#34;</span><span style="color:#b84">\n</span><span style="color:#b84">&#34;</span>))<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><h2 id="test">Test</h2>
+<p>To my great pleasure, Racket allows (encourages?) you to have tests in the same file as the code.
+They just go into sub modules, that can be constructed piecewise with the <code>module+</code> instruction.</p>
+<p>You could add the tests beside each function, but I decided to have a separate section in the file
+instead. To run them you call <code>raco test FILENAME</code>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">define</span> (uri-&gt;path test-uri)
+        (<span style="color:#999">build-path</span> <span style="color:#b84">&#34;</span><span style="color:#b84">./data</span><span style="color:#b84">&#34;</span> (~&gt; test-uri <span style="color:#999">first</span> uri-&gt;file <span style="color:#999">string-&gt;path</span>)))
+(<span style="font-weight:bold">define</span> uri-&gt;file (λ~&gt; string-&gt;url url-host))
+(<span style="font-weight:bold">define</span> test-uris <span style="font-weight:bold">&#39;</span>(
+                    (<span style="color:#b84">&#34;</span><span style="color:#b84">https://www.lucabol.com</span><span style="color:#b84">&#34;</span> <span style="color:#099">3</span>)
+                    (<span style="color:#b84">&#34;</span><span style="color:#b84">https://beautifulracket.com/</span><span style="color:#b84">&#34;</span> <span style="color:#099">3</span>)
+                    (<span style="color:#b84">&#34;</span><span style="color:#b84">https://en.wikipedia.org/wiki/Typeface</span><span style="color:#b84">&#34;</span> <span style="color:#099">1</span>)
+                    (<span style="color:#b84">&#34;</span><span style="color:#b84">https://brieferhistoryoftime.com</span><span style="color:#b84">&#34;</span> <span style="color:#099">3</span>)
+                    (<span style="color:#b84">&#34;</span><span style="color:#b84">https://mobydick.wales/</span><span style="color:#b84">&#34;</span> <span style="color:#099">3</span>)
+                    (<span style="color:#b84">&#34;</span><span style="color:#b84">https://resilientwebdesign.com</span><span style="color:#b84">&#34;</span> <span style="color:#099">3</span>)
+                    (<span style="color:#b84">&#34;</span><span style="color:#b84">https://www.c82.net/euclid/</span><span style="color:#b84">&#34;</span> <span style="color:#099">3</span>)
+                    ))
+
+(<span style="font-weight:bold">module+</span> test
+  (<span style="font-weight:bold">require</span> rackunit)<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>I got a bit sloppy not naming my lambdas here &hellip; But, doesn&rsquo;t the lambda symbol look cool?</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">  (<span style="color:#999">for-each</span> (<span style="font-weight:bold">λ</span> (test-uri)
+              (<span style="color:#999">with-input-from-file</span>
+                  (uri-&gt;path test-uri)
+                (<span style="font-weight:bold">λ</span> () (<span style="font-weight:bold">begin</span>
+                        (<span style="font-weight:bold">define</span> saved-result (<span style="color:#999">port-&gt;string</span>))
+                        (<span style="font-weight:bold">define</span> calc-result
+                          (uri-&gt;nestedLinksNl (<span style="color:#999">first</span> test-uri) (<span style="color:#999">second</span> test-uri)))
+                        (check-equal? calc-result saved-result test-uri)))
+                <span style="font-weight:bold">#:mode</span> <span style="font-weight:bold">&#39;</span><span style="color:#b84">text</span>
+                ))
+            test-uris)<span style="color:#a61717;background-color:#e3d2d2">)</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>This is used to regenerate the test data. You can then inspect it manually before running tests.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">define</span> (refresh-test-data)
+    (<span style="color:#999">for-each</span> (<span style="font-weight:bold">λ</span> (test-uri)
+                (<span style="color:#999">with-output-to-file</span>
+                    (uri-&gt;path test-uri)                  
+                  (<span style="font-weight:bold">λ</span> () (<span style="color:#999">display</span> (uri-&gt;nestedLinksNl (<span style="color:#999">first</span> test-uri) (<span style="color:#999">second</span> test-uri))))
+                  <span style="font-weight:bold">#:exists</span> <span style="font-weight:bold">&#39;</span><span style="color:#b84">replace</span>))
+              test-uris))<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><h2 id="main">Main</h2>
+<p>Main goes into its own submodule as well. Racket is not as pure as Haskell, so you can naturally
+manage side effects like user input and such. You got to appreciate the concisivness of the command
+line parsing library.</p>
+<p>The code below looks a bit odd to me. It could probably be refactored
+so that the parser expression returns the values instead of filling out  parameters.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket">(<span style="font-weight:bold">module+</span> main
+
+  (<span style="font-weight:bold">define</span> levels (<span style="color:#999">make-parameter</span> <span style="color:#b84">&#34;</span><span style="color:#b84">3</span><span style="color:#b84">&#34;</span>))
+  (<span style="font-weight:bold">define</span> uri (<span style="color:#999">make-parameter</span> <span style="color:#008080">#f</span>))
+
+  (<span style="font-weight:bold">define</span> parser
+    (<span style="font-weight:bold">command-line</span>
+     <span style="font-weight:bold">#:program</span> <span style="color:#b84">&#34;</span><span style="color:#b84">website-links</span><span style="color:#b84">&#34;</span>
+     <span style="font-weight:bold">#:usage-help</span> <span style="color:#b84">&#34;</span><span style="color:#b84">Extracts links from a webpage recursively to a specified level.</span><span style="color:#b84">&#34;</span>
+     <span style="font-weight:bold">#:once-each</span>
+     [(<span style="color:#b84">&#34;</span><span style="color:#b84">-l</span><span style="color:#b84">&#34;</span> <span style="color:#b84">&#34;</span><span style="color:#b84">--levels</span><span style="color:#b84">&#34;</span>) LEVELS <span style="color:#b84">&#34;</span><span style="color:#b84">How many nested levels to process (default 3).</span><span style="color:#b84">&#34;</span> (levels LEVELS)]
+     <span style="font-weight:bold">#:args</span> (URI) (uri URI)))
+      
+  (<span style="color:#999">display</span> (uri-&gt;nestedLinksNl (uri) (<span style="color:#999">string-&gt;number</span> (levels)))))
+  
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>I liked Racket very much. It takes a little while to get use to the expression syntax, which is very
+different from the C-like one most of us are used to. It also takes a while to get used to the style
+of the documentation, which is written very precisely for the careful reader. We are more used to the
+&lsquo;here is an example, copy it&rsquo; kind of documentation. For the distracted programmer &hellip;</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/racket">racket</a></li>
+        
+            <li><a href="../../MyBlog/tags/functional-programming">functional-programming</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    <nav id="TableOfContents">
+    <ul>
+        
+
+        
+        <li>
+        <a href="#why">Why</a>
+        
+
+        
+        </li><li>
+            <a href="#prelude">Prelude</a>
+        
+
+        
+        </li><li>
+            <a href="#implementation">Implementation</a>
+        
+
+        
+        </li><li>
+            <a href="#test">Test</a>
+        
+
+        
+        </li><li>
+            <a href="#main">Main</a>
+        
+
+        
+        </li><li>
+            <a href="#conclusion">Conclusion</a>
+    </li></ul>
+</nav>
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

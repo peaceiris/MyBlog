@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Here is a quick implementation of XIRR (using Excel nomenclature) written in C#.
+Disclaimer: this is a super simple Bisection-based implementation. People tend to prefer the Newton method, but this is simpler and works for the app I&amp;rsquo;m writing. I decided to post it because I couldn&amp;rsquo;t find one on the net when I looked for it. I attached testcases to show the extent of my testing.
+It is called CalculateXIRR and it is invoked by passing a list of cash flows, a tolerance and a max number of iterations.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Bisection-based XIRR implementation in C# | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2007/12/12</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Bisection-based XIRR implementation in C#
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Here is a quick implementation of XIRR (using Excel nomenclature) written in C#.</p>
+<p>Disclaimer: this is a super simple Bisection-based implementation. People tend to prefer the Newton method, but this is simpler and works for the app I&rsquo;m writing. I decided to post it because I couldn&rsquo;t find one on the net when I looked for it. I attached testcases to show the extent of my testing.</p>
+<p>It is called CalculateXIRR and it is invoked by passing a list of cash flows, a tolerance and a max number of iterations.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="font-weight:bold">using</span> <span style="color:#555">System</span>;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">System.Linq</span>;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">Money</span> = System.Decimal;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">Rate</span> = System.Double;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">System.Collections.Generic</span>;
+<span style="font-weight:bold">public</span>
+
+ <span style="font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Pair</span>&lt;T, Z&gt; {
+<span style="font-weight:bold">public</span> Pair(T first, Z second) { First = first; Second = second; }
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> T First;
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> Z Second;
+
+}
+
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CashFlow</span> {
+
+<span style="font-weight:bold">public</span> CashFlow(Money amount, DateTime date) { Amount = amount; Date = date; }
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> Money Amount;
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> DateTime Date;
+}
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">AlgorithmResult</span>&lt;TKindOfResult, TValue&gt; {
+
+<span style="font-weight:bold">public</span> AlgorithmResult(TKindOfResult kind, TValue <span style="font-weight:bold">value</span>) {
+
+Kind = kind;
+Value = <span style="font-weight:bold">value</span>;
+}
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> TKindOfResult Kind;
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">readonly</span> TValue Value;
+}
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">enum</span> ApproximateResultKind {
+ApproximateSolution,
+ExactSolution,
+NoSolutionWithinTolerance
+}
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Algorithms</span> {
+
+<span style="font-weight:bold">internal</span> <span style="font-weight:bold">static</span> Money CalculateXNPV(IEnumerable&lt;CashFlow&gt; cfs, Rate r) {
+
+<span style="font-weight:bold">if</span> (r &lt;= -<span style="color:#099">1</span>)
+r= -<span style="color:#099">0.99999999</span>; <span style="color:#998;font-style:italic">// Very funky ... Better check what an IRR &lt;= -100% means
+</span><span style="color:#998;font-style:italic"></span>
+<span style="font-weight:bold">return</span> (<span style="font-weight:bold">from</span> cf <span style="font-weight:bold">in</span> cfs
+<span style="font-weight:bold">let</span> startDate = cfs.OrderBy(cf1 =&gt; cf1.Date).First().Date
+<span style="font-weight:bold">select</span> cf.Amount / (<span style="color:#458;font-weight:bold">decimal</span>) Math.Pow(<span style="color:#099">1</span> + r, (cf.Date - startDate).Days / <span style="color:#099">3</span><span style="color:#099">6</span><span style="color:#099">5.0</span>)).Sum();
+}
+
+<span style="font-weight:bold">internal</span> <span style="font-weight:bold">static</span> Pair&lt;Rate, Rate&gt; FindBrackets(Func&lt;IEnumerable&lt;CashFlow&gt;, Rate, Money&gt; func, IEnumerable&lt;CashFlow&gt; cfs) {
+
+<span style="color:#998;font-style:italic">// Abracadabra magic numbers ...
+</span><span style="color:#998;font-style:italic"></span><span style="font-weight:bold">const</span> <span style="color:#458;font-weight:bold">int</span> maxIter = <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>;
+<span style="font-weight:bold">const</span> Rate bracketStep = <span style="color:#099">0.5</span>;
+<span style="font-weight:bold">const</span> Rate guess = <span style="color:#099">0.1</span>;
+
+Rate leftBracket = guess - bracketStep;
+Rate rightBracket = guess + bracketStep;
+<span style="color:#458;font-weight:bold">var</span> iter = <span style="color:#099">0</span>;
+
+<span style="font-weight:bold">while</span> (func(cfs, leftBracket) * func(cfs, rightBracket) &gt; <span style="color:#099">0</span> &amp;&amp; iter++ &lt; maxIter) {
+
+leftBracket -= bracketStep;
+rightBracket += bracketStep;
+}
+
+<span style="font-weight:bold">if</span> (iter &gt;= maxIter)
+<span style="font-weight:bold">return</span> <span style="font-weight:bold">new</span> Pair&lt;<span style="color:#458;font-weight:bold">double</span>, <span style="color:#458;font-weight:bold">double</span>&gt;(<span style="color:#099">0</span>, <span style="color:#099">0</span>);
+
+<span style="font-weight:bold">return</span> <span style="font-weight:bold">new</span> Pair&lt;Rate, Rate&gt;(leftBracket, rightBracket);
+}
+
+<span style="color:#998;font-style:italic">// From &#34;Applied Numerical Analyis&#34; by Gerald
+</span><span style="color:#998;font-style:italic"></span><span style="font-weight:bold">internal</span> <span style="font-weight:bold">static</span> AlgorithmResult&lt;ApproximateResultKind, Rate&gt; Bisection(Func&lt;Rate, Money&gt; func, Pair&lt;Rate, Rate&gt; brackets, Rate tol, <span style="color:#458;font-weight:bold">int</span> maxIters) {
+
+<span style="color:#458;font-weight:bold">int</span> iter = <span style="color:#099">1</span>;
+
+Money f3 = <span style="color:#099">0</span>;
+Rate x3 = <span style="color:#099">0</span>;
+Rate x1 = brackets.First;
+Rate x2 = brackets.Second;
+
+<span style="font-weight:bold">do</span> {
+<span style="color:#458;font-weight:bold">var</span> f1 = func(x1);
+<span style="color:#458;font-weight:bold">var</span> f2 = func(x2);
+
+<span style="font-weight:bold">if</span> (f1 == <span style="color:#099">0</span> &amp;&amp; f2 == <span style="color:#099">0</span>)
+<span style="font-weight:bold">return</span> <span style="font-weight:bold">new</span> AlgorithmResult&lt;ApproximateResultKind, Rate&gt;(ApproximateResultKind.NoSolutionWithinTolerance, x1);
+
+<span style="font-weight:bold">if</span> (f1 * f2 &gt; <span style="color:#099">0</span>)
+<span style="font-weight:bold">throw</span> <span style="font-weight:bold">new</span> ArgumentException(<span style="color:#b84">&#34;x1 x2 values don&#39;t bracket a root&#34;</span>);
+
+x3 = (x1 + x2) / <span style="color:#099">2</span>;
+f3 = func(x3);
+
+<span style="font-weight:bold">if</span> (f3 * f1 &lt; <span style="color:#099">0</span>)
+x2 = x3;
+<span style="font-weight:bold">else</span>
+x1 = x3;
+
+iter++;
+
+} <span style="font-weight:bold">while</span> (Math.Abs(x1 - x2)/<span style="color:#099">2</span> &gt; tol &amp;&amp; f3 != <span style="color:#099">0</span> &amp;&amp; iter &lt; maxIters);
+
+<span style="font-weight:bold">if</span> (f3 == <span style="color:#099">0</span>)
+<span style="font-weight:bold">return</span> <span style="font-weight:bold">new</span> AlgorithmResult&lt;ApproximateResultKind, Rate&gt;(ApproximateResultKind.ExactSolution, x3);
+
+<span style="font-weight:bold">if</span> (Math.Abs(x1 - x2) / <span style="color:#099">2</span> &lt; tol)
+<span style="font-weight:bold">return</span> <span style="font-weight:bold">new</span> AlgorithmResult&lt;ApproximateResultKind, Rate&gt;(ApproximateResultKind.ApproximateSolution, x3);
+
+<span style="font-weight:bold">if</span> (iter &gt; maxIters)
+<span style="font-weight:bold">return</span> <span style="font-weight:bold">new</span> AlgorithmResult&lt;ApproximateResultKind, Rate&gt;(ApproximateResultKind.NoSolutionWithinTolerance, x3);
+
+<span style="font-weight:bold">throw</span> <span style="font-weight:bold">new</span> Exception(<span style="color:#b84">&#34;It should never get here&#34;</span>);
+}
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> AlgorithmResult&lt;ApproximateResultKind, Rate&gt; CalculateXIRR(IEnumerable&lt;CashFlow&gt; cfs, Rate tolerance, <span style="color:#458;font-weight:bold">int</span> maxIters) {
+
+<span style="color:#458;font-weight:bold">var</span> brackets = FindBrackets(CalculateXNPV, cfs);
+
+<span style="font-weight:bold">if</span> (brackets.First == brackets.Second)
+<span style="font-weight:bold">return</span> <span style="font-weight:bold">new</span> AlgorithmResult&lt;ApproximateResultKind, <span style="color:#458;font-weight:bold">double</span>&gt;(ApproximateResultKind.NoSolutionWithinTolerance, brackets.First);
+
+<span style="font-weight:bold">return</span> Bisection(r =&gt; CalculateXNPV(cfs,r), brackets, tolerance, maxIters);
+}
+}
+
+<span style="color:#998;font-style:italic">// TESTS
+</span><span style="color:#998;font-style:italic"></span><span style="font-weight:bold">using</span> <span style="color:#555">Microsoft.VisualStudio.TestTools.UnitTesting</span>;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">System.Collections.Generic</span>;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">System</span>;
+
+<span style="font-weight:bold">using</span> <span style="color:#555">Rate</span> = System.Double;
+<span style="font-weight:bold">namespace</span> <span style="color:#555">TimeLineTest</span>
+{
+<span style="color:#008080">[TestClass()]</span>
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AlgorithmsTest</span> {
+
+IEnumerable&lt;CashFlow&gt; cfs = <span style="font-weight:bold">new</span> CashFlow[] {
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">8</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">2</span><span style="color:#099">7</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">8</span>,<span style="color:#099">3</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">4</span><span style="color:#099">2</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">8</span>,<span style="color:#099">1</span><span style="color:#099">0</span>,<span style="color:#099">3</span><span style="color:#099">0</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">3</span><span style="color:#099">2</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">9</span>,<span style="color:#099">2</span>,<span style="color:#099">1</span><span style="color:#099">5</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">2</span><span style="color:#099">7</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">9</span>,<span style="color:#099">4</span>,<span style="color:#099">1</span>))
+};
+
+IEnumerable&lt;CashFlow&gt; bigcfs = <span style="font-weight:bold">new</span> CashFlow[] {
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">2</span>,<span style="color:#099">1</span>,<span style="color:#099">2</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">2</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">3</span>,<span style="color:#099">1</span>,<span style="color:#099">3</span>))
+};
+
+IEnumerable&lt;CashFlow&gt; negcfs = <span style="font-weight:bold">new</span> CashFlow[] {
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">2</span>,<span style="color:#099">1</span>,<span style="color:#099">2</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">1</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">3</span>,<span style="color:#099">1</span>,<span style="color:#099">3</span>))
+};
+
+IEnumerable&lt;CashFlow&gt; samedaysamecfs = <span style="font-weight:bold">new</span> CashFlow[] {
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+};
+
+IEnumerable&lt;CashFlow&gt; samedaydifferentcfs = <span style="font-weight:bold">new</span> CashFlow[] {
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+};
+
+IEnumerable&lt;CashFlow&gt; bigratecfs = <span style="font-weight:bold">new</span> CashFlow[] {
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">2</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>,<span style="color:#099">5</span>,<span style="color:#099">3</span><span style="color:#099">0</span>)),
+};
+
+IEnumerable&lt;CashFlow&gt; zeroRate = <span style="font-weight:bold">new</span> CashFlow[] {
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">1</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">3</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+};
+
+IEnumerable&lt;CashFlow&gt; doubleNegative = <span style="font-weight:bold">new</span> CashFlow[] {
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">8</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">2</span><span style="color:#099">7</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">8</span>,<span style="color:#099">3</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">4</span><span style="color:#099">2</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">8</span>,<span style="color:#099">1</span><span style="color:#099">0</span>,<span style="color:#099">3</span><span style="color:#099">0</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">3</span><span style="color:#099">2</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">9</span>,<span style="color:#099">2</span>,<span style="color:#099">1</span><span style="color:#099">5</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">2</span><span style="color:#099">7</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">9</span>,<span style="color:#099">4</span>,<span style="color:#099">1</span>))
+};
+
+IEnumerable&lt;CashFlow&gt; badDoubleNegative = <span style="font-weight:bold">new</span> CashFlow[] {
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">8</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">2</span><span style="color:#099">7</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">8</span>,<span style="color:#099">3</span>,<span style="color:#099">1</span>)),
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">4</span><span style="color:#099">2</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">8</span>,<span style="color:#099">1</span><span style="color:#099">0</span>,<span style="color:#099">3</span><span style="color:#099">0</span>)),
+<span style="font-weight:bold">new</span> CashFlow(<span style="color:#099">3</span><span style="color:#099">2</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">9</span>,<span style="color:#099">2</span>,<span style="color:#099">1</span><span style="color:#099">5</span>)),
+<span style="font-weight:bold">new</span> CashFlow(-<span style="color:#099">2</span><span style="color:#099">7</span><span style="color:#099">5</span><span style="color:#099">0</span>, <span style="font-weight:bold">new</span> DateTime(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">0</span><span style="color:#099">9</span>,<span style="color:#099">4</span>,<span style="color:#099">1</span>))
+};
+
+<span style="color:#458;font-weight:bold">double</span> r = <span style="color:#099">0.09</span>;
+<span style="color:#458;font-weight:bold">double</span> tolerance = <span style="color:#099">0.0001</span>;
+<span style="color:#458;font-weight:bold">int</span> maxIters = <span style="color:#099">1</span><span style="color:#099">0</span><span style="color:#099">0</span>;
+
+<span style="font-weight:bold">private</span> TestContext testContextInstance;
+
+<span style="font-weight:bold">public</span> TestContext TestContext {
+<span style="font-weight:bold">get</span> {
+<span style="font-weight:bold">return</span> testContextInstance;
+}
+<span style="font-weight:bold">set</span> {
+testContextInstance = <span style="font-weight:bold">value</span>;
+}
+}
+<span style="color:#008080">
+</span><span style="color:#008080">[TestMethod()]</span>
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> CalculateXNPV() {
+
+Assert.AreEqual(<span style="color:#099">2</span><span style="color:#099">0</span><span style="color:#099">8</span><span style="color:#099">6.6476020315416570634272814</span>M, Algorithms.CalculateXNPV(cfs, r));
+Assert.AreEqual(-<span style="color:#099">1</span><span style="color:#099">0.148147600710372651326920258</span>M, Algorithms.CalculateXNPV(negcfs, <span style="color:#099">0.5</span>));
+Assert.AreEqual(<span style="color:#099">4.9923725815954514810351876895</span>M, Algorithms.CalculateXNPV(bigcfs, <span style="color:#099">0.3</span>));
+}
+<span style="color:#008080">
+</span><span style="color:#008080">[TestMethod]</span>
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> FindBrackets() {
+
+<span style="color:#458;font-weight:bold">var</span> brackets = Algorithms.FindBrackets(Algorithms.CalculateXNPV, cfs);
+Assert.IsTrue(brackets.First &lt; <span style="color:#099">0.3733</span> &amp;&amp; brackets.Second &gt; <span style="color:#099">0.3733</span>);
+
+brackets = Algorithms.FindBrackets(Algorithms.CalculateXNPV, bigcfs);
+Assert.IsTrue(brackets.First &lt; <span style="color:#099">0.5196</span> &amp;&amp; brackets.Second &gt; <span style="color:#099">0.5196</span>);
+
+brackets = Algorithms.FindBrackets(Algorithms.CalculateXNPV, negcfs);
+Assert.IsTrue(brackets.First &lt; -<span style="color:#099">0.6059</span> &amp;&amp; brackets.Second &gt; -<span style="color:#099">0.6059</span>);
+}
+<span style="color:#008080">
+</span><span style="color:#008080">[TestMethod]</span>
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">void</span> XIRRTest() {
+
+<span style="color:#458;font-weight:bold">var</span> irr = Algorithms.CalculateXIRR(cfs, tolerance, maxIters);
+Assert.AreEqual(<span style="color:#099">0.3733</span>, irr.Value, <span style="color:#099">0.001</span>);
+Assert.AreEqual(ApproximateResultKind.ApproximateSolution, irr.Kind);
+
+irr = Algorithms.CalculateXIRR(bigcfs, tolerance, maxIters);
+Assert.AreEqual(<span style="color:#099">0.5196</span>, irr.Value, <span style="color:#099">0.001</span>);
+Assert.AreEqual(ApproximateResultKind.ApproximateSolution, irr.Kind);
+
+irr = Algorithms.CalculateXIRR(negcfs, tolerance, maxIters);
+Assert.AreEqual(-<span style="color:#099">0.6059</span>, irr.Value, <span style="color:#099">0.001</span>);
+Assert.AreEqual(ApproximateResultKind.ApproximateSolution, irr.Kind);
+
+irr = Algorithms.CalculateXIRR(samedaysamecfs, tolerance, maxIters);
+Assert.AreEqual(ApproximateResultKind.NoSolutionWithinTolerance, irr.Kind);
+
+irr = Algorithms.CalculateXIRR(samedaydifferentcfs, tolerance, maxIters);
+Assert.AreEqual(ApproximateResultKind.NoSolutionWithinTolerance, irr.Kind);
+
+irr = Algorithms.CalculateXIRR(bigratecfs, tolerance, maxIters);
+Assert.AreEqual(<span style="color:#099">4.40140</span>, irr.Value, <span style="color:#099">0.001</span>);
+Assert.AreEqual(ApproximateResultKind.ApproximateSolution, irr.Kind);
+
+irr = Algorithms.CalculateXIRR(zeroRate, tolerance, maxIters);
+Assert.AreEqual(<span style="color:#099">0</span>, irr.Value, <span style="color:#099">0.001</span>);
+Assert.AreEqual(ApproximateResultKind.ApproximateSolution, irr.Kind);
+
+irr = Algorithms.CalculateXIRR(doubleNegative, tolerance, maxIters);
+Assert.AreEqual(-<span style="color:#099">0.537055</span>, irr.Value, <span style="color:#099">0.001</span>);
+Assert.AreEqual(ApproximateResultKind.ApproximateSolution, irr.Kind);
+
+irr = Algorithms.CalculateXIRR(badDoubleNegative, tolerance, maxIters);
+Assert.AreEqual(ApproximateResultKind.NoSolutionWithinTolerance, irr.Kind);
+}
+}
+}
+</code></pre></div>
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/csharp">csharp</a></li>
+        
+            <li><a href="../../MyBlog/tags/financial">Financial</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

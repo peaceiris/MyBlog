@@ -1,0 +1,830 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/functional-programming/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/racket/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2020-05-11-recursively-extracting-sensted-links-from-a-webpage-using-racket/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2020-03-19-confusing-characters-in-text/</loc>
+    <lastmod>2020-01-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/typography/</loc>
+    <lastmod>2020-01-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/devtest-labs/</loc>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2020-01-06-introducing-ps1-libraries-for-azure-lab-services-and-devtest-lab/</loc>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/lab-services/</loc>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/csharp/</loc>
+    <lastmod>2019-12-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2019-12-06-status-of-csharp-8-functional-features-with-a-comparison-to-haskell/</loc>
+    <lastmod>2019-12-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2019-02-04-singleproject/</loc>
+    <lastmod>2019-02-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2019-01-29-meta-programming-and-policy-based-design/</loc>
+    <lastmod>2019-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2019-01-21-stopping-garbage-collection-in-net-core-3-0-part-ii/</loc>
+    <lastmod>2019-01-21T10:05:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2019-01-14-stopping-garbage-collection-in-net-core-3-0-part-i/</loc>
+    <lastmod>2019-01-14T12:34:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2018-06-04-a-stack-data-structure-implementation-using-span/</loc>
+    <lastmod>2018-06-04T11:56:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/offline/</loc>
+    <lastmod>2016-10-16T19:28:41+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2014-10-31-building-a-stock-alert-system-with-google-script/</loc>
+    <lastmod>2014-10-31T08:11:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/financial/</loc>
+    <lastmod>2014-10-31T08:11:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/c/</loc>
+    <lastmod>2013-03-20T15:29:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/fsharp/</loc>
+    <lastmod>2013-03-20T15:29:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2013-03-20-funky-c-for-literate-programming/</loc>
+    <lastmod>2013-03-20T15:29:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/literate-programming/</loc>
+    <lastmod>2013-03-20T15:29:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2013-01-11-functional-programming-in-c-implementation/</loc>
+    <lastmod>2013-01-11T16:37:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2013-01-04-functional-programming-in-c/</loc>
+    <lastmod>2013-01-04T14:45:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-12-14-llite-language-friendly-literate-programming/</loc>
+    <lastmod>2012-12-14T12:29:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-12-07-exceptions-vs-return-values-to-represent-errors-in-f-iii-implementation/</loc>
+    <lastmod>2012-12-07T09:44:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-11-30-exceptions-vs-return-values-to-represent-errors-in-f-iiithe-critical-monad/</loc>
+    <lastmod>2012-11-30T16:41:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-11-23-exceptions-vs-return-values-to-represent-errors-in-f-iithe-critical-monad/</loc>
+    <lastmod>2012-11-23T10:45:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-11-19-exceptions-vs-return-values-to-represent-errors-in-f-i-conceptual-view/</loc>
+    <lastmod>2012-11-19T13:02:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-09-04-retrieving-sql-server-data-with-type-providers-and-exposing-it-with-asp-net-web-apis-in-f/</loc>
+    <lastmod>2012-09-04T10:16:17+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-06-18-and-now-andy-has-a-blog/</loc>
+    <lastmod>2012-06-18T07:26:49+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/c&#43;&#43;/</loc>
+    <lastmod>2012-06-01T06:45:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-06-01-writing-functional-code-in-c-v-miscellaneous-and-conclusions/</loc>
+    <lastmod>2012-06-01T06:45:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-04-27-writing-functional-code-in-c-iv-algebraic-datatypes/</loc>
+    <lastmod>2012-04-27T09:29:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-04-16-writing-functional-code-in-c-iii-performance-of-different-allocation-schemes/</loc>
+    <lastmod>2012-04-16T13:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-04-05-letter-on-investing/</loc>
+    <lastmod>2012-04-05T07:57:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-03-30-writing-functional-code-in-c-ii-function-composition/</loc>
+    <lastmod>2012-03-30T10:11:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-03-23-writing-functional-code-in-c-records/</loc>
+    <lastmod>2012-03-23T08:11:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2012-03-06-a-simple-scheme-to-implement-design-by-contract-in-c/</loc>
+    <lastmod>2012-03-06T16:42:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-09-16-adventure-in-parserland-parsing-lambda-expressions-in-f-part-v/</loc>
+    <lastmod>2011-09-16T06:57:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/lambda-expressions/</loc>
+    <lastmod>2011-09-16T06:57:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/parsing/</loc>
+    <lastmod>2011-09-16T06:57:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-09-09-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iv/</loc>
+    <lastmod>2011-09-09T06:09:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-09-02-adventure-in-parserland-parsing-lambda-expressions-in-f-part-iii/</loc>
+    <lastmod>2011-09-02T15:25:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-08-26-adventure-in-parserland-parsing-lambda-expressions-in-f-part-ii/</loc>
+    <lastmod>2011-08-26T14:25:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-08-19-adventure-in-parserland-parsing-lambda-expressions-in-f-part-i/</loc>
+    <lastmod>2011-08-19T06:53:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-08-12-write-yourself-a-scheme-in-48-hours-in-f-part-vii/</loc>
+    <lastmod>2011-08-12T07:11:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-08-05-write-yourself-a-scheme-in-48-hours-in-f-part-vi/</loc>
+    <lastmod>2011-08-05T07:08:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-07-29-write-yourself-a-scheme-in-48-hours-part-iv-2/</loc>
+    <lastmod>2011-07-29T07:26:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-07-22-write-yourself-a-scheme-in-48-hours-part-iv/</loc>
+    <lastmod>2011-07-22T07:52:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-07-15-write-yourself-a-scheme-in-48-hours-in-f-part-iii/</loc>
+    <lastmod>2011-07-15T07:12:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-07-08-write-yourself-a-scheme-in-48-hours-in-f-part-ii/</loc>
+    <lastmod>2011-07-08T07:01:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2011-06-30-write-yourself-a-scheme-in-48-hours-in-f-part-i/</loc>
+    <lastmod>2011-06-30T15:41:12+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-03-31-i-have-been-deep-fried/</loc>
+    <lastmod>2010-03-31T20:50:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/miscellanea/</loc>
+    <lastmod>2010-03-31T20:50:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-03-19-tracking-spread-trades-in-f-and-wpf-mvvm-part-ii/</loc>
+    <lastmod>2010-03-19T23:33:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-03-13-tracking-spread-trades-in-f-and-hooking-up-xunit-and-fscheck-part-1/</loc>
+    <lastmod>2010-03-13T01:18:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-02-26-downloading-stock-prices-divs-and-splits-in-f-updated-to-visual-studio-2010/</loc>
+    <lastmod>2010-02-26T23:50:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-02-19-lchart-displaying-charts-in-f-part-iii/</loc>
+    <lastmod>2010-02-19T18:03:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-02-19-luca-bolognese-leaves-microsoft/</loc>
+    <lastmod>2010-02-19T08:58:02+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-ii/</loc>
+    <lastmod>2010-02-17T20:24:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-02-17-lchart-displaying-charts-in-f-part-i/</loc>
+    <lastmod>2010-02-17T11:20:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-02-16-excel-financial-functions-upgraded-to-visual-studio-2010-rc/</loc>
+    <lastmod>2010-02-16T14:55:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-02-15-new-version-of-lagent-compatible-with-vs-2010-rc-online/</loc>
+    <lastmod>2010-02-15T09:36:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-02-12-a-simpler-f-mailboxprocessor/</loc>
+    <lastmod>2010-02-12T15:29:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2010-02-11-the-functional-londoners-meetup-group/</loc>
+    <lastmod>2010-02-11T09:24:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-12-10-lagent-an-agent-framework-in-f-part-x-activeobject/</loc>
+    <lastmod>2009-12-10T10:09:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-11-23-my-pdc-session-is-online-future-directions-for-c-and-visual-basic/</loc>
+    <lastmod>2009-11-23T13:17:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/vb/</loc>
+    <lastmod>2009-11-23T13:17:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-11-13-luca-at-pdc-2009-next-week/</loc>
+    <lastmod>2009-11-13T10:49:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-09-22-becoming-really-rich-with-c/</loc>
+    <lastmod>2009-09-22T19:40:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-09-18-lagent-an-agent-framework-in-f-part-ix-counting-words/</loc>
+    <lastmod>2009-09-18T14:43:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-09-04-lagent-an-agent-framework-in-f-part-viii-implementing-mapreduce-user-model/</loc>
+    <lastmod>2009-09-04T13:57:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-07-10-lagent-an-agent-framework-in-f-part-vii-an-auction-application/</loc>
+    <lastmod>2009-07-10T16:14:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-07-03-lagent-an-agent-framework-in-f-part-vi-hot-swapping-of-code-and-something-silly/</loc>
+    <lastmod>2009-07-03T15:23:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-06-26-lagent-an-agent-framework-in-f-part-v-timeout-management/</loc>
+    <lastmod>2009-06-26T14:56:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-06-19-lagent-an-agent-framework-in-f-part-iv-custom-error-management/</loc>
+    <lastmod>2009-06-19T14:36:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-06-12-lagent-an-agent-framework-in-f-part-iii-default-error-management/</loc>
+    <lastmod>2009-06-12T14:07:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-06-05-lagent-an-agent-framework-in-f-part-ii-agents-and-control-messages/</loc>
+    <lastmod>2009-06-05T14:03:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-05-29-lagent-an-agent-framework-in-f-part-i-workers-and-parallelworkers/</loc>
+    <lastmod>2009-05-29T13:26:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-05-27-luke-talks-about-f-on-channel9/</loc>
+    <lastmod>2009-05-27T12:47:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-05-21-a-version-of-the-asynccache-found-its-way-into-the-parallel-programming-samples/</loc>
+    <lastmod>2009-05-21T13:28:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-05-14-i-talk-about-c-and-vb-co-evolution-on-channel9-and-some-f/</loc>
+    <lastmod>2009-05-14T13:26:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-05-08-an-async-html-cache-part-ii-testing-the-cache/</loc>
+    <lastmod>2009-05-08T11:34:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-04-27-an-async-html-cache-part-i-writing-the-cache/</loc>
+    <lastmod>2009-04-27T19:57:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-03-24-luca-at-ndc-in-oslo-17-19-june-2009/</loc>
+    <lastmod>2009-03-24T12:46:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-02-25-excel-financial-functions-2-0-released/</loc>
+    <lastmod>2009-02-25T14:55:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-02-05-simulating-inumeric-with-dynamic-in-c-4-0/</loc>
+    <lastmod>2009-02-05T11:47:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-01-27-new-release-of-financial-functions-net-uploaded-on-msdn-code-gallery/</loc>
+    <lastmod>2009-01-27T14:18:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2009-01-19-bayesian-inference-in-f-part-iib-finding-maia-underlying-attitude/</loc>
+    <lastmod>2009-01-19T11:48:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/statistics/</loc>
+    <lastmod>2009-01-19T11:48:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-12-04-financial-functions-for-net-released/</loc>
+    <lastmod>2008-12-04T16:40:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-11-26-bayesian-inference-in-f-part-iia-a-simple-example-modeling-maia/</loc>
+    <lastmod>2008-11-26T15:41:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-11-20-expression-tree-serialization-code-posted-on-code-gallery/</loc>
+    <lastmod>2008-11-20T15:39:20+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-11-07-bayesian-inference-in-f-part-i-background/</loc>
+    <lastmod>2008-11-07T11:48:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-11-03-my-f-pdc-presentation-is-online-ppt-and-demo-application/</loc>
+    <lastmod>2008-11-03T11:33:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-10-24-luca-presenting-f-at-pdc-2008/</loc>
+    <lastmod>2008-10-24T12:21:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-10-20-downloading-stock-prices-in-f-part-vi-code-posted/</loc>
+    <lastmod>2008-10-20T18:45:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-09-26-downloading-stock-prices-in-f-part-v-adjusting-historical-data/</loc>
+    <lastmod>2008-09-26T16:04:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-09-19-downloading-stock-prices-in-f-part-iv-async-loader-for-splits/</loc>
+    <lastmod>2008-09-19T17:59:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-09-12-downloading-stock-prices-in-f-part-iii-async-loader-for-prices-and-divs/</loc>
+    <lastmod>2008-09-12T16:18:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-09-05-downloading-stock-prices-in-f-part-ii-html-scraping/</loc>
+    <lastmod>2008-09-05T14:41:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-08-29-downloading-stock-prices-in-f-part-i-data-modeling/</loc>
+    <lastmod>2008-08-29T19:13:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-07-15-a-c-library-to-write-functional-code-part-v-the-match-operator/</loc>
+    <lastmod>2008-07-15T05:46:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-06-06-a-c-library-to-write-functional-code-part-iv-type-unions/</loc>
+    <lastmod>2008-06-06T04:45:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-04-21-a-c-library-to-write-functional-code-part-iii-records/</loc>
+    <lastmod>2008-04-21T13:34:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-04-08-a-c-library-to-write-functional-code-part-ii-tuples/</loc>
+    <lastmod>2008-04-08T16:51:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-04-01-a-c-library-to-write-functional-code-part-i-background/</loc>
+    <lastmod>2008-04-01T13:36:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-03-03-linq-to-sql-overview-video/</loc>
+    <lastmod>2008-03-03T16:51:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-01-11-creating-an-immutable-value-object-in-c-part-v-using-a-library/</loc>
+    <lastmod>2008-01-11T13:36:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2008-01-07-book-review-the-halo-effect/</loc>
+    <lastmod>2008-01-07T14:04:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/books/</loc>
+    <lastmod>2008-01-07T14:04:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-12-28-creating-an-immutable-value-object-in-c-part-iv-a-class-with-a-special-value/</loc>
+    <lastmod>2007-12-28T18:45:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-12-24-creating-an-immutable-value-object-in-c-part-iii-using-a-struct/</loc>
+    <lastmod>2007-12-24T17:39:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-12-17-bisection-based-xirr-implementation-in-c/</loc>
+    <lastmod>2007-12-17T18:17:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-12-06-creating-an-immutable-value-object-in-c-part-ii-making-the-class-better/</loc>
+    <lastmod>2007-12-06T12:34:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-12-03-creating-an-immutable-value-object-in-c-part-i-using-a-class/</loc>
+    <lastmod>2007-12-03T13:22:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-11-20-brief-review-of-quottotal-workday-controlquot/</loc>
+    <lastmod>2007-11-20T11:56:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-08-31-instead-of-a-simple-switch-statement/</loc>
+    <lastmod>2007-08-31T16:54:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-08-31-parsing-qif-quicken-files-in-c/</loc>
+    <lastmod>2007-08-31T16:43:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-08-30-retrieve-prices-dividends-and-splits-for-a-stock-in-c/</loc>
+    <lastmod>2007-08-30T16:25:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-08-13-lucabol-and-kiraly/</loc>
+    <lastmod>2007-08-13T20:42:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/sport/</loc>
+    <lastmod>2007-08-13T20:42:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-08-13-here-is-a-seminot-funny-video-of-matt-and-i-talking-about-the-linq-to-sql-queryupdate-pipeline/</loc>
+    <lastmod>2007-08-13T12:56:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-07-05-interesting-10-years-retrospective-on-the-cathedral-and-the-bazaar/</loc>
+    <lastmod>2007-07-05T12:12:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-06-19-my-teched-webcast-is-here/</loc>
+    <lastmod>2007-06-19T10:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-06-07-objectspaces-early-days/</loc>
+    <lastmod>2007-06-07T10:40:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-06-04-my-linq-overview-session-at-teched-will-be-live-on-the-internet/</loc>
+    <lastmod>2007-06-04T12:45:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-05-11-y-combinators-anyone/</loc>
+    <lastmod>2007-05-11T19:16:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-05-05-huntington-beach-and-kiraly/</loc>
+    <lastmod>2007-05-05T22:24:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-04-27-luke-started-to-blog-again/</loc>
+    <lastmod>2007-04-27T12:39:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-04-20-a-financial-education-my-ideas/</loc>
+    <lastmod>2007-04-20T14:55:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-02-27-which-type-should-i-use-in-c-to-represent-numbers/</loc>
+    <lastmod>2007-02-27T18:09:57+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-02-02-a-good-emerging-market-fund/</loc>
+    <lastmod>2007-02-02T13:26:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-02-01-apparently-simple-code/</loc>
+    <lastmod>2007-02-01T14:54:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-01-31-is-this-functional-code-dr-t-reply/</loc>
+    <lastmod>2007-01-31T12:34:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-01-26-is-this-functional-code/</loc>
+    <lastmod>2007-01-26T12:54:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2007-01-04-a-tradingportfolio-management-excel-add-in-based-on-the-books-by-ralph-vince/</loc>
+    <lastmod>2007-01-04T17:53:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2005-07-14-our-sessions-at-the-pdc/</loc>
+    <lastmod>2005-07-14T12:03:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2005-04-14-there-is-a-c-language-chat-coming/</loc>
+    <lastmod>2005-04-14T18:40:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2005-03-28-here-is-a-message-board-about-the-c-language/</loc>
+    <lastmod>2005-03-28T11:06:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2005-03-09-to-rent-or-to-buy-a-house-some-more-evidence-of-my-unpopular-thesis/</loc>
+    <lastmod>2005-03-09T12:01:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2005-02-10-compiler-trivia-const-operators-and-being-nice-to-the-compiler/</loc>
+    <lastmod>2005-02-10T10:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2005-02-03-nullable-trilogy-part-iii-nullablet-as-type-parameter-in-a-generic-class/</loc>
+    <lastmod>2005-02-03T15:42:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2005-01-27-nullable-trilogy-part-ii-a-b-ab-a/</loc>
+    <lastmod>2005-01-27T07:54:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2005-01-24-new-c-things-happening/</loc>
+    <lastmod>2005-01-24T09:49:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2005-01-20-nullable-trilogy-part-i-why-not-just-sql/</loc>
+    <lastmod>2005-01-20T09:41:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-08-31-xx/</loc>
+    <lastmod>2004-08-31T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-08-18-homeowner-association-transcripts/</loc>
+    <lastmod>2004-08-18T12:19:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-08-18-rent-or-buy-spreadsheet/</loc>
+    <lastmod>2004-08-18T12:13:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-08-06-how-much-object-relational-framework-do-you-really-need/</loc>
+    <lastmod>2004-08-06T09:05:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/tags/object-orientation/</loc>
+    <lastmod>2004-08-06T09:05:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-08-05-im-really-an-old-almost-fat-beach-volley-player/</loc>
+    <lastmod>2004-08-05T08:37:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-08-03-book-objects-components-and-frameworks-with-uml-fedmond-f-dsouza/</loc>
+    <lastmod>2004-08-03T13:13:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-08-02-im-buying-a-house/</loc>
+    <lastmod>2004-08-02T12:57:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-07-30-to-rent-or-to-buy-a-house/</loc>
+    <lastmod>2004-07-30T11:06:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-07-29-my-quest-for-a-new-home/</loc>
+    <lastmod>2004-07-29T09:10:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-07-28-book-the-coming-crash-in-the-housing-market-john-r-talbott/</loc>
+    <lastmod>2004-07-28T08:56:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-07-27-please-the-perfect-object-stand-up/</loc>
+    <lastmod>2004-07-27T15:21:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-07-27-my-first-and-last-post/</loc>
+    <lastmod>2004-07-27T14:18:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/posts/2004-07-27-here-i-am/</loc>
+    <lastmod>2004-07-27T13:59:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://peaceiris.com/MyBlog/search/</loc>
+    <priority>0.2</priority>
+  </url>
+  
+</urlset>

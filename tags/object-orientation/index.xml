@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Object Orientation on Lucabol blog</title>
+    <link>http://peaceiris.com/MyBlog/tags/object-orientation/</link>
+    <description>Recent content in Object Orientation on Lucabol blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 06 Aug 2004 09:05:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://peaceiris.com/MyBlog/tags/object-orientation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How much object relational framework do you really need?</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-08-06-how-much-object-relational-framework-do-you-really-need/</link>
+      <pubDate>Fri, 06 Aug 2004 09:05:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-08-06-how-much-object-relational-framework-do-you-really-need/</guid>
+      <description>It is always interesting for me to look at debates about object relational layers. I propose we define different levels of object relational support:
+  No support: all the objects are persisted and queried by writing ADO.NET code by hand
+  Code generation: you run a tool on your database (or on an abstract description of your schema) and the tool generates a bunch of objects for your tables and some ADO.</description>
+    </item>
+    
+    <item>
+      <title>Book: Objects, Components, and Frameworks with UML, Fedmond F. D`Souza</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-08-03-book-objects-components-and-frameworks-with-uml-fedmond-f-dsouza/</link>
+      <pubDate>Tue, 03 Aug 2004 13:13:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-08-03-book-objects-components-and-frameworks-with-uml-fedmond-f-dsouza/</guid>
+      <description>This is a book about Catalysis, an OO methodology. I read this book some time ago (like years). It is a quite complex book. If you don&amp;rsquo;t like methodologists, it will easily put you to sleep. But if you stay awake, it is worth it.
+It is strange how this book crystallized one concept for me: the definition of an interface. An interface is not just the sum of the signatures of the methods.</description>
+    </item>
+    
+    <item>
+      <title>Please the perfect object stand up!!</title>
+      <link>http://peaceiris.com/MyBlog/posts/2004-07-27-please-the-perfect-object-stand-up/</link>
+      <pubDate>Tue, 27 Jul 2004 15:21:00 +0000</pubDate>
+      
+      <guid>http://peaceiris.com/MyBlog/posts/2004-07-27-please-the-perfect-object-stand-up/</guid>
+      <description>I always thought: why people write this very long posts? Here you have it. &amp;nbsp; How do I design my objects? What is the set of constraints that dictate my design decisions? People talk about objects in very different contexts. A certain amount of confusion derives from not identifying the contexts for our objects. &amp;nbsp; First, kings of them all, there are business objects. My library is full of OO books that describe how to design these guys.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Other parts:
+ Part I - Data modeling Part II - Html scraping Part IV - Async loader for splits Part V - Adjusting historical data Part VI - Code posted  It is now time to load our data. There is a bit of uninteresting code to start with, but things get interesting afterward. Let&amp;rsquo;s start with functions that create the right URLs to download prices and dividends. We&amp;rsquo;ll talk about splits in the next installment.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Downloading stock prices in F# - Part III - Async loader for prices and divs | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2008/09/09</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Downloading stock prices in F# - Part III - Async loader for prices and divs
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Other parts:</p>
+<ul>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/08/29/downloading-stock-prices-in-f-part-i-data-modeling.aspx">Part I  - Data modeling</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/09/05/downloading-stock-prices-in-f-part-ii-html-scraping.aspx">Part II  - Html scraping</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/09/19/downloading-stock-prices-in-f-part-iv-async-loader-for-splits.aspx">Part IV  - Async loader for splits</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/09/26/downloading-stock-prices-in-f-part-v-adjusting-historical-data.aspx">Part V  - Adjusting historical data</a></li>
+<li><a href="http://blogs.msdn.com/lucabol/archive/2008/10/20/downloading-stock-prices-in-f-part-vi-code-posted.aspx">Part VI  - Code posted</a></li>
+</ul>
+<p>It is now time to load our data. There is a bit of uninteresting code to start with, but things get interesting afterward. Let&rsquo;s start with functions that create the right URLs to download prices and dividends. We&rsquo;ll talk about splits in the next installment.</p>
+<pre class="code"><span style="color:blue;">let </span>commonUrl ticker span =
+    <span style="color:maroon;">@"http://ichart.finance.yahoo.com/table.csv?s=" </span>+ ticker + <span style="color:maroon;">"&a="<br />    </span>+ (span.Start.Month - 1).ToString() + <span style="color:maroon;">"&b=" </span>+ span.Start.Day.ToString() + <span style="color:maroon;">"&c="<br />    </span>+ span.Start.Year.ToString() + <span style="color:maroon;">"&d=" </span>+ (span.End.Month - 1).ToString() + <span style="color:maroon;">"&e=" <br />    </span>+ span.End.Day.ToString() + <span style="color:maroon;">"&f=" </span>+ span.End.Year.ToString()
+<span style="color:blue;">let </span>priceUrl ticker span = commonUrl ticker span + <span style="color:maroon;">"&g=d&ignore=.csv"
+</span><span style="color:blue;">let </span>divUrl ticker span = commonUrl ticker span + <span style="color:maroon;">"&g=v&ignore=.csv"</span></pre>
+<p>We will also need to construct an observation given a comma delimitated line of text. Again, for spits things will be harder.</p>
+<pre class="code"><span style="color:blue;">let </span>parsePrice (line: string) =
+    <span style="color:blue;">let </span>tokens = line.Split([|<span style="color:maroon;">','</span>|])
+    { Date = DateTime.Parse(tokens.[0]);
+      Event = Price ({Open = money (Double.Parse(tokens.[1])) ;<br />      High = money (Double.Parse(tokens.[2]));
+      Low = money (Double.Parse(tokens.[3])); Close = money (Double.Parse(tokens.[4]));<br />      Volume = volume (Double.Parse(tokens.[5]))})}
+<span style="color:blue;">let </span>parseDiv (line: string) =
+    <span style="color:blue;">let </span>tokens = line.Split([|<span style="color:maroon;">','</span>|])
+    <span style="color:blue;">let </span>date = DateTime.Parse(tokens.[0])
+    <span style="color:blue;">let </span>amount = money (Double.Parse(tokens.[1]))
+    {Date = date; Event = Div amount}        </pre>
+<p>Nothing noteworthy about this code. We have a couple of other ‘infrastructure pieces before we get to the Async pieces. The next function is recursive. It takes a StringReader and reads lines out of it. For each line it calls a parsing function that takes the line as input and returns an object as output. The function gathers all such objects in the <u>listOfThings</u> list. If you are new to F# the following construct (parseLineFunc line:: listOfThings) means: execute the parseLineFunc with argument line, take the result and create a list that has the result as head and listOfThings as tail).</p>
+<pre class="code"><span style="color:blue;">let rec </span>loadFromLineReader (reader:StringReader) listOfThings parseLineFunc =
+    <span style="color:blue;">match  </span>reader.ReadLine () <span style="color:blue;">with
+    </span>| <span style="color:blue;">null  -&gt; </span>listOfThings
+    | line  <span style="color:blue;">-&gt; </span>loadFromLineReader reader (parseLineFunc line::listOfThings) parseLineFunc        </pre>
+<p>The next function is rather uninteresting. It just converts a string to a <u>StringReader</u>, cut out the first line (header) and calls <u>loadFromLineReader</u>.</p>
+<pre class="code"><span style="color:blue;">let </span>loadFromLineString text listOfThings parseLineFunc =
+    <span style="color:blue;">let </span>reader = <span style="color:blue;">new </span>StringReader(text)
+    reader.ReadLine ()|&gt; ignore <span style="color:green;">// skip header
+    </span>loadFromLineReader reader listOfThings parseLineFunc</pre>
+<p>We now come to the first Async function. But what is an Async function? There are several possible technically correct definition as: it is an instance of the monad pattern or it is a function that returns an Async object or it is a way to release your thread to the thread pool. These definition don&rsquo;t help me much. I need something intuitive to latch one.</p>
+<p>The way that I personally visualize it is: there are things in the world that are very good at executing certain tasks and like to be hit by multiple parallel requests for these tasks. They&rsquo;d like me to give them their workload and get out of their way. They&rsquo;ll call me when they are done with it. These ‘things&rsquo; are disk drives, web servers, processors, etc Async is a way to say: hey, go and do this, call me when you are done.</p>
+<p>Now, you can <a href="http://msdn.microsoft.com/en-us/library/aa719595(VS.71).aspx">call the asynchronous APIs directly</a>, or you can use the nice F# language structures to do it. Let&rsquo;s do the latter.</p>
+<pre class="code"><span style="color:blue;">let </span>loadWebStringAsync url =
+    async {
+        <span style="color:blue;">let </span>req = WebRequest.Create(url: string)
+        <span style="color:blue;">use! </span>response = req.AsyncGetResponse()
+        <span style="color:blue;">use </span>reader = <span style="color:blue;">new </span>StreamReader(response.GetResponseStream())
+        <span style="color:blue;">return! </span>reader.AsyncReadToEnd()}</pre>
+<p>This function retrieves a web page as a string asynchronously. Notice that even if the code looks rather normal, this function will likely be executed on three different thread. The first thread is the one the caller of the function lives on. The function <u>AsyncGetResponse</u> causes the thread to be returned to the thread pool waiting for a response back from the web server. Once such a response arrives, the execution resumes on a different thread until <u>AsyncReadToEnd</u>. That instruction returns the execution thread to the thread pool. A new thread is then instantiated when the string has been completely read. The good thing is that all of this is not explicitly managed by the programmer. The compiler ‘writes the code&rsquo; to make it all happen. You just have to follow a set of simple conventions (i.e. putting exclamation marks in the right place).</p>
+<p>The return result of this function is an <u>Async<string></u>, which is something that, when executed, returns a string. I cannot emphasize this enough: always look at the signature of your F# functions. Type inference can be tricky</p>
+<p>Async is somehow contagious. If you are calling an Async function you have to decide if propagate the Asyncness to your callers or remove it by executing the function. Often propagating it is the right thing to do as your callers might want to batch your function with other aync ones to be executed together in parallel. Your callers have more information than you do and you don&rsquo;t want to short-circuit them. The following function propagates ayncness.</p>
+<pre class="code"><span style="color:blue;">let </span>loadFromUrlAsync url parseFunc =
+    async {
+        <span style="color:blue;">let! </span>text = loadWebStringAsync url
+        <span style="color:blue;">return </span>loadFromLineString text [] parseFunc}</pre>
+<p>Let&rsquo;s see how the functions presented to this point compose to provide a way to load prices and dividends (splits will be shown afterward).</p>
+<pre class="code"><span style="color:blue;">let </span>loadPricesAsync ticker span = loadFromUrlAsync (priceUrl ticker span) parsePrice
+<span style="color:blue;">let </span>loadDivsAsync ticker span = loadFromUrlAsync (divUrl ticker span) parseDiv</pre>
+<p>This composition of functions is very common in functional code. You construct your building blocks and assemble them to achieve your final goal. Functional programming is good at almost forcing you to identify the primitive blocks in your code. All right, next in line is how to load splits.</p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

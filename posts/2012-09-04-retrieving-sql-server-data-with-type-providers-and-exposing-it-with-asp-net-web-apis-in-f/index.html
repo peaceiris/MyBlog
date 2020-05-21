@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="For a good introduction on how to use Web APIs in F#, read here. The starting point for type providers is here. This post is about how I solved a practical problem using these technologies.
+First, let’s discuss the scenario. In my company, we needed to log usage information for our various applications to a central repository and build a web site to access such information. I went through three different architectures for such a requirement, ending with the set of technologies described in the title.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Retrieving SQL Server data with type providers and exposing it with ASP.NET Web APIs in F# | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2012/09/09</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Retrieving SQL Server data with type providers and exposing it with ASP.NET Web APIs in F#
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>For a good introduction on how to use Web APIs in F#, read here. The starting point for type providers is here. This post is about how I solved a practical problem using these technologies.</p>
+<p>First, let’s discuss the scenario. In my company, we needed to log usage information for our various applications to a central repository and build a web site to access such information. I went through three different architectures for such a requirement, ending with the set of technologies described in the title.</p>
+<p>I found the intersection of the SQL type provider with the ASP.NET Web Api to be very sweet. Personally, I think this mix is much better than using the WFC Data Services, because the code you have to write and the infrastructure to maintain is significantly less.</p>
+<p>I suspect that the F# team and ASP.Net team didn’t talk to each other. It all happens because of a well defined interface (IQueryable) that both teams happen to work against.</p>
+<h2 id="1st-version-heavy-javascript">1st version, heavy Javascript</h2>
+<ol>
+<li> SQL Server Express backend</li>
+<li> WFC Data Services middle tier in C# (autogenerated REST service from a table, you can query from the JS code)</li>
+<li> Plenty of Javascript in the browser, calling back to the REST web services through Ajax</li>
+</ol>
+<p>Here is an example of the kind of manipulation done in the JS layer:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="font-weight:bold">function</span> extractVersions(sessions) {
+    <span style="font-weight:bold">var</span> versions <span style="font-weight:bold">=</span> {}
+    $.each(sessions, <span style="font-weight:bold">function</span> (i, s) {
+        <span style="font-weight:bold">if</span> (<span style="font-weight:bold">typeof</span> versions[s.Version] <span style="font-weight:bold">==</span> <span style="color:#b84">&#39;undefined&#39;</span>) {
+            versions[s.Version] <span style="font-weight:bold">=</span> <span style="color:#099">0</span>
+        } <span style="font-weight:bold">else</span> {
+            versions[s.Version] <span style="font-weight:bold">=</span> versions[s.Version] <span style="font-weight:bold">+</span> <span style="color:#099">1</span>
+        }
+    })
+
+    <span style="font-weight:bold">var</span> vs <span style="font-weight:bold">=</span> []
+    <span style="font-weight:bold">for</span> (<span style="font-weight:bold">var</span> prop <span style="font-weight:bold">in</span> versions) {
+        <span style="font-weight:bold">if</span> (versions.hasOwnProperty(prop))
+            vs.push({ Version<span style="font-weight:bold">:</span> prop, Sessions<span style="font-weight:bold">:</span> versions[prop] })
+    }
+    <span style="font-weight:bold">return</span> vs;
+}
+</code></pre></div><p>Pros:</p>
+<ol>
+<li>         Back-end autogenerated</li>
+<li>         I’ve learned JS pretty well</li>
+</ol>
+<p>Cons:</p>
+<ol>
+<li>         Plenty of autogenerated code (crap) to debug into when things go wrong</li>
+<li>         Difficult to customize the back-end</li>
+<li>         Somehow slow, even if today’s JS engines are pretty good</li>
+<li>         More time consuming to create and maintain JS code (compared to F# or C#)</li>
+<li>         Aesthetically unsatisfying, as you really would like to do most manipulations on the server</li>
+</ol>
+<p> </p>
+<h2 id="2nd-version-soap-like-web-services">2nd version, SOAP like web services</h2>
+<ol>
+<li>         SQL Server Express backend</li>
+<li>         SOAP like web services middle tier in C# (coded by hand), still using the WCF Data Services infrastructure</li>
+<li>         Little Javascript in the browser exclusively for presentation, calling back to the REST web services through Ajax</li>
+</ol>
+<p>Here is how one of the web services would look like:
+ </p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">        [WebGet]</span>
+        <span style="font-weight:bold">public</span> IEnumerable&lt;VersionSessions&gt; GetVersionsForMonth(<span style="color:#458;font-weight:bold">string</span> application, 
+                                                                <span style="color:#458;font-weight:bold">bool</span> isQS, <span style="color:#458;font-weight:bold">bool</span> isAD)
+        {
+            <span style="color:#458;font-weight:bold">var</span> sessions = GetSessionsForMonth(application, isQS, isAD);
+            <span style="color:#458;font-weight:bold">var</span> hash = <span style="font-weight:bold">new</span> Dictionary&lt;<span style="color:#458;font-weight:bold">string</span>, VersionSessions&gt;();
+
+            <span style="font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">var</span> s <span style="font-weight:bold">in</span> sessions)
+            {
+                VersionSessions vs;
+                <span style="color:#458;font-weight:bold">var</span> found = hash.TryGetValue(s.Version, <span style="font-weight:bold">out</span> vs);
+
+                <span style="font-weight:bold">if</span> (!found)
+                    hash[s.Version] = <span style="font-weight:bold">new</span> VersionSessions { Version = s.Version, 
+                                                                      Sessions = <span style="color:#099">0</span> };
+                <span style="font-weight:bold">else</span>
+                    vs.Sessions += <span style="color:#099">1</span>;
+            }
+            <span style="font-weight:bold">return</span> hash.Values;
+        }
+</code></pre></div><p> </p>
+<p>Pros:</p>
+<ol>
+<li>         Maintainable business logic code (C# instead of JS)</li>
+<li>         Somehow faster</li>
+<li>         Easier to customize the back-end (just add another web service with the signature you want)</li>
+</ol>
+<p>Cons:</p>
+<ol>
+<li>         Still plenty of manipulation code (at least now on the back-end), not very RESTy</li>
+<li>         Feels that the webservice are very ad-hoc for this particular presentation (i.e. a ViewModel, not a model)</li>
+<li>         Still not trivial to customize the back-end logic, mostly because I was using WCF Data Services, which are opaque</li>
+</ol>
+<p> </p>
+<h2 id="3rd-version-using-sql-views-and-f-type-providers">3rd version, using SQL Views and F# type providers</h2>
+<ol>
+<li>         Moved the whole app to a dedicated VM</li>
+<li>         SQL Server backend with a significant layer of Views and inline table-value functions</li>
+<li>         Proper REST web services created through ASP.NET Web API and F# type providers</li>
+<li>         Little Javascript in the browser exclusively for presentation, calling back to the REST web services through Ajax</li>
+<li>         Moved all external ‘reference file’ (i.e. people in QS) to the DB. Before I was keeping business info in the database and config info in files.</li>
+</ol>
+<p> </p>
+<p>Here is an example of an inline table value function:</p>
+<p> </p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="font-weight:bold">ALTER</span> <span style="font-weight:bold">FUNCTION</span> [dbo].[FUsers] (<span style="font-weight:bold">@</span>App nvarchar(<span style="color:#099">40</span>))
+<span style="font-weight:bold">RETURNS</span> <span style="font-weight:bold">TABLE</span>
+<span style="font-weight:bold">AS</span>
+<span style="font-weight:bold">RETURN</span>
+(
+<span style="font-weight:bold">SELECT</span>     UserAlias, <span style="font-weight:bold">MAX</span>(Application) <span style="font-weight:bold">AS</span> Application, <span style="font-weight:bold">MAX</span>(<span style="font-weight:bold">Start</span>) <span style="font-weight:bold">AS</span> LastSessionStart, <span style="font-weight:bold">MAX</span>(Finish) <span style="font-weight:bold">AS</span> LastSessionFinish, DATEDIFF(<span style="font-weight:bold">MINUTE</span>, <span style="font-weight:bold">MAX</span>(<span style="font-weight:bold">Start</span>), <span style="font-weight:bold">MAX</span>(Finish)) <span style="font-weight:bold">AS</span> LastSessionTotalTime, <span style="font-weight:bold">COUNT</span>(<span style="font-weight:bold">*</span>) <span style="font-weight:bold">AS</span> Sessions, <span style="font-weight:bold">MAX</span>(Machine) <span style="font-weight:bold">AS</span> Machine, <span style="font-weight:bold">MAX</span>(<span style="font-weight:bold">Version</span>) <span style="font-weight:bold">AS</span> <span style="font-weight:bold">Version</span>, <span style="font-weight:bold">MAX</span>(Qs) <span style="font-weight:bold">AS</span> Qs
+<span style="font-weight:bold">FROM</span>         dbo.VTotalSessions <span style="font-weight:bold">AS</span> s
+<span style="font-weight:bold">WHERE</span>     (TotalTime <span style="font-weight:bold">&gt;</span> <span style="color:#099">30</span>) <span style="font-weight:bold">and</span> (Application <span style="font-weight:bold">=</span> <span style="font-weight:bold">@</span>App)
+<span style="font-weight:bold">GROUP</span> <span style="font-weight:bold">BY</span> UserAlias)
+</code></pre></div><p> </p>
+<p>And here is an example of a type provider based web service. Most of my code works like this:</p>
+<p> </p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="font-weight:bold">type</span> <span style="color:#458;font-weight:bold">usersController</span>() <span style="font-weight:bold">=</span>
+    <span style="font-weight:bold">inherit</span> ApiController()
+ 
+    <span style="font-weight:bold">let</span> <span style="color:#008080">db</span> <span style="font-weight:bold">=</span> dbSchema<span style="font-weight:bold">.</span>GetDataContext()
+
+    <span style="font-weight:bold">member</span> x.<span style="color:#900;font-weight:bold">Get</span>() <span style="font-weight:bold">=</span>
+        query <span style="font-weight:bold">{</span>
+            <span style="font-weight:bold">for</span> u <span style="font-weight:bold">in</span> db<span style="font-weight:bold">.</span>VUsers <span style="font-weight:bold">do</span>
+            <span style="font-weight:bold">select</span> u
+        <span style="font-weight:bold">}</span>
+
+    <span style="font-weight:bold">member</span> x.<span style="color:#900;font-weight:bold">Get</span><span style="font-weight:bold">(</span>app<span style="font-weight:bold">)</span> <span style="font-weight:bold">=</span>
+        query <span style="font-weight:bold">{</span>
+            <span style="font-weight:bold">for</span> u <span style="font-weight:bold">in</span> db<span style="font-weight:bold">.</span>FUsers<span style="font-weight:bold">(</span>app<span style="font-weight:bold">)</span> <span style="font-weight:bold">do</span>
+            <span style="font-weight:bold">select</span> u
+        <span style="font-weight:bold">}</span>
+
+    <span style="font-weight:bold">member</span> x.<span style="color:#900;font-weight:bold">Post</span> <span style="font-weight:bold">(</span>value<span style="font-weight:bold">:</span><span style="color:#458;font-weight:bold">string</span><span style="font-weight:bold">)</span> <span style="font-weight:bold">=</span> ()
+    <span style="font-weight:bold">member</span> x.<span style="color:#900;font-weight:bold">Put</span> <span style="font-weight:bold">(</span>id<span style="font-weight:bold">:</span>int<span style="font-weight:bold">)</span> <span style="font-weight:bold">(</span>value<span style="font-weight:bold">:</span><span style="color:#458;font-weight:bold">string</span><span style="font-weight:bold">)</span> <span style="font-weight:bold">=</span> ()
+    <span style="font-weight:bold">member</span> x.<span style="color:#900;font-weight:bold">Delete</span> <span style="font-weight:bold">(</span>id<span style="font-weight:bold">:</span>int<span style="font-weight:bold">)</span> <span style="font-weight:bold">=</span> ()
+</code></pre></div><p> </p>
+<p>Here is how a query is represented in JS (the whole query gets passed through to SQL, both the JS part and the F# part, IQueryable magick):</p>
+<p> </p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="font-weight:bold">function</span> loadOpenSessions(app, qs,  cont) {
+
+    <span style="font-weight:bold">var</span> query <span style="font-weight:bold">=</span> <span style="font-weight:bold">new</span> oQuery()
+        .From(<span style="color:#b84">&#34;/users/&#34;</span> <span style="font-weight:bold">+</span> app)
+        .Let(<span style="color:#b84">&#34;lastMonth&#34;</span>, lastMonth)
+        .Let(<span style="color:#b84">&#34;twoMinutesAgo&#34;</span>, twoMinutesAgo)
+        .Where(<span style="color:#b84">&#34;item =&gt; item.LastSessionFinish &gt; $twoMinutesAgo&#34;</span>)
+        .Orderby(<span style="color:#b84">&#34;UserAlias&#34;</span>)
+    commonCall(query, qs, cont)
+}
+</code></pre></div><p> </p>
+<p>Pros:</p>
+<ol>
+<li>         Purely functional business logic code (SQL), very easy to debug problems by just running the query/view</li>
+<li>         Maximum usage of SQL Server optimizer. As they say in the SQL Engine Team: “we’ve spent decades optimizing sql query engines. You are unlikely to do better with your ‘for’ loops …”</li>
+<li>         Very easy to customize the back-end, just write F# code to implement GET/POST/PUT/DELETE etc…</li>
+<li>         Moving all the state for the app (reference files included) in the DB, makes it much easier to integrate it into the business logic. It all becomes a big query for the optimizer to sort out.</li>
+<li>         No autogenerated code anywhere in the architecture</li>
+<li>         More separation between model and viewmodel. Tables are model, Views are ViewModel, F# is just a way to expose such view model to the world at large</li>
+</ol>
+<p>Cons:</p>
+<ol>
+<li>       Routing algorithm for ASP.NET Web API is mysterious. It’s the only black box piece in the architecture (aka that I don’t understand it). </li>
+<li>        Sometimes either SQL is not powerful enough (I abhor Stored procedures on religious grounds) or something doesn’t map well to a REST metaphor. In such cases I have diluted the metaphor as in the code below. The good thing is that, being just code, I can do that. I’m not blocked.</li>
+</ol>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="font-weight:bold">type</span> <span style="color:#458;font-weight:bold">statsController</span>() <span style="font-weight:bold">=</span>
+
+    <span style="font-weight:bold">inherit</span> ApiController()
+
+    <span style="font-weight:bold">let</span> <span style="color:#008080">db</span> <span style="font-weight:bold">=</span> dbSchema<span style="font-weight:bold">.</span>GetDataContext()
+
+    <span style="font-weight:bold">member</span> x.<span style="color:#900;font-weight:bold">Get</span><span style="font-weight:bold">(</span>app<span style="font-weight:bold">:</span><span style="color:#458;font-weight:bold">string</span><span style="font-weight:bold">,</span> isQs<span style="font-weight:bold">:</span><span style="color:#458;font-weight:bold">string</span><span style="font-weight:bold">,</span> call<span style="font-weight:bold">:</span><span style="color:#458;font-weight:bold">string</span><span style="font-weight:bold">)</span> <span style="font-weight:bold">=</span>
+        <span style="font-weight:bold">match</span> call <span style="font-weight:bold">with</span>
+        <span style="font-weight:bold">|</span> <span style="color:#b84">&#34;</span><span style="color:#b84">WeeklyUsers</span><span style="color:#b84">&#34;</span> <span style="font-weight:bold">-&gt;</span>
+            <span style="font-weight:bold">let</span> <span style="color:#008080">sessions</span> <span style="font-weight:bold">=</span> query <span style="font-weight:bold">{</span>
+                <span style="font-weight:bold">for</span> s <span style="font-weight:bold">in</span> db<span style="font-weight:bold">.</span>VTotalSessionsAndWeeks <span style="font-weight:bold">do</span>
+                where <span style="font-weight:bold">(</span>s<span style="font-weight:bold">.</span>Application <span style="font-weight:bold">=</span> app <span style="font-weight:bold">&amp;&amp;</span> s<span style="font-weight:bold">.</span>Qs <span style="font-weight:bold">=</span> Nullable <span style="font-weight:bold">(</span><span style="color:#555">Int32</span>.Parse<span style="font-weight:bold">(</span>isQs<span style="font-weight:bold">)</span><span style="font-weight:bold">)</span><span style="font-weight:bold">)</span>
+                <span style="font-weight:bold">select</span> s
+            <span style="font-weight:bold">}</span>
+            weeklyUsers sessions
+        <span style="font-weight:bold">|</span> <span style="color:#b84">&#34;</span><span style="color:#b84">WeeklyTime</span><span style="color:#b84">&#34;</span>  <span style="font-weight:bold">-&gt;</span>
+            <span style="font-weight:bold">let</span> <span style="color:#008080">sessions</span> <span style="font-weight:bold">=</span> query <span style="font-weight:bold">{</span>
+                <span style="font-weight:bold">for</span> s <span style="font-weight:bold">in</span> db<span style="font-weight:bold">.</span>FTotalTime<span style="font-weight:bold">(</span>app<span style="font-weight:bold">,</span> Nullable <span style="font-weight:bold">(</span><span style="color:#555">Int32</span>.Parse<span style="font-weight:bold">(</span>isQs<span style="font-weight:bold">)</span><span style="font-weight:bold">)</span><span style="font-weight:bold">)</span> <span style="font-weight:bold">do</span>
+                <span style="font-weight:bold">select</span> s
+            <span style="font-weight:bold">}</span>
+            weeklyTime sessions
+        <span style="font-weight:bold">|</span> <span style="color:#b84">&#34;</span><span style="color:#b84">HourlyUsers</span><span style="color:#b84">&#34;</span><span style="font-weight:bold">-&gt;</span>
+            <span style="font-weight:bold">let</span> <span style="color:#008080">users</span> <span style="font-weight:bold">=</span> query <span style="font-weight:bold">{</span>
+                <span style="font-weight:bold">for</span> u <span style="font-weight:bold">in</span> db<span style="font-weight:bold">.</span>FHourlyUsers<span style="font-weight:bold">(</span>app<span style="font-weight:bold">,</span> Nullable <span style="font-weight:bold">(</span><span style="color:#555">Int32</span>.Parse<span style="font-weight:bold">(</span>isQs<span style="font-weight:bold">)</span><span style="font-weight:bold">)</span><span style="font-weight:bold">)</span> <span style="font-weight:bold">do</span>
+                <span style="font-weight:bold">select</span> u <span style="font-weight:bold">}</span>
+            hourlyUsers users
+
+        <span style="font-weight:bold">|</span> <span style="font-weight:bold">_</span> <span style="font-weight:bold">-&gt;</span> failwith <span style="color:#b84">&#34;</span><span style="color:#b84">No call with that name</span><span style="color:#b84">&#34;</span>
+</code></pre></div>
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/fsharp">fsharp</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    <nav id="TableOfContents">
+    <ul>
+        
+
+        
+        <li>
+        <a href="#1st-version-heavy-javascript">1st version, heavy Javascript</a>
+        
+
+        
+        </li><li>
+            <a href="#2nd-version-soap-like-web-services">2nd version, SOAP like web services</a>
+        
+
+        
+        </li><li>
+            <a href="#3rd-version-using-sql-views-and-f-type-providers">3rd version, using SQL Views and F# type providers</a>
+    </li></ul>
+</nav>
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>

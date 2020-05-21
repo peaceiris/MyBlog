@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff"/>
+
+
+<meta name="description" content="Function composition is at the core of functional programming. You start by being very confident that certain very small functions are correct, you compose them in well known ways and you end up being very confident that your final program is correct.
+You are very confident that the initial functions are correct because they are very small and side effect free. You are very confident that your program is correct because the means of composition are well known and generate functions that are themselves side effect free.">
+
+
+
+
+
+<link rel="preload" href="../../fonts/SourceSerifVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../../fonts/SourceSansVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<link rel="stylesheet" href="../../css/base.css"> 
+<link rel="stylesheet" href="../../css/fonts.css">
+
+
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Roman.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceCodeVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="../../fonts/SourceSerifVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+
+
+  <title>Writing functional code in C&#43;&#43; II – Function composition | Lucabol blog</title>
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../site.webmanifest">
+    </head>
+<body>
+    <header>
+        <div id="topnav">
+            <a id="logo" href="../../">❧</a>
+            
+                <time id="blog_date" > 2012/03/03</time>
+            
+            <span class="offline">~~ Offline ~~</span>
+            <span class="rightnav">
+                <a id="theme">theme</a><div class="dropdown-content">
+          <a class="font-name" data-classname="OpenDyslexic" >0. OpenDyslexic</a>
+          <a class="font-name" data-classname="Cardo" >1. Se Old Style: Cardo (Minion, Gallard, Centaur)</a>
+          <a class="font-name" data-classname="CrimsonPro" >1. Se Old Style: Crimson Pro (Century, Palatino, Plantin, Sabon)</a>
+          <a class="font-name" data-classname="EBGaramond" >1. Se Old Style: Garamond</a>
+          <a class="font-name" data-classname="Gentium" >1. Se Old Style: Gentium</a>
+          <a class="font-name" data-classname="GoudyStM" >1. Se Old Style: Sorts Mill Goudy</a>
+          <a class="font-name" data-classname="LibreBaskerville" >4. Se Transitional: Libre Bask. (Mrs Eaves)</a>
+          <a class="font-name" data-classname="LibreCaslon" >4. Se Transitional: Libre Caslon</a>
+          <a class="font-name" data-classname="PT" >4. Se Transitional: PT fonts (Le Monde)</a>
+          <a class="font-name" data-classname="SourcePro" >4. Se Transitional: Source Pro (Skolar, Fournier)</a>
+          <a class="font-name" data-classname="TimesNewRoman" >4. Se Transitional: Times New Roman</a>
+          <a class="font-name" data-classname="CM" >5. Se Didone: Computer Modern</a>
+          <a class="font-name" data-classname="OldStandardTT" >5. Se Didone: Old Standard TT (Filosofia, Scotch Modern)</a>
+          <a class="font-name" data-classname="STIX2" >5. Se Didone: Stix2</a>
+          <a class="font-name" data-classname="Charter" >6. Se Scotch: Charter</a>
+          <a class="font-name" data-classname="Georgia" >6. Se Scotch: Georgia</a>
+          <a class="font-name" data-classname="WorkSans" >8. Sa Grotesque: Work Sans (All Grotesque, FF Bau, Venus)</a>
+          <a class="font-name" data-classname="AntiqueOlive" >9. Sa Geometric: Antique Oliv</a>
+          <a class="font-name" data-classname="bahnschrift" >9. Sa Geometric: Bahnschrift</a>
+          <a class="font-name" data-classname="CooperHewitt" >9. Sa Geometric: Cooper Hewitt (Calibre)</a>
+          <a class="font-name" data-classname="SourceSans" >9. Sa Humanist: Source Sans (Balto, Adelle Sans)</a>
+          <a class="font-name" data-classname="URWClassico" >9. Sa Humanist: URW Classico (Optima)</a>
+          <a class="font-name" data-classname="FiraSans" >a. Sa Humanist: Fira Sans (FF Meta)</a>
+          <a class="font-name" data-classname="Nimbus" >a. Sa Humanist: Nimbus (Helvetica)</a>
+          <a class="font-name" data-classname="Roboto" >a. Sa Humanist: Roboto (DIN</a>
+          <a class="font-name" data-classname="Munson" >b. Sl Grotesque: Munson (Clarendon)</a>
+          <a class="font-name" data-classname="Sanchez" >c. Sl Geometric: Sanchez (Rockwell)</a>
+          <a class="font-name" data-classname="Enriqueta" >d. Sl Humanist: Enriqueta (PMN Caecilia)</a>
+          <a class="font-name" data-classname="Merriweather" >d. Sl Humanist: Merriweather (Chapparal)</a>
+          <a class="font-name" data-classname="profont" >Z. Sa Monospace: Profont</a>
+</div>
+                <a id="to_nav">Menu</a>
+                <nav id="primary_nav">
+                    
+
+  <a href="../../MyBlog/">home</a>
+  <a href="../../MyBlog/tags/">tags</a>
+  <a href="https://www.github.com/lucabol">github</a>
+  <a href="https://www.linkedin.com/in/lucabolognese/">linkdin</a>
+  <a href="../../MyBlog/search">search</a>
+  <a href="../../MyBlog/index.xml">rss</a>
+                </nav>
+            </span>
+        </div>
+    <h1 id="title">
+    
+        Writing functional code in C&#43;&#43; II – Function composition
+    
+    </h1>
+
+    </header>
+
+    <main>
+        
+
+<p>Function composition is at the core of functional programming. You start by being very confident that certain very small functions are correct, you compose them in well known ways and you end up being very confident that your final program is correct.</p>
+<p>You are very confident that the initial functions are correct because they are very small and side effect free. You are very confident that your program is correct because the means of composition are well known and generate functions that are themselves side effect free.</p>
+<p>Such ‘almost primitive’ functions operate on data structures. Each functional language has its own set of data structures and ‘almost primitive’ functions. Probably the most famous ones are contained in the <a href="http://www.haskell.org/onlinereport/standard-prelude.html">haskell prelude</a>, but F# has similar ones. LINQ in C# is just such a set.</p>
+<p>In this article I use the term functional composition in a broad sense as ‘putting functions together’, not in the more technical sense of f(g(x)): dot operator in Haskell or ‘&raquo;’ operator in F#.</p>
+<p>Code for this post is <a href="https://github.com/lucabol/FunctionalCpp">here</a>. Thanks to Steve Bower and Andy Sawyer for review and comments.</p>
+<p>Here is an example. The F# code below filters in the odd numbers from an array and doubles them. You have two logical operations, filtering and doubling.</p>
+<pre class="code"><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">v = [|1;2;3;4;5;6;7;8;9;0|]
+</span><span style="background:white;color:blue;">let </span><span style="background:white;color:black;">transformed =
+    v
+    |&gt; Seq.filter(</span><span style="background:white;color:blue;">fun </span><span style="background:white;color:black;">i </span><span style="background:white;color:blue;">-&gt; </span><span style="background:white;color:black;">i % 2 = 0)
+    |&gt; Seq.map ((*) 2)
+</span></pre>
+<p>How would the code look in C++? There are many ways. One is the ‘big fat for loop’, or in C++ 11, for each:</p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">const int </span><span style="background:white;color:black;">tmp[] = {1,2,3,4,5,6,7,8,9,0};
+    </span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">int</span><span style="background:white;color:black;">&gt; v(&tmp[0], &tmp[10]);
+    </span><span style="background:white;color:#2b91af;">vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">int</span><span style="background:white;color:black;">&gt; filtered;
+    </span><span style="background:white;color:blue;">for</span><span style="background:white;color:black;">(</span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">i:</span><span style="background:white;color:blue;"> </span><span style="background:white;color:black;">v)
+    {
+        </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(i % 2 == 0)
+            filtered.push_back(i * 2);
+    }</span></pre>
+<p><span style="background:white;color:black;">This looks simple enough, apart from the initialization syntax that gets better with C++ 11. But it’s simplicity is misleading. We have now lost the information that our computation is composed by a filter and a map. It’s all intermingled. Obviously, the info is still there in some sense, but you need to read each line in your head and figure out the structure on your own. It is not readily apparent to the reader.</span></p>
+<p><span style="background:white;color:black;">Obviously, things get much worse in a large program composed of several loops where each one does not trivial stuff. As for me, every time I indulge into the ‘big fat for loop pattern’, I end up regretting it either immediately or after some time when I have to make changes to the code. So I try to avoid it.</span></p>
+<p><span style="background:white;color:black;">Wait a minute, you might say, what about STL algorithms? Aren’t you supposed to use those?</span></p>
+<p><span style="background:white;color:black;">The syntax to call them is not very compositional. You cannot take the result of an algorithm and pass it to another easily. It is difficult to chain them that way. Everything takes two iterators, even if 99% of the times you are just using begin and end. Moreover, you have to create all sort of temporary data structures for the sake of not modifying your original one. Once you have done all of that, the syntactic weight of your code overwhelm the simplicity of what you are trying to do.</span></p>
+<p><span style="background:white;color:black;">For example, here is the same code using ‘transform’ for the ‘map’ part of the algorithm:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:#2b91af;">vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">int</span><span style="background:white;color:black;">&gt; filtered;
+    copy_if(begin(v), end(v), back_inserter(filtered), [](</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">x</span><span style="background:white;color:black;">) { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">x </span><span style="background:white;color:black;">% 2 == 0;});
+    </span><span style="background:white;color:#2b91af;">vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">int</span><span style="background:white;color:black;">&gt; transformed;
+    transform(begin(filtered), end(filtered), back_inserter(transformed), [](</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">x</span><span style="background:white;color:black;">) { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">x </span><span style="background:white;color:black;">* 2;});
+</span></pre>
+<p><span style="background:white;color:black;">I’m not arguing that STL is a bad library, I think it is a great one. It’s just that its syntax is not very compositional. And that breaks the magic.</span></p>
+<p><span style="background:white;color:black;">Luckily, help is on the way in the form of the <a href="http://www.boost.org/doc/libs/1_49_0/libs/range/doc/html/index.html">Range</a> library and <a href="https://github.com/faithandbrave/OvenToBoost">OvenToBoost</a>. These libraries ‘pack’ the two iterators in a single structure and override the ‘|’ operator to come up with something as below:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">result =
+        v
+        | filtered(   [] (</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">) { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">i </span><span style="background:white;color:black;">% 2 == 0;})
+        | transformed([] (</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">) { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">i </span><span style="background:white;color:black;">* 2;});</span></pre>
+<p><span style="background:white;color:black;">If you use Boost lambdas (not sure I’d do that), the syntax gets even better:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">result =
+        v
+        | filtered(   _1 % 2 == 0)
+        | transformed(_1 * 2);</span></pre>
+<p><span style="background:white;color:black;">Ok, so we regained compositionality and clarity, but what price are we paying? Apart from the dependency from Boost::Range and OvenToBoost, you might think that this code would be slower than a normal for loop. And you would be right. But maybe not by as much as you would think.</span></p>
+<p><span style="background:white;color:black;">The code for my test is <a href="https://github.com/lucabol/FunctionalCpp/blob/master/range_performance.cpp">here</a>. I’m testing the perf difference between the following code engineered to put in a bad light the most pleasing syntax. A for loop:</span></p>
+<pre class="code"><span style="background:white;color:black;">        </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">sum = 0;
+        </span><span style="background:white;color:blue;">for</span><span style="background:white;color:black;">(</span><span style="background:white;color:#2b91af;">vector</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">int</span><span style="background:white;color:black;">&gt;::</span><span style="background:white;color:#2b91af;">const_iterator </span><span style="background:white;color:black;">it = v.begin(); it != v.end(); ++it)
+            </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">(*it &lt; 50)
+                sum += *it * 2;
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">sum;</span></pre>
+<p><span style="background:white;color:black;">A Range based code using language lambdas (transformedF is a variation of <a href="http://smellegantcode.wordpress.com/2011/10/31/linq-to-c-or-something-much-better/">this</a>):</span></p>
+<pre class="code"><span style="background:white;color:black;">        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">lessThan50 = v | filtered(    [](</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">) { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">i </span><span style="background:white;color:black;">&lt; 50;})
+                            | transformedF([] (</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">) { </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">i </span><span style="background:white;color:black;">* 2;});
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">boost::accumulate (lessThan50, 0);</span></pre>
+<p><span style="background:white;color:black;">A Range based code using two functors:</span></p>
+<pre class="code"><span style="background:white;color:black;">        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">lessThan50 = v | filtered(</span><span style="background:white;color:#2b91af;">Filterer</span><span style="background:white;color:black;">())
+                            | transformed(</span><span style="background:white;color:#2b91af;">Doubler</span><span style="background:white;color:black;">());
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">boost::accumulate (lessThan50, 0);
+</span></pre>
+<p><span style="background:white;color:black;">Where:</span></p>
+<pre class="code"><span style="background:white;color:blue;">struct </span><span style="background:white;color:#2b91af;">Doubler </span><span style="background:white;color:black;">{
+    </span><span style="background:white;color:blue;">typedef int </span><span style="background:white;color:#2b91af;">result_type</span><span style="background:white;color:black;">;
+    </span><span style="background:white;color:blue;">int operator</span><span style="background:white;color:black;">() (</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">) </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">{ </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">i </span><span style="background:white;color:black;">* 2;}
+};
+</span><span style="background:white;color:blue;">struct </span><span style="background:white;color:#2b91af;">Filterer </span><span style="background:white;color:black;">{
+    </span><span style="background:white;color:blue;">typedef int </span><span style="background:white;color:#2b91af;">result_type</span><span style="background:white;color:black;">;
+    </span><span style="background:white;color:blue;">bool operator</span><span style="background:white;color:black;">() (</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">) </span><span style="background:white;color:blue;">const </span><span style="background:white;color:black;">{ </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">i </span><span style="background:white;color:black;">&lt; 50;}
+};
+</span></pre>
+<p><span style="background:white;color:black;">a Range based code using Boost lambdas:</span></p>
+<pre class="code"><span style="background:white;color:black;">        </span><span style="background:white;color:blue;">auto </span><span style="background:white;color:black;">lessThan50 = v | filtered(_1 &lt; 50)
+                            | transformed(_1 * 2);
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">boost::accumulate (lessThan50, 0);</span></pre>
+<p><span style="background:white;color:black;">And finally, some code using the STL for_each function:</span></p>
+<pre class="code"><span style="background:white;color:black;">        </span><span style="background:white;color:blue;">int </span><span style="background:white;color:black;">sum = 0;
+        std::for_each( v.cbegin(), v.cend(),
+            [&](</span><span style="background:white;color:blue;">int </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">){
+                </span><span style="background:white;color:blue;">if</span><span style="background:white;color:black;">( </span><span style="background:white;color:gray;">i </span><span style="background:white;color:black;">&lt; 50 ) sum += </span><span style="background:white;color:gray;">i</span><span style="background:white;color:black;">*2;
+            });
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:black;">sum;
+</span></pre>
+<p><span style="background:white;color:black;">Notice that I need to run the test an humongous number of times (10000000) on a 100 integers array to start seeing some consistency in results.  <br />And the differences that I see (in nanosecs below) are not huge:</span></p>
+<pre class="code"><span style="background:white;color:black;">1&gt;                         Language lambda: {1775645516;1778411400;0}
+1&gt;                          Functor lambda: {1433377701;1435209200;0}
+1&gt;                            Boost lambda: {1327829199;1326008500;0}
+1&gt;                                For loop: {1338268336;1341608600;0}
+1&gt;                             STL foreach: {1338268336;1341608600;0}
+</span></pre>
+<p><span style="background:white;color:black;">True to be told, by changing the code a bit these numbers vary and, in some configurations, the Range code takes twice as long.<br /> <br />But given how many repetitions of the test I need to run to notice the difference, I’d say that in most scenarios you should be ok.</span></p>
+<p><span style="background:white;color:black;">The ‘|&gt;’ operator over collections is the kind of functional composition, broadly defined, that I use the most, but you certainly can use it over other things as well. You’d like to write something like the below:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:#6f008a;">BOOST_CHECK_EQUAL</span><span style="background:white;color:black;">(pipe(</span><span style="background:white;color:maroon;">"bobby"</span><span style="background:white;color:black;">, strlen, boost::lexical_cast&lt;</span><span style="background:white;color:#2b91af;">string</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">int</span><span style="background:white;color:black;">&gt;), </span><span style="background:white;color:maroon;">"5"</span><span style="background:white;color:black;">);</span></pre>
+<p><span style="background:white;color:black;">And you can, once you define the following:</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">template</span><span style="background:white;color:black;">&lt; </span><span style="background:white;color:blue;">class </span><span style="background:white;color:#2b91af;">A</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">class </span><span style="background:white;color:#2b91af;">F1</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">class </span><span style="background:white;color:#2b91af;">F2 </span><span style="background:white;color:black;">&gt;
+    </span><span style="background:white;color:blue;">inline auto </span><span style="background:white;color:black;">pipe(</span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">A </span><span style="background:white;color:black;">& </span><span style="background:white;color:gray;">a</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">F1 </span><span style="background:white;color:black;">& </span><span style="background:white;color:gray;">f1</span><span style="background:white;color:black;">, </span><span style="background:white;color:blue;">const </span><span style="background:white;color:#2b91af;">F2 </span><span style="background:white;color:black;">& </span><span style="background:white;color:gray;">f2</span><span style="background:white;color:black;">)
+        -&gt; </span><span style="background:white;color:blue;">decltype</span><span style="background:white;color:black;">(</span><span style="background:white;color:#6f008a;">REMOVE_REF_BUG</span><span style="background:white;color:black;">(f2(f1(a)))) {
+        </span><span style="background:white;color:blue;">return </span><span style="background:white;color:gray;">f2</span><span style="background:white;color:black;">(</span><span style="background:white;color:gray;">f1</span><span style="background:white;color:black;">(</span><span style="background:white;color:gray;">a</span><span style="background:white;color:black;">));
+    }</span></pre>
+<p><span style="background:white;color:black;">Where REMOVE_REF_BUG is a workaround for a bug in the decltype implementation under msvc (it should be fixed in VS 11):</span></p>
+<pre class="code"><span style="background:white;color:black;">    </span><span style="background:white;color:blue;">#ifdef </span><span style="background:white;color:#6f008a;">_MSC_VER
+        </span><span style="background:white;color:blue;">#define </span><span style="background:white;color:#6f008a;">REMOVE_REF_BUG</span><span style="background:white;color:black;">(...) </span><span style="background:white;color:#2b91af;">remove_reference</span><span style="background:white;color:black;">&lt;</span><span style="background:white;color:blue;">decltype</span><span style="background:white;color:black;">(__VA_ARGS__)&gt;::</span><span style="background:white;color:#2b91af;">type</span><span style="background:white;color:black;">()
+    </span><span style="background:white;color:blue;">#else
+        #define </span><span style="background:white;color:black;">REMOVE_REF_BUG(...) __VA_ARGS__
+    </span><span style="background:white;color:blue;">#endif</span></pre>
+<p><span style="background:white;color:blue;"><font color="#000000">I didn’t do the work of creating ‘&raquo;’ , ‘&laquo;’ and ‘&lt;|’ F# operators or wrapping the whole lot with better syntax (i.e. operator overloading?), but it certainly can be done.</font></span></p>
+<p><span style="background:white;color:blue;"><font color="#000000">Now that we have a good syntax for records and a good syntax for operating over collections, the next instalment will put them together and try to answer the question: how should I create collections of records and operate over them?</font></span></p>
+
+
+
+  
+  <div id="disqus-container">
+  
+    <button id="disqus-button" onclick="showComments()">Show comments</button>
+    <div id="disqus-comments">
+      
+      
+      
+        <div id="disqus_thread">
+        </div>
+        <script type="application/javascript">
+          function showComments() {
+            var disqus_config = function () {
+};
+// Build and append comments 
+var d = document;
+var s = d.createElement('script');
+s.async = true;
+s.src = '//' + "lucabol" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', + new Date());
+(d.head || d.body).appendChild(s);
+            // Remove button
+var disqusButton = document.getElementById('disqus-button');
+disqusButton.parentNode.removeChild(disqusButton); 
+// Un-hide comments
+var disqusComments = document.getElementById('disqus-comments');
+disqusComments.style.display = 'block'; 
+          }
+        </script>
+      
+      <noscript>Enable JavaScript to view Disqus comments.</noscript>
+    </div>
+  
+</div>
+
+
+
+
+    </main>
+
+    <aside id="sidebar-left">
+        
+<div id="tags">
+  <header>
+    <h1>Tags</h1>
+      
+    <h2>¶</h2>
+    
+  </header>
+  
+    
+    <nav>
+      <ul>
+        
+            <li><a href="../../MyBlog/tags/c&#43;&#43;">C&#43;&#43;</a></li>
+        
+            <li><a href="../../MyBlog/tags/functional-programming">Functional Programming</a></li>
+        
+      </ul>
+    </nav>
+    
+  
+</div>
+
+    </aside>
+
+    <aside id="sidebar-right">
+        <section id="TOC">
+        
+  
+    <header>
+        <h1>Table of contents</h1>
+        <h2>¶</h2>
+    </header>
+    
+
+
+        </section>
+    </aside>
+
+    <a id="to_top" href="#top">Top</a>
+    <footer>
+        
+    </footer>
+
+    <script>
+    const th = document.querySelector("#theme")
+    th.addEventListener("click", e => {
+        const x = document.querySelector(".dropdown-content")
+        if (x.style.display === "block") {
+            x.removeAttribute("style")
+        } else {
+            x.style.display = "block";
+        }
+    })
+    const children = document.querySelectorAll(".font-name")
+    const allStyles = Array.from(children).map(c => c.dataset.classname)
+
+    const defaultStyle = "TimesNewRoman"
+    const retrievedStyle = localStorage.getItem("Style")
+    const style = allStyles.includes(retrievedStyle) ? retrievedStyle : defaultStyle
+    document.body.className = style;
+
+    const fontEl = document.querySelector(".dropdown-content")
+    fontEl.addEventListener("click", e => {
+        const el = e.target
+        const style = el.dataset.classname
+        document.body.className = style;
+        localStorage.setItem("Style", style)
+    })
+
+
+
+</script>
+    <script>
+const init = () => {
+
+    
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    
+    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args));
+
+    ga('create', 'UA-133194891-1', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+};
+
+
+window.addEventListener('load', init);
+</script>
+    <script>
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("/sw.js");
+    }
+</script>
+    <script>
+    window.addEventListener('offline', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.add("show")
+        window.caches.keys().then(strikeNonCached)
+    })
+    window.addEventListener('online', (e) => {
+        const els = document.getElementsByClassName('offline')
+        for(const el of els)
+            el.classList.remove("show")
+
+        const as = document.querySelectorAll('main a')
+        for(const a of as)
+            a.classList.remove('strike')
+    })
+
+    const strikeNonCached = cacheKeys => {
+        caches.open(cacheKeys[0]).then(cache =>
+            cache.keys().then(keys => {
+                const as = document.querySelectorAll('main a')
+                const urls = keys.map(k => k.url)
+                for(const a of as)
+                    if(urls.indexOf(a.href) === -1)    
+                        a.classList.add('strike')
+    }))}
+
+    if(navigator.onLine)
+        window.dispatchEvent(new Event('online'))
+    else
+        window.dispatchEvent(new Event('offline'))
+
+</script>
+    <script>
+function variableResize() {
+
+  
+  let bodyStyles = window.getComputedStyle(document.body);	
+	
+  let root = document.documentElement;
+	
+	
+	const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+	const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+	
+	
+	const windowWidth = window.innerWidth
+	
+  
+  const pWidthVar = '--p-wdth';
+	const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+	const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+	scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+  const pWeightVar = '--p-wght';
+	const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+	const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+	scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+	
+  const h1WidthVar = '--h1-wdth';
+	const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+	const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+	scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+  const h1WeightVar = '--h1-wght';
+	const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+	const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+	scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+	
+  const h2WidthVar = '--h2-wdth';
+	const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+	const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+	scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+  const h2WeightVar = '--h2-wght';
+	const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+	const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+	scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+	
+	function scale(varName, minValue, maxValue) {
+		
+		minValue = minValue * 1;
+		maxValue = maxValue * 1;
+
+		
+		const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+		if (maxValue < minValue) {
+			var valueScale = minValue - (percent * (minValue - maxValue));
+		} else {
+			var valueScale = (percent * (maxValue - minValue)) + minValue;
+		}
+	  
+		
+		const newValue = windowWidth > maxWindowSize
+		   ? maxValue 
+		   : windowWidth < minWindowSize 
+				? minValue 
+				: valueScale;
+	   
+		
+		root.style.setProperty(varName, newValue);
+	}
+}
+
+window.addEventListener("load", variableResize);
+window.addEventListener("resize", variableResize);
+
+</script>
+    <script>
+  const el = document.querySelector("#to_nav")
+  el.addEventListener("click", e => {
+    const x = document.querySelector("#primary_nav")
+    if (x.style.display === "block") {
+      x.removeAttribute("style")
+    } else {
+      x.style.display = "block";
+    }
+  })
+  window.addEventListener('click', e => {
+    const x = document.querySelector("#primary_nav")
+    const y = document.querySelector("#to_nav")
+    if (!y.contains(e.target) && x.style.display === "block") {
+      x.removeAttribute("style")
+    } 
+
+    const th = document.querySelector("#theme")
+    const x1 = document.querySelector(".dropdown-content")
+
+    if (!th.contains(e.target) && ! x1.contains(e.target) && x1.style.display === "block") {
+      x1.removeAttribute("style")
+    } 
+  })
+</script>
+
+</body>
+</html>
